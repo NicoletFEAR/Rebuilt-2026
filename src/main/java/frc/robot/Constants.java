@@ -19,7 +19,15 @@ import frc.robot.util.SwerveModuleConstants;
 
 public final class Constants {
 
-    public static final double kdt = 0.02;
+    public static final double kdt = 0.02; // How frequently the state of the robot updates during simulations
+                                           // Set to 0.02 to represent once every loop (20 ms)
+
+    // These are unique identifiers for each RoboRIO
+    public final class MacAddresses {
+        public static final String kKitbot = "00:80:2F:17:CD:DD";
+        public static final String kHades = "00:80:2F:17:B5:2A";
+        public static final String kCompetition = "00:80:2F:41:9F:8A";
+    }
 
     public final class OperatorConstants {
 
@@ -37,7 +45,8 @@ public final class Constants {
 
         public static final double kSwerveDeadBand = 0.075;
 
-        public static final double kMaxModuleSpeed = 4;
+        // TODO: Verify this
+        public static final double kMaxModuleSpeed = Units.feetToMeters(15.5);
         public static final double kMaxRotationsPerSecond = Math.PI * 3.0;
 
         // Distance between centers of right and left wheels on robot
@@ -46,9 +55,10 @@ public final class Constants {
         // Distance between centers of front and back wheels on robot
         public static final double kWheelBase = Units.inchesToMeters(20.753888);
 
-        public static final double kDrivebaseRadius = Math
-                .sqrt(Math.pow(kTrackWidth / 2, 2) + Math.pow(kWheelBase / 2, 2));
+        // Defined as half the diagonal of the drivebase
+        public static final double kDrivebaseRadius = Math.hypot(kTrackWidth, kWheelBase) / 2;
 
+        // Positions of all the swerve modules relative to the center of the drivebase
         public static final Translation2d[] kModuleTranslations = {
                 new Translation2d(kWheelBase  / 2, kTrackWidth  / 2),
                 new Translation2d(kWheelBase  / 2, -kTrackWidth / 2),
@@ -64,6 +74,7 @@ public final class Constants {
             };
 
         // sds L2 gear ratio
+        // TODO: Remember to change if we modify the swerve modules
         public static final double kDriveGearRatio = 1 / ((14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0)); 
 
         public static final double kTurnGearRatio = 150.0 / 7.0; // MK4i turning ratio
@@ -75,7 +86,8 @@ public final class Constants {
 
         public static final double kTurnRotationsToDegrees = 360.0 / kTurnGearRatio;
 
-        public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(135),
+        public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(115),
+                // TODO: Calculate MOI based on the values given by Elijah from the CAD
                 6.883,
                 new ModuleConfig(DriveConstants.kWheelDiameter / 2,
                         DriveConstants.kMaxModuleSpeed,
@@ -85,6 +97,7 @@ public final class Constants {
                         1),
                 DriveConstants.kModuleTranslations);
 
+        // TODO: Tune PID
         public static double drivekp = 2.7141;
         public static double driveki = 0.0;
         public static double drivekd = 0.0;
@@ -101,15 +114,19 @@ public final class Constants {
         public static final int kPigeonId = 13;
 
         public static final int kFrontLeftDriveMotor = 2;
-        public static final int kFrontLeftSteerMotor = 3;
-        public static final int kFrontLeftSteerEncoder = 1;
+        public static final int kFrontLeftSteerMotor = 1;
+        public static final int kFrontLeftSteerEncoder = 3;
+        // TODO: Calibrate wheels
         public static final double kFrontLeftOffset = -0.730712890625;
         public static final SwerveModuleConstants kFrontLeft = new SwerveModuleConstants(
-                kFrontLeftDriveMotor, kFrontLeftSteerMotor, kFrontLeftSteerEncoder, kFrontLeftOffset);
+                kFrontLeftDriveMotor,
+                kFrontLeftSteerMotor,
+                kFrontLeftSteerEncoder,
+                kFrontLeftOffset);
 
         public static final int kFrontRightDriveMotor = 5;
-        public static final int kFrontRightSteerMotor = 6;
-        public static final int kFrontRightSteerEncoder = 4;
+        public static final int kFrontRightSteerMotor = 4;
+        public static final int kFrontRightSteerEncoder = 6;
         public static final double kFrontRightSteerOffset = -0.986328125;
         public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
                 kFrontRightDriveMotor,
@@ -118,22 +135,23 @@ public final class Constants {
                 kFrontRightSteerOffset);
 
         public static final int kBackLeftDriveMotor = 8;
-        public static final int kBackLeftSteerMotor = 9;
-        public static final int kBackLeftSteerEncoder = 7;
+        public static final int kBackLeftSteerMotor = 7;
+        public static final int kBackLeftSteerEncoder = 9;
         public static final double kBackLeftSteerOffset = -0.215576171875;
         public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
-                kBackLeftDriveMotor, kBackLeftSteerMotor, kBackLeftSteerEncoder, kBackLeftSteerOffset);
+                kBackLeftDriveMotor,
+                kBackLeftSteerMotor,
+                kBackLeftSteerEncoder,
+                kBackLeftSteerOffset);
 
         public static final int kBackRightDriveMotor = 11;
-        public static final int kBackRightSteerMotor = 12;
-        public static final int kBackRightSteerEncoder = 10;
+        public static final int kBackRightSteerMotor = 10;
+        public static final int kBackRightSteerEncoder = 12;
         public static final double kBackRightSteerOffset = -0.705810546875;
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
                 kBackRightDriveMotor,
                 kBackRightSteerMotor,
                 kBackRightSteerEncoder,
                 kBackRightSteerOffset);
-
-        public static final double kNudgeConstant = 7.5;
     }
 }

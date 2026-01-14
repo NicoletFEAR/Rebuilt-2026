@@ -6,6 +6,7 @@
 // the root directory of this project.
 package frc.robot;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,10 +22,23 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PS5Controller.Axis;
 import frc.robot.util.SwerveModuleConstants;
 
 public final class Constants {
+    private static Properties m_properties;
+
+    public static void instantiateProperties() {
+        m_properties = new Properties();
+
+        // TODO: Add detection for which property file to use based on MAC address
+        try (InputStream input = new FileInputStream(new File(Filesystem.getDeployDirectory(), "competition.properties"))) {
+            m_properties.load(input);
+        } catch (IOException ex) {
+            DriverStation.reportError("Constants file not found", ex.getStackTrace());
+        }
+    }
 
     // How frequently the state of the robot updates during simulations
     // Set to 0.02 to represent once every loop (20 ms)
@@ -51,34 +65,17 @@ public final class Constants {
     }
 
     public final class DriveConstants {
-        private static Properties m_properties;
-
-        private static void instantiateProperties() {
-            m_properties = new Properties();
-
-            // TODO: Add detection for which property file to use based on MAC address
-            try (InputStream input = new FileInputStream(".properties")) {
-                m_properties.load(input);
-            } catch (IOException ex) {
-                DriverStation.reportError("Constants file not found", ex.getStackTrace());
-            }
-        }
-
         public static double getSwerveDeadband() {
             return 0.075;
         }
 
         public static double getMaxModuleSpeed() {
-            if (m_properties == null) {
-                instantiateProperties();
-            }
-
-            return Double.parseDouble(m_properties.getProperty("drive.max-module-speed"));
+            return Units.feetToMeters(Double.parseDouble(m_properties.getProperty("drive.max-module-speed")));
         }
 
-        // TODO: Verify this
-        public static final double kMaxModuleSpeed = Units.feetToMeters(15.5);
-        public static final double kMaxRotationsPerSecond = Math.PI * 3.0;
+        public static double getMaxRotationsPerSecond() {
+            return Units.feetToMeters(Double.parseDouble(m_properties.getProperty("drive.max-rotations-per-second")));
+        }
 
         // Distance between centers of right and left wheels on robot
         public static final double kTrackWidth = Units.inchesToMeters(20.753888);

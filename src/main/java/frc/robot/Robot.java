@@ -56,6 +56,8 @@ public class Robot extends LoggedRobot {
 
         WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
 
+        Constants.instantiateProperties();
+
         m_robotContainer = new RobotContainer();
 
         FollowPathCommand.warmupCommand().schedule();

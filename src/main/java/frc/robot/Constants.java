@@ -4,6 +4,11 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file at
 // the root directory of this project.
+
+//TODO:
+//*Note: Missing drive.drive-ks, drive.drive-kv, and drive.drive-ka in Kitbot properties,
+// as well as drive.current-limit, drive.drive-ks, drive.drive-kv, and drive.drive-ka in Hades properties.*
+
 package frc.robot;
 
 import java.io.File;

@@ -44,13 +44,13 @@ public class DeviceConfigurator {
           .smartCurrentLimit(40)
           .idleMode(IdleMode.kBrake);
 
-    config.encoder.positionConversionFactor(DriveConstants.kTurnRotationsToDegrees);
+    config.encoder.positionConversionFactor(DriveConstants.getTurnRotationsToDegrees());
 
     config.closedLoop
-          .p(DriveConstants.turnkp)
-          .i(DriveConstants.turnki)
-          .d(DriveConstants.turnkd)
-          .velocityFF(DriveConstants.turnkff);
+          .p(DriveConstants.getTurnKP())
+          .i(DriveConstants.getTurnKI())
+          .d(DriveConstants.getTurnKD())
+          .velocityFF(DriveConstants.getTurnKFF());
 
     motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     motor.getEncoder().setPosition(0);
@@ -62,10 +62,10 @@ public class DeviceConfigurator {
     config.inverted(true)
           .smartCurrentLimit(80)
           .idleMode(IdleMode.kBrake)
-          .openLoopRampRate(DriveConstants.driverampRate);
+          .openLoopRampRate(DriveConstants.getDriveRampRate());
 
-    config.encoder.positionConversionFactor(DriveConstants.kDriveGearRatio)
-                  .velocityConversionFactor(DriveConstants.kDriveGearRatio / 60);
+    config.encoder.positionConversionFactor(DriveConstants.getDriveGearRatio())
+                  .velocityConversionFactor(DriveConstants.getDriveGearRatio() / 60);
 
     // config.closedLoop.p(DriveConstants.drivekp)
     //                  .i(DriveConstants.driveki)
@@ -79,19 +79,19 @@ public class DeviceConfigurator {
   public static void configureTalonFXDriveMotor(TalonFX motor) {
     TalonFXConfiguration config = new TalonFXConfiguration();
 
-    config.MotorOutput.Inverted                      = InvertedValue.CounterClockwise_Positive;
-    config.CurrentLimits.StatorCurrentLimitEnable    = true;
-    config.CurrentLimits.StatorCurrentLimit          = 360;
-    config.MotorOutput.NeutralMode                   = NeutralModeValue.Brake;
-    config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = DriveConstants.driverampRate;
-    config.Feedback.SensorToMechanismRatio           = DriveConstants.kDriveRevToMeters;
+    config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    config.CurrentLimits.StatorCurrentLimitEnable = true;
+    config.CurrentLimits.StatorCurrentLimit = 360;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = DriveConstants.getDriveRampRate();
+    config.Feedback.SensorToMechanismRatio = DriveConstants.getDriveRevToMeters();
 
-    config.Slot0.kP = DriveConstants.drivekp;
-    config.Slot0.kI = DriveConstants.driveki;
-    config.Slot0.kD = DriveConstants.drivekd;
-    config.Slot0.kV = DriveConstants.drivekv;
-    config.Slot0.kS = DriveConstants.driveks;
-    config.Slot0.kA = DriveConstants.driveka;
+    config.Slot0.kP = DriveConstants.getDriveKP();
+    config.Slot0.kI = DriveConstants.getDriveKI();
+    config.Slot0.kD = DriveConstants.getDriveKD();
+    config.Slot0.kV = DriveConstants.getDriveKV();
+    config.Slot0.kS = DriveConstants.getDriveKS();
+    config.Slot0.kA = DriveConstants.getDriveKA();
 
     motor.getConfigurator().apply(config);
     motor.setPosition(0);

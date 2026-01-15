@@ -136,7 +136,7 @@ public class SwerveModule {
 
     if (moduleState.speedMetersPerSecond != m_lastSpeed) {
       if (isOpenLoop) {
-        m_driveMotor.set(moduleState.speedMetersPerSecond / DriveConstants.kMaxModuleSpeed);
+        m_driveMotor.set(moduleState.speedMetersPerSecond / DriveConstants.getMaxModuleSpeed());
       } else {
         m_driveMotor.setControl(new VelocityVoltage(moduleState.speedMetersPerSecond));
       }

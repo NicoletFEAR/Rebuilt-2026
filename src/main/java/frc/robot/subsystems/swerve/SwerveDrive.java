@@ -216,7 +216,7 @@ public class SwerveDrive extends SubsystemBase {
 
     public void setModuleStates(boolean isOpenLoop) {
         SwerveDriveKinematics.desaturateWheelSpeeds(
-                m_desiredModuleStates, DriveConstants.kMaxModuleSpeed);
+                m_desiredModuleStates, DriveConstants.getMaxModuleSpeed());
 
         for (int i = 0; i < m_modules.length; i++) {
             m_modules[i].setSwerveModuleState(m_desiredModuleStates[i], isOpenLoop);
@@ -287,19 +287,19 @@ public class SwerveDrive extends SubsystemBase {
 
         switch (m_driveMode) {
             case TELEOP:
-                throttle *= DriveConstants.kMaxModuleSpeed;
-                strafe *= DriveConstants.kMaxModuleSpeed;
+                throttle *= DriveConstants.getMaxModuleSpeed();
+                strafe *= DriveConstants.getMaxModuleSpeed();
 
                 if (m_angleToSnap != Double.POSITIVE_INFINITY) {
                     steer = angleController.calculate(
                             Utils.getAdjustedYawDegrees(getYaw().getDegrees(), m_angleToSnap), 180);
-                    steer *= DriveConstants.kMaxModuleSpeed;
+                    steer *= DriveConstants.getMaxModuleSpeed();
 
                     if (angleController.atSetpoint())
                         m_angleToSnap = Double.POSITIVE_INFINITY;
                 }
 
-                steer *= DriveConstants.kMaxModuleSpeed;
+                steer *= DriveConstants.getMaxModuleSpeed();
 
                 m_chassisSpeeds = isFieldRelative
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())

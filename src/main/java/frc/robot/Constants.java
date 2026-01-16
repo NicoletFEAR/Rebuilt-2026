@@ -34,12 +34,13 @@ import frc.robot.util.Utils;
 
 public final class Constants {
     private static Properties m_properties;
+    public static String kRobotName;
 
     public static void instantiateProperties() {
         m_properties = new Properties();
-        String robot_name = Utils.getMacAddress();
+        kRobotName = Utils.getMacAddress();
 
-        try (InputStream input = new FileInputStream(new File(Filesystem.getDeployDirectory(), robot_name + ".properties"))) {
+        try (InputStream input = new FileInputStream(new File(Filesystem.getDeployDirectory(), kRobotName + ".properties"))) {
             m_properties.load(input);
         } catch (IOException ex) {
             DriverStation.reportError("Constants file not found", ex.getStackTrace());

@@ -19,11 +19,8 @@ public class RobotContainer {
             OperatorConstants.kDriverControllerPort);
     
     private final SendableChooser<Command> autoChooser;
-            
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
-
     private SwerveDrive m_driveBase = SwerveDrive.getInstance();
-
     private static Alliance m_alliance = Alliance.Blue;
 
     public RobotContainer() {
@@ -83,23 +80,6 @@ public class RobotContainer {
         m_driverController
                 .create()
                 .onTrue(Commands.runOnce(() -> m_driveBase.zeroGyro(), m_driveBase));
-
-        // Places coral/algae -- right bumper of driver controller
-
-        // m_driverController
-        //         .circle()
-        //         .onTrue(m_elevator.level4Tele().andThen(m_pivot.coralScoreL4Tele(), new WaitCommand(0.125), m_endEffector.scoreCoral(),
-        //         m_pivot.stow()));
-
-        // m_driverController
-        //         .cross()
-        //         .onTrue(m_pivot.stow().andThen(m_elevator.coralSupplyAuto(), m_pivot.coralIntakeAuto(),
-        //         m_endEffector.intakeCoral(), m_pivot.stow()));
-
-        // Operator Controller Mappings \\
-
-        // Manual control of climb -- y axis of right joystick of operator controller
-
     }
 
     public Command getAutonomousCommand() {

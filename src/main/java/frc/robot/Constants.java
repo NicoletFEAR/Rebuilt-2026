@@ -38,7 +38,7 @@ public final class Constants {
 
     public static void instantiateProperties() {
         m_properties = new Properties();
-        kRobotName = Utils.getMacAddress();
+        kRobotName = kMacToName.get(Utils.getMacAddress());
 
         try (InputStream input = new FileInputStream(new File(Filesystem.getDeployDirectory(), kRobotName + ".properties"))) {
             m_properties.load(input);
@@ -57,7 +57,7 @@ public final class Constants {
         kMacToName = new HashMap<>();
         kMacToName.put("00:80:2F:17:CD:DD", "kitbot");
         kMacToName.put("00:80:2F:17:B5:2A", "hades");
-        kMacToName.put("00:80:2F:41:9F:8A", "competition");
+        kMacToName.put("00:80:2F:40:6C:8A", "competition");
     }
 
     public final class OperatorConstants {

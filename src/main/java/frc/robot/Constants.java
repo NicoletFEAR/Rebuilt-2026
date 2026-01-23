@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.PS5Controller.Axis;
 import frc.robot.util.SwerveModuleConstants;
 import frc.robot.util.Utils;
 
+// Constants found in properties files in deploy folder
 public final class Constants {
     private static Properties m_properties;
     public static String kRobotName;
@@ -45,6 +46,10 @@ public final class Constants {
         } catch (IOException ex) {
             DriverStation.reportError("Constants file not found", ex.getStackTrace());
         }
+    }
+
+    public static boolean hasCANivore() {
+        return m_properties.getProperty("has-canivore").equals("true");
     }
 
     // How frequently the state of the robot updates during simulations
@@ -72,6 +77,10 @@ public final class Constants {
     }
 
     public final class DriveConstants {
+        public static boolean usesDriveKrakens() {
+            return m_properties.getProperty("drive.uses-drive-krakens").equals("true");
+        }
+
         public static double getSwerveDeadband() {
             return 0.075;
         }
@@ -248,9 +257,9 @@ public final class Constants {
             getFrontRightOffset()
         );
 
-        public static final int kBackLeftDriveMotor = 8;
-        public static final int kBackLeftSteerMotor = 7;
-        public static final int kBackLeftSteerEncoder = 9;
+        public static final int kBackLeftDriveMotor = 11;
+        public static final int kBackLeftSteerMotor = 10;
+        public static final int kBackLeftSteerEncoder = 12;
         public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
             kBackLeftDriveMotor,
             kBackLeftSteerMotor,
@@ -258,9 +267,9 @@ public final class Constants {
             getBackLeftOffset()
         );
 
-        public static final int kBackRightDriveMotor = 11;
-        public static final int kBackRightSteerMotor = 10;
-        public static final int kBackRightSteerEncoder = 12;
+        public static final int kBackRightDriveMotor = 8;
+        public static final int kBackRightSteerMotor = 7;
+        public static final int kBackRightSteerEncoder = 9;
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
             kBackRightDriveMotor,
             kBackRightSteerMotor,

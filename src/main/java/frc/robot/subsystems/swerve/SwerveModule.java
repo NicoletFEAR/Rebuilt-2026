@@ -56,13 +56,13 @@ public class SwerveModule {
     m_constants = constants;
 
     m_steerMotor = new SparkMax(constants.steerId, MotorType.kBrushless);
-    m_driveMotor = new TalonFX(constants.driveId, "*");
+    m_driveMotor = new TalonFX(constants.driveId, Constants.hasCANivore() ? "*" : "rio");
 
     m_steerEncoder = m_steerMotor.getEncoder();
 
     m_steerController = m_steerMotor.getClosedLoopController();
 
-    m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, "*");
+    m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, Constants.hasCANivore() ? "*" : "rio");
 
     m_modulePosition = new SwerveModulePosition();
     m_moduleState = new SwerveModuleState();

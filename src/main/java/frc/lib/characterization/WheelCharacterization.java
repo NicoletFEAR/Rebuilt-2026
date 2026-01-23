@@ -9,6 +9,7 @@ package frc.lib.characterization;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.swerve.SwerveDrive;
@@ -29,7 +30,7 @@ public class WheelCharacterization extends Command {
   private double accumGyroYawRads = 0.0;
   double[] startWheelPositions;
 
-  private double currentEffectiveWheelDiameter = 0.0;
+  private double currentEffectiveWheelRadius = 0.0;
 
   /** Creates a new WheelRadiusCharacterization. */
   public WheelCharacterization(SwerveDrive drivebase) {
@@ -69,14 +70,14 @@ public class WheelCharacterization extends Command {
 
     averageWheelPosition /= 4.0;
 
-    currentEffectiveWheelDiameter =
+    currentEffectiveWheelRadius =
         (accumGyroYawRads * DriveConstants.getDrivebaseRadius()) / averageWheelPosition;
 
     Logger.recordOutput("Drive/RadiusCharacterization/DrivePosition", averageWheelPosition);
     Logger.recordOutput("Drive/RadiusCharacterization/AccumGyroYawRads", accumGyroYawRads);
     Logger.recordOutput(
         "Drive/RadiusCharacterization/CurrentWheelRadiusInches",
-        currentEffectiveWheelDiameter);
+        Units.metersToInches(currentEffectiveWheelRadius));
   }
 
   // Called once the command ends or is interrupted.
@@ -89,8 +90,8 @@ public class WheelCharacterization extends Command {
     } else {
       System.out.println(
           "Effective Wheel Diameter: "
-              + currentEffectiveWheelDiameter
-              + " meters");
+              + Units.metersToInches(currentEffectiveWheelRadius)
+              + " inches");
     }
   }
 

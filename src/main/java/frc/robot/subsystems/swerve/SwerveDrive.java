@@ -82,7 +82,7 @@ public class SwerveDrive extends SubsystemBase {
                 new SwerveModule(DriveConstants.kBackRight)
         };
 
-        m_pigeon = new Pigeon2(DriveConstants.kPigeonId, "*");
+        m_pigeon = new Pigeon2(DriveConstants.kPigeonId, Constants.hasCANivore() ? "*" : "rio");
 
         m_pigeon.getConfigurator().apply(new Pigeon2Configuration().GyroTrim.withGyroScalarZ(1));
 

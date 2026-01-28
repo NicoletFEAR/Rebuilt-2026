@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.kitbot.IntakeAndLauncher;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class RobotContainer {
@@ -21,6 +22,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
     private SwerveDrive m_driveBase = SwerveDrive.getInstance();
+    private IntakeAndLauncher m_intakeAndLauncher = IntakeAndLauncher.getInstance();
     private static Alliance m_alliance = Alliance.Blue;
 
     public RobotContainer() {
@@ -48,7 +50,7 @@ public class RobotContainer {
 
         // // Slows speed -- left trigger of driver controller
         m_driverController
-                .L1()
+                .L2()
                 .whileTrue(
                         new TeleopSwerve(
                                 m_driverController,
@@ -63,7 +65,7 @@ public class RobotContainer {
         // // Slows speed and drives robot relative -- right trigger of driver
         // controller
         m_driverController
-                .L2()
+                .R2()
                 .whileTrue(
                         new TeleopSwerve(
                                 m_driverController,
@@ -80,6 +82,21 @@ public class RobotContainer {
         m_driverController
                 .create()
                 .onTrue(Commands.runOnce(() -> m_driveBase.zeroGyro(), m_driveBase));
+        
+        // These are the controls for the kitbot subsystems
+        if (Constants.kRobotName == "kitbot") {
+                // Left Bumper for Intaking Fuel
+                m_driverController
+                        .L1()
+                        .onTrue(m_intakeAndLauncher.intake())
+                        .onFalse(m_intakeAndLauncher.off());
+                
+                // Right Bumper for Launching Fuel
+                m_driverController
+                        .R1()
+                        .onTrue(m_intakeAndLauncher.launch())
+                        .onFalse(m_intakeAndLauncher.off());
+        }
     }
 
     public Command getAutonomousCommand() {

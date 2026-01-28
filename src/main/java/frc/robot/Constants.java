@@ -279,4 +279,9 @@ public final class Constants {
             getBackRightOffset()
         );
     }
+
+    public final class KitbotSubsystemConstants {
+        public static final int kIntake = 15;
+        public static final int kLauncher = 14;
+    }
 }

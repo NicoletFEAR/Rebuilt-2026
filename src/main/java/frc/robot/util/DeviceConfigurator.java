@@ -96,4 +96,24 @@ public class DeviceConfigurator {
     motor.getConfigurator().apply(config);
     motor.setPosition(0);
   }
+
+  public static void configureSparkMaxDriveMotor(SparkMax motor) {
+    SparkMaxConfig config = new SparkMaxConfig();
+
+    config.inverted(true)
+          .smartCurrentLimit(80)
+          .idleMode(IdleMode.kBrake)
+          .openLoopRampRate(DriveConstants.getDriveRampRate());
+
+    config.encoder.positionConversionFactor(DriveConstants.getDriveRevToMeters())
+                  .velocityConversionFactor(DriveConstants.getDriveRevToMeters() / 60);
+
+    config.closedLoop.p(DriveConstants.getDriveKP())
+                     .i(DriveConstants.getDriveKI())
+                     .d(DriveConstants.getDriveKD())
+                     .velocityFF(0);
+
+    motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    motor.getEncoder().setPosition(0);
+  }
 }

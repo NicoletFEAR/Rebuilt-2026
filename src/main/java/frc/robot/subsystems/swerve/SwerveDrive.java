@@ -70,17 +70,24 @@ public class SwerveDrive extends SubsystemBase {
 
     private double m_angleToSnap = Double.POSITIVE_INFINITY;
 
-
-
     private PIDController angleController = new PIDController(.016, 0.003, 0.0);
 
     public SwerveDrive() {
-        m_modules = new SwerveModule[] {
-                new SwerveModule(DriveConstants.kFrontLeft),
-                new SwerveModule(DriveConstants.kFrontRight),
-                new SwerveModule(DriveConstants.kBackLeft),
-                new SwerveModule(DriveConstants.kBackRight)
-        };
+        if (DriveConstants.usesDriveKrakens()) {
+            m_modules = new SwerveModule[] {
+                new TalonSwerveModule(DriveConstants.kFrontLeft),
+                new TalonSwerveModule(DriveConstants.kFrontRight),
+                new TalonSwerveModule(DriveConstants.kBackLeft),
+                new TalonSwerveModule(DriveConstants.kBackRight)
+            };
+        } else {
+            m_modules = new SwerveModule[] {
+                new SparkMaxSwerveModule(DriveConstants.kFrontLeft),
+                new SparkMaxSwerveModule(DriveConstants.kFrontRight),
+                new SparkMaxSwerveModule(DriveConstants.kBackLeft),
+                new SparkMaxSwerveModule(DriveConstants.kBackRight)
+            };
+        }
 
         m_pigeon = new Pigeon2(DriveConstants.kPigeonId, Constants.hasCANivore() ? "*" : "rio");
 

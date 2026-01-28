@@ -59,7 +59,7 @@ public class IntakeAndLauncher extends SubsystemBase {
         return new InstantCommand(() -> setIntakeVoltage(12), this);
     }
 
-    // Launches Fuel
+    // Launches fuel
     public Command launch() {
         return new InstantCommand(() -> setIntakeVoltage(-12), this).alongWith(new InstantCommand(() -> setLauncherVoltage(12), this));
     }

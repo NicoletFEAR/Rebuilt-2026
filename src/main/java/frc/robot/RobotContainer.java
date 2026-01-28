@@ -85,13 +85,15 @@ public class RobotContainer {
         
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName == "kitbot") {
-                // Left Bumper for Intaking Fuel
+                // // Intakes fuel -- left bumper of driver
+                // controller
                 m_driverController
                         .L1()
                         .onTrue(m_intakeAndLauncher.intake())
                         .onFalse(m_intakeAndLauncher.off());
                 
-                // Right Bumper for Launching Fuel
+                // // launches fuel -- right bumper of driver
+                // controller
                 m_driverController
                         .R1()
                         .onTrue(m_intakeAndLauncher.launch())

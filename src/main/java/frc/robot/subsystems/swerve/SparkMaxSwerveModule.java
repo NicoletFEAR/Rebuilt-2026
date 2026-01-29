@@ -57,6 +57,7 @@ public class SparkMaxSwerveModule implements SwerveModule {
     m_driveMotor = new SparkMax(constants.driveId, MotorType.kBrushless);
 
     m_steerEncoder = m_steerMotor.getEncoder();
+    m_driveEncoder = m_driveMotor.getEncoder();
 
     m_steerController = m_steerMotor.getClosedLoopController();
 

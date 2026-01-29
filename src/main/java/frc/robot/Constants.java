@@ -281,7 +281,7 @@ public final class Constants {
     }
 
     public final class KitbotSubsystemConstants {
-        public static final int kIntake = 15;
-        public static final int kLauncher = 14;
+        public static final int kIntake = 14;
+        public static final int kLauncher = 15;
     }
 }

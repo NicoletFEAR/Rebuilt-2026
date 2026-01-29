@@ -190,8 +190,16 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("drive.turn-kd"));
         }
 
-        public static double getTurnKFF() {
-            return Double.parseDouble(m_properties.getProperty("drive.turn-kff"));
+        public static double getTurnKS() {
+            return Double.parseDouble(m_properties.getProperty("drive.turn-ks"));
+        }
+
+        public static double getTurnKV() {
+            return Double.parseDouble(m_properties.getProperty("drive.turn-kv"));
+        }
+
+        public static double getTurnKA() {
+            return Double.parseDouble(m_properties.getProperty("drive.turn-ka"));
         }
 
         // TODO: Calibrate wheels

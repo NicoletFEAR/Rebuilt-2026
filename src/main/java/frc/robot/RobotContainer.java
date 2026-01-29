@@ -22,15 +22,19 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
     private SwerveDrive m_driveBase = SwerveDrive.getInstance();
-    private IntakeAndLauncher m_intakeAndLauncher = IntakeAndLauncher.getInstance();
+    private IntakeAndLauncher m_intakeAndLauncher;
     private static Alliance m_alliance = Alliance.Blue;
 
     public RobotContainer() {
-      autoChooser = AutoBuilder.buildAutoChooser();
+        if (Constants.kRobotName.equals("kitbot")) {
+                m_intakeAndLauncher = IntakeAndLauncher.getInstance();
+        }
 
-      m_mainTab.add("Auto Chooser", autoChooser).withPosition(5, 0).withSize(5, 2);
+        autoChooser = AutoBuilder.buildAutoChooser();
 
-      configureBindings();
+        m_mainTab.add("Auto Chooser", autoChooser).withPosition(5, 0).withSize(5, 2);
+
+        configureBindings();
     }
 
     private void configureBindings() {
@@ -84,7 +88,7 @@ public class RobotContainer {
                 .onTrue(Commands.runOnce(() -> m_driveBase.zeroGyro(), m_driveBase));
         
         // These are the controls for the kitbot subsystems
-        if (Constants.kRobotName == "kitbot") {
+        if (Constants.kRobotName.equals("kitbot")) {
                 // // Intakes fuel -- left bumper of driver
                 // controller
                 m_driverController

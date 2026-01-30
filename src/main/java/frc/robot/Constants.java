@@ -201,8 +201,6 @@ public final class Constants {
         public static double getTurnKA() {
             return Double.parseDouble(m_properties.getProperty("drive.turn-ka"));
         }
-
-        // TODO: Calibrate wheels
         public static double getFrontLeftOffset() {
             return Double.parseDouble(m_properties.getProperty("drive.front-left-offset"));
         }

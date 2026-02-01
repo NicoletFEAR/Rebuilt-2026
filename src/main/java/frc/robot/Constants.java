@@ -63,6 +63,18 @@ public final class Constants {
         kMacToName.put("1C:5C:37:32:5C:14", "competition");
     }
 
+    public final class MotorIds {
+        public static final int kLauncherOne = 14;
+        public static final int kLauncherTwo = 15;
+
+        public static final int kIndex = 16;
+
+        public static final int kIntakeDriver = 17;
+        public static final int kIntakePivot = 18;
+
+        public static final int kClimb = 19;
+    }
+
     public final class OperatorConstants {
         public static final int kDriverControllerPort = 0;
 
@@ -288,20 +300,18 @@ public final class Constants {
     }
 
     public final class LauncherConstants {
-        public static final int kLauncherOne = 14;
-        public static final int kLauncherTwo = 15;
+        
     }
 
     public final class IndexerConstants {
-        public static final int kIndex = 16;
+        
     }
 
     public final class IntakeConstants {
-        public static final int kIntakeDriver = 17;
-        public static final int kIntakePivot = 18;
+        
     }
 
     public final class ClimbConstants {
-        public static final int kClimb = 19;
+        
     }
 }

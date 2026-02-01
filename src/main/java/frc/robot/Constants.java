@@ -5,10 +5,6 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-//TODO:
-//*Note: Missing drive.drive-ks, drive.drive-kv, and drive.drive-ka in Kitbot properties,
-// as well as drive.current-limit, drive.drive-ks, drive.drive-kv, and drive.drive-ka in Hades properties.*
-
 package frc.robot;
 
 import java.io.File;
@@ -289,5 +285,23 @@ public final class Constants {
     public final class KitbotSubsystemConstants {
         public static final int kIntake = 14;
         public static final int kLauncher = 15;
+    }
+
+    public final class LauncherConstants {
+        public static final int kLauncherOne = 14;
+        public static final int kLauncherTwo = 15;
+    }
+
+    public final class IndexerConstants {
+        public static final int kIndex = 16;
+    }
+
+    public final class IntakeConstants {
+        public static final int kIntakeDriver = 17;
+        public static final int kIntakePivot = 18;
+    }
+
+    public final class ClimbConstants {
+        public static final int kClimb = 19;
     }
 }

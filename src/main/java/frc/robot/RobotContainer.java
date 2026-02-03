@@ -15,6 +15,7 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.kitbot.Intake;
 import frc.robot.subsystems.kitbot.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.util.LinearServo;
 
 public class RobotContainer {
     private final CommandPS5Controller m_driverController = new CommandPS5Controller(
@@ -25,6 +26,7 @@ public class RobotContainer {
     private SwerveDrive m_driveBase = SwerveDrive.getInstance();
     private Intake m_intake;
     private Launcher m_launcher;
+    private LinearServo m_linearServo = new LinearServo(0, 0, 0);
     private static Alliance m_alliance = Alliance.Blue;
 
     public RobotContainer() {

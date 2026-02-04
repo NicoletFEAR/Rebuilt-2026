@@ -1,0 +1,67 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start T - Launch T"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Launch T - Outpost"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Outpost - Launch T"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.8
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Launch T - Climb Top"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.5
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "0045",
+  "choreoAuto": false
+}

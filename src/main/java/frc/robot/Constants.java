@@ -67,6 +67,9 @@ public final class Constants {
         public static final int kLauncherOne = 14;
         public static final int kLauncherTwo = 15;
 
+        public static final int kKitbotIntake = 14;
+        public static final int kKitbotLauncher = 15;
+
         public static final int kIndex = 16;
 
         public static final int kIntakeDriver = 17;
@@ -77,6 +80,8 @@ public final class Constants {
 
     public final class OperatorConstants {
         public static final int kDriverControllerPort = 0;
+
+        public static final double kOperatorControllerDeadband = 0.1;
 
         public static final int kThrottleAxis = Axis.kLeftY.value;
         public static final int kStrafeAxis = Axis.kLeftX.value;
@@ -294,11 +299,6 @@ public final class Constants {
         );
     }
 
-    public final class KitbotSubsystemConstants {
-        public static final int kIntake = 14;
-        public static final int kLauncher = 15;
-    }
-
     public final class LauncherConstants {
         
     }
@@ -312,6 +312,10 @@ public final class Constants {
     }
 
     public final class ClimbConstants {
-        
+        public static final double kSetpointTolerance = 0.05;
+
+        public static final double kP = 1.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
     }
 }

@@ -7,21 +7,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.KitbotSubsystemConstants;
+import frc.robot.Constants.MotorIds;
 
-public class Intake extends SubsystemBase {
-    private static Intake m_instance = null;
+public class KitbotIntake extends SubsystemBase {
+    private static KitbotIntake m_instance = null;
 
     private SparkMax m_intakeMotor;
 
-    // 
-    public Intake() {
-        m_intakeMotor = new SparkMax(KitbotSubsystemConstants.kIntake, MotorType.kBrushed);
+    public KitbotIntake() {
+        m_intakeMotor = new SparkMax(MotorIds.kKitbotIntake, MotorType.kBrushed);
     }
 
-    public static Intake getInstance() {
+    public static KitbotIntake getInstance() {
         if (m_instance == null) {
-            m_instance = new Intake();
+            m_instance = new KitbotIntake();
         }
 
         return m_instance;

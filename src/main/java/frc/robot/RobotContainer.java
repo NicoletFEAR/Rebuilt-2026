@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.subsystems.kitbot.IntakeAndLauncher;
+import frc.robot.subsystems.kitbot.Intake;
+import frc.robot.subsystems.kitbot.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.util.LinearServo;
 
 public class RobotContainer {
     private final CommandPS5Controller m_driverController = new CommandPS5Controller(
@@ -22,12 +24,15 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
     private SwerveDrive m_driveBase = SwerveDrive.getInstance();
-    private IntakeAndLauncher m_intakeAndLauncher;
+    private Intake m_intake;
+    private Launcher m_launcher;
+    private LinearServo m_linearServo = new LinearServo(0, 0, 0);
     private static Alliance m_alliance = Alliance.Blue;
 
     public RobotContainer() {
         if (Constants.kRobotName.equals("kitbot")) {
-                m_intakeAndLauncher = IntakeAndLauncher.getInstance();
+                m_intake = Intake.getInstance();
+                m_launcher = Launcher.getInstance();
         }
 
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -93,15 +98,19 @@ public class RobotContainer {
                 // controller
                 m_driverController
                         .L1()
-                        .onTrue(m_intakeAndLauncher.intake())
-                        .onFalse(m_intakeAndLauncher.off());
+                        .onTrue(m_intake.intake())
+                        .onTrue(m_launcher.intake())
+                        .onFalse(m_intake.off())
+                        .onFalse(m_launcher.off());
                 
                 // // launches fuel -- right bumper of driver
                 // controller
                 m_driverController
                         .R1()
-                        .onTrue(m_intakeAndLauncher.launch())
-                        .onFalse(m_intakeAndLauncher.off());
+                        .onTrue(m_intake.launch())
+                        .onTrue(m_launcher.launch())
+                        .onFalse(m_intake.off())
+                        .onFalse(m_launcher.off());
         }
     }
 

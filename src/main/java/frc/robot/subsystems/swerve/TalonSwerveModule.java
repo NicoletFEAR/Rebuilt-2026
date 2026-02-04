@@ -115,7 +115,7 @@ public class TalonSwerveModule implements SwerveModule {
   }
 
   public void runVolts(Voltage volts, double position) {
-    m_steerController.setReference(position, ControlType.kPosition);
+    m_steerController.setSetpoint(position, ControlType.kPosition);
     m_driveMotor.setVoltage(volts.in(Volts));
   }
 
@@ -130,7 +130,7 @@ public class TalonSwerveModule implements SwerveModule {
     moduleState.speedMetersPerSecond *= moduleState.angle.minus(getModuleHeading()).getCos();
 
     if (moduleState.angle.getDegrees() != m_lastAngle) {
-      m_steerController.setReference(moduleState.angle.getDegrees(), ControlType.kPosition);
+      m_steerController.setSetpoint(moduleState.angle.getDegrees(), ControlType.kPosition);
       m_lastAngle = moduleState.angle.getDegrees();
     }
 

@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.154166666666667,
+        "y": 6.196
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.5696437928662856,
+        "y": 5.404577456494538
+      },
+      "isLocked": false,
+      "linkedName": "Launch D"
+    },
+    {
+      "anchor": {
+        "x": 1.53,
+        "y": 4.12
+      },
+      "prevControl": {
+        "x": 1.8473595528236098,
+        "y": 4.543453457166341
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Climb Top"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 90.0
+  },
+  "reversed": false,
+  "folder": "Start D and Depot Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 124.0
+  },
+  "useDefaultConstraints": false
+}

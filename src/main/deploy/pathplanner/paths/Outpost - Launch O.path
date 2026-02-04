@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.42,
+        "y": 0.65
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.474596570764924,
+        "y": 1.0370668407267876
+      },
+      "isLocked": false,
+      "linkedName": "Outpost"
+    },
+    {
+      "anchor": {
+        "x": 3.154166666666667,
+        "y": 1.804
+      },
+      "prevControl": {
+        "x": 2.4542056074606946,
+        "y": 1.4867346990129
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Launch O"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -124.0
+  },
+  "reversed": false,
+  "folder": "Start O and Outpost Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": false
+}

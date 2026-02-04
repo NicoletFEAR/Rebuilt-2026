@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start T - Launch T"
+            "pathName": "Start D - Launch D"
           }
         },
         {
@@ -17,9 +17,15 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Launch T - Depot Middle"
+            "pathName": "Launch D - Depot Middle"
           }
         },
         {
@@ -44,6 +50,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "01 (make sure to replace the colon and slashes)",
+  "folder": "21",
   "choreoAuto": false
 }

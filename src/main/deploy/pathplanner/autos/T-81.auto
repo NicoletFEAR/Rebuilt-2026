@@ -37,6 +37,12 @@
         {
           "type": "wait",
           "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
             "waitTime": 4.8
           }
         }
@@ -44,6 +50,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "01 (make sure to replace the colon and slashes)",
+  "folder": "81",
   "choreoAuto": false
 }

@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start T - Launch T"
+            "pathName": "Start O - Launch O"
           }
         },
         {
@@ -19,19 +19,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Launch T - Depot Middle"
+            "pathName": "Launch O - Outpost"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 2.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot Middle - Launch D"
+            "pathName": "Outpost - Launch O"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
           }
         },
         {
@@ -39,11 +45,23 @@
           "data": {
             "waitTime": 4.8
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Launch O - Climb Bottom"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.5
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "01 (make sure to replace the colon and slashes)",
+  "folder": "85",
   "choreoAuto": false
 }

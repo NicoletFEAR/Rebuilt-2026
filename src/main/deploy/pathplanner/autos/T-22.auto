@@ -17,9 +17,15 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Launch T - Depot Middle"
+            "pathName": "Launch T - Outpost"
           }
         },
         {
@@ -31,7 +37,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Depot Middle - Launch D"
+            "pathName": "Outpost - Launch T"
           }
         },
         {
@@ -44,6 +50,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "01 (make sure to replace the colon and slashes)",
+  "folder": "22",
   "choreoAuto": false
 }

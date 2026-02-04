@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start T - Launch T"
+            "pathName": "Start O - Launch O"
           }
         },
         {
@@ -19,31 +19,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Launch T - Depot Middle"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 4.0
+            "pathName": "Launch O - NZT Bottom-North"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot Middle - Launch D"
+            "pathName": "NZT Bottom-North - NZT Top-North"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Top-North - Launch D"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.8
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Launch D - Climb Top"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "01 (make sure to replace the colon and slashes)",
+  "folder": "06",
   "choreoAuto": false
 }

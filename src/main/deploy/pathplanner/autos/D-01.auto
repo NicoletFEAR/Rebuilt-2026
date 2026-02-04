@@ -44,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "01 (score 8 + depot fuel)",
+  "folder": "01 (make sure to replace the colon and slashes)",
   "choreoAuto": false
 }

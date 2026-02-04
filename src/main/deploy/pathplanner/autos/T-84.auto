@@ -25,7 +25,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 2.5
           }
         },
         {
@@ -37,13 +37,31 @@
         {
           "type": "wait",
           "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
             "waitTime": 4.8
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Launch D - Climb Top"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.5
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "01 (make sure to replace the colon and slashes)",
+  "folder": "84",
   "choreoAuto": false
 }

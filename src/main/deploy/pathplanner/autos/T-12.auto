@@ -7,61 +7,55 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start 1 - Depot Top"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Depot Top - Depot Bottom"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Depot Bottom - Launch 2"
+            "pathName": "Start T - Launch T"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.8
+            "waitTime": 2.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Launch 2 - Neutral Zone Top Left"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Neutral Zone Top Left - Neutral Zone Bottom Left"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Neutral Zone Bottom Left - Launch 3"
+            "pathName": "Launch T - Outpost"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.8
+            "waitTime": 2.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Launch 3 - Climb Top"
+            "pathName": "Outpost - Launch T"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.8
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Launch T - Climb Top"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.5
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "12 (02 + climb)",
   "choreoAuto": false
 }

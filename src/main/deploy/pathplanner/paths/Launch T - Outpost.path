@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.0,
-        "y": 6.890122222222221
+        "x": 2.6,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.9705200132160465,
-        "y": 4.553836778780544
+        "x": 2.3806771991667177,
+        "y": 3.6678945526839426
       },
       "isLocked": false,
-      "linkedName": "Neutral Zone Top Left"
+      "linkedName": "Launch T"
     },
     {
       "anchor": {
-        "x": 7.0,
-        "y": 1.2091111111111104
+        "x": 0.42,
+        "y": 0.65
       },
       "prevControl": {
-        "x": 7.024597298119164,
-        "y": 2.8627780505376053
+        "x": 0.5794772888822953,
+        "y": 0.8909899541643823
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Neutral Zone Bottom Left"
+      "linkedName": "Outpost"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Start T Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

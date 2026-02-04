@@ -59,8 +59,8 @@ public final class Constants {
         kMacToName = new HashMap<>();
         kMacToName.put("00:80:2F:17:CD:DD", "kitbot");
         kMacToName.put("00:80:2F:17:B5:2A", "hades");
-        kMacToName.put("00:80:2F:40:6C:8A", "competition");
-        kMacToName.put("1C:5C:37:32:5C:14", "competition");
+        kMacToName.put("00:80:2F:40:6C:8A", "tusk");
+        kMacToName.put("1C:5C:37:32:5C:14", "tusk");
     }
 
     public final class MotorIds {

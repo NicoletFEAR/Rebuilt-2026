@@ -1,8 +1,5 @@
 package frc.robot;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -16,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
 import frc.robot.subsystems.swerve.SwerveDrive;
@@ -26,13 +24,13 @@ public class RobotContainer {
     
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
+
     private SwerveDrive m_driveBase = SwerveDrive.getInstance();
+
     private KitbotIntake m_intake;
     private KitbotLauncher m_launcher;
 
-    // Temporary code for testing climb
-    private TalonFX m_climbMotor;
-    private double m_climbPosition;
+    private Climb m_climb;
 
     private static Alliance m_alliance = Alliance.Blue;
 
@@ -41,12 +39,7 @@ public class RobotContainer {
                 m_intake = KitbotIntake.getInstance();
                 m_launcher = KitbotLauncher.getInstance();
         } else if (Constants.kRobotName.equals("hades")) {
-                // Temporary code for testing climb
-                m_climbMotor = new TalonFX(19);
-                TalonFXConfiguration configs = new TalonFXConfiguration();
-                configs.Slot0.kP = 1.0;
-                m_climbMotor.getConfigurator().apply(configs);
-                m_climbPosition = m_climbMotor.getPosition().getValueAsDouble();
+                m_climb = new Climb();
         }
 
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -126,23 +119,16 @@ public class RobotContainer {
                         .onFalse(m_intake.off())
                         .onFalse(m_launcher.off());
         } else if (Constants.kRobotName.equals("hades")) {
-                // Temporary code for testing climb
-                System.out.println("Running Hades");
-                m_driverController
-                        .L1()
-                        .whileTrue(new RunCommand(() -> {
-                                m_climbPosition += 0.3;
-                                System.out.println("Going up to " + m_climbPosition);
-                                m_climbMotor.setControl(new PositionVoltage(m_climbPosition).withSlot(0));
-                        }));
-
-                m_driverController
-                        .R1()
-                        .whileTrue(new RunCommand(() -> {
-                                m_climbPosition -= 0.3;
-                                System.out.println("Going down to " + m_climbPosition);
-                                m_climbMotor.setControl(new PositionVoltage(m_climbPosition).withSlot(0));
-                        }));
+                // Control the climb manually -- left and right bumpers of driver controller
+                m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
+                        if (m_driverController.L1().getAsBoolean() ^ m_driverController.R1().getAsBoolean()) {
+                            return 0.0;
+                        } else if (m_driverController.L1().getAsBoolean()) {
+                            return 1.0;
+                        } else {
+                            return -1.0;
+                        }
+                }), m_climb));
         }
     }
 
@@ -156,5 +142,6 @@ public class RobotContainer {
 
     public void periodic() {
       m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+      m_climb.periodic();
     }
 }

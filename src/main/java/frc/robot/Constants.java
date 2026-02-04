@@ -313,6 +313,12 @@ public final class Constants {
 
     public final class ClimbConstants {
         public static final double kSetpointTolerance = 0.05;
+        public static final double kManualMultiplier = 0.3;
+
+        public static final double kMinPosition = 0.0;
+        public static final double kMaxPosition = 1000.0;
+
+        public static final double kHomePosition = 0.0;
 
         public static final double kP = 1.0;
         public static final double kI = 0.0;

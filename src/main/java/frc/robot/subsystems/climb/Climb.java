@@ -13,6 +13,7 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,6 +21,7 @@ import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.MotorIds;
+import frc.robot.Constants.OperatorConstants;
 
 public class Climb extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;
@@ -33,6 +35,9 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         config.Slot0.kI = ClimbConstants.kI;
         config.Slot0.kD = ClimbConstants.kD;
         m_motor.getConfigurator().apply(config);
+
+        m_desiredPosition = ClimbConstants.kHomePosition;
+        m_motor.setPosition(m_desiredPosition);
     }
 
     @Override
@@ -49,6 +54,10 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     public void periodic() {
         Logger.recordOutput("Climb/Desired Position", m_desiredPosition);
         Logger.recordOutput("Climb/Position", getPosition());
+        Logger.recordOutput("Climb/Current", m_motor.getStatorCurrent().getValueAsDouble());
+        Logger.recordOutput("Climb/Voltage", m_motor.getMotorVoltage().getValueAsDouble());
+        Logger.recordOutput("Climb/Velocity", m_motor.getVelocity().getValueAsDouble());
+        Logger.recordOutput("Climb/Is At Setpoint", getIsAtSetpoint());
     }
 
     @Override
@@ -72,7 +81,14 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
 
     @Override
     public void manualControl(Supplier<Double> throttle) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'manualControl'");
+        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.kOperatorControllerDeadband)
+            * ClimbConstants.kManualMultiplier;
+
+        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, ClimbConstants.kMinPosition, ClimbConstants.kMaxPosition);
+
+        if (m_desiredPosition != newDesiredPosition) {
+            m_desiredPosition = newDesiredPosition;
+            runToPosition(m_desiredPosition);
+        }
     }
 }

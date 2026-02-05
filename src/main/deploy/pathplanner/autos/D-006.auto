@@ -1,0 +1,55 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start D - Launch D"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Launch D - NZT Top-South"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Top-South - NZT Bottom-South"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Bottom-South - Launch O"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.9
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Launch O - Climb Bottom"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "006",
+  "choreoAuto": false
+}

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.496767454010745,
-        "y": 6.247981918810612
+        "x": 3.3239304415732933,
+        "y": 6.340910140896313
       },
       "isLocked": false,
       "linkedName": "Depot Middle"
     },
     {
       "anchor": {
-        "x": 3.154166666666667,
+        "x": 3.4,
         "y": 6.196
       },
       "prevControl": {
-        "x": 2.014569834143,
-        "y": 6.014954400710144
+        "x": 1.6662629398118478,
+        "y": 5.938743157080664
       },
       "nextControl": null,
       "isLocked": false,

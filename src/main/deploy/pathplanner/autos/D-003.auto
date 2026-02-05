@@ -44,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "003",
+  "folder": "003 (however, 002 isn't an unoptimal auto)",
   "choreoAuto": false
 }

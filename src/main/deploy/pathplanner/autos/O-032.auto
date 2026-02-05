@@ -31,7 +31,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 2.5
           }
         },
         {
@@ -49,13 +49,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.8
+            "waitTime": 4.7
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "032",
+  "folder": "⚑ 032",
   "choreoAuto": false
 }

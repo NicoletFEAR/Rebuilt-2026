@@ -40,7 +40,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
 
     public Climb() {
         m_motor = new TalonFX(MotorIds.kClimb, Constants.hasCANivore() ? "*" : "rio");
-        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60Foc(1), 0.001, ClimbConstants.kGearRatio), DCMotor.getKrakenX60Foc(1));
+        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, ClimbConstants.kGearRatio), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.Slot0.kP = ClimbConstants.kP;

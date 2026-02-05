@@ -123,7 +123,6 @@ public final class Constants {
             return Math.hypot(getTrackWidth(), getWheelBase());
         }
 
-        // TODO: Remember to change if we modify the swerve modules
         public static double getDriveGearRatio() {
             return Double.parseDouble(m_properties.getProperty("drive.drive-gear-ratio"));
         }
@@ -308,7 +307,11 @@ public final class Constants {
     }
 
     public final class IntakeConstants {
+        public static final double kDriverGearRatio = 1.0;
         
+        public static final double kDriverKP = 1.0;
+        public static final double kDriverKI = 0.0;
+        public static final double kDriverKD = 0.0;
     }
 
     public final class ClimbConstants {

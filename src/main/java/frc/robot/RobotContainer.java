@@ -144,7 +144,6 @@ public class RobotContainer {
 
     public void periodic() {
       m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-      m_climb.periodic();
     }
 
     private void createNamedCommands() {

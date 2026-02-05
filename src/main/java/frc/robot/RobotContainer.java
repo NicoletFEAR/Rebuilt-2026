@@ -26,7 +26,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
 
-    private SwerveDrive m_driveBase = SwerveDrive.getInstance();
+    private final SwerveDrive m_driveBase = SwerveDrive.getInstance();
 
     private KitbotIntake m_intake;
     private KitbotLauncher m_launcher;

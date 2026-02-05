@@ -64,27 +64,6 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     }
 
     @Override
-    public void periodic() {
-        Logger.recordOutput("Climb/Desired Position", m_desiredPosition);
-        Logger.recordOutput("Climb/Position", getPosition());
-        Logger.recordOutput("Climb/Current", m_motor.getStatorCurrent().getValueAsDouble());
-        Logger.recordOutput("Climb/Voltage", m_motor.getMotorVoltage().getValueAsDouble());
-        Logger.recordOutput("Climb/Velocity", m_motor.getVelocity().getValueAsDouble());
-        Logger.recordOutput("Climb/Is At Setpoint", getIsAtSetpoint());
-    }
-
-    @Override
-    public void simulationPeriodic() {
-        TalonFXSimState motorSim = m_motor.getSimState();
-        motorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
-        Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
-        m_motorSim.setInputVoltage(motorVoltage.in(Volts));
-        m_motorSim.update(0.02);
-        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * ClimbConstants.kGearRatio);
-        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * ClimbConstants.kGearRatio);
-    }
-
-    @Override
     public void runToPosition(double position) {
         m_motor.setControl(new PositionVoltage(position).withSlot(0));
     }
@@ -122,5 +101,26 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
             m_desiredPosition = newDesiredPosition;
             runToPosition(m_desiredPosition);
         }
+    }
+
+    @Override
+    public void periodic() {
+        Logger.recordOutput("Climb/Desired Position", m_desiredPosition);
+        Logger.recordOutput("Climb/Position", getPosition());
+        Logger.recordOutput("Climb/Current", m_motor.getStatorCurrent().getValueAsDouble());
+        Logger.recordOutput("Climb/Voltage", m_motor.getMotorVoltage().getValueAsDouble());
+        Logger.recordOutput("Climb/Velocity", m_motor.getVelocity().getValueAsDouble());
+        Logger.recordOutput("Climb/Is At Setpoint", getIsAtSetpoint());
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        TalonFXSimState motorSim = m_motor.getSimState();
+        motorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+        Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
+        m_motorSim.setInputVoltage(motorVoltage.in(Volts));
+        m_motorSim.update(0.02);
+        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * ClimbConstants.kGearRatio);
+        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * ClimbConstants.kGearRatio);
     }
 }

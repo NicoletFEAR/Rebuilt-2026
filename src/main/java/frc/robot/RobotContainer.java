@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -42,6 +43,7 @@ public class RobotContainer {
                 m_climb = new Climb();
         }
 
+        createNamedCommands();
         autoChooser = AutoBuilder.buildAutoChooser();
 
         m_mainTab.add("Auto Chooser", autoChooser).withPosition(5, 0).withSize(5, 2);
@@ -143,5 +145,9 @@ public class RobotContainer {
     public void periodic() {
       m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
       m_climb.periodic();
+    }
+
+    private void createNamedCommands() {
+        NamedCommands.registerCommand("ClimbL1", m_climb.climbL1Height().andThen(m_climb.retract()));
     }
 }

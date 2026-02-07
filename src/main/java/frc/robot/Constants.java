@@ -57,15 +57,15 @@ public final class Constants {
     public static final HashMap<String, String> kMacToName;
     static {
         kMacToName = new HashMap<>();
-        kMacToName.put("00:80:2F:17:CD:DD", "kitbot");
+        kMacToName.put("00:80:2F:40:69:FC", "kitbot");
         kMacToName.put("00:80:2F:17:B5:2A", "hades");
         kMacToName.put("00:80:2F:40:6C:8A", "tusk");
         kMacToName.put("1C:5C:37:32:5C:14", "tusk");
     }
 
     public final class MotorIds {
-        public static final int kLauncherOne = 14;
-        public static final int kLauncherTwo = 15;
+        public static final int kLauncherLeft = 14;
+        public static final int kLauncherRight = 15;
 
         public static final int kKitbotIntake = 14;
         public static final int kKitbotLauncher = 15;
@@ -299,7 +299,10 @@ public final class Constants {
     }
 
     public final class LauncherConstants {
-        
+        public static final double kP = 1.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kGearRatio = 1.0;
     }
 
     public final class IndexerConstants {

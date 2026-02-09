@@ -148,13 +148,7 @@ public class RobotContainer {
                         .onFalse(m_launcher.off())
                         .onFalse(m_indexer.off());
 
-                // Intakes fuel -- a button on operator controller
-                m_operatorController
-                        .a()
-                        .onTrue(m_intake.intake())
-                        .onFalse(m_intake.off());
-
-                // Control the climb manually -- left and right bumpers of driver controller
+                 // Control the climb manually -- left and right bumpers of driver controller
                 m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
                         if (m_driverController.L1().getAsBoolean() ^ m_driverController.R1().getAsBoolean()) {
                             return 0.0;
@@ -164,6 +158,12 @@ public class RobotContainer {
                             return -1.0;
                         }
                 }), m_climb));
+            
+                // Intakes fuel -- a button on operator controller
+                m_operatorController
+                        .a()
+                        .onTrue(m_intake.intake())
+                        .onFalse(m_intake.off());
         }
     }
 

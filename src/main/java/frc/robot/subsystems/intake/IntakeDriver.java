@@ -49,6 +49,14 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
         m_motor.setVoltage(voltage);
     }
 
+    public Command intake() {
+        return new InstantCommand(() -> setVoltage(12), this);
+    }
+
+    public Command off() {
+        return new InstantCommand(() -> setVoltage(0), this);
+    }
+    
     @Override
     public void periodic() {
         Logger.recordOutput("Intake/Driver/Voltage", getVoltage());

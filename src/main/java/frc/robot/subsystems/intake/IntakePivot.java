@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.MotorIds;
+import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.OperatorConstants;
 
 public class IntakePivot extends SubsystemBase implements PositionSubsystem {
@@ -35,7 +35,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     private DCMotorSim m_motorSim;
 
     public IntakePivot() {
-        m_motor = new TalonFX(MotorIds.kIntakePivot, Constants.hasCANivore() ? "*" : "rio");
+        m_motor = new TalonFX(DeviceIds.kIntakePivot, Constants.hasCANivore() ? "*" : "rio");
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kPivotGearRatio), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration config = new TalonFXConfiguration();
@@ -72,6 +72,14 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
             this::getIsAtSetpoint,
             this
         );
+    }
+
+    public Command out() {
+        return runProfileToPosition(IntakeConstants.kPivotOutPosition);
+    }
+
+    public Command in() {
+        return runProfileToPosition(IntakeConstants.kPivotHomePosition);
     }
 
     @Override

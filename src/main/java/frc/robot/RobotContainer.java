@@ -55,6 +55,7 @@ public class RobotContainer {
             m_indexer = new Indexer();
             m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
+            m_intakePivot = new IntakePivot();
         }
 
         createNamedCommands();
@@ -134,9 +135,9 @@ public class RobotContainer {
                 .onFalse(m_kitbotIntake.off())
                 .onFalse(m_kitbotLauncher.off());
         } else if (Constants.kRobotName.equals("tusk")) {
-            // Launches fuel by spinning up the launcher and then indexing the fuel -- left trigger of driver controller
+            // Launches fuel by spinning up the launcher and then indexing the fuel -- cross button of driver controller
             m_driverController
-                .L2()
+                .cross()
                 .onTrue(m_launcher.launch().alongWith(m_indexer.launch()))
                 .onFalse(m_launcher.off().alongWith(m_indexer.off()));
                 
@@ -159,8 +160,8 @@ public class RobotContainer {
             // Intakes fuel -- a button on operator controller
             m_operatorController
                 .a()
-                .onTrue(m_intakeDriver.intake())
-                .onFalse(m_intakeDriver.off());
+                .onTrue(m_intakePivot.out().alongWith(m_intakeDriver.intake()))
+                .onFalse(m_intakePivot.in().alongWith(m_intakeDriver.off()));
         }
     }
 

@@ -63,7 +63,25 @@ public final class Constants {
         kMacToName.put("1C:5C:37:32:5C:14", "tusk");
     }
 
-    public final class MotorIds {
+    public final class DeviceIds {
+        public static final int kFrontLeftSteer = 1;
+        public static final int kFrontLeftDrive = 2;
+        public static final int kFrontLeftSteerEncoder = 3;
+
+        public static final int kFrontRightSteer = 4;
+        public static final int kFrontRightDrive = 5;
+        public static final int kFrontRightSteerEncoder = 6;
+
+        public static final int kBackRightSteer = 7;
+        public static final int kBackRightDrive = 8;
+        public static final int kBackRightSteerEncoder = 9;
+
+        public static final int kBackLeftSteer = 10;
+        public static final int kBackLeftDrive = 11;
+        public static final int kBackLeftSteerEncoder = 12;
+
+        public static final int kPigeon = 13;
+
         public static final int kLauncherLeft = 14;
         public static final int kLauncherRight = 15;
 
@@ -257,45 +275,31 @@ public final class Constants {
             DriveConstants.kModuleTranslations
         );
 
-        public static final int kPigeonId = 13;
-
-        public static final int kFrontLeftDriveMotor = 2;
-        public static final int kFrontLeftSteerMotor = 1;
-        public static final int kFrontLeftSteerEncoder = 3;
         public static final SwerveModuleConstants kFrontLeft = new SwerveModuleConstants(
-            kFrontLeftDriveMotor,
-            kFrontLeftSteerMotor,
-            kFrontLeftSteerEncoder,
+            DeviceIds.kFrontLeftDrive,
+            DeviceIds.kFrontLeftSteer,
+            DeviceIds.kFrontLeftSteerEncoder,
             getFrontLeftOffset()
         );
 
-        public static final int kFrontRightDriveMotor = 5;
-        public static final int kFrontRightSteerMotor = 4;
-        public static final int kFrontRightSteerEncoder = 6;
         public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
-            kFrontRightDriveMotor,
-            kFrontRightSteerMotor,
-            kFrontRightSteerEncoder,
+            DeviceIds.kFrontRightDrive,
+            DeviceIds.kFrontRightSteer,
+            DeviceIds.kFrontRightSteerEncoder,
             getFrontRightOffset()
         );
 
-        public static final int kBackLeftDriveMotor = 11;
-        public static final int kBackLeftSteerMotor = 10;
-        public static final int kBackLeftSteerEncoder = 12;
         public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
-            kBackLeftDriveMotor,
-            kBackLeftSteerMotor,
-            kBackLeftSteerEncoder,
+            DeviceIds.kBackLeftDrive,
+            DeviceIds.kBackLeftSteer,
+            DeviceIds.kBackLeftSteerEncoder,
             getBackLeftOffset()
         );
 
-        public static final int kBackRightDriveMotor = 8;
-        public static final int kBackRightSteerMotor = 7;
-        public static final int kBackRightSteerEncoder = 9;
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
-            kBackRightDriveMotor,
-            kBackRightSteerMotor,
-            kBackRightSteerEncoder,
+            DeviceIds.kBackRightDrive,
+            DeviceIds.kBackRightSteer,
+            DeviceIds.kBackRightSteerEncoder,
             getBackRightOffset()
         );
     }
@@ -317,6 +321,9 @@ public final class Constants {
         public static final double kP = 1.0;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
+
+        public static final double kOffVoltage = 0.0;
+        public static final double kIndexVoltage = -12.0;
     }
 
     public final class IntakeConstants {
@@ -330,12 +337,17 @@ public final class Constants {
         public static final double kPivotKI = 0.0;
         public static final double kPivotKD = 0.0;
 
+        public static final double kDriverOffVoltage = 0.0;
+        public static final double kDriverIntakeVoltage = 12.0;
+
         public static final double kPivotSetpointTolerance = 0.025;
         public static final double kPivotManualMultiplier = 0.005;
 
         public static final double kPivotMinPosition = 0.0;
         public static final double kPivotMaxPosition = 1000.0;
+
         public static final double kPivotHomePosition = 0.0;
+        public static final double kPivotOutPosition = 1.0;
     }
 
     public final class ClimbConstants {

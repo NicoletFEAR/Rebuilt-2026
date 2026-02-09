@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.MotorIds;
+import frc.robot.Constants.DeviceIds;
 
 public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     private double m_desiredVoltage;
@@ -29,7 +29,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     private DCMotorSim m_motorSim;
 
     public IntakeDriver() {
-        m_motor = new TalonFX(MotorIds.kIntakeDriver, Constants.hasCANivore() ? "*" : "rio");
+        m_motor = new TalonFX(DeviceIds.kIntakeDriver, Constants.hasCANivore() ? "*" : "rio");
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kDriverGearRatio), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration config = new TalonFXConfiguration();
@@ -52,11 +52,11 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     }
 
     public Command intake() {
-        return new InstantCommand(() -> setVoltage(12), this);
+        return new InstantCommand(() -> setVoltage(IntakeConstants.kDriverIntakeVoltage), this);
     }
 
     public Command off() {
-        return new InstantCommand(() -> setVoltage(0), this);
+        return new InstantCommand(() -> setVoltage(IntakeConstants.kDriverOffVoltage), this);
     }
     
     @Override

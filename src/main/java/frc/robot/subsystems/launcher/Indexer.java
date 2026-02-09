@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.IndexerConstants;
-import frc.robot.Constants.MotorIds;
+import frc.robot.Constants.DeviceIds;
 
 public class Indexer extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
@@ -33,11 +33,11 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     private DCMotorSim m_motorSim;
 
     public Indexer () {
-        m_indexLauncher = new TalonFX(MotorIds.kIndexLauncher, Constants .hasCANivore() ? "*" : "rio");
-        m_indexIntake = new TalonFX(MotorIds.kIndexIntake, Constants .hasCANivore() ? "*" : "rio");
+        m_indexLauncher = new TalonFX(DeviceIds.kIndexLauncher, Constants .hasCANivore() ? "*" : "rio");
+        m_indexIntake = new TalonFX(DeviceIds.kIndexIntake, Constants .hasCANivore() ? "*" : "rio");
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IndexerConstants.kGearRatio), DCMotor.getKrakenX60(1));
 
-        m_indexIntake.setControl(new Follower(MotorIds.kIndexLauncher, MotorAlignmentValue.Aligned));
+        m_indexIntake.setControl(new Follower(DeviceIds.kIndexLauncher, MotorAlignmentValue.Aligned));
 
         TalonFXConfiguration leadConfig = new TalonFXConfiguration();
         leadConfig.Feedback.SensorToMechanismRatio = IndexerConstants.kGearRatio;
@@ -59,11 +59,11 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     }
 
     public Command launch() {
-        return new WaitCommand(2).andThen(new InstantCommand(() -> setVoltage(-12), this));
+        return new WaitCommand(2).andThen(new InstantCommand(() -> setVoltage(IndexerConstants.kIndexVoltage), this));
     }
 
     public Command off() {
-        return new InstantCommand(() -> setVoltage(0), this);
+        return new InstantCommand(() -> setVoltage(IndexerConstants.kOffVoltage), this);
     }
 
     @Override

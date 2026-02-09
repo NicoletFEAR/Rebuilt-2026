@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.LauncherConstants;
-import frc.robot.Constants.MotorIds;
+import frc.robot.Constants.DeviceIds;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
@@ -33,11 +33,11 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private DCMotorSim m_motorSim;
 
     public Launcher() {
-        m_launcherLeft = new TalonFX(MotorIds.kLauncherLeft, Constants .hasCANivore() ? "*" : "rio");
-        m_launcherRight = new TalonFX(MotorIds.kLauncherRight, Constants.hasCANivore() ? "*" : "rio");
+        m_launcherLeft = new TalonFX(DeviceIds.kLauncherLeft, Constants .hasCANivore() ? "*" : "rio");
+        m_launcherRight = new TalonFX(DeviceIds.kLauncherRight, Constants.hasCANivore() ? "*" : "rio");
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.kGearRatio), DCMotor.getKrakenX60(1));
 
-        m_launcherRight.setControl(new Follower(MotorIds.kLauncherLeft, MotorAlignmentValue.Opposed));
+        m_launcherRight.setControl(new Follower(DeviceIds.kLauncherLeft, MotorAlignmentValue.Opposed));
 
         TalonFXConfiguration leadConfig = new TalonFXConfiguration();
         leadConfig.Feedback.SensorToMechanismRatio = LauncherConstants.kGearRatio;

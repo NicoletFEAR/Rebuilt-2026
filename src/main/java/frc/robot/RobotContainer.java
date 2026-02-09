@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
 import frc.robot.subsystems.launcher.Indexer;
@@ -23,6 +24,8 @@ import frc.robot.subsystems.swerve.SwerveDrive;
 public class RobotContainer {
     private final CommandPS5Controller m_driverController = new CommandPS5Controller(
             OperatorConstants.kDriverControllerPort);
+    private final CommandXboxController m_operatorController = new CommandXboxController(
+            OperatorConstants.kOperatorControllerPort);
     
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
@@ -33,6 +36,7 @@ public class RobotContainer {
     private KitbotLauncher m_kitbotLauncher;
     private Launcher m_launcher;
     private Indexer m_indexer;
+    private Intake m_intake;
 
     private Climb m_climb;
 
@@ -48,6 +52,7 @@ public class RobotContainer {
                 m_launcher = new Launcher();
                 m_indexer = new Indexer();
                 m_climb = new Climb();
+                m_intake = new Intake();
         }
 
         createNamedCommands();

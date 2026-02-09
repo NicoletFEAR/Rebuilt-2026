@@ -27,6 +27,7 @@ import frc.robot.Constants.MotorIds;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
+    private double m_speedModifier;
     private TalonFX m_launcherLeft;
     private TalonFX m_launcherRight;
     private DCMotorSim m_motorSim;
@@ -44,6 +45,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         leadConfig.Slot0.kI = LauncherConstants.kI;
         leadConfig.Slot0.kD = LauncherConstants.kD;
         m_launcherLeft.getConfigurator().apply(leadConfig);
+        m_speedModifier = 0.1;
     }
 
     @Override
@@ -58,11 +60,18 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     }
 
     public Command launch() {
-        return new InstantCommand(() -> setVoltage(12), this);
+        return new InstantCommand(() -> setVoltage(LauncherConstants.kLaunchVoltage * m_speedModifier), this);
     }
 
     public Command off() {
-        return new InstantCommand(() -> setVoltage(0), this);
+        return new InstantCommand(() -> setVoltage(LauncherConstants.kOffVoltage), this);
+    }
+
+    public Command cycleSpeed() {
+        return new InstantCommand(() -> {
+            m_speedModifier += 0.1;
+            m_speedModifier %= 1.1;
+        });
     }
 
     @Override

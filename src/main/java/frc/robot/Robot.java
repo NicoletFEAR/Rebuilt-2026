@@ -30,34 +30,27 @@ public class Robot extends LoggedRobot {
         Logger.recordMetadata("ProjectName", "BaseSwerveDrive");
 
         if (isReal() || isSimulation()) {
-            Logger.addDataReceiver(
-                    new WPILOGWriter()); // Log to a USB stick ("/U/logs")
+            Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
             Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
             new PowerDistribution(1, ModuleType.kRev); // Enables power distribution logging
         } else {
             setUseTiming(false); // Run as fast as possible
         }
 
-        // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
-        // the
-        // "Understanding Data Flow" page
-        Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
-        // be added.
+        // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in the "Understanding Data Flow" page
+        Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
 
         SignalLogger.setPath("/U/logs");
-
         SignalLogger.start();
 
         DataLogManager.start();
         // URCL.start();
-
         // Logger.registerURCL(URCL.startExternal());
         Logger.start();
 
         WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
 
         Constants.instantiateProperties();
-
         m_robotContainer = new RobotContainer();
 
         FollowPathCommand.warmupCommand().schedule();
@@ -66,7 +59,6 @@ public class Robot extends LoggedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-
         m_robotContainer.periodic();
     }
 

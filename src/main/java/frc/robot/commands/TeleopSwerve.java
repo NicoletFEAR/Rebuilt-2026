@@ -14,80 +14,80 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class TeleopSwerve extends Command {
-  /** Creates a new TeleopSwerve. */
-  private SwerveDrive m_drivebase;
+    /** Creates a new TeleopSwerve. */
+    private SwerveDrive m_drivebase;
 
-  private CommandPS5Controller m_driverController;
+    private CommandPS5Controller m_driverController;
 
-  private int m_throttleAxis;
-  private int m_strafeAxis;
-  private int m_steerAxis;
+    private int m_throttleAxis;
+    private int m_strafeAxis;
+    private int m_steerAxis;
 
-  private double m_throttle;
-  private double m_strafe;
-  private double m_steer;
+    private double m_throttle;
+    private double m_strafe;
+    private double m_steer;
 
-  private boolean m_isOpenLoop;
-  private boolean m_isFieldRelative;
+    private boolean m_isOpenLoop;
+    private boolean m_isFieldRelative;
 
-  private double m_percentModifier;
+    private double m_percentModifier;
 
-  public TeleopSwerve(
-      CommandPS5Controller driverController,
-      int throttleAxis,
-      int strafeAxis,
-      int steerAxis,
-      double percentModifier,
-      boolean isOpenLoop,
-      boolean isFieldRelative) {
-    m_drivebase = SwerveDrive.getInstance();
+    public TeleopSwerve(
+        CommandPS5Controller driverController,
+        int throttleAxis,
+        int strafeAxis,
+        int steerAxis,
+        double percentModifier,
+        boolean isOpenLoop,
+        boolean isFieldRelative) {
+        m_drivebase = SwerveDrive.getInstance();
 
-    m_driverController = driverController;
+        m_driverController = driverController;
 
-    m_throttleAxis = throttleAxis;
-    m_strafeAxis = strafeAxis;
-    m_steerAxis = steerAxis;
+        m_throttleAxis = throttleAxis;
+        m_strafeAxis = strafeAxis;
+        m_steerAxis = steerAxis;
 
-    m_percentModifier = percentModifier;
-    m_isOpenLoop = isOpenLoop;
+        m_percentModifier = percentModifier;
+        m_isOpenLoop = isOpenLoop;
 
-    m_isFieldRelative = isFieldRelative;
+        m_isFieldRelative = isFieldRelative;
 
-    addRequirements(m_drivebase);
-  }
+        addRequirements(m_drivebase);
+    }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_throttle =
-        MathUtil.applyDeadband(
-            -m_driverController.getRawAxis(m_throttleAxis), DriveConstants.getSwerveDeadband());
-    m_strafe =
-        MathUtil.applyDeadband(
-            -m_driverController.getRawAxis(m_strafeAxis), DriveConstants.getSwerveDeadband());
-    m_steer =
-        MathUtil.applyDeadband(
-            -m_driverController.getRawAxis(m_steerAxis), DriveConstants.getSwerveDeadband());
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        m_throttle =
+            MathUtil.applyDeadband(
+                -m_driverController.getRawAxis(m_throttleAxis), DriveConstants.getSwerveDeadband());
+        m_strafe =
+            MathUtil.applyDeadband(
+                -m_driverController.getRawAxis(m_strafeAxis), DriveConstants.getSwerveDeadband());
+        m_steer =
+            MathUtil.applyDeadband(
+                -m_driverController.getRawAxis(m_steerAxis), DriveConstants.getSwerveDeadband());
 
-    m_throttle *= m_percentModifier;
-    m_strafe *= m_percentModifier;
-    m_steer *= m_percentModifier;
+        m_throttle *= m_percentModifier;
+        m_strafe *= m_percentModifier;
+        m_steer *= m_percentModifier;
 
-    m_drivebase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
-  }
+        m_drivebase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

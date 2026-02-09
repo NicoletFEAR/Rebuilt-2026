@@ -306,6 +306,9 @@ public final class Constants {
         public static final double kP = 1.0;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
+
+        public static final double kOffVoltage = 0.0;
+        public static final double kLaunchVoltage = 12.0;
     }
 
     public final class IndexerConstants {

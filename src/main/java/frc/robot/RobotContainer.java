@@ -32,8 +32,7 @@ public class RobotContainer {
 
     private KitbotIntake m_kitbotIntake;
     private KitbotLauncher m_kitbotLauncher;
-    private Launcher m_launcherLeft;
-    private Launcher m_launcherRight;
+    private Launcher m_launcher;
 
     private Climb m_climb;
 
@@ -46,8 +45,8 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("hades")) {
                 m_climb = new Climb();
         } else if (Constants.kRobotName.equals("tusk")) {
-                m_launcherLeft = new Launcher(MotorIds.kLauncherLeft);
-                m_launcherRight = new Launcher(MotorIds.kLauncherRight);
+                m_launcher = new Launcher();
+                m_climb = new Climb();
         }
 
         createNamedCommands();
@@ -129,6 +128,21 @@ public class RobotContainer {
                         .onFalse(m_kitbotLauncher.off());
         } else if (Constants.kRobotName.equals("hades")) {
                 // Control the climb manually -- left and right bumpers of driver controller
+                m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
+                        if (m_driverController.L1().getAsBoolean() ^ m_driverController.R1().getAsBoolean()) {
+                            return 0.0;
+                        } else if (m_driverController.L1().getAsBoolean()) {
+                            return 1.0;
+                        } else {
+                            return -1.0;
+                        }
+                }), m_climb));
+        } else if (Constants.kRobotName.equals("tusk")) {
+                m_driverController
+                        .L1()
+                        .onTrue(m_launcher.launch())
+                        .onFalse(m_launcher.off());
+                
                 m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
                         if (m_driverController.L1().getAsBoolean() ^ m_driverController.R1().getAsBoolean()) {
                             return 0.0;

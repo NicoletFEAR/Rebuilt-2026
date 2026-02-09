@@ -92,8 +92,7 @@ public class RobotContainer {
                                 true
                         ));
 
-        // // Slows speed and drives robot relative -- right trigger of driver
-        // controller
+        // // Slows speed and drives robot relative -- right trigger of driver controller
         m_driverController
                 .R2()
                 .whileTrue(
@@ -107,16 +106,14 @@ public class RobotContainer {
                                 false
                         ));
 
-        // // Make gyroscope think current position is zero -- create button of driver
-        // controller
+        // // Make gyroscope think current position is zero -- create button of driver controller
         m_driverController
                 .create()
                 .onTrue(Commands.runOnce(() -> m_driveBase.zeroGyro(), m_driveBase));
         
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {
-                // // Intakes fuel -- left bumper of driver
-                // controller
+                // // Intakes fuel -- left bumper of driver controller
                 m_driverController
                         .L1()
                         .onTrue(m_kitbotIntake.intake())
@@ -124,8 +121,7 @@ public class RobotContainer {
                         .onFalse(m_kitbotIntake.off())
                         .onFalse(m_kitbotLauncher.off());
                 
-                // // launches fuel -- right bumper of driver
-                // controller
+                // // launches fuel -- right bumper of driver controller
                 m_driverController
                         .R1()
                         .onTrue(m_kitbotIntake.launch())
@@ -144,18 +140,21 @@ public class RobotContainer {
                         }
                 }), m_climb));
         } else if (Constants.kRobotName.equals("tusk")) {
+                // Launches fuel by spinning up the launcher and then indexing the fuel -- left trigger of driver controller
                 m_driverController
-                        .L1()
+                        .L2()
                         .onTrue(m_launcher.launch())
                         .onTrue(m_indexer.launch())
                         .onFalse(m_launcher.off())
                         .onFalse(m_indexer.off());
 
+                // Intakes fuel -- a button on operator controller
                 m_operatorController
                         .a()
                         .onTrue(m_intake.intake())
                         .onFalse(m_intake.off());
-            
+
+                // Control the climb manually -- left and right bumpers of driver controller
                 m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
                         if (m_driverController.L1().getAsBoolean() ^ m_driverController.R1().getAsBoolean()) {
                             return 0.0;

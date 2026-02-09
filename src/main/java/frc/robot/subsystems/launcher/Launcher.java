@@ -22,40 +22,39 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.MotorIds;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
-    private TalonFX m_LauncherLeft;
-    private TalonFX m_LauncherRight;
+    private TalonFX m_launcherLeft;
+    private TalonFX m_launcherRight;
     private DCMotorSim m_motorSim;
 
     public Launcher() {
-        m_LauncherLeft = new TalonFX(MotorIds.kLauncherLeft, Constants .hasCANivore() ? "*" : "rio");
-        m_LauncherRight = new TalonFX(MotorIds.kLauncherRight, Constants.hasCANivore() ? "*" : "rio");
-        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kDriverGearRatio), DCMotor.getKrakenX60(1));
+        m_launcherLeft = new TalonFX(MotorIds.kLauncherLeft, Constants .hasCANivore() ? "*" : "rio");
+        m_launcherRight = new TalonFX(MotorIds.kLauncherRight, Constants.hasCANivore() ? "*" : "rio");
+        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.kGearRatio), DCMotor.getKrakenX60(1));
 
-        m_LauncherRight.setControl(new Follower(MotorIds.kLauncherLeft, MotorAlignmentValue.Opposed));
+        m_launcherRight.setControl(new Follower(MotorIds.kLauncherLeft, MotorAlignmentValue.Opposed));
 
         TalonFXConfiguration leadConfig = new TalonFXConfiguration();
         leadConfig.Feedback.SensorToMechanismRatio = LauncherConstants.kGearRatio;
         leadConfig.Slot0.kP = LauncherConstants.kP;
         leadConfig.Slot0.kI = LauncherConstants.kI;
         leadConfig.Slot0.kD = LauncherConstants.kD;
-        m_LauncherLeft.getConfigurator().apply(leadConfig);
+        m_launcherLeft.getConfigurator().apply(leadConfig);
     }
 
     @Override
     public double getVoltage() {
-        return m_LauncherLeft.getMotorVoltage().getValueAsDouble();
+        return m_launcherLeft.getMotorVoltage().getValueAsDouble();
     }
 
     @Override
     public void setVoltage(double voltage) {
         m_desiredVoltage = voltage;
-        m_LauncherLeft.setVoltage(voltage);
+        m_launcherLeft.setVoltage(voltage);
     }
 
     public Command launch() {
@@ -70,17 +69,17 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     public void periodic() {
         Logger.recordOutput("Launcher/Voltage", getVoltage());
         Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);
-        Logger.recordOutput("Launcher/Current", m_LauncherLeft.getStatorCurrent().getValueAsDouble());
+        Logger.recordOutput("Launcher/Current", m_launcherLeft.getStatorCurrent().getValueAsDouble());
     }
 
     @Override
     public void simulationPeriodic() {
-        TalonFXSimState motorSim = m_LauncherLeft.getSimState();
+        TalonFXSimState motorSim = m_launcherLeft.getSimState();
         motorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
         Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
         m_motorSim.setInputVoltage(motorVoltage.in(Volts));
         m_motorSim.update(0.02);
-        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IntakeConstants.kDriverGearRatio);
-        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IntakeConstants.kDriverGearRatio);
+        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * LauncherConstants.kGearRatio);
+        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * LauncherConstants.kGearRatio);
     }
 }

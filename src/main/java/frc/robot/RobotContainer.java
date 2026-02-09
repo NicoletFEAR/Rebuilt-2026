@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -12,12 +11,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import frc.robot.Constants.MotorIds;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
+import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
@@ -33,6 +32,7 @@ public class RobotContainer {
     private KitbotIntake m_kitbotIntake;
     private KitbotLauncher m_kitbotLauncher;
     private Launcher m_launcher;
+    private Indexer m_indexer;
 
     private Climb m_climb;
 
@@ -46,6 +46,7 @@ public class RobotContainer {
                 m_climb = new Climb();
         } else if (Constants.kRobotName.equals("tusk")) {
                 m_launcher = new Launcher();
+                m_indexer = new Indexer();
                 m_climb = new Climb();
         }
 
@@ -141,7 +142,9 @@ public class RobotContainer {
                 m_driverController
                         .L1()
                         .onTrue(m_launcher.launch())
-                        .onFalse(m_launcher.off());
+                        .onTrue(m_indexer.launch())
+                        .onFalse(m_launcher.off())
+                        .onFalse(m_indexer.off());
                 
                 m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
                         if (m_driverController.L1().getAsBoolean() ^ m_driverController.R1().getAsBoolean()) {

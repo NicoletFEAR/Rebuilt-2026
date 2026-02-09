@@ -70,12 +70,13 @@ public final class Constants {
         public static final int kKitbotIntake = 14;
         public static final int kKitbotLauncher = 15;
 
-        public static final int kIndex = 16;
+        public static final int kIndexLauncher = 16;
+        public static final int kIndexIntake = 17;
 
-        public static final int kIntakeDriver = 17;
-        public static final int kIntakePivot = 18;
+        public static final int kIntakeDriver = 18;
+        public static final int kIntakePivot = 19;
 
-        public static final int kClimb = 19;
+        public static final int kClimb = 20;
     }
 
     public final class OperatorConstants {
@@ -299,14 +300,19 @@ public final class Constants {
     }
 
     public final class LauncherConstants {
+        public static final double kGearRatio = 1.0;
+
         public static final double kP = 1.0;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double kGearRatio = 1.0;
     }
 
     public final class IndexerConstants {
-        
+         public static final double kGearRatio = 1.0;
+
+        public static final double kP = 1.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
     }
 
     public final class IntakeConstants {

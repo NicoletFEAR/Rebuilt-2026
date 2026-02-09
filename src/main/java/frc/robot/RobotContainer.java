@@ -150,7 +150,12 @@ public class RobotContainer {
                         .onTrue(m_indexer.launch())
                         .onFalse(m_launcher.off())
                         .onFalse(m_indexer.off());
-                
+
+                m_operatorController
+                        .a()
+                        .onTrue(m_intake.intake())
+                        .onFalse(m_intake.off());
+            
                 m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
                         if (m_driverController.L1().getAsBoolean() ^ m_driverController.R1().getAsBoolean()) {
                             return 0.0;

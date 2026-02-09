@@ -1,8 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
-package frc.robot.subsystems.climb;
+package frc.robot.subsystems.intake;
 
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
@@ -29,33 +25,28 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
-import frc.robot.Constants.ClimbConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MotorIds;
 import frc.robot.Constants.OperatorConstants;
 
-public class Climb extends SubsystemBase implements PositionSubsystem {
+public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;
     private TalonFX m_motor;
     private DCMotorSim m_motorSim;
 
-    public Climb() {
-        m_motor = new TalonFX(MotorIds.kClimb, Constants.hasCANivore() ? "*" : "rio");
-        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, ClimbConstants.kGearRatio), DCMotor.getKrakenX60(1));
+    public IntakePivot() {
+        m_motor = new TalonFX(MotorIds.kIntakePivot, Constants.hasCANivore() ? "*" : "rio");
+        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kPivotGearRatio), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration config = new TalonFXConfiguration();
-        config.Slot0.kP = ClimbConstants.kP;
-        config.Slot0.kI = ClimbConstants.kI;
-        config.Slot0.kD = ClimbConstants.kD;
-        config.Feedback.SensorToMechanismRatio = ClimbConstants.kGearRatio;
+        config.Slot0.kP = IntakeConstants.kPivotKP;
+        config.Slot0.kI = IntakeConstants.kPivotKI;
+        config.Slot0.kD = IntakeConstants.kPivotKD;
+        config.Feedback.SensorToMechanismRatio = IntakeConstants.kPivotGearRatio;
         m_motor.getConfigurator().apply(config);
 
-        m_desiredPosition = ClimbConstants.kHomePosition;
+        m_desiredPosition = IntakeConstants.kPivotHomePosition;
         m_motor.setPosition(m_desiredPosition);
-    }
-
-    @Override
-    public boolean getIsAtSetpoint() {
-        return Math.abs(getPosition() - m_desiredPosition) < ClimbConstants.kSetpointTolerance;
     }
 
     @Override
@@ -83,20 +74,17 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         );
     }
 
-    public Command climbL1Height() {
-        return runProfileToPosition(ClimbConstants.kL1Position);
-    }
-
-    public Command retract() {
-        return runProfileToPosition(ClimbConstants.kHomePosition);
+    @Override
+    public boolean getIsAtSetpoint() {
+        return Math.abs(getPosition() - m_desiredPosition) < IntakeConstants.kPivotSetpointTolerance;
     }
 
     @Override
     public void manualControl(Supplier<Double> throttle) {
         double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.kOperatorControllerDeadband)
-            * ClimbConstants.kManualMultiplier;
+            * IntakeConstants.kPivotManualMultiplier;
 
-        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, ClimbConstants.kMinPosition, ClimbConstants.kMaxPosition);
+        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, IntakeConstants.kPivotMinPosition, IntakeConstants.kPivotMaxPosition);
 
         if (m_desiredPosition != newDesiredPosition) {
             m_desiredPosition = newDesiredPosition;
@@ -106,12 +94,12 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
 
     @Override
     public void periodic() {
-        Logger.recordOutput("Climb/Desired Position", m_desiredPosition);
-        Logger.recordOutput("Climb/Position", getPosition());
-        Logger.recordOutput("Climb/Current", m_motor.getStatorCurrent().getValueAsDouble());
-        Logger.recordOutput("Climb/Voltage", m_motor.getMotorVoltage().getValueAsDouble());
-        Logger.recordOutput("Climb/Velocity", m_motor.getVelocity().getValueAsDouble());
-        Logger.recordOutput("Climb/Is At Setpoint", getIsAtSetpoint());
+        Logger.recordOutput("Intake/Pivot/Desired Position", m_desiredPosition);
+        Logger.recordOutput("Intake/Pivot/Position", getPosition());
+        Logger.recordOutput("Intake/Pivot/Current", m_motor.getStatorCurrent().getValueAsDouble());
+        Logger.recordOutput("Intake/Pivot/Voltage", m_motor.getMotorVoltage().getValueAsDouble());
+        Logger.recordOutput("Intake/Pivot/Velocity", m_motor.getVelocity().getValueAsDouble());
+        Logger.recordOutput("Intake/Pivot/Is At Setpoint", getIsAtSetpoint());
     }
 
     @Override
@@ -121,7 +109,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
         m_motorSim.setInputVoltage(motorVoltage.in(Volts));
         m_motorSim.update(0.02);
-        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * ClimbConstants.kGearRatio);
-        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * ClimbConstants.kGearRatio);
+        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IntakeConstants.kPivotGearRatio);
+        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IntakeConstants.kPivotGearRatio);
     }
 }

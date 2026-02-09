@@ -54,7 +54,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     @Override
     public void setVoltage(double voltage) {
         m_desiredVoltage = voltage;
-        m_launcherLeft.setVoltage(voltage);
+        m_launcherLeft.setVoltage(m_desiredVoltage);
     }
 
     public Command launch() {

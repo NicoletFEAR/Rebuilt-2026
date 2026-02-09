@@ -55,7 +55,7 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     @Override
     public void setVoltage(double voltage) {
         m_desiredVoltage = voltage;
-        m_indexLauncher.setVoltage(voltage);
+        m_indexLauncher.setVoltage(m_desiredVoltage);
     }
 
     public Command launch() {

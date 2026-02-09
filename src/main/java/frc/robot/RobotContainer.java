@@ -11,10 +11,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.climb.Climb;
-import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeDriver;
+import frc.robot.subsystems.intake.IntakePivot;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
 import frc.robot.subsystems.launcher.Indexer;
@@ -34,10 +36,11 @@ public class RobotContainer {
 
     private KitbotIntake m_kitbotIntake;
     private KitbotLauncher m_kitbotLauncher;
+
     private Launcher m_launcher;
     private Indexer m_indexer;
-    private Intake m_intake;
-
+    private IntakeDriver m_intakeDriver;
+    private IntakePivot m_intakePivot;
     private Climb m_climb;
 
     private static Alliance m_alliance = Alliance.Blue;
@@ -46,13 +49,11 @@ public class RobotContainer {
         if (Constants.kRobotName.equals("kitbot")) {
                 m_kitbotIntake = KitbotIntake.getInstance();
                 m_kitbotLauncher = KitbotLauncher.getInstance();
-        } else if (Constants.kRobotName.equals("hades")) {
-                m_climb = new Climb();
         } else if (Constants.kRobotName.equals("tusk")) {
                 m_launcher = new Launcher();
                 m_indexer = new Indexer();
                 m_climb = new Climb();
-                m_intake = new Intake();
+                m_intakeDriver = new IntakeDriver();
         }
 
         createNamedCommands();
@@ -128,17 +129,6 @@ public class RobotContainer {
                         .onTrue(m_kitbotLauncher.launch())
                         .onFalse(m_kitbotIntake.off())
                         .onFalse(m_kitbotLauncher.off());
-        } else if (Constants.kRobotName.equals("hades")) {
-                // Control the climb manually -- left and right bumpers of driver controller
-                m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
-                        if (m_driverController.L1().getAsBoolean() ^ m_driverController.R1().getAsBoolean()) {
-                            return 0.0;
-                        } else if (m_driverController.L1().getAsBoolean()) {
-                            return 1.0;
-                        } else {
-                            return -1.0;
-                        }
-                }), m_climb));
         } else if (Constants.kRobotName.equals("tusk")) {
                 // Launches fuel by spinning up the launcher and then indexing the fuel -- left trigger of driver controller
                 m_driverController
@@ -162,8 +152,8 @@ public class RobotContainer {
                 // Intakes fuel -- a button on operator controller
                 m_operatorController
                         .a()
-                        .onTrue(m_intake.intake())
-                        .onFalse(m_intake.off());
+                        .onTrue(m_intakeDriver.intake())
+                        .onFalse(m_intakeDriver.off());
         }
     }
 

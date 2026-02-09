@@ -318,26 +318,37 @@ public final class Constants {
 
     public final class IntakeConstants {
         public static final double kDriverGearRatio = 1.0;
+        public static final double kPivotGearRatio = 1.0;
         
         public static final double kDriverKP = 1.0;
         public static final double kDriverKI = 0.0;
         public static final double kDriverKD = 0.0;
+        public static final double kPivotKP = 1.0;
+        public static final double kPivotKI = 0.0;
+        public static final double kPivotKD = 0.0;
+
+        public static final double kPivotSetpointTolerance = 0.025;
+        public static final double kPivotManualMultiplier = 0.005;
+
+        public static final double kPivotMinPosition = 0.0;
+        public static final double kPivotMaxPosition = 1000.0;
+        public static final double kPivotHomePosition = 0.0;
     }
 
     public final class ClimbConstants {
         public static final double kGearRatio = 25.0;
         public static final double kSprocketCircumference = 1.79 * Math.PI;
         public static final double kSetpointTolerance = 0.05;
-        public static final double kManualMultiplier = 0.3;
+        public static final double kManualMultiplier = 0.005;
+
+        public static final double kP = 1.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
 
         public static final double kMinPosition = 0.0;
         public static final double kMaxPosition = 1000.0;
 
         public static final double kHomePosition = 0.0;
         public static final double kL1Position = 15.0;
-
-        public static final double kP = 1.0;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
     }
 }

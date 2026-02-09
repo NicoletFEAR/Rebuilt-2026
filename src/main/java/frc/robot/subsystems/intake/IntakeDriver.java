@@ -15,6 +15,8 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
@@ -46,7 +48,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     @Override
     public void setVoltage(double voltage) {
         m_desiredVoltage = voltage;
-        m_motor.setVoltage(voltage);
+        m_motor.setVoltage(m_desiredVoltage);
     }
 
     public Command intake() {

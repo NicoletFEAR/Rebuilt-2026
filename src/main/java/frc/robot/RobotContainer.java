@@ -138,8 +138,8 @@ public class RobotContainer {
             // Launches fuel by spinning up the launcher and then indexing the fuel -- cross button of driver controller
             m_driverController
                 .cross()
-                .onTrue(m_launcher.launch().alongWith(m_indexer.launch()))
-                .onFalse(m_launcher.off().alongWith(m_indexer.off()));
+                .onTrue(m_indexer.launch().alongWith(m_launcher.launch()))
+                .onFalse(m_indexer.off().alongWith(m_launcher.off()));
                 
             // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- circle button on driver controller
             m_driverController
@@ -180,6 +180,10 @@ public class RobotContainer {
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
             NamedCommands.registerCommand("ClimbL1", m_climb.climbL1Height().andThen(m_climb.retract()));
+            NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
+            NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
+            NamedCommands.registerCommand("StartLaunch", m_indexer.launch().alongWith(m_launcher.launch()));
+            NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
         }
     }
 }

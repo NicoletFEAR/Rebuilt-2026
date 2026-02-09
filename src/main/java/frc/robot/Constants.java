@@ -88,13 +88,16 @@ public final class Constants {
         public static final int kKitbotIntake = 14;
         public static final int kKitbotLauncher = 15;
 
-        public static final int kIndexLauncher = 16;
-        public static final int kIndexIntake = 17;
+        public static final int kLauncherIndexer = 16;
+        public static final int kIntakeIndexer = 17;
 
         public static final int kIntakeDriver = 18;
         public static final int kIntakePivot = 19;
 
         public static final int kClimb = 20;
+
+        public static final int kIntakeBeamBreak = 0;
+        public static final int kIndexerBeamBreak = 1;
     }
 
     public final class OperatorConstants {

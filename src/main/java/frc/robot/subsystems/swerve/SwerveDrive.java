@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
+import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.RobotContainer;
 
@@ -89,7 +90,7 @@ public class SwerveDrive extends SubsystemBase {
             };
         }
 
-        m_pigeon = new Pigeon2(DriveConstants.kPigeonId, Constants.hasCANivore() ? "*" : "rio");
+        m_pigeon = new Pigeon2(DeviceIds.kPigeon, Constants.hasCANivore() ? "*" : "rio");
 
         m_pigeon.getConfigurator().apply(new Pigeon2Configuration().GyroTrim.withGyroScalarZ(1));
 

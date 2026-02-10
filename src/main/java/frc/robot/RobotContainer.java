@@ -73,17 +73,31 @@ public class RobotContainer {
         // Driver Controller Mappings \\
 
         // Driving -- joysticks of driver controller
-        m_driveBase.setDefaultCommand(
-            new TeleopSwerve(
-                m_driverController,
-                OperatorConstants.kThrottleAxis,
-                OperatorConstants.kStrafeAxis,
-                OperatorConstants.kSteerAxis,
-                OperatorConstants.kDefaultSpeed,
-                true,
-                true
-            )
-        );
+        if (Constants.kRobotName.equals("kitbot")) {
+            m_driveBase.setDefaultCommand(
+                new TeleopSwerve(
+                    m_driverController,
+                    OperatorConstants.kThrottleAxis,
+                    OperatorConstants.kStrafeAxis,
+                    OperatorConstants.kSteerAxis,
+                    0.3,
+                    true,
+                    true
+                )
+            );
+        } else {
+            m_driveBase.setDefaultCommand(
+                new TeleopSwerve(
+                    m_driverController,
+                    OperatorConstants.kThrottleAxis,
+                    OperatorConstants.kStrafeAxis,
+                    OperatorConstants.kSteerAxis,
+                    OperatorConstants.kDefaultSpeed,
+                    true,
+                    true
+                )
+            );
+        }
 
         // Slows speed -- left trigger of driver controller
         m_driverController
@@ -138,15 +152,15 @@ public class RobotContainer {
                 .onFalse(m_kitbotIntake.off())
                 .onFalse(m_kitbotLauncher.off());
         } else if (Constants.kRobotName.equals("tusk")) {
-            // Launches fuel by spinning up the launcher and then indexing the fuel -- cross button of driver controller
-            m_driverController
-                .cross()
+            // Launches fuel by spinning up the launcher and then indexing the fuel -- y button of operator controller
+            m_operatorController
+                .y()
                 .onTrue(m_indexer.launch().alongWith(m_launcher.launch()))
                 .onFalse(m_indexer.off().alongWith(m_launcher.off()));
                 
             // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- circle button on driver controller
-            m_driverController
-                .circle()
+            m_operatorController
+                .b()
                 .onTrue(m_launcher.cycleSpeed());
 
             // Control the climb manually -- left and right bumpers of driver controller

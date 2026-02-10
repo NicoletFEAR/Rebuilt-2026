@@ -7,9 +7,7 @@ import static edu.wpi.first.units.Units.Volts;
 import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -29,36 +27,32 @@ import frc.robot.Constants.DeviceIds;
 
 public class Indexer extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
-    private TalonFX m_indexLauncher;
-    private TalonFX m_indexIntake;
+    private TalonFX m_motor;
     private DCMotorSim m_motorSim;
     // private DigitalInput m_beamBreak;
 
     public Indexer () {
-        m_indexLauncher = new TalonFX(DeviceIds.kLauncherIndexer, Constants .hasCANivore() ? "*" : "rio");
-        m_indexIntake = new TalonFX(DeviceIds.kIntakeIndexer, Constants .hasCANivore() ? "*" : "rio");
+        m_motor = new TalonFX(DeviceIds.kIndexer, Constants .hasCANivore() ? "*" : "rio");
         // m_beamBreak = new DigitalInput(DeviceIds.kIndexerBeamBreak);
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IndexerConstants.kGearRatio), DCMotor.getKrakenX60(1));
-
-        m_indexIntake.setControl(new Follower(DeviceIds.kLauncherIndexer, MotorAlignmentValue.Aligned));
 
         TalonFXConfiguration leadConfig = new TalonFXConfiguration();
         leadConfig.Feedback.SensorToMechanismRatio = IndexerConstants.kGearRatio;
         leadConfig.Slot0.kP = IndexerConstants.kP;
         leadConfig.Slot0.kI = IndexerConstants.kI;
         leadConfig.Slot0.kD = IndexerConstants.kD;
-        m_indexLauncher.getConfigurator().apply(leadConfig);
+        m_motor.getConfigurator().apply(leadConfig);
     }
 
      @Override
     public double getVoltage() {
-        return m_indexLauncher.getMotorVoltage().getValueAsDouble();
+        return m_motor.getMotorVoltage().getValueAsDouble();
     }
 
     @Override
     public void setVoltage(double voltage) {
         m_desiredVoltage = voltage;
-        m_indexLauncher.setVoltage(m_desiredVoltage);
+        m_motor.setVoltage(m_desiredVoltage);
     }
 
     public Command launch() {
@@ -73,13 +67,13 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     public void periodic() {
         Logger.recordOutput("Launcher/Indexer/Voltage", getVoltage());
         Logger.recordOutput("Launcher/Indexer/Desired Voltage", m_desiredVoltage);
-        Logger.recordOutput("Launcher/Indexer/Current", m_indexLauncher.getStatorCurrent().getValueAsDouble());
+        Logger.recordOutput("Launcher/Indexer/Current", m_motor.getStatorCurrent().getValueAsDouble());
         // Logger.recordOutput("Indexer/Beam Break", m_beamBreak.get());
     }
 
     @Override
     public void simulationPeriodic() {
-        TalonFXSimState motorSim = m_indexLauncher.getSimState();
+        TalonFXSimState motorSim = m_motor.getSimState();
         motorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
         Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
         m_motorSim.setInputVoltage(motorVoltage.in(Volts));

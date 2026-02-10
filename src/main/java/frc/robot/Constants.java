@@ -59,7 +59,7 @@ public final class Constants {
         kMacToName = new HashMap<>();
         kMacToName.put("00:80:2F:40:69:FC", "kitbot");
         kMacToName.put("00:80:2F:17:B5:2A", "hades");
-        kMacToName.put("00:80:2F:40:6C:8A", "tusk");
+        kMacToName.put("00:80:2F:41:9F:8B", "tusk");
         kMacToName.put("1C:5C:37:32:5C:14", "tusk");
     }
 
@@ -88,8 +88,7 @@ public final class Constants {
         public static final int kKitbotIntake = 14;
         public static final int kKitbotLauncher = 15;
 
-        public static final int kLauncherIndexer = 16;
-        public static final int kIntakeIndexer = 17;
+        public static final int kIndexer = 16;
 
         public static final int kIntakeDriver = 18;
         public static final int kIntakePivot = 19;
@@ -113,7 +112,7 @@ public final class Constants {
         public static final int kStrafeAxis = Axis.kLeftX.value;
         public static final int kSteerAxis = Axis.kRightX.value;
 
-        public static final double kDefaultSpeed = 1;
+        public static final double kDefaultSpeed = 0.6;
         public static final double kSlowSpeed = 0.4;
     }
 

@@ -2,6 +2,8 @@ package frc.robot.subsystems.launcher;
 
 import java.util.function.Supplier;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -47,5 +49,11 @@ public class Hood extends SubsystemBase {
             runToPosition(m_desiredPosition);
         }
     }
-    
+
+    @Override
+    public void periodic() {
+        Logger.recordOutput("Launcher/Hood/Desired Position", m_desiredPosition);
+        Logger.recordOutput("Launcher/Hood/Position", getPosition());
+        Logger.recordOutput("Launcher/Hood/Is At Setpoint", getIsAtSetpoint());
+    }
 }

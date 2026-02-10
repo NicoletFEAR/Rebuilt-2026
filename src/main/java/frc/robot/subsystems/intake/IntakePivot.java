@@ -95,7 +95,6 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, IntakeConstants.kPivotMinPosition, IntakeConstants.kPivotMaxPosition);
 
         if (m_desiredPosition != newDesiredPosition) {
-            m_desiredPosition = newDesiredPosition;
             runToPosition(m_desiredPosition);
         }
     }

@@ -1,0 +1,51 @@
+package frc.robot.subsystems.launcher;
+
+import java.util.function.Supplier;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DeviceIds;
+import frc.robot.Constants.LauncherConstants;
+import frc.robot.Constants.OperatorConstants;
+
+public class Hood extends SubsystemBase {
+    private double m_desiredPosition;
+    private Servo m_leftServo;
+    private Servo m_rightServo;
+
+    public Hood() {
+        m_leftServo = new Servo(DeviceIds.kLeftLauncherServo);
+        m_rightServo = new Servo(DeviceIds.kRightLauncherServo);
+
+        m_leftServo.setBoundsMicroseconds(2000, 1600, 1500, 1400, 1000);
+        m_rightServo.setBoundsMicroseconds(2000, 1600, 1500, 1400, 1000);
+    }
+
+    // TODO: Add position estimation
+    public double getPosition() {
+        return m_desiredPosition;
+    }
+
+    public void runToPosition(double position) {
+        m_desiredPosition = position;
+        m_leftServo.setPosition(position);
+        m_rightServo.setPosition(position);
+    }
+
+    public boolean getIsAtSetpoint() {
+        return Math.abs(getPosition() - m_desiredPosition) < LauncherConstants.kHoodSetpointTolerance;
+    }
+
+    public void manualControl(Supplier<Double> throttle) {
+        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.kOperatorControllerDeadband)
+            * LauncherConstants.kHoodManualMultiplier;
+
+        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, LauncherConstants.kHoodMinPosition, LauncherConstants.kHoodMaxPosition);
+
+        if (m_desiredPosition != newDesiredPosition) {
+            runToPosition(m_desiredPosition);
+        }
+    }
+    
+}

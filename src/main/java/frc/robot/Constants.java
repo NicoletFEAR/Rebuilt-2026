@@ -82,8 +82,8 @@ public final class Constants {
 
         public static final int kPigeon = 13;
 
-        public static final int kLauncherLeft = 14;
-        public static final int kLauncherRight = 15;
+        public static final int kLeftLauncher = 14;
+        public static final int kRightLauncher = 15;
 
         public static final int kKitbotIntake = 14;
         public static final int kKitbotLauncher = 15;
@@ -98,6 +98,9 @@ public final class Constants {
 
         public static final int kIntakeBeamBreak = 0;
         public static final int kIndexerBeamBreak = 1;
+
+        public static final int kLeftLauncherServo = 0;
+        public static final int kRightLauncherServo = 1;
     }
 
     public final class OperatorConstants {
@@ -309,6 +312,12 @@ public final class Constants {
 
     public final class LauncherConstants {
         public static final double kGearRatio = 1.0;
+
+        public static final double kHoodSetpointTolerance = 0.01;
+        public static final double kHoodManualMultiplier = 0.01;
+
+        public static final double kHoodMinPosition = 0.0;
+        public static final double kHoodMaxPosition = 1.0;
 
         public static final double kP = 1.0;
         public static final double kI = 0.0;

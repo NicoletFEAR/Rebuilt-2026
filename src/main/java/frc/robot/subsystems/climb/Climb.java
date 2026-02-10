@@ -99,7 +99,6 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, ClimbConstants.kMinPosition, ClimbConstants.kMaxPosition);
 
         if (m_desiredPosition != newDesiredPosition) {
-            m_desiredPosition = newDesiredPosition;
             runToPosition(m_desiredPosition);
         }
     }

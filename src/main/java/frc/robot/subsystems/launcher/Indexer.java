@@ -15,7 +15,7 @@ import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.DigitalInput;
+// import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,12 +32,12 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     private TalonFX m_indexLauncher;
     private TalonFX m_indexIntake;
     private DCMotorSim m_motorSim;
-    private DigitalInput m_beamBreak;
+    // private DigitalInput m_beamBreak;
 
     public Indexer () {
         m_indexLauncher = new TalonFX(DeviceIds.kLauncherIndexer, Constants .hasCANivore() ? "*" : "rio");
         m_indexIntake = new TalonFX(DeviceIds.kIntakeIndexer, Constants .hasCANivore() ? "*" : "rio");
-        m_beamBreak = new DigitalInput(DeviceIds.kIndexerBeamBreak);
+        // m_beamBreak = new DigitalInput(DeviceIds.kIndexerBeamBreak);
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IndexerConstants.kGearRatio), DCMotor.getKrakenX60(1));
 
         m_indexIntake.setControl(new Follower(DeviceIds.kLauncherIndexer, MotorAlignmentValue.Aligned));
@@ -71,10 +71,10 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
 
     @Override
     public void periodic() {
-        Logger.recordOutput("Indexer/Voltage", getVoltage());
-        Logger.recordOutput("Indexer/Desired Voltage", m_desiredVoltage);
-        Logger.recordOutput("Indexer/Current", m_indexLauncher.getStatorCurrent().getValueAsDouble());
-        Logger.recordOutput("Indexer/Beam Break", m_beamBreak.get());
+        Logger.recordOutput("Launcher/Indexer/Voltage", getVoltage());
+        Logger.recordOutput("Launcher/Indexer/Desired Voltage", m_desiredVoltage);
+        Logger.recordOutput("Launcher/Indexer/Current", m_indexLauncher.getStatorCurrent().getValueAsDouble());
+        // Logger.recordOutput("Indexer/Beam Break", m_beamBreak.get());
     }
 
     @Override

@@ -158,10 +158,15 @@ public class RobotContainer {
                 .onTrue(m_indexer.launch().alongWith(m_launcher.launch()))
                 .onFalse(m_indexer.off().alongWith(m_launcher.off()));
                 
-            // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- circle button on driver controller
+            // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
             m_operatorController
                 .b()
                 .onTrue(m_launcher.cycleSpeed());
+            
+            // Decreases launcher speed by 10% unless it's at 0%, in which case it goes back up to 100% -- x button of operator controller
+            m_operatorController
+                .x()
+                .onTrue(m_launcher.lowerSpeed());
 
             // Control the climb manually -- left and right bumpers of driver controller
             // m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {

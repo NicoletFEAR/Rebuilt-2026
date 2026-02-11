@@ -70,15 +70,15 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public Command cycleSpeed() {
         return new InstantCommand(() -> {
-            m_speedModifier += 0.1;
-            m_speedModifier %= 1.1;
+            m_speedModifier += 0.25;
+            m_speedModifier %= 1.25;
         });
     }
 
     public Command lowerSpeed() {
         return new InstantCommand(() -> {
-            m_speedModifier -= 0.1;
-            m_speedModifier %= 1.1;
+            m_speedModifier -= 0.25;
+            m_speedModifier %= 1.25;
         });
     }
 

@@ -77,11 +77,11 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     public Command raiseSpeed() {
         if (m_state == LauncherState.OFF) {
             return new InstantCommand(() -> {
-                m_speedModifier = Math.min(m_speedModifier + 0.25, 1.0);
+                m_speedModifier = Math.min(m_speedModifier + 0.1, 1.0);
             });
         } else {
             return new InstantCommand(() -> {
-                m_speedModifier = Math.max(m_speedModifier + 0.25, 1.0);
+                m_speedModifier = Math.min(m_speedModifier + 0.1, 1.0);
             }).andThen(launch());
         }
     }
@@ -89,11 +89,11 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     public Command lowerSpeed() {
         if (m_state == LauncherState.OFF) {
             return new InstantCommand(() -> {
-                m_speedModifier = Math.min(m_speedModifier - 0.25, 0.25);
+                m_speedModifier = Math.max(m_speedModifier - 0.1, 0.1);
             });
         } else {
             return new InstantCommand(() -> {
-                m_speedModifier = Math.max(m_speedModifier - 0.25, 0.25);
+                m_speedModifier = Math.max(m_speedModifier - 0.1, 0.1);
             }).andThen(launch());
         }
     }

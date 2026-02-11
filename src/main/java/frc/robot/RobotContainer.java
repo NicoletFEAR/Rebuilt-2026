@@ -161,7 +161,7 @@ public class RobotContainer {
             // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
             m_operatorController
                 .b()
-                .onTrue(m_launcher.cycleSpeed());
+                .onTrue(m_launcher.raiseSpeed());
             
             // Decreases launcher speed by 10% unless it's at 0%, in which case it goes back up to 100% -- x button of operator controller
             m_operatorController

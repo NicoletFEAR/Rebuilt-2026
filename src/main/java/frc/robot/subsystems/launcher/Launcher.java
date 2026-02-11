@@ -28,7 +28,8 @@ import frc.robot.Constants.DeviceIds;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
-    private double m_speedModifier;
+    private double m_speedModifier = 0.5;
+    private LauncherState m_state = LauncherState.OFF;
     private TalonFX m_leftLauncher;
     private TalonFX m_rightLauncher;
     private DCMotorSim m_motorSim;
@@ -46,7 +47,6 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         leadConfig.Slot0.kI = LauncherConstants.kI;
         leadConfig.Slot0.kD = LauncherConstants.kD;
         m_leftLauncher.getConfigurator().apply(leadConfig);
-        m_speedModifier = 0.5;
     }
 
     @Override
@@ -61,25 +61,41 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     }
 
     public Command launch() {
-        return new InstantCommand(() -> setVoltage(LauncherConstants.kLaunchVoltage * m_speedModifier), this);
+        return new InstantCommand(() -> {
+            m_state = LauncherState.LAUNCHING;
+            setVoltage(LauncherConstants.kLaunchVoltage * m_speedModifier);
+        }, this);
     }
 
     public Command off() {
-        return new InstantCommand(() -> setVoltage(LauncherConstants.kOffVoltage), this);
+        return new InstantCommand(() -> {
+            m_state = LauncherState.OFF;
+            setVoltage(LauncherConstants.kOffVoltage);
+        }, this);
     }
 
-    public Command cycleSpeed() {
-        return new InstantCommand(() -> {
-            m_speedModifier += 0.25;
-            m_speedModifier %= 1.25;
-        });
+    public Command raiseSpeed() {
+        if (m_state == LauncherState.OFF) {
+            return new InstantCommand(() -> {
+                m_speedModifier = Math.min(m_speedModifier + 0.25, 1.0);
+            });
+        } else {
+            return new InstantCommand(() -> {
+                m_speedModifier = Math.max(m_speedModifier + 0.25, 1.0);
+            }).andThen(launch());
+        }
     }
 
     public Command lowerSpeed() {
-        return new InstantCommand(() -> {
-            m_speedModifier -= 0.25;
-            m_speedModifier %= 1.25;
-        });
+        if (m_state == LauncherState.OFF) {
+            return new InstantCommand(() -> {
+                m_speedModifier = Math.min(m_speedModifier - 0.25, 0.25);
+            });
+        } else {
+            return new InstantCommand(() -> {
+                m_speedModifier = Math.max(m_speedModifier - 0.25, 0.25);
+            }).andThen(launch());
+        }
     }
 
     @Override
@@ -99,5 +115,10 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         m_motorSim.update(0.02);
         motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * LauncherConstants.kGearRatio);
         motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * LauncherConstants.kGearRatio);
+    }
+
+    private enum LauncherState {
+        LAUNCHING,
+        OFF,
     }
 }

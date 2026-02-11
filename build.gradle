@@ -1,6 +1,7 @@
 plugins {
-    id "java"
-    id "edu.wpi.first.GradleRIO" version "2026.2.1"
+    id 'java'
+    id 'edu.wpi.first.GradleRIO' version '2026.2.1'
+    id 'com.peterabeles.gversion' version '1.10.3'
 }
 
 java {
@@ -8,7 +9,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-def ROBOT_MAIN_CLASS = "frc.robot.Main"
+def ROBOT_MAIN_CLASS = 'frc.robot.Main'
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
@@ -104,4 +105,15 @@ wpi.java.configureTestTasks(test)
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
+}
+
+// Configure automatic generation of BuildConstants file
+project.compileJava.dependsOn(createVersionFile)
+gversion {
+    srcDir = 'src/main/java/'
+    classPackage = 'frc.robot'
+    className = 'BuildConstants'
+    dateFormat = 'yyyy-MM-dd HH:mm:ss z'
+    timeZone = 'America/Chicago'
+    indent = '    '
 }

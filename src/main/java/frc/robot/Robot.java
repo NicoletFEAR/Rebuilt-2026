@@ -27,7 +27,29 @@ public class Robot extends LoggedRobot {
     @Override
     @SuppressWarnings("resource")
     public void robotInit() {
-        Logger.recordMetadata("ProjectName", "BaseSwerveDrive");
+        Constants.instantiateProperties();
+        
+        Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
+        Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+        Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+        Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+        Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+        Logger.recordMetadata("RobotName", Constants.kRobotName);
+
+        switch (BuildConstants.DIRTY) {
+            case 0:
+                Logger.recordMetadata("CommitStatus", "All code committed");
+                break;
+            case 1:
+                Logger.recordMetadata("CommitStatus", "Some changes uncommitted");
+                break;
+            case -1:
+                Logger.recordMetadata("CommitStatus", "Error");
+                break;
+            default:
+                Logger.recordMetadata("CommitStatus", "Unknown");
+                break;
+        }
 
         if (isReal() || isSimulation()) {
             Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
@@ -50,7 +72,6 @@ public class Robot extends LoggedRobot {
 
         WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
 
-        Constants.instantiateProperties();
         m_robotContainer = new RobotContainer();
 
         FollowPathCommand.warmupCommand().schedule();

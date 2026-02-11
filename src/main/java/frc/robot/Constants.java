@@ -25,8 +25,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PS5Controller.Axis;
+import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.util.SwerveModuleConstants;
-import frc.robot.util.Utils;
 
 // Constants found in properties files in deploy folder
 public final class Constants {
@@ -35,8 +35,7 @@ public final class Constants {
 
     public static void instantiateProperties() {
         m_properties = new Properties();
-        kRobotName = kMacToName.get(Utils.getMacAddress());
-        System.out.println(Utils.getMacAddress());
+        kRobotName = kTeamNumberToName.get(RobotController.getTeamNumber());
 
         try (InputStream input = new FileInputStream(new File(Filesystem.getDeployDirectory(), kRobotName + ".properties"))) {
             m_properties.load(input);
@@ -54,13 +53,12 @@ public final class Constants {
     public static final double kdt = 0.02;
 
     // These are the unique identifiers for each RoboRIO we plan to use
-    public static final HashMap<String, String> kMacToName;
+    public static final HashMap<int, String> kTeamNumberToName;
     static {
         kMacToName = new HashMap<>();
-        kMacToName.put("00:80:2F:40:69:FC", "kitbot");
-        kMacToName.put("00:80:2F:17:B5:2A", "hades");
-        kMacToName.put("00:80:2F:41:9F:8B", "tusk");
-        kMacToName.put("1C:5C:37:32:5C:14", "tusk");
+        kMacToName.put(4784, "kitbot");
+        kMacToName.put(4785, "hades");
+        kMacToName.put(4786, "tusk");
     }
 
     public final class DeviceIds {

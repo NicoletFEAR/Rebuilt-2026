@@ -8,9 +8,6 @@
 package frc.robot.util;
 
 
-import java.net.NetworkInterface;
-import java.util.Enumeration;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;

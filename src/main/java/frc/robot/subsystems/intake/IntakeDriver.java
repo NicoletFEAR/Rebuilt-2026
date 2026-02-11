@@ -31,7 +31,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     // private DigitalInput m_beamBreak;
 
     public IntakeDriver() {
-        m_motor = new TalonFX(DeviceIds.kIntakeDriver, Constants.hasCANivore() ? "*" : "rio");
+        m_motor = new TalonFX(DeviceIds.kIntakeDriver, "rio");
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kDriverGearRatio), DCMotor.getKrakenX60(1));
         // m_beamBreak = new DigitalInput(DeviceIds.kIntakeBeamBreak);
 

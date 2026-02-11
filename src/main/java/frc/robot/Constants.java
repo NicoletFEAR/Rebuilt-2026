@@ -112,7 +112,7 @@ public final class Constants {
         public static final int kStrafeAxis = Axis.kLeftX.value;
         public static final int kSteerAxis = Axis.kRightX.value;
 
-        public static final double kDefaultSpeed = 1.0;
+        public static final double kDefaultSpeed = 0.8;
         public static final double kSlowSpeed = 0.4;
     }
 

@@ -17,6 +17,7 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -45,7 +46,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         leadConfig.Slot0.kI = LauncherConstants.kI;
         leadConfig.Slot0.kD = LauncherConstants.kD;
         m_leftLauncher.getConfigurator().apply(leadConfig);
-        m_speedModifier = 0.1;
+        m_speedModifier = 0.5;
     }
 
     @Override
@@ -74,8 +75,16 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         });
     }
 
+    public Command lowerSpeed() {
+        return new InstantCommand(() -> {
+            m_speedModifier -= 0.1;
+            m_speedModifier %= 1.1;
+        });
+    }
+
     @Override
     public void periodic() {
+        SmartDashboard.putString("Launcher Speed", 100 * m_speedModifier + "%");
         Logger.recordOutput("Launcher/Launcher/Voltage", getVoltage());
         Logger.recordOutput("Launcher/Launcher/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Launcher/Current", m_leftLauncher.getStatorCurrent().getValueAsDouble());

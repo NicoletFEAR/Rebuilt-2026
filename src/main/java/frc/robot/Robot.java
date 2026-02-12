@@ -8,15 +8,13 @@
 package frc.robot;
 
 import edu.wpi.first.net.WebServer;
-import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.littletonrobotics.junction.LogFileUtil;
-import org.littletonrobotics.junction.LoggedPowerDistribution;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import com.ctre.phoenix6.SignalLogger;
@@ -26,7 +24,6 @@ public class Robot extends LoggedRobot {
     private RobotContainer m_robotContainer;
 
     @Override
-    @SuppressWarnings("resource")
     public void robotInit() {
         Constants.instantiateProperties();
 
@@ -80,7 +77,7 @@ public class Robot extends LoggedRobot {
 
         m_robotContainer = new RobotContainer();
 
-        FollowPathCommand.warmupCommand().schedule();
+        CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     }
 
     @Override

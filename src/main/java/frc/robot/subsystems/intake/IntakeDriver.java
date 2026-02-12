@@ -6,6 +6,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
@@ -20,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
-import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.DeviceIds;
 
@@ -31,7 +31,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     // private DigitalInput m_beamBreak;
 
     public IntakeDriver() {
-        m_motor = new TalonFX(DeviceIds.kIntakeDriver, "rio");
+        m_motor = new TalonFX(DeviceIds.kIntakeDriver, new CANBus("rio"));
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kDriverGearRatio), DCMotor.getKrakenX60(1));
         // m_beamBreak = new DigitalInput(DeviceIds.kIntakeBeamBreak);
 

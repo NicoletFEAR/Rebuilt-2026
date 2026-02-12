@@ -73,31 +73,17 @@ public class RobotContainer {
         // Driver Controller Mappings \\
 
         // Driving -- joysticks of driver controller
-        if (Constants.kRobotName.equals("kitbot")) {
-            m_driveBase.setDefaultCommand(
-                new TeleopSwerve(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
-                    0.3,
-                    true,
-                    true
-                )
-            );
-        } else {
-            m_driveBase.setDefaultCommand(
-                new TeleopSwerve(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
-                    OperatorConstants.kDefaultSpeed,
-                    true,
-                    true
-                )
-            );
-        }
+        m_driveBase.setDefaultCommand(
+            new TeleopSwerve(
+                m_driverController,
+                OperatorConstants.kThrottleAxis,
+                OperatorConstants.kStrafeAxis,
+                OperatorConstants.kSteerAxis,
+                OperatorConstants.kDefaultSpeed,
+                true,
+                true
+            )
+        );
 
         // Slows speed -- left trigger of driver controller
         m_driverController

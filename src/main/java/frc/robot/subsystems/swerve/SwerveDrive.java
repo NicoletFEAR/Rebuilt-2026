@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.swerve;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -90,7 +91,7 @@ public class SwerveDrive extends SubsystemBase {
             };
         }
 
-        m_pigeon = new Pigeon2(DeviceIds.kPigeon, Constants.hasCANivore() ? "*" : "rio");
+        m_pigeon = new Pigeon2(DeviceIds.kPigeon, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
 
         m_pigeon.getConfigurator().apply(new Pigeon2Configuration().GyroTrim.withGyroScalarZ(1));
 

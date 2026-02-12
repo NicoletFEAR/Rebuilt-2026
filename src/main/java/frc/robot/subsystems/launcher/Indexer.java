@@ -6,6 +6,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
@@ -19,7 +20,6 @@ import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.IndexerConstants;
@@ -32,7 +32,7 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     // private DigitalInput m_beamBreak;
 
     public Indexer () {
-        m_motor = new TalonFX(DeviceIds.kIndexer, Constants .hasCANivore() ? "*" : "rio");
+        m_motor = new TalonFX(DeviceIds.kIndexer, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         // m_beamBreak = new DigitalInput(DeviceIds.kIndexerBeamBreak);
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IndexerConstants.kGearRatio), DCMotor.getKrakenX60(1));
 

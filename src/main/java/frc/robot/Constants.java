@@ -56,12 +56,12 @@ public final class Constants {
     public static final double kdt = 0.02;
 
     // These are the unique identifiers for each RoboRIO we plan to use
-    public static final HashMap<int, String> kTeamNumberToName;
+    public static final HashMap<Integer, String> kTeamNumberToName;
     static {
-        kMacToName = new HashMap<>();
-        kMacToName.put(4784, "kitbot");
-        kMacToName.put(4785, "hades");
-        kMacToName.put(4786, "tusk");
+        kTeamNumberToName = new HashMap<>();
+        kTeamNumberToName.put(4784, "kitbot");
+        kTeamNumberToName.put(4785, "hades");
+        kTeamNumberToName.put(4786, "tusk");
     }
 
     public final class DeviceIds {
@@ -174,7 +174,6 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("weight"));
         }
 
-        // TODO: Calculate MOI based on the values given by Elijah from the CAD
         public static double getMOI() {
             return Double.parseDouble(m_properties.getProperty("moi"));
         }

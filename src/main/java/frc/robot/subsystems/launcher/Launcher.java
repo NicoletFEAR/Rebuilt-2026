@@ -6,6 +6,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -35,8 +36,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private DCMotorSim m_motorSim;
 
     public Launcher() {
-        m_leftLauncher = new TalonFX(DeviceIds.kLeftLauncher, Constants .hasCANivore() ? "*" : "rio");
-        m_rightLauncher = new TalonFX(DeviceIds.kRightLauncher, Constants.hasCANivore() ? "*" : "rio");
+        m_leftLauncher = new TalonFX(DeviceIds.kLeftLauncher, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_rightLauncher = new TalonFX(DeviceIds.kRightLauncher, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.kGearRatio), DCMotor.getKrakenX60(1));
 
         m_rightLauncher.setControl(new Follower(DeviceIds.kLeftLauncher, MotorAlignmentValue.Opposed));

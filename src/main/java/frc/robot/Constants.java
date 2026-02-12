@@ -30,6 +30,9 @@ import frc.robot.util.SwerveModuleConstants;
 
 // Constants found in properties files in deploy folder
 public final class Constants {
+    // Set to true to enable replaying log files
+    public static final boolean kIsReplay = false;
+    
     private static Properties m_properties;
     public static String kRobotName;
 

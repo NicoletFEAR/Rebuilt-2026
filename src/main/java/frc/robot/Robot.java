@@ -10,9 +10,10 @@ package frc.robot;
 import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedPowerDistribution;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
@@ -28,7 +29,8 @@ public class Robot extends LoggedRobot {
     @SuppressWarnings("resource")
     public void robotInit() {
         Constants.instantiateProperties();
-        
+
+        // Various values that make managing the code version easier
         Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
         Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
         Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
@@ -38,36 +40,40 @@ public class Robot extends LoggedRobot {
 
         switch (BuildConstants.DIRTY) {
             case 0:
-                Logger.recordMetadata("CommitStatus", "All code committed");
+                Logger.recordMetadata("GitDirty", "All changes committed");
                 break;
             case 1:
-                Logger.recordMetadata("CommitStatus", "Some changes uncommitted");
+                Logger.recordMetadata("GitDirty", "Uncomitted changes");
                 break;
             case -1:
-                Logger.recordMetadata("CommitStatus", "Error");
+                Logger.recordMetadata("GitDirty", "Error");
                 break;
             default:
-                Logger.recordMetadata("CommitStatus", "Unknown");
+                Logger.recordMetadata("GitDirty", "Unknown");
                 break;
         }
 
-        if (isReal() || isSimulation()) {
-            Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
-            Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-            new PowerDistribution(1, ModuleType.kRev); // Enables power distribution logging
+        if (isReal()) {
+            // Log to a USB stick ("/U/logs")
+            Logger.addDataReceiver(new WPILOGWriter());
+            // Publish data to NetworkTables
+            Logger.addDataReceiver(new NT4Publisher());
+        } else if (Constants.kIsReplay) {
+            // When replaying on a laptop, run unconstrained by RoboRIO hardware limitations
+            setUseTiming(false);
+            // Gets the path to the log file open in AdvantageScope
+            String logPath = LogFileUtil.findReplayLog();
+            Logger.setReplaySource(new WPILOGReader(logPath));
+            Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
         } else {
-            setUseTiming(false); // Run as fast as possible
+            // We don't need to keep log files during simulation
+            Logger.addDataReceiver(new NT4Publisher());
         }
 
-        // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in the "Understanding Data Flow" page
-        Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+        // Disables Hoot logging
+        SignalLogger.enableAutoLogging(false);
 
-        SignalLogger.setPath("/U/logs");
-        SignalLogger.start();
-
-        DataLogManager.start();
-        // URCL.start();
-        // Logger.registerURCL(URCL.startExternal());
+        // Start logging! No more data receivers, replay sources, or metadata values may be added.
         Logger.start();
 
         WebServer.start(5800, Filesystem.getDeployDirectory().getPath());

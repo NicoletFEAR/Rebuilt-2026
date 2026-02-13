@@ -113,8 +113,14 @@ public final class Constants {
         public static final int kStrafeAxis = Axis.kLeftX.value;
         public static final int kSteerAxis = Axis.kRightX.value;
 
-        public static final double kDefaultSpeed = 0.8;
-        public static final double kSlowSpeed = 0.4;
+        
+
+        public static double getDefaultSpeed() {
+            return Double.parseDouble(m_properties.getProperty("operator.default-speed"));
+        }
+        public static double getSlowSpeed() {
+            return Double.parseDouble(m_properties.getProperty("operator.slow-speed"));
+        }
     }
 
     public final class DriveConstants {

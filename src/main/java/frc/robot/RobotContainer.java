@@ -79,7 +79,7 @@ public class RobotContainer {
                 OperatorConstants.kThrottleAxis,
                 OperatorConstants.kStrafeAxis,
                 OperatorConstants.kSteerAxis,
-                OperatorConstants.kDefaultSpeed,
+                OperatorConstants.getDefaultSpeed(),
                 true,
                 true
             )
@@ -94,7 +94,7 @@ public class RobotContainer {
                     OperatorConstants.kThrottleAxis,
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.kSteerAxis,
-                    OperatorConstants.kSlowSpeed,
+                    OperatorConstants.getSlowSpeed(),
                     true,
                     true
                 )
@@ -109,7 +109,7 @@ public class RobotContainer {
                     OperatorConstants.kThrottleAxis,
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.kSteerAxis,
-                    OperatorConstants.kSlowSpeed,
+                    OperatorConstants.getSlowSpeed(),
                     true,
                     false
                 )

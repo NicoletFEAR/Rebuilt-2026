@@ -113,11 +113,10 @@ public final class Constants {
         public static final int kStrafeAxis = Axis.kLeftX.value;
         public static final int kSteerAxis = Axis.kRightX.value;
 
-        
-
         public static double getDefaultSpeed() {
             return Double.parseDouble(m_properties.getProperty("operator.default-speed"));
         }
+
         public static double getSlowSpeed() {
             return Double.parseDouble(m_properties.getProperty("operator.slow-speed"));
         }

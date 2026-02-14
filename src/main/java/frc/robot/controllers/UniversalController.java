@@ -2,6 +2,7 @@ package frc.robot.controllers;
 
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
@@ -348,4 +349,22 @@ public class UniversalController {
                 return null;
         }
     }
+
+    public void setRumble(GenericHID.RumbleType type, double value) {
+        switch(controllerType) {
+            case PS4:
+                ps4Controller.setRumble(type, value);
+                break;
+            case PS5:
+                ps5Controller.setRumble(type, value);
+                break;
+            case XBOX:
+                xboxController.setRumble(type, value);
+                break;
+            default:
+                System.out.println("Unsupported Controller Type: " + controllerType + ", setRumble");
+                new Alert("Unsupported Controller Type: " + controllerType + ", setRumble", AlertType.kError);
+        }
+    }
+
 }

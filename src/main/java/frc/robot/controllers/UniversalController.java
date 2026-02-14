@@ -1,5 +1,7 @@
 package frc.robot.controllers;
 
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
@@ -46,7 +48,8 @@ public class UniversalController {
                     break;
 
                 default:
-                    throw new Exception("Unsupported Controller Type: " + controllerType);
+                    System.out.println("Unsupported Controller Type: " + controllerType);
+                    new Alert("Unsupported Controller Type: " + controllerType, AlertType.kError);
             }
 
             this.controllerAxis = new Axis(controllerType);
@@ -83,6 +86,7 @@ public class UniversalController {
                 return xboxController.getRawAxis(axis);
             default:
                 System.out.println("Unsupported Controller Type, Axis: " + axis + " for type:" + controllerType);
+                new Alert("Unsupported Controller Type, Axis: " + axis + " for type:" + controllerType, AlertType.kError);
                 return 0D;
         }
     }
@@ -97,6 +101,7 @@ public class UniversalController {
                 return xboxController.back();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType);
+                new Alert("Unsupported Controller Type:" + controllerType, AlertType.kError);
                 return null;
         }
     }
@@ -111,6 +116,7 @@ public class UniversalController {
                 return xboxController.leftBumper();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button L1");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button L1", AlertType.kError);
                 return null;
         }
     }
@@ -125,6 +131,7 @@ public class UniversalController {
                 return xboxController.leftTrigger();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button L2");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button L2", AlertType.kError);
                 return null;
         }
     }
@@ -139,6 +146,7 @@ public class UniversalController {
                 return xboxController.start();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button options");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button options", AlertType.kError);
                 return null;
         }
     }
@@ -153,6 +161,7 @@ public class UniversalController {
                 return xboxController.rightBumper();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button R1");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button R1", AlertType.kError);
                 return null;
         }
     }
@@ -167,6 +176,7 @@ public class UniversalController {
                 return xboxController.rightTrigger();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button R2");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button R2", AlertType.kError);
                 return null;
         }
     }
@@ -181,6 +191,7 @@ public class UniversalController {
                 return xboxController.povDown();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", povDown");
+                new Alert("Unsupported Controller Type:" + controllerType + ", povDown", AlertType.kError);
                 return null;
         }
     }
@@ -195,6 +206,7 @@ public class UniversalController {
                 return xboxController.povUp();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", povUp");
+                new Alert("Unsupported Controller Type:" + controllerType + ", povUp", AlertType.kError);
                 return null;
         }
     }
@@ -209,6 +221,7 @@ public class UniversalController {
                 return xboxController.povLeft();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", povLeft");
+                new Alert("Unsupported Controller Type:" + controllerType + ", povLeft", AlertType.kError);
                 return null;
         }
     }
@@ -223,6 +236,7 @@ public class UniversalController {
                 return xboxController.povRight();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", povRight");
+                new Alert("Unsupported Controller Type:" + controllerType + ", povRight", AlertType.kError);
                 return null;
         }
     }
@@ -237,6 +251,7 @@ public class UniversalController {
                 return xboxController.y();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button triangle");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button triangle", AlertType.kError);
                 return null;
         }
     }
@@ -251,6 +266,7 @@ public class UniversalController {
                 return xboxController.b();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button circle");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button circle", AlertType.kError);
                 return null;
         }
     }
@@ -265,6 +281,7 @@ public class UniversalController {
                 return xboxController.x();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button square");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button square", AlertType.kError);
                 return null;
         }
     }
@@ -279,6 +296,7 @@ public class UniversalController {
                 return xboxController.a();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button x");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button x", AlertType.kError);
                 return null;
         }
     }
@@ -291,6 +309,7 @@ public class UniversalController {
                 return ps5Controller.PS();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button PS");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button PS", AlertType.kError);
                 return null;
         }
     }
@@ -303,6 +322,7 @@ public class UniversalController {
                 return ps5Controller.touchpad();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button touchpad");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button touchpad", AlertType.kError);
                 return null;
         }
     }
@@ -313,6 +333,7 @@ public class UniversalController {
                 return xboxController.leftStick();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button leftStick");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button leftStick", AlertType.kError);
                 return null;
         }
     }
@@ -323,6 +344,7 @@ public class UniversalController {
                 return xboxController.rightStick();
             default:
                 System.out.println("Unsupported Controller Type:" + controllerType + ", button rightStick");
+                new Alert("Unsupported Controller Type:" + controllerType + ", button rightStick", AlertType.kError);
                 return null;
         }
     }

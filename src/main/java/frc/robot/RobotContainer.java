@@ -17,7 +17,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.controllers.UniversalController;
-// import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
 import frc.robot.subsystems.kitbot.KitbotIntake;
@@ -48,7 +48,7 @@ public class RobotContainer {
     private Hood m_hood;
     private IntakeDriver m_intakeDriver;
     private IntakePivot m_intakePivot;
-    // private Climb m_climb;
+    private Climb m_climb;
 
     private static Alliance m_alliance = Alliance.Blue;
 
@@ -60,7 +60,7 @@ public class RobotContainer {
             m_launcher = new Launcher();
             m_indexer = new Indexer();
             m_hood = new Hood();
-            // m_climb = new Climb();
+            m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
         }
@@ -159,15 +159,19 @@ public class RobotContainer {
                 .onTrue(m_launcher.lowerSpeed());
 
             // Control the climb manually -- left and right bumpers of driver controller
-            // m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
-            //     if (m_driverController.L1().getAsBoolean() ^ m_driverController.R1().getAsBoolean()) {
-            //         return 0.0;
-            //     } else if (m_driverController.L1().getAsBoolean()) {
-            //         return 1.0;
-            //     } else {
-            //         return -1.0;
-            //     }
-            // }), m_climb));
+            m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
+                if (m_operatorController.L1().getAsBoolean()) {
+                    return 1.0;
+                } else if (m_operatorController.R1().getAsBoolean()) {
+                    return -1.0;
+                } else {
+                    return 0.0;
+                }
+            }), m_climb));
+
+            m_operatorController.L1().and(() -> m_operatorController.R1().getAsBoolean()).whileFalse(new RunCommand(() -> {
+                m_climb.resetDesiredPosition();
+            }, m_climb));
 
             // Control the hood manually -- up and down arrows of operator controller
             m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
@@ -183,8 +187,8 @@ public class RobotContainer {
             // Intakes fuel -- a button on operator controller
             m_operatorController
                 .cross()
-                .onTrue(m_intakePivot.out().alongWith(m_intakeDriver.intake()))
-                .onFalse(m_intakePivot.in().alongWith(m_intakeDriver.off()));
+                .onTrue(m_intakeDriver.intake())
+                .onFalse(m_intakeDriver.off());
         }
     }
 
@@ -202,7 +206,7 @@ public class RobotContainer {
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
-            // NamedCommands.registerCommand("ClimbL1", m_climb.climbL1Height().andThen(m_climb.retract()));
+            NamedCommands.registerCommand("ClimbL1", m_climb.climbL1Height().andThen(m_climb.retract()));
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
             NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
             NamedCommands.registerCommand("StartLaunch", m_indexer.launch().alongWith(m_launcher.launch()));

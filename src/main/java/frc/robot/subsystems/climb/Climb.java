@@ -84,6 +84,10 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         );
     }
 
+    public void resetDesiredPosition() {
+        runToPosition(getPosition());
+    }
+
     public Command climbL1Height() {
         return runProfileToPosition(ClimbConstants.kL1Position);
     }
@@ -94,12 +98,12 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
 
     @Override
     public void manualControl(Supplier<Double> throttle) {
-        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.kOperatorControllerDeadband)
-            * ClimbConstants.kManualMultiplier;
+        double adjustedThrottle = throttle.get() * ClimbConstants.kManualMultiplier;
 
         double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, ClimbConstants.kMinPosition, ClimbConstants.kMaxPosition);
 
         if (m_desiredPosition != newDesiredPosition) {
+            m_desiredPosition = newDesiredPosition;
             runToPosition(m_desiredPosition);
         }
     }

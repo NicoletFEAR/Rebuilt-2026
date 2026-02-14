@@ -32,7 +32,6 @@ import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.DeviceIds;
-import frc.robot.Constants.OperatorConstants;
 
 public class Climb extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;

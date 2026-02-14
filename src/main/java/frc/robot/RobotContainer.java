@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.controllers.ControllerType;
-import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
@@ -26,10 +26,10 @@ import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class RobotContainer {
-    private final UniversalController m_driverController = new UniversalController(
-        OperatorConstants.kDriverControllerPort, ControllerType.PS5);
-    private final UniversalController m_operatorController = new UniversalController(
-        OperatorConstants.kOperatorControllerPort, ControllerType.XBOX);
+    private final CommandPS5Controller m_driverController = new CommandPS5Controller(
+        OperatorConstants.kDriverControllerPort);
+    private final CommandXboxController m_operatorController = new CommandXboxController(
+        OperatorConstants.kOperatorControllerPort);
     
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
@@ -140,32 +140,32 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("tusk")) {
             // Launches fuel by spinning up the launcher and then indexing the fuel -- y button of operator controller
             m_operatorController
-                .triangle()
+                .y()
                 .onTrue(m_indexer.launch().alongWith(m_launcher.launch()))
                 .onFalse(m_indexer.off().alongWith(m_launcher.off()));
                 
             // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
             m_operatorController
-                .circle()
+                .b()
                 .onTrue(m_launcher.raiseSpeed());
             
             // Decreases launcher speed by 10% unless it's at 0%, in which case it goes back up to 100% -- x button of operator controller
             m_operatorController
-                .square()
+                .x()
                 .onTrue(m_launcher.lowerSpeed());
 
             // Control the climb manually -- left and right bumpers of driver controller
             m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
-                if (m_operatorController.L1().getAsBoolean()) {
+                if (m_operatorController.leftBumper().getAsBoolean()) {
                     return 1.0;
-                } else if (m_operatorController.R1().getAsBoolean()) {
+                } else if (m_operatorController.rightBumper().getAsBoolean()) {
                     return -1.0;
                 } else {
                     return 0.0;
                 }
             }), m_climb));
 
-            m_operatorController.L1().and(() -> m_operatorController.R1().getAsBoolean()).whileFalse(new RunCommand(() -> {
+            m_operatorController.leftBumper().and(() -> m_operatorController.rightBumper().getAsBoolean()).whileFalse(new RunCommand(() -> {
                 m_climb.resetDesiredPosition();
             }, m_climb));
 
@@ -182,7 +182,7 @@ public class RobotContainer {
             
             // Intakes fuel -- a button on operator controller
             m_operatorController
-                .cross()
+                .a()
                 .onTrue(m_intakeDriver.intake())
                 .onFalse(m_intakeDriver.off());
         }

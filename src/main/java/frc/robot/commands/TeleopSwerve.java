@@ -9,15 +9,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class TeleopSwerve extends Command {
     /** Creates a new TeleopSwerve. */
     private SwerveDrive m_drivebase;
 
-    private UniversalController m_driverController;
+    private CommandPS5Controller m_driverController;
 
     private int m_throttleAxis;
     private int m_strafeAxis;
@@ -33,7 +33,7 @@ public class TeleopSwerve extends Command {
     private double m_percentModifier;
 
     public TeleopSwerve(
-        UniversalController driverController,
+        CommandPS5Controller driverController,
         int throttleAxis,
         int strafeAxis,
         int steerAxis,

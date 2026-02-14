@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PS5Controller.Axis;
 import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.controllers.ControllerType;
 import frc.robot.util.SwerveModuleConstants;
 
 // Constants found in properties files in deploy folder
@@ -113,6 +114,10 @@ public final class Constants {
         public static final int kStrafeAxis = Axis.kLeftX.value;
         public static final int kSteerAxis = Axis.kRightX.value;
 
+        public static ControllerType getControllerType() {
+            return ControllerType.valueOf(m_properties.getProperty("operator.controller-type"));
+        }
+
         public static double getDefaultSpeed() {
             return Double.parseDouble(m_properties.getProperty("operator.default-speed"));
         }
@@ -123,6 +128,11 @@ public final class Constants {
     }
 
     public final class DriveConstants {
+
+        public static ControllerType getControllerType() {
+            return ControllerType.valueOf(m_properties.getProperty("drive.controller-type"));
+        }
+
         public static boolean usesDriveKrakens() {
             return m_properties.getProperty("drive.uses-drive-krakens").equals("true");
         }

@@ -1,6 +1,7 @@
 plugins {
-    id "java"
-    id "edu.wpi.first.GradleRIO" version "2026.2.1"
+    id 'java'
+    id 'edu.wpi.first.GradleRIO' version '2026.2.1'
+    id 'com.peterabeles.gversion' version '1.10.3'
 }
 
 java {
@@ -8,7 +9,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-def ROBOT_MAIN_CLASS = "frc.robot.Main"
+def ROBOT_MAIN_CLASS = 'frc.robot.Main'
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
@@ -73,6 +74,9 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    def akitJson = new groovy.json.JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + "/vendordeps/AdvantageKit.json").text)
+    annotationProcessor "org.littletonrobotics.akit:akit-autolog:$akitJson.version"
 }
 
 test {
@@ -101,7 +105,53 @@ deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
 
+task(replayWatch, type: JavaExec) {
+    mainClass = "org.littletonrobotics.junction.ReplayWatch"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
+
+// Configure automatic generation of BuildConstants file
+project.compileJava.dependsOn(createVersionFile)
+gversion {
+    srcDir = 'src/main/java/'
+    classPackage = 'frc.robot'
+    className = 'BuildConstants'
+    dateFormat = 'yyyy-MM-dd HH:mm:ss z'
+    timeZone = 'America/Chicago'
+    indent = '    '
+}
+
+task(eventDeploy) {
+    doLast {
+        if (project.gradle.startParameter.taskNames.any({ it.toLowerCase().contains('deploy') })) {
+            def branchPrefix = 'Comp'
+            def branch = 'git branch --show-current'.execute().text.trim()
+            def commitMessage = "Update at '${new Date().toString()}'"
+
+            if (branch.startsWith(branchPrefix)) {
+                exec {
+                    workingDir(projectDir)
+                    executable 'git'
+                    args 'add', '-A'
+                }
+                exec {
+                    workingDir(projectDir)
+                    executable 'git'
+                    args 'commit', '-m', commitMessage
+                    ignoreExitValue = true
+                }
+
+                println "Committed to branch: '$branch'"
+                println "Commit message: '$commitMessage'"
+            } else {
+                println 'Not on an event branch, skipping commit'
+            }
+        }
+    }
+}
+createVersionFile.dependsOn(eventDeploy)

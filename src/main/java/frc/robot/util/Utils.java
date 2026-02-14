@@ -7,18 +7,12 @@
 
 package frc.robot.util;
 
-
-import java.net.NetworkInterface;
-import java.util.Enumeration;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.DriveConstants;
-
 
 public class Utils {
     public static void copyModuleStates(SwerveModuleState[] copier, SwerveModuleState[] reciever) {
@@ -159,37 +153,5 @@ public class Utils {
         }
 
         return new Rotation2d(Math.atan(distanceVector.getY() / distanceVector.getX())).getDegrees();
-    }
-
-    public static String getMacAddress() {
-        try {
-            Enumeration<NetworkInterface> networkInterface = NetworkInterface.getNetworkInterfaces();
-            StringBuilder macAddress = new StringBuilder();
-
-            while (networkInterface.hasMoreElements()) {
-                NetworkInterface nextInterface = networkInterface.nextElement();
-
-                if (nextInterface != null) {
-                    byte[] mac = nextInterface.getHardwareAddress();
-
-                    if (mac != null) {
-                        for (int i = 0; i < mac.length; i++) {
-                            // Formats MAC address as hexadecimal bytes separated by colons
-                            macAddress.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? ":" : ""));
-                        }
-
-                        return macAddress.toString();
-                    } else {
-                        DriverStation.reportWarning("MAC address not accessible", false);
-                    }
-                } else {
-                    DriverStation.reportWarning("Network interface not found", false);
-                }
-            }
-        } catch (Exception e) {
-            DriverStation.reportError(e.getMessage(), e.getStackTrace());
-        }
-
-        return "";
     }
 }

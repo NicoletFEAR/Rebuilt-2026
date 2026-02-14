@@ -9,6 +9,7 @@ package frc.robot.subsystems.swerve;
 
 import static edu.wpi.first.units.Units.Volts;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -61,7 +62,7 @@ public class SparkMaxSwerveModule implements SwerveModule {
 
     m_steerController = m_steerMotor.getClosedLoopController();
 
-    m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, Constants.hasCANivore() ? "*" : "rio");
+    m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
 
     m_modulePosition = new SwerveModulePosition();
     m_moduleState = new SwerveModuleState();

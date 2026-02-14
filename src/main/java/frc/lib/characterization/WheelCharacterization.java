@@ -16,6 +16,7 @@ import frc.robot.subsystems.swerve.SwerveDrive;
 
 import org.littletonrobotics.junction.Logger;
 
+// Call this to determine the radius of the wheels
 public class WheelCharacterization extends Command {
 
   final double kRotations = 6;
@@ -89,7 +90,7 @@ public class WheelCharacterization extends Command {
       System.out.println("Not enough data for characterization");
     } else {
       System.out.println(
-          "Effective Wheel Diameter: "
+          "Effective Wheel Radius: "
               + Units.metersToInches(currentEffectiveWheelRadius)
               + " inches");
     }

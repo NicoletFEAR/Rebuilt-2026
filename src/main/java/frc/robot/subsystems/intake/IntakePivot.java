@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -35,7 +36,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     private DCMotorSim m_motorSim;
 
     public IntakePivot() {
-        m_motor = new TalonFX(DeviceIds.kIntakePivot, Constants.hasCANivore() ? "*" : "rio");
+        m_motor = new TalonFX(DeviceIds.kIntakePivot, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kPivotGearRatio), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration config = new TalonFXConfiguration();

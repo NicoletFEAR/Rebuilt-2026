@@ -73,31 +73,17 @@ public class RobotContainer {
         // Driver Controller Mappings \\
 
         // Driving -- joysticks of driver controller
-        if (Constants.kRobotName.equals("kitbot")) {
-            m_driveBase.setDefaultCommand(
-                new TeleopSwerve(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
-                    0.3,
-                    true,
-                    true
-                )
-            );
-        } else {
-            m_driveBase.setDefaultCommand(
-                new TeleopSwerve(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
-                    OperatorConstants.kDefaultSpeed,
-                    true,
-                    true
-                )
-            );
-        }
+        m_driveBase.setDefaultCommand(
+            new TeleopSwerve(
+                m_driverController,
+                OperatorConstants.kThrottleAxis,
+                OperatorConstants.kStrafeAxis,
+                OperatorConstants.kSteerAxis,
+                OperatorConstants.getDefaultSpeed(),
+                true,
+                true
+            )
+        );
 
         // Slows speed -- left trigger of driver controller
         m_driverController
@@ -108,7 +94,7 @@ public class RobotContainer {
                     OperatorConstants.kThrottleAxis,
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.kSteerAxis,
-                    OperatorConstants.kSlowSpeed,
+                    OperatorConstants.getSlowSpeed(),
                     true,
                     true
                 )
@@ -123,7 +109,7 @@ public class RobotContainer {
                     OperatorConstants.kThrottleAxis,
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.kSteerAxis,
-                    OperatorConstants.kSlowSpeed,
+                    OperatorConstants.getSlowSpeed(),
                     true,
                     false
                 )

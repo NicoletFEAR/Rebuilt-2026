@@ -25,18 +25,20 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PS5Controller.Axis;
+import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.util.SwerveModuleConstants;
-import frc.robot.util.Utils;
 
 // Constants found in properties files in deploy folder
 public final class Constants {
+    // Set to true to enable replaying log files
+    public static final boolean kIsReplay = false;
+    
     private static Properties m_properties;
     public static String kRobotName;
 
     public static void instantiateProperties() {
         m_properties = new Properties();
-        kRobotName = kMacToName.get(Utils.getMacAddress());
-        System.out.println(Utils.getMacAddress());
+        kRobotName = kTeamNumberToName.get(RobotController.getTeamNumber());
 
         try (InputStream input = new FileInputStream(new File(Filesystem.getDeployDirectory(), kRobotName + ".properties"))) {
             m_properties.load(input);
@@ -54,13 +56,12 @@ public final class Constants {
     public static final double kdt = 0.02;
 
     // These are the unique identifiers for each RoboRIO we plan to use
-    public static final HashMap<String, String> kMacToName;
+    public static final HashMap<Integer, String> kTeamNumberToName;
     static {
-        kMacToName = new HashMap<>();
-        kMacToName.put("00:80:2F:40:69:FC", "kitbot");
-        kMacToName.put("00:80:2F:17:B5:2A", "hades");
-        kMacToName.put("00:80:2F:41:9F:8B", "tusk");
-        kMacToName.put("1C:5C:37:32:5C:14", "tusk");
+        kTeamNumberToName = new HashMap<>();
+        kTeamNumberToName.put(4784, "kitbot");
+        kTeamNumberToName.put(4785, "hades");
+        kTeamNumberToName.put(4786, "tusk");
     }
 
     public final class DeviceIds {
@@ -112,8 +113,13 @@ public final class Constants {
         public static final int kStrafeAxis = Axis.kLeftX.value;
         public static final int kSteerAxis = Axis.kRightX.value;
 
-        public static final double kDefaultSpeed = 0.8;
-        public static final double kSlowSpeed = 0.4;
+        public static double getDefaultSpeed() {
+            return Double.parseDouble(m_properties.getProperty("operator.default-speed"));
+        }
+
+        public static double getSlowSpeed() {
+            return Double.parseDouble(m_properties.getProperty("operator.slow-speed"));
+        }
     }
 
     public final class DriveConstants {
@@ -173,7 +179,6 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("weight"));
         }
 
-        // TODO: Calculate MOI based on the values given by Elijah from the CAD
         public static double getMOI() {
             return Double.parseDouble(m_properties.getProperty("moi"));
         }

@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -39,7 +40,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     private DCMotorSim m_motorSim;
 
     public Climb() {
-        m_motor = new TalonFX(DeviceIds.kClimb, Constants.hasCANivore() ? "*" : "rio");
+        m_motor = new TalonFX(DeviceIds.kClimb, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, ClimbConstants.kGearRatio), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration config = new TalonFXConfiguration();

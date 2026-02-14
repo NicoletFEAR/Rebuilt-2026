@@ -11,6 +11,7 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -56,13 +57,13 @@ public class TalonSwerveModule implements SwerveModule {
     m_constants = constants;
 
     m_steerMotor = new SparkMax(constants.steerId, MotorType.kBrushless);
-    m_driveMotor = new TalonFX(constants.driveId, Constants.hasCANivore() ? "*" : "rio");
+    m_driveMotor = new TalonFX(constants.driveId, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
 
     m_steerEncoder = m_steerMotor.getEncoder();
 
     m_steerController = m_steerMotor.getClosedLoopController();
 
-    m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, Constants.hasCANivore() ? "*" : "rio");
+    m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
 
     m_modulePosition = new SwerveModulePosition();
     m_moduleState = new SwerveModuleState();

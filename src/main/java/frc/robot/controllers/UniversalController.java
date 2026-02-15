@@ -315,6 +315,36 @@ public class UniversalController {
         }
     }
 
+    public Trigger button(int button) {
+        switch (controllerType) {
+            case PS4:
+                return ps4Controller.button(button);
+            case PS5:
+                return ps5Controller.button(button);
+            case XBOX:
+                return xboxController.button(button);        
+            default:
+                System.out.println("Unsupported Controller Type:" + controllerType + ", button " + button);
+                new Alert("Unsupported Controller Type:" + controllerType + ", button " + button, AlertType.kError);
+                return null;
+        }
+    }
+
+    public boolean isConnected() {
+        switch (controllerType) {
+            case PS4:
+                return ps4Controller.isConnected();
+            case PS5:
+                return ps5Controller.isConnected();
+            case XBOX:
+                return xboxController.isConnected();
+            default:
+                System.out.println("Unsupported Controller Type:" + controllerType + ", isConnected");
+                new Alert("Unsupported Controller Type:" + controllerType + ", isConnected", AlertType.kError);
+                return false;
+        }
+    }
+
     public Trigger touchpad() {
         switch (controllerType) {
             case PS4:
@@ -367,4 +397,23 @@ public class UniversalController {
         }
     }
 
+    /**
+     * This method will retrun the underlying Command Controller. It is up to 
+     * the caller to cast it to the correct type.
+     * @return The underlying command controller
+     */
+    public Object getCommandController() {
+        switch (controllerType) {
+            case PS4:
+                return ps4Controller;
+            case PS5:
+                return ps5Controller;
+            case XBOX:
+                return xboxController;
+            default:
+                System.out.println("Unsupported Controller Type:" + controllerType + ", getCommandController");
+                new Alert("Unsupported Controller Type:" + controllerType + ", getCommandController", AlertType.kError);
+                return null;
+        }
+    }
 }

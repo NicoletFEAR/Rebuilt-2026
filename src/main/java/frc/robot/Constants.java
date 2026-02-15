@@ -13,10 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
-
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -24,8 +22,8 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.PS5Controller.Axis;
 import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.controllers.Axis;
 import frc.robot.controllers.ControllerType;
 import frc.robot.util.SwerveModuleConstants;
 
@@ -110,9 +108,10 @@ public final class Constants {
 
         public static final double kOperatorControllerDeadband = 0.1;
 
-        public static final int kThrottleAxis = Axis.kLeftY.value;
-        public static final int kStrafeAxis = Axis.kLeftX.value;
-        public static final int kSteerAxis = Axis.kRightX.value;
+        public static final Axis operatorAxis = new Axis(getControllerType());
+        public static final int kThrottleAxis = operatorAxis.getAxis("kLeftY");
+        public static final int kStrafeAxis = operatorAxis.getAxis("kLeftX");
+        public static final int kSteerAxis = operatorAxis.getAxis("kRightX");
 
         public static ControllerType getControllerType() {
             return ControllerType.valueOf(m_properties.getProperty("operator.controller-type"));

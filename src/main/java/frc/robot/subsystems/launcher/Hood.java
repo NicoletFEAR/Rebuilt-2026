@@ -4,6 +4,9 @@ import java.util.function.Supplier;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,8 +18,11 @@ public class Hood extends SubsystemBase {
     private double m_desiredPosition;
     private Servo m_leftServo;
     private Servo m_rightServo;
+    private SparkMax m_hood;
 
     public Hood() {
+        m_hood = new SparkMax(DeviceIds.kHood, MotorType.kBrushed);
+
         m_leftServo = new Servo(DeviceIds.kLeftLauncherServo);
         m_rightServo = new Servo(DeviceIds.kRightLauncherServo);
 

@@ -99,6 +99,7 @@ public final class Constants {
         public static final int kIntakeBeamBreak = 0;
         public static final int kIndexerBeamBreak = 1;
 
+        public static final int kHood = 21;
         public static final int kLeftLauncherServo = 0;
         public static final int kRightLauncherServo = 1;
     }

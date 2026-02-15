@@ -426,54 +426,139 @@ public final class Constants {
     }
 
     public final class IndexerConstants {
-         public static final double kGearRatio = 1.0;
+        public static double getGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("indexer.gear-ratio"));
+        }
 
-        public static final double kP = 1.0;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
+        public static double getKP() {
+            return Double.parseDouble(m_properties.getProperty("indexer.kp"));
+        }
 
-        public static final double kOffVoltage = 0.0;
-        public static final double kIndexVoltage = 12.0;
+        public static double getKI() {
+            return Double.parseDouble(m_properties.getProperty("indexer.ki"));
+        }
+
+        public static double getKD() {
+            return Double.parseDouble(m_properties.getProperty("indexer.kd"));
+        }
+
+        public static double getOffVoltage() {
+            return Double.parseDouble(m_properties.getProperty("indexer.off-voltage"));
+        }
+
+        public static double getIndexVoltage() {
+            return Double.parseDouble(m_properties.getProperty("indexer.index-voltage"));
+        }
     }
 
     public final class IntakeConstants {
-        public static final double kDriverGearRatio = 1.0;
-        public static final double kPivotGearRatio = 1.0;
+        public static double getDriverGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-gear-ratio"));
+        }
+        public static double getPivotGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-gear-ratio"));
+        }
         
-        public static final double kDriverKP = 1.0;
-        public static final double kDriverKI = 0.0;
-        public static final double kDriverKD = 0.0;
-        public static final double kPivotKP = 1.0;
-        public static final double kPivotKI = 0.0;
-        public static final double kPivotKD = 0.0;
+        public static double getDriverKP() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-kp"));
+        }
 
-        public static final double kDriverOffVoltage = 0.0;
-        public static final double kDriverIntakeVoltage = -10.0;
+        public static double getDriverKI() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-ki"));
+        }
 
-        public static final double kPivotSetpointTolerance = 0.025;
-        public static final double kPivotManualMultiplier = 0.005;
+        public static double getDriverKD() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-kd"));
+        }
 
-        public static final double kPivotMinPosition = 0.0;
-        public static final double kPivotMaxPosition = 1000.0;
+        public static double getPivotKP() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-kp"));
+        }
 
-        public static final double kPivotHomePosition = 0.0;
-        public static final double kPivotOutPosition = 1.0;
+        public static double getPivotKI() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-ki"));
+        }
+
+        public static double getPivotKD() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-kd"));
+        }
+        
+        public static double getDriverOffVoltage() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-off-voltage"));
+        }
+
+        public static double getDriverIntakeVoltage() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-intake-voltage"));
+        }
+
+        public static double getPivotSetpointTolerance() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-setpoint-tolerance"));
+        }
+
+        public static double getPivotManualMultiplier() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-manual-multiplier"));
+        }
+
+        public static double getPivotMinPosition() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-min-position"));
+        }
+
+        public static double getPivotMaxPosition() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-max-position"));
+        }
+
+        public static double getPivotHomePosition() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-home-position"));
+        }
+
+        public static double getPivotOutPosition() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-out-position"));
+        }
     }
 
     public final class ClimbConstants {
-        public static final double kGearRatio = 25.0;
-        public static final double kSprocketCircumference = 1.79 * Math.PI;
-        public static final double kSetpointTolerance = 0.05;
-        public static final double kManualMultiplier = 0.01;
+        public static double getGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("climb.gear-ratio"));
+        }
 
-        public static final double kP = 1.0;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
+        public static double getSprocketCircumference() {
+            return Math.PI * Double.parseDouble(m_properties.getProperty("climb.sprocket-circumference"));
+        }
+        
+        public static double getSetpointTolerance() {
+            return Double.parseDouble(m_properties.getProperty("climb.setpoint-tolerance"));
+        }
 
-        public static final double kMinPosition = 0.0;
-        public static final double kMaxPosition = 2.05;
+        public static double getManualMultiplier() {
+            return Double.parseDouble(m_properties.getProperty("climb.manual-multiplier"));
+        }
 
-        public static final double kHomePosition = 2.05;
-        public static final double kL1Position = 2.0;
+         public static double getKP() {
+            return Double.parseDouble(m_properties.getProperty("climb.kp"));
+        }
+
+        public static double getKI() {
+            return Double.parseDouble(m_properties.getProperty("climb.ki"));
+        }
+
+        public static double getKD() {
+            return Double.parseDouble(m_properties.getProperty("climb.kd"));
+        }
+
+        public static double getMinPosition() {
+            return Double.parseDouble(m_properties.getProperty("climb.min-position"));
+        }
+
+        public static double getMaxPosition() {
+            return Double.parseDouble(m_properties.getProperty("climb.max-position"));
+        }
+
+        public static double getHomePosition() {
+            return Double.parseDouble(m_properties.getProperty("climb.home-position"));
+        }
+
+        public static double getL1Position() {
+            return Double.parseDouble(m_properties.getProperty("climb.L1-position"));
+        }
     }
 }

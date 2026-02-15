@@ -33,7 +33,7 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     // private DigitalInput m_beamBreak;
 
     public Indexer () {
-        m_motor = new TalonFX(DeviceIds.kIndexer, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_motor = new TalonFX(DeviceIds.getIndexerID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         // m_beamBreak = new DigitalInput(DeviceIds.kIndexerBeamBreak);
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IndexerConstants.kGearRatio), DCMotor.getKrakenX60(1));
 

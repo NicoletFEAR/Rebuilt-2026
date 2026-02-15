@@ -36,7 +36,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     private DCMotorSim m_motorSim;
 
     public IntakePivot() {
-        m_motor = new TalonFX(DeviceIds.kIntakePivot, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_motor = new TalonFX(DeviceIds.getIntakePivotID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kPivotGearRatio), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration config = new TalonFXConfiguration();
@@ -90,7 +90,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
 
     @Override
     public void manualControl(Supplier<Double> throttle) {
-        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.kOperatorControllerDeadband)
+        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.getOperatorControllerDeadband())
             * IntakeConstants.kPivotManualMultiplier;
 
         double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, IntakeConstants.kPivotMinPosition, IntakeConstants.kPivotMaxPosition);

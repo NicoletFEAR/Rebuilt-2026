@@ -27,9 +27,9 @@ import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class RobotContainer {
     private final CommandPS5Controller m_driverController = new CommandPS5Controller(
-        OperatorConstants.kDriverControllerPort);
+        OperatorConstants.getDriverControllerPort());
     private final CommandXboxController m_operatorController = new CommandXboxController(
-        OperatorConstants.kOperatorControllerPort);
+        OperatorConstants.getOperatorControllerPort());
     
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");

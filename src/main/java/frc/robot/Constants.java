@@ -65,51 +65,119 @@ public final class Constants {
     }
 
     public final class DeviceIds {
-        public static final int kFrontLeftSteer = 1;
-        public static final int kFrontLeftDrive = 2;
-        public static final int kFrontLeftSteerEncoder = 3;
+        public static int getFrontLeftSteerId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-steer"));
+        }
 
-        public static final int kFrontRightSteer = 4;
-        public static final int kFrontRightDrive = 5;
-        public static final int kFrontRightSteerEncoder = 6;
+        public static int getFrontLeftDriveId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-drive"));
+        }
 
-        public static final int kBackRightSteer = 7;
-        public static final int kBackRightDrive = 8;
-        public static final int kBackRightSteerEncoder = 9;
+        public static int getFrontLeftSteerEncoderId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-steer-encoder"));
+        }
 
-        public static final int kBackLeftSteer = 10;
-        public static final int kBackLeftDrive = 11;
-        public static final int kBackLeftSteerEncoder = 12;
+        public static int getFrontRightSteerId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-steer"));
+        }
 
-        public static final int kPigeon = 13;
+        public static int getFrontRightDriveId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-drive"));
+        }
 
-        public static final int kLeftLauncher = 14;
-        public static final int kRightLauncher = 15;
+        public static int getFrontRightSteerEncoderId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-steer-encoder"));
+        }
 
-        public static final int kKitbotIntake = 14;
-        public static final int kKitbotLauncher = 15;
+        public static int getBackLeftSteerId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-left-steer"));
+        }
 
-        public static final int kIndexer = 16;
+        public static int getBackLeftDriveId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-left-drive"));
+        }
 
-        public static final int kIntakeDriver = 18;
-        public static final int kIntakePivot = 19;
+        public static int getBackLeftSteerEncoderId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-left-steer-encoder"));
+        }
 
-        public static final int kClimb = 20;
+        public static int getBackRightSteerId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-right-steer"));
+        }
 
-        public static final int kIntakeBeamBreak = 0;
-        public static final int kIndexerBeamBreak = 1;
+        public static int getBackRightDriveId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-right-drive"));
+        }
 
-        public static final int kHood = 21;
+        public static int getBackRightSteerEncoderId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-right-steer-encoder"));
+        }
+
+        public static int getPigeonId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.pigeon"));
+        }
+
+        public static int getLeftLauncherID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.left-launcher"));
+        }
+
+        public static int getRightLauncherID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.right-launcher"));
+        }
+
+        public static int getKitbotIntakeID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.kitbot-intake"));
+        }
+
+        public static int getKitbotLauncherID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.kitbot-launcher"));
+        }
+
+        public static int getIndexerID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.indexer"));
+        }
+
+        public static int getIntakeDriverID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.intake-driver"));
+        }
+
+        public static int getIntakePivotID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.intake-pivot"));
+        }
+
+        public static int getClimbID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.climb"));
+        }
+
+        public static int getIntakeBeamBreakID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.intake-beam-break"));
+        }
+
+        public static int getIndexerBeamBreakID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.indexer-beam-break"));
+        }
+
+        public static int getHoodID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.hood"));
+        }
+
         public static final int kLeftLauncherServo = 0;
         public static final int kRightLauncherServo = 1;
     }
 
     public final class OperatorConstants {
-        public static final int kDriverControllerPort = 0;
-        public static final int kOperatorControllerPort = 1;
+        public static int getDriverControllerPort() {
+            return Integer.parseInt(m_properties.getProperty("operator.driver-controller-port"));
+        }
 
-        public static final double kOperatorControllerDeadband = 0.1;
+        public static int getOperatorControllerPort() {
+            return Integer.parseInt(m_properties.getProperty("operator.operator-controller-port"));
+        }
 
+        public static int getOperatorControllerDeadband() {
+            return Integer.parseInt(m_properties.getProperty("operator.operator-controller-deadband"));
+        }
+        
         public static final int kThrottleAxis = Axis.kLeftY.value;
         public static final int kStrafeAxis = Axis.kLeftX.value;
         public static final int kSteerAxis = Axis.kRightX.value;
@@ -287,49 +355,74 @@ public final class Constants {
         );
 
         public static final SwerveModuleConstants kFrontLeft = new SwerveModuleConstants(
-            DeviceIds.kFrontLeftDrive,
-            DeviceIds.kFrontLeftSteer,
-            DeviceIds.kFrontLeftSteerEncoder,
+            DeviceIds.getFrontLeftDriveId(),
+            DeviceIds.getFrontLeftSteerId(),
+            DeviceIds.getFrontLeftSteerEncoderId(),
             getFrontLeftOffset()
         );
 
         public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
-            DeviceIds.kFrontRightDrive,
-            DeviceIds.kFrontRightSteer,
-            DeviceIds.kFrontRightSteerEncoder,
+            DeviceIds.getFrontRightDriveId(),
+            DeviceIds.getFrontRightSteerId(),
+            DeviceIds.getFrontRightSteerEncoderId(),
             getFrontRightOffset()
         );
 
         public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
-            DeviceIds.kBackLeftDrive,
-            DeviceIds.kBackLeftSteer,
-            DeviceIds.kBackLeftSteerEncoder,
+            DeviceIds.getBackLeftDriveId(),
+            DeviceIds.getBackLeftSteerId(),
+            DeviceIds.getBackLeftSteerEncoderId(),
             getBackLeftOffset()
         );
 
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
-            DeviceIds.kBackRightDrive,
-            DeviceIds.kBackRightSteer,
-            DeviceIds.kBackRightSteerEncoder,
+            DeviceIds.getBackRightDriveId(),
+            DeviceIds.getBackRightSteerId(),
+            DeviceIds.getBackRightSteerEncoderId(),
             getBackRightOffset()
         );
     }
 
     public final class LauncherConstants {
-        public static final double kGearRatio = 1.0;
+        public static double getGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("launcher.gear-ratio"));
+        }
 
-        public static final double kHoodSetpointTolerance = 0.01;
-        public static final double kHoodManualMultiplier = 0.01;
+        public static double getHoodSetpointTolerance() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood-setpoint-tolerance"));
+        }
 
-        public static final double kHoodMinPosition = 0.0;
-        public static final double kHoodMaxPosition = 1.0;
+        public static double getHoodManualModifier() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood-manual-modifier"));
+        }
 
-        public static final double kP = 1.0;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
+        public static double getHoodMinPosition() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood-min-position"));
+        }
 
-        public static final double kOffVoltage = 0.0;
-        public static final double kLaunchVoltage = 12.0;
+        public static double getHoodMaxPosition() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood-max-position"));
+        }
+        
+        public static double getKP() {
+            return Double.parseDouble(m_properties.getProperty("launcher.kp"));
+        }
+
+        public static double getKI() {
+            return Double.parseDouble(m_properties.getProperty("launcher.ki"));
+        }
+
+        public static double getKD() {
+            return Double.parseDouble(m_properties.getProperty("launcher.kd"));
+        }
+
+        public static double getOffVoltage() {
+            return Double.parseDouble(m_properties.getProperty("launcher.off-voltage"));
+        }
+
+        public static double getLaunchVoltage() {
+            return Double.parseDouble(m_properties.getProperty("launcher.launch-voltage"));
+        }
     }
 
     public final class IndexerConstants {

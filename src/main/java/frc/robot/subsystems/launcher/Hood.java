@@ -21,7 +21,7 @@ public class Hood extends SubsystemBase {
     private SparkMax m_hood;
 
     public Hood() {
-        m_hood = new SparkMax(DeviceIds.kHood, MotorType.kBrushed);
+        m_hood = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
 
         m_leftServo = new Servo(DeviceIds.kLeftLauncherServo);
         m_rightServo = new Servo(DeviceIds.kRightLauncherServo);
@@ -42,14 +42,14 @@ public class Hood extends SubsystemBase {
     }
 
     public boolean getIsAtSetpoint() {
-        return Math.abs(getPosition() - m_desiredPosition) < LauncherConstants.kHoodSetpointTolerance;
+        return Math.abs(getPosition() - m_desiredPosition) < LauncherConstants.getHoodSetpointTolerance();
     }
 
     public void manualControl(Supplier<Double> throttle) {
-        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.kOperatorControllerDeadband)
-            * LauncherConstants.kHoodManualMultiplier;
+        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.getOperatorControllerDeadband())
+            * LauncherConstants.getHoodManualModifier();
 
-        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, LauncherConstants.kHoodMinPosition, LauncherConstants.kHoodMaxPosition);
+        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, LauncherConstants.getHoodMinPosition(), LauncherConstants.getHoodMaxPosition());
 
         if (m_desiredPosition != newDesiredPosition) {
             runToPosition(m_desiredPosition);

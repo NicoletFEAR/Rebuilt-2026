@@ -31,15 +31,15 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     // private DigitalInput m_beamBreak;
 
     public IntakeDriver() {
-        m_motor = new TalonFX(DeviceIds.kIntakeDriver, new CANBus("rio"));
-        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kDriverGearRatio), DCMotor.getKrakenX60(1));
+        m_motor = new TalonFX(DeviceIds.getIntakeDriverID(), new CANBus("rio"));
+        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.getDriverGearRatio()), DCMotor.getKrakenX60(1));
         // m_beamBreak = new DigitalInput(DeviceIds.kIntakeBeamBreak);
 
         TalonFXConfiguration config = new TalonFXConfiguration();
-        config.Feedback.SensorToMechanismRatio = IntakeConstants.kDriverGearRatio;
-        config.Slot0.kP = IntakeConstants.kDriverKP;
-        config.Slot0.kI = IntakeConstants.kDriverKI;
-        config.Slot0.kD = IntakeConstants.kDriverKD;
+        config.Feedback.SensorToMechanismRatio = IntakeConstants.getDriverGearRatio();
+        config.Slot0.kP = IntakeConstants.getDriverKP();
+        config.Slot0.kI = IntakeConstants.getDriverKI();
+        config.Slot0.kD = IntakeConstants.getDriverKD();
         m_motor.getConfigurator().apply(config);
     }
 
@@ -55,11 +55,11 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     }
 
     public Command intake() {
-        return new InstantCommand(() -> setVoltage(IntakeConstants.kDriverIntakeVoltage), this);
+        return new InstantCommand(() -> setVoltage(IntakeConstants.getDriverIntakeVoltage()), this);
     }
 
     public Command off() {
-        return new InstantCommand(() -> setVoltage(IntakeConstants.kDriverOffVoltage), this);
+        return new InstantCommand(() -> setVoltage(IntakeConstants.getDriverOffVoltage()), this);
     }
     
     @Override
@@ -77,7 +77,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
         Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
         m_motorSim.setInputVoltage(motorVoltage.in(Volts));
         m_motorSim.update(0.02);
-        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IntakeConstants.kDriverGearRatio);
-        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IntakeConstants.kDriverGearRatio);
+        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IntakeConstants.getDriverGearRatio());
+        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IntakeConstants.getDriverGearRatio());
     }
 }

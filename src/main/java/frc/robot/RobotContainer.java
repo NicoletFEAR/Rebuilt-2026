@@ -26,8 +26,10 @@ import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class RobotContainer {
-    private final UniversalController m_driverController = new UniversalController(OperatorConstants.kDriverControllerPort, DriveConstants.getControllerType());
-    private final UniversalController m_operatorController = new UniversalController(OperatorConstants.kOperatorControllerPort, OperatorConstants.getControllerType());
+    private final UniversalController m_driverController = new UniversalController(
+        OperatorConstants.getDriverControllerPort(), DriveConstants.getControllerType());
+    private final UniversalController m_operatorController = new UniversalController(
+        OperatorConstants.getOperatorControllerPort(), OperatorConstants.getControllerType());
     
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");

@@ -91,7 +91,7 @@ public class SwerveDrive extends SubsystemBase {
             };
         }
 
-        m_pigeon = new Pigeon2(DeviceIds.kPigeon, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_pigeon = new Pigeon2(DeviceIds.getPigeonId(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
 
         m_pigeon.getConfigurator().apply(new Pigeon2Configuration().GyroTrim.withGyroScalarZ(1));
 

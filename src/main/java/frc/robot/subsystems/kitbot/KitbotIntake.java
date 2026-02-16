@@ -15,7 +15,7 @@ public class KitbotIntake extends SubsystemBase {
     private SparkMax m_intakeMotor;
 
     public KitbotIntake() {
-        m_intakeMotor = new SparkMax(DeviceIds.kKitbotIntake, MotorType.kBrushed);
+        m_intakeMotor = new SparkMax(DeviceIds.getKitbotIntakeID(), MotorType.kBrushed);
     }
 
     public static KitbotIntake getInstance() {

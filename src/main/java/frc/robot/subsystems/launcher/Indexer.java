@@ -33,15 +33,15 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     // private DigitalInput m_beamBreak;
 
     public Indexer () {
-        m_motor = new TalonFX(DeviceIds.kIndexer, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_motor = new TalonFX(DeviceIds.getIndexerID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         // m_beamBreak = new DigitalInput(DeviceIds.kIndexerBeamBreak);
-        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IndexerConstants.kGearRatio), DCMotor.getKrakenX60(1));
+        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IndexerConstants.getGearRatio()), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration leadConfig = new TalonFXConfiguration();
-        leadConfig.Feedback.SensorToMechanismRatio = IndexerConstants.kGearRatio;
-        leadConfig.Slot0.kP = IndexerConstants.kP;
-        leadConfig.Slot0.kI = IndexerConstants.kI;
-        leadConfig.Slot0.kD = IndexerConstants.kD;
+        leadConfig.Feedback.SensorToMechanismRatio = IndexerConstants.getGearRatio();
+        leadConfig.Slot0.kP = IndexerConstants.getKP();
+        leadConfig.Slot0.kI = IndexerConstants.getKI();
+        leadConfig.Slot0.kD = IndexerConstants.getKD();
         m_motor.getConfigurator().apply(leadConfig);
     }
 
@@ -57,11 +57,11 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     }
 
     public Command index() {
-        return new WaitCommand(0.5).andThen(new InstantCommand(() -> setVoltage(IndexerConstants.kIndexVoltage)));
+        return new WaitCommand(0.5).andThen(new InstantCommand(() -> setVoltage(IndexerConstants.getIndexVoltage())));
     }
 
     public Command off() {
-        return new InstantCommand(() -> setVoltage(IndexerConstants.kOffVoltage), this);
+        return new InstantCommand(() -> setVoltage(IndexerConstants.getOffVoltage()), this);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
         Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
         m_motorSim.setInputVoltage(motorVoltage.in(Volts));
         m_motorSim.update(0.02);
-        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IndexerConstants.kGearRatio);
-        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IndexerConstants.kGearRatio);
+        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IndexerConstants.getGearRatio());
+        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IndexerConstants.getGearRatio());
     }
 }

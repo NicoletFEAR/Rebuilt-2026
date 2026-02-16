@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 /**
  * Class used to abstract all controller types into one universal class.  This will make
  * use the of the CommandPS5Controller, CommandPS4Controller, and CommandXboxController classes
- * so that other systems won't have to be coded for a specific controller.
+ * so that other systems won't have to be coded for a specific controller.  The code will assume
+ * that all controllers use PS5 buttons.  In cases where a controller has a different button id or
+ * name for the same thing, the PS5 equilivant button moth can be called.
  */
 public class UniversalController {
 

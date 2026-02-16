@@ -21,7 +21,7 @@ public class Hood extends SubsystemBase {
     private SparkMax m_hood;
 
     public Hood() {
-        m_hood = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
+        //m_hood = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
 
         m_leftServo = new Servo(DeviceIds.kLeftLauncherServo);
         m_rightServo = new Servo(DeviceIds.kRightLauncherServo);

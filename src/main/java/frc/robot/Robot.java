@@ -8,7 +8,10 @@
 package frc.robot;
 
 import edu.wpi.first.net.WebServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -22,6 +25,9 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 
 public class Robot extends LoggedRobot {
     private RobotContainer m_robotContainer;
+    private double m_autoStart;
+    private boolean m_printedAutoTiming = false;
+    private Command m_autonomousCommand;
 
     @Override
     public void robotInit() {
@@ -84,6 +90,18 @@ public class Robot extends LoggedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
         m_robotContainer.periodic();
+
+        if (m_autonomousCommand != null) {
+            if (!m_autonomousCommand.isScheduled() && !m_printedAutoTiming) {
+                if (DriverStation.isAutonomousEnabled()) {
+                    System.out.println("Auto finished in " + (Timer.getTimestamp() - m_autoStart) + " seconds");
+                } else {
+                    System.out.println("Auto cancelled in " + (Timer.getTimestamp() - m_autoStart) + " seconds");
+                }
+
+                m_printedAutoTiming = true;
+            }
+        }
     }
 
     @Override
@@ -100,7 +118,12 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void autonomousInit() {
-   
+        m_autoStart = Timer.getTimestamp();
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+        if (m_autonomousCommand != null) {
+            CommandScheduler.getInstance().schedule(m_autonomousCommand);
+        }
     }
 
     @Override

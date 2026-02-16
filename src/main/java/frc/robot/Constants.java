@@ -38,7 +38,12 @@ public final class Constants {
 
     public static void instantiateProperties() {
         m_properties = new Properties();
-        kRobotName = kTeamNumberToName.get(RobotController.getTeamNumber());
+        
+        if (Robot.isReal()) {
+            kRobotName = kTeamNumberToName.get(RobotController.getTeamNumber());
+        } else {
+            kRobotName = "tusk";
+        }
 
         try (InputStream input = new FileInputStream(new File(Filesystem.getDeployDirectory(), kRobotName + ".properties"))) {
             m_properties.load(input);
@@ -157,9 +162,9 @@ public final class Constants {
             return Integer.parseInt(m_properties.getProperty("deviceIds.indexer-beam-break"));
         }
 
-        // public static int getHoodID() {
-        //     return Integer.parseInt(m_properties.getProperty("deviceIds.hood"));
-        //}
+         public static int getHoodID() {
+             return Integer.parseInt(m_properties.getProperty("deviceIds.hood"));
+        }
 
         public static final int kLeftLauncherServo = 0;
         public static final int kRightLauncherServo = 1;
@@ -167,6 +172,7 @@ public final class Constants {
 
     public final class OperatorConstants {
         public static int getDriverControllerPort() {
+            System.out.println(m_properties.getProperty("operator.driver-controller-port"));
             return Integer.parseInt(m_properties.getProperty("operator.driver-controller-port"));
         }
 
@@ -174,8 +180,8 @@ public final class Constants {
             return Integer.parseInt(m_properties.getProperty("operator.operator-controller-port"));
         }
 
-        public static int getOperatorControllerDeadband() {
-            return Integer.parseInt(m_properties.getProperty("operator.operator-controller-deadband"));
+        public static double getOperatorControllerDeadband() {
+            return Double.parseDouble(m_properties.getProperty("operator.operator-controller-deadband"));
         }
         
         public static final int kThrottleAxis = Axis.kLeftY.value;

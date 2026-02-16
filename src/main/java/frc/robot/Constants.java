@@ -78,15 +78,15 @@ public final class Constants {
         }
 
         public static int getFrontRightSteerId() {
-            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-steer"));
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-right-steer"));
         }
 
         public static int getFrontRightDriveId() {
-            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-drive"));
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-right-drive"));
         }
 
         public static int getFrontRightSteerEncoderId() {
-            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-steer-encoder"));
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-right-steer-encoder"));
         }
 
         public static int getBackLeftSteerId() {
@@ -157,9 +157,9 @@ public final class Constants {
             return Integer.parseInt(m_properties.getProperty("deviceIds.indexer-beam-break"));
         }
 
-        public static int getHoodID() {
-            return Integer.parseInt(m_properties.getProperty("deviceIds.hood"));
-        }
+        // public static int getHoodID() {
+        //     return Integer.parseInt(m_properties.getProperty("deviceIds.hood"));
+        //}
 
         public static final int kLeftLauncherServo = 0;
         public static final int kRightLauncherServo = 1;

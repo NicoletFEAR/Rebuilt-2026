@@ -36,17 +36,17 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     private DCMotorSim m_motorSim;
 
     public IntakePivot() {
-        m_motor = new TalonFX(DeviceIds.kIntakePivot, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kPivotGearRatio), DCMotor.getKrakenX60(1));
+        m_motor = new TalonFX(DeviceIds.getIntakePivotID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.getPivotGearRatio()), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration config = new TalonFXConfiguration();
-        config.Slot0.kP = IntakeConstants.kPivotKP;
-        config.Slot0.kI = IntakeConstants.kPivotKI;
-        config.Slot0.kD = IntakeConstants.kPivotKD;
-        config.Feedback.SensorToMechanismRatio = IntakeConstants.kPivotGearRatio;
+        config.Slot0.kP = IntakeConstants.getPivotKP();
+        config.Slot0.kI = IntakeConstants.getPivotKI();
+        config.Slot0.kD = IntakeConstants.getPivotKD();
+        config.Feedback.SensorToMechanismRatio = IntakeConstants.getPivotGearRatio();
         m_motor.getConfigurator().apply(config);
 
-        m_desiredPosition = IntakeConstants.kPivotHomePosition;
+        m_desiredPosition = IntakeConstants.getPivotHomePosition();
         m_motor.setPosition(m_desiredPosition);
     }
 
@@ -76,24 +76,24 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     }
 
     public Command out() {
-        return runProfileToPosition(IntakeConstants.kPivotOutPosition);
+        return runProfileToPosition(IntakeConstants.getPivotOutPosition());
     }
 
     public Command in() {
-        return runProfileToPosition(IntakeConstants.kPivotHomePosition);
+        return runProfileToPosition(IntakeConstants.getPivotHomePosition());
     }
 
     @Override
     public boolean getIsAtSetpoint() {
-        return Math.abs(getPosition() - m_desiredPosition) < IntakeConstants.kPivotSetpointTolerance;
+        return Math.abs(getPosition() - m_desiredPosition) < IntakeConstants.getPivotSetpointTolerance();
     }
 
     @Override
     public void manualControl(Supplier<Double> throttle) {
-        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.kOperatorControllerDeadband)
-            * IntakeConstants.kPivotManualMultiplier;
+        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.getOperatorControllerDeadband())
+            * IntakeConstants.getPivotManualMultiplier();
 
-        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, IntakeConstants.kPivotMinPosition, IntakeConstants.kPivotMaxPosition);
+        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, IntakeConstants.getPivotMinPosition(), IntakeConstants.getPivotMaxPosition());
 
         if (m_desiredPosition != newDesiredPosition) {
             runToPosition(m_desiredPosition);
@@ -117,7 +117,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
         m_motorSim.setInputVoltage(motorVoltage.in(Volts));
         m_motorSim.update(0.02);
-        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IntakeConstants.kPivotGearRatio);
-        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IntakeConstants.kPivotGearRatio);
+        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IntakeConstants.getPivotGearRatio());
+        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IntakeConstants.getPivotGearRatio());
     }
 }

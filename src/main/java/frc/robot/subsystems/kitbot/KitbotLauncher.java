@@ -15,7 +15,7 @@ public class KitbotLauncher extends SubsystemBase {
     private SparkMax m_intakeMotor;
 
     public KitbotLauncher() {
-        m_intakeMotor = new SparkMax(DeviceIds.kKitbotLauncher, MotorType.kBrushed);
+        m_intakeMotor = new SparkMax(DeviceIds.getKitbotLauncherID(), MotorType.kBrushed);
     }
 
     public static KitbotLauncher getInstance() {

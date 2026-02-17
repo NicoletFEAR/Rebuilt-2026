@@ -36,17 +36,17 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private DCMotorSim m_motorSim;
 
     public Launcher() {
-        m_leftLauncher = new TalonFX(DeviceIds.kLeftLauncher, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-        m_rightLauncher = new TalonFX(DeviceIds.kRightLauncher, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.kGearRatio), DCMotor.getKrakenX60(1));
+        m_leftLauncher = new TalonFX(DeviceIds.getLeftLauncherID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_rightLauncher = new TalonFX(DeviceIds.getRightLauncherID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.getGearRatio()), DCMotor.getKrakenX60(1));
 
-        m_rightLauncher.setControl(new Follower(DeviceIds.kLeftLauncher, MotorAlignmentValue.Opposed));
+        m_rightLauncher.setControl(new Follower(DeviceIds.getLeftLauncherID(), MotorAlignmentValue.Opposed));
 
         TalonFXConfiguration leadConfig = new TalonFXConfiguration();
-        leadConfig.Feedback.SensorToMechanismRatio = LauncherConstants.kGearRatio;
-        leadConfig.Slot0.kP = LauncherConstants.kP;
-        leadConfig.Slot0.kI = LauncherConstants.kI;
-        leadConfig.Slot0.kD = LauncherConstants.kD;
+        leadConfig.Feedback.SensorToMechanismRatio = LauncherConstants.getGearRatio();
+        leadConfig.Slot0.kP = LauncherConstants.getKP();
+        leadConfig.Slot0.kI = LauncherConstants.getKI();
+        leadConfig.Slot0.kD = LauncherConstants.getKD();
         m_leftLauncher.getConfigurator().apply(leadConfig);
     }
 
@@ -64,14 +64,14 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     public Command launch() {
         return new InstantCommand(() -> {
             m_state = LauncherState.LAUNCHING;
-            setVoltage(LauncherConstants.kLaunchVoltage * m_speedModifier);
+            setVoltage(LauncherConstants.getLaunchVoltage() * m_speedModifier);
         }, this);
     }
 
     public Command off() {
         return new InstantCommand(() -> {
             m_state = LauncherState.OFF;
-            setVoltage(LauncherConstants.kOffVoltage);
+            setVoltage(LauncherConstants.getOffVoltage());
         }, this);
     }
 
@@ -114,8 +114,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
         m_motorSim.setInputVoltage(motorVoltage.in(Volts));
         m_motorSim.update(0.02);
-        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * LauncherConstants.kGearRatio);
-        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * LauncherConstants.kGearRatio);
+        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * LauncherConstants.getGearRatio());
+        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * LauncherConstants.getGearRatio());
     }
 
     private enum LauncherState {

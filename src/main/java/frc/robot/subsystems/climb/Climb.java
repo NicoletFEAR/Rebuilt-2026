@@ -32,7 +32,6 @@ import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.DeviceIds;
-import frc.robot.Constants.OperatorConstants;
 
 public class Climb extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;
@@ -40,23 +39,23 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     private DCMotorSim m_motorSim;
 
     public Climb() {
-        m_motor = new TalonFX(DeviceIds.kClimb, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, ClimbConstants.kGearRatio), DCMotor.getKrakenX60(1));
+        m_motor = new TalonFX(DeviceIds.getClimbID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, ClimbConstants.getGearRatio()), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration config = new TalonFXConfiguration();
-        config.Slot0.kP = ClimbConstants.kP;
-        config.Slot0.kI = ClimbConstants.kI;
-        config.Slot0.kD = ClimbConstants.kD;
-        config.Feedback.SensorToMechanismRatio = ClimbConstants.kGearRatio;
+        config.Slot0.kP = ClimbConstants.getKP();
+        config.Slot0.kI = ClimbConstants.getKI();
+        config.Slot0.kD = ClimbConstants.getKD();
+        config.Feedback.SensorToMechanismRatio = ClimbConstants.getGearRatio();
         m_motor.getConfigurator().apply(config);
 
-        m_desiredPosition = ClimbConstants.kHomePosition;
+        m_desiredPosition = ClimbConstants.getHomePosition();
         m_motor.setPosition(m_desiredPosition);
     }
 
     @Override
     public boolean getIsAtSetpoint() {
-        return Math.abs(getPosition() - m_desiredPosition) < ClimbConstants.kSetpointTolerance;
+        return Math.abs(getPosition() - m_desiredPosition) < ClimbConstants.getSetpointTolerance();
     }
 
     @Override
@@ -89,18 +88,18 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     }
 
     public Command climbL1Height() {
-        return runProfileToPosition(ClimbConstants.kL1Position);
+        return runProfileToPosition(ClimbConstants.getL1Position());
     }
 
     public Command retract() {
-        return runProfileToPosition(ClimbConstants.kHomePosition);
+        return runProfileToPosition(ClimbConstants.getHomePosition());
     }
 
     @Override
     public void manualControl(Supplier<Double> throttle) {
-        double adjustedThrottle = throttle.get() * ClimbConstants.kManualMultiplier;
+        double adjustedThrottle = throttle.get() * ClimbConstants.getManualMultiplier();
 
-        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, ClimbConstants.kMinPosition, ClimbConstants.kMaxPosition);
+        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, ClimbConstants.getMinPosition(), ClimbConstants.getMaxPosition());
 
         if (m_desiredPosition != newDesiredPosition) {
             m_desiredPosition = newDesiredPosition;
@@ -125,7 +124,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
         m_motorSim.setInputVoltage(motorVoltage.in(Volts));
         m_motorSim.update(0.02);
-        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * ClimbConstants.kGearRatio);
-        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * ClimbConstants.kGearRatio);
+        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * ClimbConstants.getGearRatio());
+        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * ClimbConstants.getGearRatio());
     }
 }

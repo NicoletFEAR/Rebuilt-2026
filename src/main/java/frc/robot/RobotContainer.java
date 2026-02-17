@@ -21,16 +21,16 @@ import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
-import frc.robot.subsystems.launcher.Hood;
+// import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class RobotContainer {
     private final CommandPS5Controller m_driverController = new CommandPS5Controller(
-        OperatorConstants.kDriverControllerPort);
+        OperatorConstants.getDriverControllerPort());
     private final CommandXboxController m_operatorController = new CommandXboxController(
-        OperatorConstants.kOperatorControllerPort);
+        OperatorConstants.getOperatorControllerPort());
     
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
@@ -42,7 +42,7 @@ public class RobotContainer {
 
     private Launcher m_launcher;
     private Indexer m_indexer;
-    private Hood m_hood;
+    // private Hood m_hood;
     private IntakeDriver m_intakeDriver;
     private IntakePivot m_intakePivot;
     private Climb m_climb;
@@ -56,7 +56,7 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("tusk")) {
             m_launcher = new Launcher();
             m_indexer = new Indexer();
-            m_hood = new Hood();
+            // m_hood = new Hood();
             m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
@@ -171,15 +171,15 @@ public class RobotContainer {
             }, m_climb));
 
             // Control the hood manually -- up and down arrows of operator controller
-            m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
-                if (m_operatorController.povUp().getAsBoolean() ^ m_operatorController.povDown().getAsBoolean()) {
-                    return 0.0;
-                } else if (m_operatorController.povUp().getAsBoolean()) {
-                    return 1.0;
-                } else {
-                    return -1.0;
-                }
-            }), m_hood));
+            // m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
+            //     if (m_operatorController.povUp().getAsBoolean() ^ m_operatorController.povDown().getAsBoolean()) {
+            //         return 0.0;
+            //     } else if (m_operatorController.povUp().getAsBoolean()) {
+            //         return 1.0;
+            //     } else {
+            //         return -1.0;
+            //     }
+            // }), m_hood));
             
             // Intakes fuel -- a button on operator controller
             m_operatorController

@@ -39,7 +39,12 @@ public final class Constants {
 
     public static void instantiateProperties() {
         m_properties = new Properties();
-        kRobotName = kTeamNumberToName.get(RobotController.getTeamNumber());
+        
+        if (Robot.isReal()) {
+            kRobotName = kTeamNumberToName.get(RobotController.getTeamNumber());
+        } else {
+            kRobotName = "tusk";
+        }
 
         try (InputStream input = new FileInputStream(new File(Filesystem.getDeployDirectory(), kRobotName + ".properties"))) {
             m_properties.load(input);
@@ -66,50 +71,120 @@ public final class Constants {
     }
 
     public final class DeviceIds {
-        public static final int kFrontLeftSteer = 1;
-        public static final int kFrontLeftDrive = 2;
-        public static final int kFrontLeftSteerEncoder = 3;
+        public static int getFrontLeftSteerId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-steer"));
+        }
 
-        public static final int kFrontRightSteer = 4;
-        public static final int kFrontRightDrive = 5;
-        public static final int kFrontRightSteerEncoder = 6;
+        public static int getFrontLeftDriveId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-drive"));
+        }
 
-        public static final int kBackRightSteer = 7;
-        public static final int kBackRightDrive = 8;
-        public static final int kBackRightSteerEncoder = 9;
+        public static int getFrontLeftSteerEncoderId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-left-steer-encoder"));
+        }
 
-        public static final int kBackLeftSteer = 10;
-        public static final int kBackLeftDrive = 11;
-        public static final int kBackLeftSteerEncoder = 12;
+        public static int getFrontRightSteerId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-right-steer"));
+        }
 
-        public static final int kPigeon = 13;
+        public static int getFrontRightDriveId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-right-drive"));
+        }
 
-        public static final int kLeftLauncher = 14;
-        public static final int kRightLauncher = 15;
+        public static int getFrontRightSteerEncoderId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.front-right-steer-encoder"));
+        }
 
-        public static final int kKitbotIntake = 14;
-        public static final int kKitbotLauncher = 15;
+        public static int getBackLeftSteerId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-left-steer"));
+        }
 
-        public static final int kIndexer = 16;
+        public static int getBackLeftDriveId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-left-drive"));
+        }
 
-        public static final int kIntakeDriver = 18;
-        public static final int kIntakePivot = 19;
+        public static int getBackLeftSteerEncoderId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-left-steer-encoder"));
+        }
 
-        public static final int kClimb = 20;
+        public static int getBackRightSteerId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-right-steer"));
+        }
 
-        public static final int kIntakeBeamBreak = 0;
-        public static final int kIndexerBeamBreak = 1;
+        public static int getBackRightDriveId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-right-drive"));
+        }
+
+        public static int getBackRightSteerEncoderId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.back-right-steer-encoder"));
+        }
+
+        public static int getPigeonId() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.pigeon"));
+        }
+
+        public static int getLeftLauncherID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.left-launcher"));
+        }
+
+        public static int getRightLauncherID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.right-launcher"));
+        }
+
+        public static int getKitbotIntakeID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.kitbot-intake"));
+        }
+
+        public static int getKitbotLauncherID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.kitbot-launcher"));
+        }
+
+        public static int getIndexerID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.indexer"));
+        }
+
+        public static int getIntakeDriverID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.intake-driver"));
+        }
+
+        public static int getIntakePivotID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.intake-pivot"));
+        }
+
+        public static int getClimbID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.climb"));
+        }
+
+        public static int getIntakeBeamBreakID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.intake-beam-break"));
+        }
+
+        public static int getIndexerBeamBreakID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.indexer-beam-break"));
+        }
+
+         public static int getHoodID() {
+             return Integer.parseInt(m_properties.getProperty("deviceIds.hood"));
+        }
 
         public static final int kLeftLauncherServo = 0;
         public static final int kRightLauncherServo = 1;
     }
 
     public final class OperatorConstants {
-        public static final int kDriverControllerPort = 0;
-        public static final int kOperatorControllerPort = 1;
+        public static int getDriverControllerPort() {
+            System.out.println(m_properties.getProperty("operator.driver-controller-port"));
+            return Integer.parseInt(m_properties.getProperty("operator.driver-controller-port"));
+        }
 
-        public static final double kOperatorControllerDeadband = 0.1;
+        public static int getOperatorControllerPort() {
+            return Integer.parseInt(m_properties.getProperty("operator.operator-controller-port"));
+        }
 
+        public static double getOperatorControllerDeadband() {
+            return Double.parseDouble(m_properties.getProperty("operator.operator-controller-deadband"));
+        }
+        
         public static final int kThrottleAxis = Axis.kLeftY.value;
         public static final int kStrafeAxis = Axis.kLeftX.value;
         public static final int kSteerAxis = Axis.kRightX.value;
@@ -296,100 +371,210 @@ public final class Constants {
         );
 
         public static final SwerveModuleConstants kFrontLeft = new SwerveModuleConstants(
-            DeviceIds.kFrontLeftDrive,
-            DeviceIds.kFrontLeftSteer,
-            DeviceIds.kFrontLeftSteerEncoder,
+            DeviceIds.getFrontLeftDriveId(),
+            DeviceIds.getFrontLeftSteerId(),
+            DeviceIds.getFrontLeftSteerEncoderId(),
             getFrontLeftOffset()
         );
 
         public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
-            DeviceIds.kFrontRightDrive,
-            DeviceIds.kFrontRightSteer,
-            DeviceIds.kFrontRightSteerEncoder,
+            DeviceIds.getFrontRightDriveId(),
+            DeviceIds.getFrontRightSteerId(),
+            DeviceIds.getFrontRightSteerEncoderId(),
             getFrontRightOffset()
         );
 
         public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
-            DeviceIds.kBackLeftDrive,
-            DeviceIds.kBackLeftSteer,
-            DeviceIds.kBackLeftSteerEncoder,
+            DeviceIds.getBackLeftDriveId(),
+            DeviceIds.getBackLeftSteerId(),
+            DeviceIds.getBackLeftSteerEncoderId(),
             getBackLeftOffset()
         );
 
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
-            DeviceIds.kBackRightDrive,
-            DeviceIds.kBackRightSteer,
-            DeviceIds.kBackRightSteerEncoder,
+            DeviceIds.getBackRightDriveId(),
+            DeviceIds.getBackRightSteerId(),
+            DeviceIds.getBackRightSteerEncoderId(),
             getBackRightOffset()
         );
     }
 
     public final class LauncherConstants {
-        public static final double kGearRatio = 1.0;
+        public static double getGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("launcher.gear-ratio"));
+        }
 
-        public static final double kHoodSetpointTolerance = 0.01;
-        public static final double kHoodManualMultiplier = 0.01;
+        public static double getHoodSetpointTolerance() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood-setpoint-tolerance"));
+        }
 
-        public static final double kHoodMinPosition = 0.0;
-        public static final double kHoodMaxPosition = 1.0;
+        public static double getHoodManualModifier() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood-manual-modifier"));
+        }
 
-        public static final double kP = 1.0;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
+        public static double getHoodMinPosition() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood-min-position"));
+        }
 
-        public static final double kOffVoltage = 0.0;
-        public static final double kLaunchVoltage = 12.0;
+        public static double getHoodMaxPosition() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood-max-position"));
+        }
+        
+        public static double getKP() {
+            return Double.parseDouble(m_properties.getProperty("launcher.kp"));
+        }
+
+        public static double getKI() {
+            return Double.parseDouble(m_properties.getProperty("launcher.ki"));
+        }
+
+        public static double getKD() {
+            return Double.parseDouble(m_properties.getProperty("launcher.kd"));
+        }
+
+        public static double getOffVoltage() {
+            return Double.parseDouble(m_properties.getProperty("launcher.off-voltage"));
+        }
+
+        public static double getLaunchVoltage() {
+            return Double.parseDouble(m_properties.getProperty("launcher.launch-voltage"));
+        }
     }
 
     public final class IndexerConstants {
-         public static final double kGearRatio = 1.0;
+        public static double getGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("indexer.gear-ratio"));
+        }
 
-        public static final double kP = 1.0;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
+        public static double getKP() {
+            return Double.parseDouble(m_properties.getProperty("indexer.kp"));
+        }
 
-        public static final double kOffVoltage = 0.0;
-        public static final double kIndexVoltage = 12.0;
+        public static double getKI() {
+            return Double.parseDouble(m_properties.getProperty("indexer.ki"));
+        }
+
+        public static double getKD() {
+            return Double.parseDouble(m_properties.getProperty("indexer.kd"));
+        }
+
+        public static double getOffVoltage() {
+            return Double.parseDouble(m_properties.getProperty("indexer.off-voltage"));
+        }
+
+        public static double getIndexVoltage() {
+            return Double.parseDouble(m_properties.getProperty("indexer.index-voltage"));
+        }
     }
 
     public final class IntakeConstants {
-        public static final double kDriverGearRatio = 1.0;
-        public static final double kPivotGearRatio = 1.0;
+        public static double getDriverGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-gear-ratio"));
+        }
+        public static double getPivotGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-gear-ratio"));
+        }
         
-        public static final double kDriverKP = 1.0;
-        public static final double kDriverKI = 0.0;
-        public static final double kDriverKD = 0.0;
-        public static final double kPivotKP = 1.0;
-        public static final double kPivotKI = 0.0;
-        public static final double kPivotKD = 0.0;
+        public static double getDriverKP() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-kp"));
+        }
 
-        public static final double kDriverOffVoltage = 0.0;
-        public static final double kDriverIntakeVoltage = -10.0;
+        public static double getDriverKI() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-ki"));
+        }
 
-        public static final double kPivotSetpointTolerance = 0.025;
-        public static final double kPivotManualMultiplier = 0.005;
+        public static double getDriverKD() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-kd"));
+        }
 
-        public static final double kPivotMinPosition = 0.0;
-        public static final double kPivotMaxPosition = 1000.0;
+        public static double getPivotKP() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-kp"));
+        }
 
-        public static final double kPivotHomePosition = 0.0;
-        public static final double kPivotOutPosition = 1.0;
+        public static double getPivotKI() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-ki"));
+        }
+
+        public static double getPivotKD() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-kd"));
+        }
+        
+        public static double getDriverOffVoltage() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-off-voltage"));
+        }
+
+        public static double getDriverIntakeVoltage() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver-intake-voltage"));
+        }
+
+        public static double getPivotSetpointTolerance() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-setpoint-tolerance"));
+        }
+
+        public static double getPivotManualMultiplier() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-manual-multiplier"));
+        }
+
+        public static double getPivotMinPosition() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-min-position"));
+        }
+
+        public static double getPivotMaxPosition() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-max-position"));
+        }
+
+        public static double getPivotHomePosition() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-home-position"));
+        }
+
+        public static double getPivotOutPosition() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-out-position"));
+        }
     }
 
     public final class ClimbConstants {
-        public static final double kGearRatio = 25.0;
-        public static final double kSprocketCircumference = 1.79 * Math.PI;
-        public static final double kSetpointTolerance = 0.05;
-        public static final double kManualMultiplier = 0.01;
+        public static double getGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("climb.gear-ratio"));
+        }
 
-        public static final double kP = 1.0;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
+        public static double getSprocketCircumference() {
+            return Math.PI * Double.parseDouble(m_properties.getProperty("climb.sprocket-circumference"));
+        }
+        
+        public static double getSetpointTolerance() {
+            return Double.parseDouble(m_properties.getProperty("climb.setpoint-tolerance"));
+        }
 
-        public static final double kMinPosition = 0.0;
-        public static final double kMaxPosition = 2.05;
+        public static double getManualMultiplier() {
+            return Double.parseDouble(m_properties.getProperty("climb.manual-multiplier"));
+        }
 
-        public static final double kHomePosition = 2.05;
-        public static final double kL1Position = 2.0;
+         public static double getKP() {
+            return Double.parseDouble(m_properties.getProperty("climb.kp"));
+        }
+
+        public static double getKI() {
+            return Double.parseDouble(m_properties.getProperty("climb.ki"));
+        }
+
+        public static double getKD() {
+            return Double.parseDouble(m_properties.getProperty("climb.kd"));
+        }
+
+        public static double getMinPosition() {
+            return Double.parseDouble(m_properties.getProperty("climb.min-position"));
+        }
+
+        public static double getMaxPosition() {
+            return Double.parseDouble(m_properties.getProperty("climb.max-position"));
+        }
+
+        public static double getHomePosition() {
+            return Double.parseDouble(m_properties.getProperty("climb.home-position"));
+        }
+
+        public static double getL1Position() {
+            return Double.parseDouble(m_properties.getProperty("climb.L1-position"));
+        }
     }
 }

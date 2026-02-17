@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.347872577045369,
-        "y": 4.191361777372363
+        "x": 2.9131466207972534,
+        "y": 3.993092626121654
       },
       "isLocked": false,
       "linkedName": "Start T"
@@ -20,8 +20,8 @@
         "y": 4.0
       },
       "prevControl": {
-        "x": 2.9809606743550563,
-        "y": 3.8671642239385693
+        "x": 3.0556636902734926,
+        "y": 4.001088265338137
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Start T Paths",

@@ -35,34 +35,25 @@ public class UniversalController {
         this.port = port;
         this.controllerType = controllerType;
 
-        try {
-            switch (controllerType) {
+        switch (controllerType) {
+            case PS4:
+                this.ps4Controller = new CommandPS4Controller(port);
+                break;
 
-                case PS4:
-                    this.ps4Controller = new CommandPS4Controller(port);
-                    break;
+            case PS5:
+                this.ps5Controller = new CommandPS5Controller(port);
+                break;
 
-                case PS5:
-                    this.ps5Controller = new CommandPS5Controller(port);
-                    break;
+            case XBOX:
+                this.xboxController = new CommandXboxController(port);
+                break;
 
-                case XBOX:
-                    this.xboxController = new CommandXboxController(port);
-                    break;
-
-                default:
-                    System.out.println("Unsupported Controller Type: " + controllerType);
-                    new Alert("Unsupported Controller Type: " + controllerType, AlertType.kError);
-            }
-
-            this.controllerAxis = new Axis(controllerType);
-            this.controllerButton = new Button(controllerType);
+            default:
+                sendAlert("supplied controller type: " + controllerType);
         }
-        catch (Exception e) {
-            // For now, dump an error message to system out.  In the future a better 
-            // path for logging should be used
-            System.out.println("Error creating controller: " + e.getMessage());
-        }
+
+        this.controllerAxis = new Axis(controllerType);
+        this.controllerButton = new Button(controllerType);
     }
 
     public ControllerType getType() {
@@ -88,8 +79,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.getRawAxis(axis);
             default:
-                System.out.println("Unsupported Controller Type, Axis: " + axis + " for type:" + controllerType);
-                new Alert("Unsupported Controller Type, Axis: " + axis + " for type:" + controllerType, AlertType.kError);
+                sendAlert("getRawAxis");
                 return 0D;
         }
     }
@@ -103,8 +93,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.back();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType);
-                new Alert("Unsupported Controller Type:" + controllerType, AlertType.kError);
+                sendAlert("button create");
                 return null;
         }
     }
@@ -118,8 +107,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.leftBumper();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button L1");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button L1", AlertType.kError);
+                sendAlert("button L1");
                 return null;
         }
     }
@@ -133,8 +121,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.leftTrigger();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button L2");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button L2", AlertType.kError);
+                sendAlert("button L2");
                 return null;
         }
     }
@@ -148,8 +135,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.start();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button options");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button options", AlertType.kError);
+                sendAlert("button options");
                 return null;
         }
     }
@@ -163,8 +149,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.rightBumper();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button R1");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button R1", AlertType.kError);
+                sendAlert("button R1");
                 return null;
         }
     }
@@ -178,8 +163,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.rightTrigger();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button R2");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button R2", AlertType.kError);
+                sendAlert("button R2");
                 return null;
         }
     }
@@ -193,8 +177,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.povDown();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", povDown");
-                new Alert("Unsupported Controller Type:" + controllerType + ", povDown", AlertType.kError);
+                sendAlert("povDown");
                 return null;
         }
     }
@@ -208,8 +191,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.povUp();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", povUp");
-                new Alert("Unsupported Controller Type:" + controllerType + ", povUp", AlertType.kError);
+                sendAlert("povUp");
                 return null;
         }
     }
@@ -223,8 +205,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.povLeft();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", povLeft");
-                new Alert("Unsupported Controller Type:" + controllerType + ", povLeft", AlertType.kError);
+                sendAlert("povLeft");
                 return null;
         }
     }
@@ -238,8 +219,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.povRight();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", povRight");
-                new Alert("Unsupported Controller Type:" + controllerType + ", povRight", AlertType.kError);
+                sendAlert("povRight");
                 return null;
         }
     }
@@ -253,8 +233,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.y();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button triangle");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button triangle", AlertType.kError);
+                sendAlert("button triangle");
                 return null;
         }
     }
@@ -268,8 +247,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.b();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button circle");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button circle", AlertType.kError);
+                sendAlert("button circle");
                 return null;
         }
     }
@@ -283,8 +261,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.x();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button square");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button square", AlertType.kError);
+                sendAlert("button square");
                 return null;
         }
     }
@@ -298,8 +275,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.a();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button x");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button x", AlertType.kError);
+                sendAlert("button x");
                 return null;
         }
     }
@@ -311,8 +287,7 @@ public class UniversalController {
             case PS5:
                 return ps5Controller.PS();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button PS");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button PS", AlertType.kError);
+                sendAlert("button PS");
                 return null;
         }
     }
@@ -326,8 +301,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.button(button);        
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button " + button);
-                new Alert("Unsupported Controller Type:" + controllerType + ", button " + button, AlertType.kError);
+                sendAlert("button " + button);
                 return null;
         }
     }
@@ -341,8 +315,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.isConnected();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", isConnected");
-                new Alert("Unsupported Controller Type:" + controllerType + ", isConnected", AlertType.kError);
+                sendAlert("isConnected");
                 return false;
         }
     }
@@ -354,8 +327,7 @@ public class UniversalController {
             case PS5:
                 return ps5Controller.touchpad();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button touchpad");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button touchpad", AlertType.kError);
+                sendAlert("button touchpad");
                 return null;
         }
     }
@@ -365,8 +337,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.leftStick();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button leftStick");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button leftStick", AlertType.kError);
+                sendAlert("button leftStick");
                 return null;
         }
     }
@@ -376,8 +347,7 @@ public class UniversalController {
             case XBOX:
                 return xboxController.rightStick();
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", button rightStick");
-                new Alert("Unsupported Controller Type:" + controllerType + ", button rightStick", AlertType.kError);
+                sendAlert("button rightStick");
                 return null;
         }
     }
@@ -394,8 +364,7 @@ public class UniversalController {
                 xboxController.setRumble(type, value);
                 break;
             default:
-                System.out.println("Unsupported Controller Type: " + controllerType + ", setRumble");
-                new Alert("Unsupported Controller Type: " + controllerType + ", setRumble", AlertType.kError);
+                sendAlert("setRumble");
         }
     }
 
@@ -413,9 +382,26 @@ public class UniversalController {
             case XBOX:
                 return xboxController;
             default:
-                System.out.println("Unsupported Controller Type:" + controllerType + ", getCommandController");
-                new Alert("Unsupported Controller Type:" + controllerType + ", getCommandController", AlertType.kError);
+                sendAlert("getCommandController");
                 return null;
         }
+    }
+
+    /**
+     * Send an alert and send message to console
+     * @param message The message to output
+     */
+    private void sendAlert(String message) {
+        sendAlert(message, AlertType.kError);
+    }
+
+    /**
+     * Send an alert including a custom messages and send the message to the console
+     * @param message  The message to send in the alert
+     * @param alertType The type of alert
+     */
+    private void sendAlert(String message, AlertType alertType) {
+        System.out.println("Unsupported Controller Type: " + controllerType + " " + message);
+        new Alert("Unsupported Controller Type: " + controllerType + " " + message, alertType);
     }
 }

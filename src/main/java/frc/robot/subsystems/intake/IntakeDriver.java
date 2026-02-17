@@ -9,6 +9,7 @@ import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -40,6 +41,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
         config.Slot0.kP = IntakeConstants.getDriverKP();
         config.Slot0.kI = IntakeConstants.getDriverKI();
         config.Slot0.kD = IntakeConstants.getDriverKD();
+        config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         m_motor.getConfigurator().apply(config);
     }
 

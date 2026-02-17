@@ -338,7 +338,7 @@ public class UniversalController {
         }
     }
 
-    public Trigger rightStrick() {
+    public Trigger rightStick() {
         switch (controllerType) {
             case XBOX:
                 return xboxController.rightStick();

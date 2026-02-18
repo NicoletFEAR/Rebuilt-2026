@@ -118,7 +118,7 @@ public class SwerveDrive extends SubsystemBase {
 
         m_poseEstimator = new SwerveDrivePoseEstimator(
                 m_kinematics,
-                RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(180) : Rotation2d.fromDegrees(0),
+                RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
                 getModulePositions(),
                 new Pose2d(),
                 VecBuilder.fill(0.1, 0.1, 0.0),
@@ -126,7 +126,7 @@ public class SwerveDrive extends SubsystemBase {
 
         m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(
                 m_kinematics,
-                RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(180) : Rotation2d.fromDegrees(0),
+                RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
                 getModulePositions(),
                 new Pose2d(),
                 VecBuilder.fill(0.1, 0.1, 0.0001),
@@ -247,8 +247,8 @@ public class SwerveDrive extends SubsystemBase {
 
     public Rotation2d getPigeonYaw() {
         if (RobotBase.isReal()) {
-            Rotation2d rotation = RobotContainer.getAlliance() == Alliance.Blue ? m_pigeon.getRotation2d().plus(Rotation2d.fromDegrees(180))
-                    : m_pigeon.getRotation2d();
+            Rotation2d rotation = RobotContainer.getAlliance() == Alliance.Blue ? m_pigeon.getRotation2d()
+                    : m_pigeon.getRotation2d().plus(Rotation2d.fromDegrees(180));
 
             return rotation;
         } else {
@@ -391,6 +391,7 @@ public class SwerveDrive extends SubsystemBase {
         Logger.recordOutput("Swerve/Module States", getModuleStates());
         Logger.recordOutput("Swerve/Chassis Speeds", m_chassisSpeeds);
         Logger.recordOutput("Swerve/Robot Relative Chassis Speeds", getRobotRelativeSpeeds());
+        Logger.recordOutput("Swerve/Pose Estimator", m_poseEstimator.getEstimatedPosition());
     }
 
     public enum DriveMode {

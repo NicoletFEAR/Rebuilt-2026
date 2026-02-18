@@ -183,11 +183,11 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("operator.operator-controller-deadband"));
         }
 
-        public static final Axis operatorAxis = new Axis(getControllerType());
+        public static final Axis operatorAxis = new Axis(DriveConstants.getControllerType());
         public static final int kThrottleAxis = operatorAxis.getAxis("kLeftY");
         public static final int kStrafeAxis = operatorAxis.getAxis("kLeftX");
-        public static final int kSteerAxis = operatorAxis.getAxis("kRightX");
-
+        public static final int kSteerAxis = operatorAxis.getAxis("kRightY");
+        
         public static ControllerType getControllerType() {
             return ControllerType.valueOf(m_properties.getProperty("operator.controller-type"));
         }

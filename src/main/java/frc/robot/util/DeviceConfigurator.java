@@ -60,7 +60,7 @@ public class DeviceConfigurator {
     public static void configureTalonFXDriveMotor(TalonFX motor) {
         TalonFXConfiguration config = new TalonFXConfiguration();
 
-        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         config.CurrentLimits.StatorCurrentLimitEnable = true;
         config.CurrentLimits.StatorCurrentLimit = 360;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;

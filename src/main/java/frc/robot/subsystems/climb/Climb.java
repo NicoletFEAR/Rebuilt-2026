@@ -32,11 +32,15 @@ import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.DeviceIds;
+import frc.robot.util.SendableButton;
 
 public class Climb extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;
     private TalonFX m_motor;
     private DCMotorSim m_motorSim;
+
+    private double m_minPosition;
+    private double m_maxPosition;
 
     public Climb() {
         m_motor = new TalonFX(DeviceIds.getClimbID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
@@ -50,7 +54,12 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         m_motor.getConfigurator().apply(config);
 
         m_desiredPosition = ClimbConstants.getHomePosition();
+        m_minPosition = ClimbConstants.getMinPosition();
+        m_maxPosition = ClimbConstants.getMaxPosition();
         m_motor.setPosition(m_desiredPosition);
+
+        new SendableButton("MechSettings/Climb/Reset Min Position", () -> m_minPosition = getPosition());
+        new SendableButton("MechSettings/Climb/Reset Max Position", () -> m_maxPosition = getPosition());
     }
 
     @Override

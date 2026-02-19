@@ -25,14 +25,15 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.DeviceIds;
-import frc.robot.util.SendableButton;
 
 public class Climb extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;
@@ -58,8 +59,8 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         m_maxPosition = ClimbConstants.getMaxPosition();
         m_motor.setPosition(m_desiredPosition);
 
-        new SendableButton("MechSettings/Climb/Reset Min Position", () -> m_minPosition = getPosition());
-        new SendableButton("MechSettings/Climb/Reset Max Position", () -> m_maxPosition = getPosition());
+        SmartDashboard.putData("MechSettings/Climb/Reset Min Climb Position", new InstantCommand(() -> m_minPosition = getPosition()));
+        SmartDashboard.putData("MechSettings/Climb/Reset Max Climb Position", new InstantCommand(() -> m_maxPosition = getPosition()));
     }
 
     @Override

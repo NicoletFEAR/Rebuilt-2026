@@ -64,15 +64,16 @@ public class TeleopSwerve extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        //isBatteryInBack gives value to change controls based on location of battery
         m_throttle =
             MathUtil.applyDeadband(
-                -m_driverController.getRawAxis(m_throttleAxis), DriveConstants.getSwerveDeadband());
+                DriveConstants.isBatteryInBack() *m_driverController.getRawAxis(m_throttleAxis), DriveConstants.getSwerveDeadband());
         m_strafe =
             MathUtil.applyDeadband(
-                -m_driverController.getRawAxis(m_strafeAxis), DriveConstants.getSwerveDeadband());
+                DriveConstants.isBatteryInBack() *m_driverController.getRawAxis(m_strafeAxis), DriveConstants.getSwerveDeadband());
         m_steer =
             MathUtil.applyDeadband(
-                -m_driverController.getRawAxis(m_steerAxis), DriveConstants.getSwerveDeadband());
+                DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_steerAxis), DriveConstants.getSwerveDeadband());
 
         m_throttle *= m_percentModifier;
         m_strafe *= m_percentModifier;

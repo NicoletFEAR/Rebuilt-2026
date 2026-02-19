@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Queue;
+
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -54,7 +56,7 @@ public final class Constants {
     public static boolean hasCANivore() {
         return m_properties.getProperty("has-canivore").equals("true");
     }
-
+    
     // How frequently the state of the robot updates during simulations
     // Set to 0.02 to represent once every loop (20 ms)
     public static final double kdt = 0.02;
@@ -186,7 +188,7 @@ public final class Constants {
         public static final Axis operatorAxis = new Axis(DriveConstants.getControllerType());
         public static final int kThrottleAxis = operatorAxis.getAxis("kLeftY");
         public static final int kStrafeAxis = operatorAxis.getAxis("kLeftX");
-        public static final int kSteerAxis = operatorAxis.getAxis("kRightY");
+        public static final int kSteerAxis = operatorAxis.getAxis("kRightX");
         
         public static ControllerType getControllerType() {
             return ControllerType.valueOf(m_properties.getProperty("operator.controller-type"));
@@ -202,6 +204,13 @@ public final class Constants {
     }
 
     public final class DriveConstants {
+        
+        public static int isBatteryInBack() {
+            if (m_properties.getProperty("battery-back").equals("true"))
+                return -1;
+            else 
+                return 1;
+        }
 
         public static ControllerType getControllerType() {
             return ControllerType.valueOf(m_properties.getProperty("drive.controller-type"));

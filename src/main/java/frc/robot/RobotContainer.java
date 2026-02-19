@@ -165,6 +165,16 @@ public class RobotContainer {
                 }
             }), m_climb));
 
+            m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
+                if (m_operatorController.povRight().getAsBoolean()) {
+                    return 1.0;
+                } else if (m_operatorController.povLeft().getAsBoolean()) {
+                    return -1.0;
+                } else {
+                    return 0.0;
+                }
+            }), m_intakePivot));
+
             m_operatorController.leftBumper().and(() -> m_operatorController.rightBumper().getAsBoolean()).whileFalse(new RunCommand(() -> {
                 m_climb.resetDesiredPosition();
             }, m_climb));

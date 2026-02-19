@@ -12,7 +12,7 @@
         "y": 7.195048221581858
       },
       "isLocked": false,
-      "linkedName": "Launch D"
+      "linkedName": "Launch 1"
     },
     {
       "anchor": {
@@ -78,7 +78,7 @@
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 124.0
+    "rotation": -56.0
   },
   "useDefaultConstraints": false
 }

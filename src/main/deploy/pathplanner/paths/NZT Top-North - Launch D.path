@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Launch D"
+      "linkedName": "Launch 1"
     }
   ],
   "rotationTargets": [],
@@ -72,7 +72,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 124.0
+    "rotation": -56.0
   },
   "reversed": false,
   "folder": "Neutral Zone Trench Paths",

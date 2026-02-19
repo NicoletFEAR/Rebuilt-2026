@@ -3,42 +3,42 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5049666666666663,
-        "y": 6.285966666666667
+        "x": 1.6583452211126959,
+        "y": 4.1191012838801715
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.20053286637625,
-        "y": 6.2859330437843415
+        "x": 1.4092618479835388,
+        "y": 4.09771266002072
       },
       "isLocked": false,
-      "linkedName": "Start 2"
+      "linkedName": "Climb Top"
     },
     {
       "anchor": {
-        "x": 2.3356333333333335,
-        "y": 6.285966666666667
+        "x": 1.4976111111111112,
+        "y": 4.125
       },
       "prevControl": {
-        "x": 2.609178453894025,
-        "y": 6.286517263364803
+        "x": 1.7647863651301905,
+        "y": 4.155188624410563
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "H-Score"
+      "linkedName": "Climb Top Insert"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.5,
+      "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.5,
+        "maxAngularVelocity": 270.0,
+        "maxAngularAcceleration": 360.0,
         "nominalVoltage": 12.0,
         "unlimited": false
       }
@@ -47,22 +47,22 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
-    "nominalVoltage": 12.6,
+    "maxVelocity": 1.5,
+    "maxAcceleration": 1.5,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
+    "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Test Paths",
+  "folder": "Climb Insertion",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

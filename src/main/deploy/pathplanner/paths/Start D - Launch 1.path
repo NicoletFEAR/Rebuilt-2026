@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.4,
-        "y": 6.196
+        "x": 3.6,
+        "y": 6.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2054062810320811,
-        "y": 6.049071083960362
+        "x": 3.3701217317983634,
+        "y": 6.551735144590671
       },
       "isLocked": false,
-      "linkedName": "Launch D"
+      "linkedName": "Start D"
     },
     {
       "anchor": {
-        "x": 1.1,
-        "y": 5.95
+        "x": 3.4,
+        "y": 6.196
       },
       "prevControl": {
-        "x": 2.774524872635987,
-        "y": 6.03133597812396
+        "x": 3.4291816444584216,
+        "y": 6.57496415899604
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot Middle"
+      "linkedName": "Launch 1"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -56.0
   },
   "reversed": false,
   "folder": "Start D and Depot Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 124.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }

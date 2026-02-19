@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.4,
-        "y": 1.804
+        "x": 3.6,
+        "y": 1.4
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.412845249024095,
-        "y": 1.3123159125497947
+        "x": 3.260906037773876,
+        "y": 1.5949932461731184
       },
       "isLocked": false,
-      "linkedName": "Launch O"
+      "linkedName": "Start O"
     },
     {
       "anchor": {
-        "x": 0.42,
-        "y": 0.65
+        "x": 2.8715777777777785,
+        "y": 1.784033333333333
       },
       "prevControl": {
-        "x": 1.097972791302832,
-        "y": 0.9579915820140894
+        "x": 3.3370255850811477,
+        "y": 1.7897104198248435
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Outpost"
+      "linkedName": "Launch 3"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 56.0
   },
   "reversed": false,
   "folder": "Start O and Outpost Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -124.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }

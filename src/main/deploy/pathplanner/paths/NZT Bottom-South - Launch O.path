@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 3.4,
-        "y": 1.804
+        "x": 2.8715777777777785,
+        "y": 1.784033333333333
       },
       "prevControl": {
-        "x": 3.4,
-        "y": 1.2502126257631043
+        "x": 2.8715777777777785,
+        "y": 1.2302459590964372
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Launch O"
+      "linkedName": "Launch 3"
     }
   ],
   "rotationTargets": [],
@@ -72,7 +72,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -124.0
+    "rotation": 56.0
   },
   "reversed": false,
   "folder": "Neutral Zone Trench Paths",

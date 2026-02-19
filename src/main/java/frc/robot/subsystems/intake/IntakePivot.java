@@ -91,7 +91,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     @Override
     public void manualControl(Supplier<Double> throttle) {
         double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.getOperatorControllerDeadband())
-            * IntakeConstants.getPivotManualMultiplier();
+            * IntakeConstants.getPivotManualModifier();
 
         double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, IntakeConstants.getPivotMinPosition(), IntakeConstants.getPivotMaxPosition());
 

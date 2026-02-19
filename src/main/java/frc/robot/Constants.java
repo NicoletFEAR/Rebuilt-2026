@@ -511,8 +511,8 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("intake.pivot-setpoint-tolerance"));
         }
 
-        public static double getPivotManualMultiplier() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-manual-multiplier"));
+        public static double getPivotManualModifier() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot-manual-modifier"));
         }
 
         public static double getPivotMinPosition() {
@@ -545,8 +545,8 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("climb.setpoint-tolerance"));
         }
 
-        public static double getManualMultiplier() {
-            return Double.parseDouble(m_properties.getProperty("climb.manual-multiplier"));
+        public static double getManualModifier() {
+            return Double.parseDouble(m_properties.getProperty("climb.manual-modifier"));
         }
 
          public static double getKP() {

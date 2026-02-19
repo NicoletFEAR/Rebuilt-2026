@@ -144,12 +144,12 @@ public class RobotContainer {
                 .onTrue(m_indexer.index().alongWith(m_launcher.launch()))
                 .onFalse(m_indexer.off().alongWith(m_launcher.off()));
                 
-            // Increases launcher speed by 10% -- b button on operator controller
+            // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
             m_operatorController
                 .b()
                 .onTrue(m_launcher.raiseSpeed());
             
-            // Decreases launcher speed by 10% -- x button of operator controller
+            // Decreases launcher speed by 10% unless it's at 0%, in which case it goes back up to 100% -- x button of operator controller
             m_operatorController
                 .x()
                 .onTrue(m_launcher.lowerSpeed());
@@ -202,11 +202,11 @@ public class RobotContainer {
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
-            NamedCommands.registerCommand("ClimbL1", m_climb.climbL1Height().andThen(m_climb.retract()));
-            NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
-            NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
-            NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));
-            NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
+            // NamedCommands.registerCommand("ClimbL1", m_climb.climbL1Height().andThen(m_climb.retract()));
+            // NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
+            // NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
+            // NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));
+            // NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
         }
     }
 }

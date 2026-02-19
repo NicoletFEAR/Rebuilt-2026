@@ -145,12 +145,12 @@ public class RobotContainer {
                 .onTrue(m_indexer.index().alongWith(m_launcher.launch()))
                 .onFalse(m_indexer.off().alongWith(m_launcher.off()));
                 
-            // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
+            // Increases launcher speed by 10% -- b button on operator controller
             m_operatorController
                 .b()
                 .onTrue(m_launcher.raiseSpeed());
             
-            // Decreases launcher speed by 10% unless it's at 0%, in which case it goes back up to 100% -- x button of operator controller
+            // Decreases launcher speed by 10% -- x button of operator controller
             m_operatorController
                 .x()
                 .onTrue(m_launcher.lowerSpeed());

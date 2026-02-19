@@ -108,7 +108,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     public void manualControl(Supplier<Double> throttle) {
         double adjustedThrottle = throttle.get() * ClimbConstants.getManualMultiplier();
 
-        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, ClimbConstants.getMinPosition(), ClimbConstants.getMaxPosition());
+        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, m_minPosition, m_maxPosition);
 
         if (m_desiredPosition != newDesiredPosition) {
             m_desiredPosition = newDesiredPosition;

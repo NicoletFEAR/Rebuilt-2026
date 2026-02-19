@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3239304415732933,
-        "y": 6.340910140896313
+        "x": 1.3362617269794712,
+        "y": 5.86826630826472
       },
       "isLocked": false,
       "linkedName": "Depot Middle"
     },
     {
       "anchor": {
-        "x": 3.4,
-        "y": 6.196
+        "x": 1.839486447931526,
+        "y": 5.542353780313838
       },
       "prevControl": {
-        "x": 1.6662629398118478,
-        "y": 5.938743157080664
+        "x": 1.645031294127031,
+        "y": 5.699475367496727
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 124.0
+    "rotation": -38.41805534482206
   },
   "reversed": false,
   "folder": "Start D and Depot Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }

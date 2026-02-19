@@ -7,19 +7,38 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start O - Launch O"
+            "pathName": "Start O - Launch 3"
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 2.5
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Launch O - Outpost"
+            "pathName": "Launch 3 - Outpost"
           }
         },
         {
@@ -35,9 +54,28 @@
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 4.7
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
+                }
+              }
+            ]
           }
         },
         {
@@ -47,9 +85,34 @@
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 3.5
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ClimbPrepare"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Climb Bottom - Insertion"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb"
           }
         }
       ]

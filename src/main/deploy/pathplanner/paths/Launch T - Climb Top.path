@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.122340918611893,
-        "y": 3.7749325045122264
+        "x": 2.089644621143066,
+        "y": 3.711584760139374
       },
       "isLocked": false,
-      "linkedName": "Launch T"
+      "linkedName": "Launch 2"
     },
     {
       "anchor": {
-        "x": 1.7230385164051354,
-        "y": 4.067346647646221
+        "x": 1.6583452211126959,
+        "y": 4.1191012838801715
       },
       "prevControl": {
-        "x": 2.3607251093248816,
-        "y": 4.128661778809308
+        "x": 2.04389218065958,
+        "y": 4.161520082803447
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": "Start T Paths",

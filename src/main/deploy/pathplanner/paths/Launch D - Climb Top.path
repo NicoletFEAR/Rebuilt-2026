@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.4,
-        "y": 6.196
+        "x": 1.839486447931526,
+        "y": 5.542353780313838
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7090908868656967,
-        "y": 5.300078671741086
+        "x": 1.8446072040642916,
+        "y": 4.3450031819644845
       },
       "isLocked": false,
       "linkedName": "Launch D"
     },
     {
       "anchor": {
-        "x": 1.7230385164051354,
-        "y": 4.067346647646221
+        "x": 1.6583452211126959,
+        "y": 4.1191012838801715
       },
       "prevControl": {
-        "x": 2.193139748172875,
-        "y": 4.6887446886281285
+        "x": 1.688367316973659,
+        "y": 5.09278893745704
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": "Start D and Depot Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 124.0
+    "rotation": -38.41805534482206
   },
   "useDefaultConstraints": false
 }

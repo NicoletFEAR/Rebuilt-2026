@@ -4,9 +4,11 @@
   "holonomicMode": true,
   "pathFolders": [
     "Neutral Zone Trench Paths",
+    "Climb Insertion",
     "Start D and Depot Paths",
     "Start O and Outpost Paths",
-    "Start T Paths"
+    "Start T Paths",
+    "Test Paths"
   ],
   "autoFolders": [
     "000 (see https˸ⳆⳆtinyurl.comⳆ4786auto for more info)",

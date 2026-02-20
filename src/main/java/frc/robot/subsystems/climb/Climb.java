@@ -101,6 +101,10 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         return runProfileToPosition(ClimbConstants.getL1Position());
     }
 
+    public Command L1ClimbRetract() {
+        return runProfileToPosition(ClimbConstants.getL1RetractPosition());
+    }
+
     public Command retract() {
         return runProfileToPosition(ClimbConstants.getHomePosition());
     }

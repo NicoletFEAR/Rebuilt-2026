@@ -61,7 +61,10 @@ public class TeleopSwerve extends Command {
     public void initialize() {
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
+    /**
+     * This method is called repeatedly when this Command is scheduled to run.  It is used to 
+     * apply changes to the throttle, strafe, and steer values based on the controller input.
+     */
     @Override
     public void execute() {
         //isBatteryInBack gives value to change controls based on location of battery

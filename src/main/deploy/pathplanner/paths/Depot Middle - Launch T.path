@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4168952702144788,
-        "y": 5.563328908024631
+        "x": 1.235798549968523,
+        "y": 5.740098228148387
       },
       "isLocked": false,
       "linkedName": "Depot Middle"
     },
     {
       "anchor": {
-        "x": 2.6,
-        "y": 4.0
+        "x": 2.3459009009009013,
+        "y": 4.014572072072072
       },
       "prevControl": {
-        "x": 2.3579176904077723,
-        "y": 4.287101574884133
+        "x": 2.1472924647739005,
+        "y": 4.337036851350642
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Launch 2"
+      "linkedName": "Launch T"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 1.0463819070981635
   },
   "reversed": false,
   "folder": "Start T Paths",

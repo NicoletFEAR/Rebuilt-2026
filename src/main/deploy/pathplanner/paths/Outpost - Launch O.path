@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.478787560511483,
-        "y": 0.9558969160335331
+        "x": 0.8294308909350676,
+        "y": 0.7437795858426136
       },
       "isLocked": false,
       "linkedName": "Outpost"
     },
     {
       "anchor": {
-        "x": 3.4,
-        "y": 1.804
+        "x": 1.068855555555556,
+        "y": 0.9654999999999996
       },
       "prevControl": {
-        "x": 2.73610196689386,
-        "y": 1.4871893691199534
+        "x": 0.44436682531578553,
+        "y": 0.4744193401391943
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -124.0
+    "rotation": 41.05192631546355
   },
   "reversed": false,
   "folder": "Start O and Outpost Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }

@@ -144,12 +144,12 @@ public class RobotContainer {
                 .onTrue(m_indexer.index().alongWith(m_launcher.launch()))
                 .onFalse(m_indexer.off().alongWith(m_launcher.off()));
                 
-            // Increases launcher speed by 10% -- b button on operator controller
+            // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
             m_operatorController
                 .circle()
                 .onTrue(m_launcher.raiseSpeed());
             
-            // Decreases launcher speed by 10% -- x button of operator controller
+            // Decreases launcher speed by 10% unless it's at 0%, in which case it goes back up to 100% -- x button of operator controller
             m_operatorController
                 .square()
                 .onTrue(m_launcher.lowerSpeed());
@@ -164,6 +164,16 @@ public class RobotContainer {
                     return 0.0;
                 }
             }), m_climb));
+
+            m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
+                if (m_operatorController.povRight().getAsBoolean()) {
+                    return 1.0;
+                } else if (m_operatorController.povLeft().getAsBoolean()) {
+                    return -1.0;
+                } else {
+                    return 0.0;
+                }
+            }), m_intakePivot));
 
             m_operatorController.L1().and(() -> m_operatorController.R1().getAsBoolean()).whileFalse(new RunCommand(() -> {
                 m_climb.resetDesiredPosition();
@@ -202,9 +212,9 @@ public class RobotContainer {
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
-            NamedCommands.registerCommand("ClimbL1", m_climb.climbL1Height().andThen(m_climb.retract()));
-            NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
-            NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
+            // NamedCommands.registerCommand("ClimbL1", m_climb.climbL1Height().andThen(m_climb.retract()));
+            // NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
+            // NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
             NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));
             NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
         }

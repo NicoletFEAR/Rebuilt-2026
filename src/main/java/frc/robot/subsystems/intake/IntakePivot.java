@@ -21,8 +21,10 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
@@ -34,6 +36,9 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;
     private TalonFX m_motor;
     private DCMotorSim m_motorSim;
+
+    private double m_minPosition;
+    private double m_maxPosition;
 
     public IntakePivot() {
         m_motor = new TalonFX(DeviceIds.getIntakePivotID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
@@ -47,7 +52,12 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         m_motor.getConfigurator().apply(config);
 
         m_desiredPosition = IntakeConstants.getPivotHomePosition();
+        m_minPosition = IntakeConstants.getPivotMinPosition();
+        m_maxPosition = IntakeConstants.getPivotMaxPosition();
         m_motor.setPosition(m_desiredPosition);
+
+        SmartDashboard.putData("MechSettings/Intake/Pivot/Reset Min Intake Pivot Position", new InstantCommand(() -> m_minPosition = getPosition()));
+        SmartDashboard.putData("MechSettings/Intake/Pivot/Reset Max Intake Pivot Position", new InstantCommand(() -> m_maxPosition = getPosition()));
     }
 
     @Override
@@ -93,7 +103,11 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.getOperatorControllerDeadband())
             * IntakeConstants.getPivotManualModifier();
 
-        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, IntakeConstants.getPivotMinPosition(), IntakeConstants.getPivotMaxPosition());
+        double newDesiredPosition = m_desiredPosition + adjustedThrottle;
+
+        if (limitOverrideMode) {
+            newDesiredPosition = MathUtil.clamp(newDesiredPosition, m_minPosition, m_maxPosition);
+        }
 
         if (m_desiredPosition != newDesiredPosition) {
             runToPosition(m_desiredPosition);

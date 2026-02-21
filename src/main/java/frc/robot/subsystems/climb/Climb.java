@@ -34,6 +34,7 @@ import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.DeviceIds;
+import frc.robot.Constants.OperatorConstants;
 
 public class Climb extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;
@@ -111,9 +112,14 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
 
     @Override
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {
-        double adjustedThrottle = throttle.get() * ClimbConstants.getManualModifier();
+        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.getOperatorControllerDeadband())
+            * ClimbConstants.getManualModifier();
 
-        double newDesiredPosition = MathUtil.clamp(m_desiredPosition + adjustedThrottle, m_minPosition, m_maxPosition);
+        double newDesiredPosition = m_desiredPosition + adjustedThrottle;
+
+        if (limitOverrideMode) {
+            newDesiredPosition = MathUtil.clamp(newDesiredPosition, m_minPosition, m_maxPosition);
+        }
 
         if (m_desiredPosition != newDesiredPosition) {
             m_desiredPosition = newDesiredPosition;

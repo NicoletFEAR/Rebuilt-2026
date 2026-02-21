@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6,
-        "y": 4.0
+        "x": 7.1,
+        "y": 7.35
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.286299372166844,
-        "y": 4.39142943213191
+        "x": 6.325603566708608,
+        "y": 7.365733145666472
       },
       "isLocked": false,
-      "linkedName": "Launch 2"
+      "linkedName": "NZT Top-North"
     },
     {
       "anchor": {
-        "x": 1.1,
-        "y": 5.95
+        "x": 3.205,
+        "y": 7.35
       },
       "prevControl": {
-        "x": 1.3251527453008334,
-        "y": 5.659025810924633
+        "x": 4.461205492167323,
+        "y": 7.329096528731186
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot Middle"
+      "linkedName": "Launch 1"
     }
   ],
   "rotationTargets": [],
@@ -33,22 +33,22 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -62.93424938861828
   },
   "reversed": false,
-  "folder": "Start T Paths",
+  "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
-    "velocity": 0.0,
-    "rotation": 0.0
+    "velocity": 0,
+    "rotation": -90.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

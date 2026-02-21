@@ -3,47 +3,33 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.66,
-        "y": 3.325
+        "x": 3.205,
+        "y": 7.35
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4131129141865306,
-        "y": 3.285671043002228
+        "x": 2.410738446265537,
+        "y": 5.666411791166869
       },
       "isLocked": false,
-      "linkedName": "Climb Bottom"
+      "linkedName": "Launch 1"
     },
     {
       "anchor": {
-        "x": 1.5,
-        "y": 3.325
+        "x": 1.6583452211126959,
+        "y": 4.1191012838801715
       },
       "prevControl": {
-        "x": 1.7645531672477646,
-        "y": 3.364767793920197
+        "x": 2.1886873258463857,
+        "y": 5.192620406188013
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb Bottom Insert"
+      "linkedName": "Climb Top"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 1.5,
-        "maxAngularVelocity": 270.0,
-        "maxAngularAcceleration": 360.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -59,10 +45,10 @@
     "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Climb Insertion",
+  "folder": "Start D and Depot Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -62.93424938861828
   },
   "useDefaultConstraints": true
 }

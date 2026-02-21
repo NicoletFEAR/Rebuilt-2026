@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.839486447931526,
-        "y": 5.542353780313838
+        "x": 3.205,
+        "y": 7.35
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8149200045803704,
-        "y": 4.432467324646067
+        "x": 5.102652139436632,
+        "y": 7.3803075006468895
       },
       "isLocked": false,
-      "linkedName": "Launch D"
+      "linkedName": "Launch 1"
     },
     {
       "anchor": {
-        "x": 1.6583452211126959,
-        "y": 4.1191012838801715
+        "x": 7.1,
+        "y": 7.35
       },
       "prevControl": {
-        "x": 1.7581309645438006,
-        "y": 5.0692792612510695
+        "x": 5.293992329739243,
+        "y": 7.318139870675208
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb Top"
+      "linkedName": "NZT Top-South"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 90.0
   },
   "reversed": false,
-  "folder": "Start D and Depot Paths",
+  "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -38.41805534482206
+    "rotation": -62.93424938861828
   },
   "useDefaultConstraints": true
 }

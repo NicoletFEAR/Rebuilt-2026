@@ -3,47 +3,33 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.66,
-        "y": 3.325
+        "x": 3.202888888888889,
+        "y": 0.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4131129141865306,
-        "y": 3.285671043002228
+        "x": 4.914779917677839,
+        "y": 0.6945118855782335
       },
       "isLocked": false,
-      "linkedName": "Climb Bottom"
+      "linkedName": "Launch 3"
     },
     {
       "anchor": {
-        "x": 1.5,
-        "y": 3.325
+        "x": 7.1,
+        "y": 0.65
       },
       "prevControl": {
-        "x": 1.7645531672477646,
-        "y": 3.364767793920197
+        "x": 5.273813730183683,
+        "y": 0.7514318802437943
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb Bottom Insert"
+      "linkedName": "NZT Bottom-North"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 1.5,
-        "maxAngularVelocity": 270.0,
-        "maxAngularAcceleration": 360.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -59,10 +45,10 @@
     "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Climb Insertion",
+  "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 66.78413838507123
   },
   "useDefaultConstraints": true
 }

@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3806771991667177,
-        "y": 3.6678945526839426
+        "x": 2.089644621143066,
+        "y": 3.711584760139374
       },
       "isLocked": false,
       "linkedName": "Launch 2"
     },
     {
       "anchor": {
-        "x": 0.42,
-        "y": 0.65
+        "x": 1.6583452211126959,
+        "y": 4.1191012838801715
       },
       "prevControl": {
-        "x": 0.5794772888822953,
-        "y": 0.8909899541643823
+        "x": 2.04389218065958,
+        "y": 4.161520082803447
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Outpost"
+      "linkedName": "Climb Top"
     }
   ],
   "rotationTargets": [],
@@ -33,16 +33,16 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": "Start T Paths",
@@ -50,5 +50,5 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

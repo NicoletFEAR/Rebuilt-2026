@@ -588,4 +588,14 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("climb.L1-retract-position"));
         }
     }
+
+    public final class LEDConstants {
+        public static int getSlotStart(int slot) {
+            return Integer.parseInt(m_properties.getProperty("led.slot-" + slot + ".start"));
+        }
+
+        public static int getSlotEnd(int slot) {
+            return Integer.parseInt(m_properties.getProperty("led.slot-" + slot + ".end"));
+        }
+    }
 }

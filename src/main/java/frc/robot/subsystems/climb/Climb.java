@@ -43,6 +43,8 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     private double m_minPosition;
     private double m_maxPosition;
 
+    private ClimbState climbState = ClimbState.STATIONARY;
+
     public Climb() {
         m_motor = new TalonFX(DeviceIds.getClimbID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, ClimbConstants.getGearRatio()), DCMotor.getKrakenX60(1));
@@ -75,6 +77,12 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
 
     @Override
     public void runToPosition(double position) {
+        // Set the state of the climb
+        if (position == m_desiredPosition)
+            climbState = ClimbState.STATIONARY;
+        else
+            climbState = ClimbState.CLIMBING;
+
         m_desiredPosition = position;
         m_motor.setControl(new PositionVoltage(m_desiredPosition).withSlot(0));
     }
@@ -83,11 +91,17 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     public Command runProfileToPosition(double position) {
         return new FunctionalCommand(
             () -> {
+                if (position == m_desiredPosition)
+                    this.climbState = ClimbState.STATIONARY;
+                else 
+                    this.climbState = ClimbState.CLIMBING;
                 m_desiredPosition = position;
                 m_motor.setControl(new MotionMagicVoltage(position));
             },
             () -> {},
-            (isFinished) -> {},
+            (isFinished) -> {
+                this.climbState = ClimbState.STATIONARY;
+            },
             this::getIsAtSetpoint,
             this
         );
@@ -107,6 +121,10 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
 
     public Command retract() {
         return runProfileToPosition(ClimbConstants.getHomePosition());
+    }
+
+    public ClimbState getClimbState() {
+        return climbState;
     }
 
     @Override

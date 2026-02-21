@@ -162,7 +162,6 @@ public class RobotContainer {
                     return 1.0;
                 } else if (m_operatorController.R1().getAsBoolean()) {
                     return -1.0;
-
                 } else {
                     return 0.0;
                 }

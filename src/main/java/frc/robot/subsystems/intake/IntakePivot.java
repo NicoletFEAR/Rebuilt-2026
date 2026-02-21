@@ -30,7 +30,6 @@ import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.DeviceIds;
-import frc.robot.Constants.OperatorConstants;
 
 public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;
@@ -100,12 +99,11 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
 
     @Override
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {
-        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.getOperatorControllerDeadband())
-            * IntakeConstants.getPivotManualModifier();
+        double adjustedThrottle = throttle.get() * IntakeConstants.getPivotManualModifier();
 
         double newDesiredPosition = m_desiredPosition + adjustedThrottle;
 
-        if (limitOverrideMode) {
+        if (!limitOverrideMode) {
             newDesiredPosition = MathUtil.clamp(newDesiredPosition, m_minPosition, m_maxPosition);
         }
 

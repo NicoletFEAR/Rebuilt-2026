@@ -30,7 +30,6 @@ public class Hood extends SubsystemBase {
         m_rightServo.setBoundsMicroseconds(2000, 1600, 1500, 1400, 1000);
     }
 
-    // TODO: Add position estimation
     public double getPosition() {
         return m_desiredPosition;
     }

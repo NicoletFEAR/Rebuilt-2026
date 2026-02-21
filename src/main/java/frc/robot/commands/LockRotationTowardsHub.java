@@ -7,11 +7,14 @@
 
 package frc.robot.commands;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.util.Utils;
 
 public class LockRotationTowardsHub extends Command {
     /** Creates a new TeleopSwerve. */
@@ -24,6 +27,7 @@ public class LockRotationTowardsHub extends Command {
 
     private double m_throttle;
     private double m_strafe;
+    private double m_steer;
 
     private boolean m_isOpenLoop;
     private boolean m_isFieldRelative;
@@ -43,7 +47,6 @@ public class LockRotationTowardsHub extends Command {
 
         m_throttleAxis = throttleAxis;
         m_strafeAxis = strafeAxis;
-
         m_percentModifier = percentModifier;
         m_isOpenLoop = isOpenLoop;
 
@@ -64,17 +67,38 @@ public class LockRotationTowardsHub extends Command {
     @Override
     public void execute() {
         //isBatteryInBack gives value to change controls based on location of battery
-        m_throttle =
-            MathUtil.applyDeadband(
-                DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis), DriveConstants.getSwerveDeadband());
-        m_strafe =
-            MathUtil.applyDeadband(
-                DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis), DriveConstants.getSwerveDeadband());
+        m_throttle = MathUtil.applyDeadband(
+            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
+            DriveConstants.getSwerveDeadband()
+        );
+
+        m_strafe = MathUtil.applyDeadband(
+            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
+            DriveConstants.getSwerveDeadband()
+        );
+        
+        double desiredAngle = Math.atan2(
+            DriveConstants.kHubPosition.getY() - m_drivebase.getPose().getTranslation().getY(),
+            DriveConstants.kHubPosition.getX() - m_drivebase.getPose().getTranslation().getX()
+        );
+
+        if (Math.abs(desiredAngle - m_drivebase.getYaw().getRadians()) < DriveConstants.getRotationTolerance()) {
+            m_steer = 0;    
+
+        } else {
+            double angleError = Utils.calculateShortestPath(m_drivebase.getYaw().getDegrees(), Math.toDegrees(desiredAngle));
+
+            if (angleError > 0) {
+                m_steer = 1;
+            }
+            else m_steer = -1;
+        }
 
         m_throttle *= m_percentModifier;
         m_strafe *= m_percentModifier;
+        m_steer *= m_percentModifier;
 
-        m_drivebase.drive(m_throttle, m_strafe, 0, m_isOpenLoop, m_isFieldRelative);
+        m_drivebase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
     }
 
     // Called once the command ends or is interrupted.

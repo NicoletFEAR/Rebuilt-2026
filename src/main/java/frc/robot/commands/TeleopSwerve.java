@@ -68,15 +68,20 @@ public class TeleopSwerve extends Command {
     @Override
     public void execute() {
         //isBatteryInBack gives value to change controls based on location of battery
-        m_throttle =
-            MathUtil.applyDeadband(
-                DriveConstants.isBatteryInBack() *m_driverController.getRawAxis(m_throttleAxis), DriveConstants.getSwerveDeadband());
-        m_strafe =
-            MathUtil.applyDeadband(
-                DriveConstants.isBatteryInBack() *m_driverController.getRawAxis(m_strafeAxis), DriveConstants.getSwerveDeadband());
-        m_steer =
-            MathUtil.applyDeadband(
-                DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_steerAxis), DriveConstants.getSwerveDeadband());
+        m_throttle = MathUtil.applyDeadband(
+            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
+            DriveConstants.getSwerveDeadband()
+        );
+
+        m_strafe = MathUtil.applyDeadband(
+            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
+            DriveConstants.getSwerveDeadband()
+        );
+
+        m_steer = MathUtil.applyDeadband(
+            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_steerAxis),
+            DriveConstants.getSwerveDeadband()
+        );
 
         m_throttle *= m_percentModifier;
         m_strafe *= m_percentModifier;

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.climb.Climb;
@@ -122,6 +123,20 @@ public class RobotContainer {
             .create()
             .onTrue(Commands.runOnce(() -> m_driveBase.zeroGyro(), m_driveBase));
         
+        // Enables Palantir-Class Target Lock on the hub
+        m_driverController
+            .triangle()
+            .whileTrue(
+                new LockRotationTowardsHub(
+                    m_driverController,
+                    OperatorConstants.kThrottleAxis,
+                    OperatorConstants.kStrafeAxis,
+                    OperatorConstants.getDefaultSpeed(),
+                    true,
+                    true
+                )
+            );
+
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {
             // Intakes fuel -- left bumper of driver controller

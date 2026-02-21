@@ -335,6 +335,11 @@ public final class Constants {
         public static double getTurnKA() {
             return Double.parseDouble(m_properties.getProperty("drive.turn-ka"));
         }
+
+        public static double getRotationTolerance() {
+            return Double.parseDouble(m_properties.getProperty("drive.rotation-tolerance"));
+        }
+
         public static double getFrontLeftOffset() {
             return Double.parseDouble(m_properties.getProperty("drive.front-left-offset"));
         }
@@ -404,6 +409,8 @@ public final class Constants {
             DeviceIds.getBackRightSteerEncoderId(),
             getBackRightOffset()
         );
+
+        public static final Translation2d kHubPosition = new Translation2d(4.619, 4.033);
     }
 
     public final class LauncherConstants {

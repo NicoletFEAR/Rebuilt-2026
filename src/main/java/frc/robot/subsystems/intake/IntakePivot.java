@@ -89,7 +89,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     }
 
     @Override
-    public void manualControl(Supplier<Double> throttle) {
+    public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {
         double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.getOperatorControllerDeadband())
             * IntakeConstants.getPivotManualModifier();
 

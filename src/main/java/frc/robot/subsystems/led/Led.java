@@ -27,6 +27,9 @@ public class Led extends SubsystemBase {
     public static final RGBWColor kGreen = new RGBWColor(Color.kGreen);
     public static final RGBWColor kWhite = new RGBWColor(Color.kWhite);
     public static final RGBWColor kRed = new RGBWColor(Color.kRed);
+    public static final RGBWColor kTeal = new RGBWColor(Color.kTeal);
+    public static final RGBWColor kYellow = new RGBWColor(Color.kYellow);
+    public static final RGBWColor kBlue = new RGBWColor(Color.kBlue);
 
     private CANdle m_candle;
     private LedState m_state = LedState.OFF;
@@ -100,6 +103,38 @@ public class Led extends SubsystemBase {
         for (int i = 0; i < 8; ++i) {
             m_candle.setControl(new EmptyAnimation(i));
         }
+    }
+
+    public void startLaunchAnimation() {
+        applyAnimation(0, AnimationType.Fire, kTeal);
+    }
+
+    public void stopLaunchAnimation() {
+        applyAnimation(0, AnimationType.None, null);
+    }
+
+    public void startIntakeAnimation() {
+        applyAnimation(0, AnimationType.Fire, kYellow);
+    }
+
+    public void stopIntakeAnimation() {
+        applyAnimation(0, AnimationType.None, null);
+    }
+
+    public void startClimbAnimation() {
+        applyAnimation(0, AnimationType.SingleFade, kBlue);
+    }
+
+    public void stopClimbAnimation() {
+        applyAnimation(0, AnimationType.None, null);
+    }
+
+    public void startAutoAnimation() {
+        applyAnimation(0, AnimationType.Rainbow, kBlue);
+    }
+
+    public void stopAutoAnimation() {
+        applyAnimation(0, AnimationType.None, null);
     }
 
     /**

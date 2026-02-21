@@ -130,10 +130,18 @@ public class Led extends SubsystemBase {
     }
 
     public void startAutoAnimation() {
-        applyAnimation(0, AnimationType.Rainbow, kBlue);
+        applyAnimation(0, AnimationType.Rainbow, kRed);
     }
 
     public void stopAutoAnimation() {
+        applyAnimation(0, AnimationType.None, null);
+    }
+
+    public void startSwerveAnimation() {
+        applyAnimation(0, AnimationType.ColorFlow, kWhite);
+    }
+
+    public void stopSwerveAnimation() {
         applyAnimation(0, AnimationType.None, null);
     }
 

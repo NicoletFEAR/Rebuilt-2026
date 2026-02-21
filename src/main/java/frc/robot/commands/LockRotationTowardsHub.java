@@ -7,13 +7,16 @@
 
 package frc.robot.commands;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.util.Utils;
 
-public class TeleopSwerve extends Command {
+public class LockRotationTowardsHub extends Command {
     /** Creates a new TeleopSwerve. */
     private SwerveDrive m_drivebase;
 
@@ -21,7 +24,6 @@ public class TeleopSwerve extends Command {
 
     private int m_throttleAxis;
     private int m_strafeAxis;
-    private int m_steerAxis;
 
     private double m_throttle;
     private double m_strafe;
@@ -32,11 +34,10 @@ public class TeleopSwerve extends Command {
 
     private double m_percentModifier;
 
-    public TeleopSwerve(
+    public LockRotationTowardsHub(
         UniversalController driverController,
         int throttleAxis,
         int strafeAxis,
-        int steerAxis,
         double percentModifier,
         boolean isOpenLoop,
         boolean isFieldRelative) {
@@ -46,8 +47,6 @@ public class TeleopSwerve extends Command {
 
         m_throttleAxis = throttleAxis;
         m_strafeAxis = strafeAxis;
-        m_steerAxis = steerAxis;
-
         m_percentModifier = percentModifier;
         m_isOpenLoop = isOpenLoop;
 
@@ -77,11 +76,23 @@ public class TeleopSwerve extends Command {
             DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
             DriveConstants.getSwerveDeadband()
         );
-
-        m_steer = MathUtil.applyDeadband(
-            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_steerAxis),
-            DriveConstants.getSwerveDeadband()
+        
+        double desiredAngle = Math.atan2(
+            DriveConstants.kHubPosition.getY() - m_drivebase.getPose().getTranslation().getY(),
+            DriveConstants.kHubPosition.getX() - m_drivebase.getPose().getTranslation().getX()
         );
+
+        if (Math.abs(desiredAngle - m_drivebase.getYaw().getRadians()) < DriveConstants.getRotationTolerance()) {
+            m_steer = 0;    
+
+        } else {
+            double angleError = Utils.calculateShortestPath(m_drivebase.getYaw().getDegrees(), Math.toDegrees(desiredAngle));
+
+            if (angleError > 0) {
+                m_steer = 1;
+            }
+            else m_steer = -1;
+        }
 
         m_throttle *= m_percentModifier;
         m_strafe *= m_percentModifier;

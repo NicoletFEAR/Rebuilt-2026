@@ -139,7 +139,7 @@ public class SubsystemInterfaces {
        * @param throttle The supplier providing input for the target position. The value typically represents a position offset
        *                 and is in the unit of measurement used by the motor (e.g., meters or degrees).
        */
-        void manualControl(Supplier<Double> throttle);
+        void manualControl(Supplier<Double> throttle, boolean limitOverrideMode);
     }
 
     public interface VoltageSubsystem {

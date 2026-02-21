@@ -10,9 +10,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.climb.Climb;
@@ -47,6 +49,7 @@ public class RobotContainer {
     private Climb m_climb;
 
     private static Alliance m_alliance = Alliance.Blue;
+    private boolean m_limitOverrideMode = false;
 
     public RobotContainer() {
         if (Constants.kRobotName.equals("kitbot")) {
@@ -120,6 +123,20 @@ public class RobotContainer {
             .create()
             .onTrue(Commands.runOnce(() -> m_driveBase.zeroGyro(), m_driveBase));
         
+        // Enables Palantir-Class Target Lock on the hub
+        m_driverController
+            .triangle()
+            .whileTrue(
+                new LockRotationTowardsHub(
+                    m_driverController,
+                    OperatorConstants.kThrottleAxis,
+                    OperatorConstants.kStrafeAxis,
+                    OperatorConstants.getDefaultSpeed(),
+                    true,
+                    true
+                )
+            );
+
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {
             // Intakes fuel -- left bumper of driver controller
@@ -163,7 +180,7 @@ public class RobotContainer {
                 } else {
                     return 0.0;
                 }
-            }), m_climb));
+            }, m_limitOverrideMode), m_climb));
 
             // Control the intake pivot manually -- left and right buttons on d-pad of operator controller
             m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
@@ -174,11 +191,7 @@ public class RobotContainer {
                 } else {
                     return 0.0;
                 }
-            }), m_intakePivot));
-
-            m_operatorController.L1().and(() -> m_operatorController.R1().getAsBoolean()).whileFalse(new RunCommand(() -> {
-                m_climb.resetDesiredPosition();
-            }, m_climb));
+            }, m_limitOverrideMode), m_intakePivot));
 
             // Control the hood manually -- up and down arrows of operator controller
             // m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
@@ -196,6 +209,12 @@ public class RobotContainer {
                 .cross()
                 .onTrue(m_intakeDriver.intake())
                 .onFalse(m_intakeDriver.off());
+
+            // Disables limits for manual mechanism control -- create button on operator control
+            m_operatorController
+                .create()
+                .onTrue(new InstantCommand(() -> m_limitOverrideMode = true))
+                .onFalse(new InstantCommand(() -> m_limitOverrideMode = false));
         }
     }
 

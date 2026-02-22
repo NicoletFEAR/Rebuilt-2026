@@ -376,7 +376,9 @@ public final class Constants {
             new ModuleConfig(getWheelDiameter() / 2,
                 getMaxModuleSpeed(),
                 getWheelCOF(),
-                DCMotor.getKrakenX60(1).withReduction(getDriveGearRatio()),
+                DriveConstants.usesDriveKrakens() ?
+                    DCMotor.getKrakenX60(1).withReduction(getDriveGearRatio()) :
+                    DCMotor.getNEO(1).withReduction(getDriveGearRatio()),
                 getCurrentLimit(),
                 1),
             DriveConstants.kModuleTranslations

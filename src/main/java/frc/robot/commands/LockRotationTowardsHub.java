@@ -7,14 +7,12 @@
 
 package frc.robot.commands;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
-import frc.robot.util.Utils;
 
 public class LockRotationTowardsHub extends Command {
     /** Creates a new TeleopSwerve. */
@@ -28,6 +26,7 @@ public class LockRotationTowardsHub extends Command {
     private double m_throttle;
     private double m_strafe;
     private double m_steer;
+    private PIDController m_steerController = new PIDController(DriveConstants.getTurnKP(), DriveConstants.getTurnKI(), DriveConstants.getTurnKD());
 
     private boolean m_isOpenLoop;
     private boolean m_isFieldRelative;
@@ -49,6 +48,8 @@ public class LockRotationTowardsHub extends Command {
         m_strafeAxis = strafeAxis;
         m_percentModifier = percentModifier;
         m_isOpenLoop = isOpenLoop;
+
+        m_steerController.enableContinuousInput(-180, 180);
 
         m_isFieldRelative = isFieldRelative;
 
@@ -86,12 +87,7 @@ public class LockRotationTowardsHub extends Command {
             m_steer = 0;    
 
         } else {
-            double angleError = Utils.calculateShortestPath(m_drivebase.getYaw().getDegrees(), Math.toDegrees(desiredAngle));
-
-            if (angleError > 0) {
-                m_steer = 1;
-            }
-            else m_steer = -1;
+            m_steer = m_steerController.calculate(m_drivebase.getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180;
         }
 
         m_throttle *= m_percentModifier;

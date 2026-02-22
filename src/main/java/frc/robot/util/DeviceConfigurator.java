@@ -81,13 +81,13 @@ public class DeviceConfigurator {
     public static void configureSparkMaxDriveMotor(SparkMax motor) {
         SparkMaxConfig config = new SparkMaxConfig();
 
-        config.inverted(true)
+        config.inverted(false)
             .smartCurrentLimit(80)
             .idleMode(IdleMode.kBrake)
             .openLoopRampRate(DriveConstants.getDriveRampRate());
 
-        config.encoder.positionConversionFactor(DriveConstants.getDriveRevToMeters())
-            .velocityConversionFactor(DriveConstants.getDriveRevToMeters() / 60);
+        config.encoder.positionConversionFactor(1 / DriveConstants.getDriveRevToMeters())
+            .velocityConversionFactor(60 / DriveConstants.getDriveRevToMeters());
 
         config.closedLoop
             .p(DriveConstants.getDriveKP())

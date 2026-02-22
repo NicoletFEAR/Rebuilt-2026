@@ -11,6 +11,7 @@ import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.littletonrobotics.junction.LogFileUtil;
@@ -81,6 +82,7 @@ public class Robot extends LoggedRobot {
 
         WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
 
+        RoboRioSim.setTeamNumber(4786);
         m_robotContainer = new RobotContainer();
 
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());

@@ -7,12 +7,15 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.LockRotationTowardsHub;
@@ -23,7 +26,7 @@ import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
-// import frc.robot.subsystems.launcher.Hood;
+import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
@@ -44,7 +47,7 @@ public class RobotContainer {
 
     private Launcher m_launcher;
     private Indexer m_indexer;
-    // private Hood m_hood;
+    private Hood m_hood;
     private IntakeDriver m_intakeDriver;
     private IntakePivot m_intakePivot;
     private Climb m_climb;
@@ -59,7 +62,7 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("tusk")) {
             m_launcher = new Launcher();
             m_indexer = new Indexer();
-            // m_hood = new Hood();
+            m_hood = new Hood();
             m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
@@ -141,6 +144,10 @@ public class RobotContainer {
                     true
                 )
             );
+        
+        new Trigger(() -> aboutToSwitch())
+            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1)))
+            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0)));
 
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {
@@ -199,15 +206,15 @@ public class RobotContainer {
             }, m_limitOverrideMode), m_intakePivot));
 
             // Control the hood manually -- up and down arrows of operator controller
-            // m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
-            //     if (m_operatorController.povUp().getAsBoolean() ^ m_operatorController.povDown().getAsBoolean()) {
-            //         return 0.0;
-            //     } else if (m_operatorController.povUp().getAsBoolean()) {
-            //         return 1.0;
-            //     } else {
-            //         return -1.0;
-            //     }
-            // }), m_hood));
+            m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
+                if (m_operatorController.povUp().getAsBoolean() ^ m_operatorController.povDown().getAsBoolean()) {
+                    return 0.0;
+                } else if (m_operatorController.povUp().getAsBoolean()) {
+                    return 1.0;
+                } else {
+                    return -1.0;
+                }
+            }, m_limitOverrideMode), m_hood));
             
             // Intakes fuel -- a button on operator controller
             m_operatorController
@@ -231,8 +238,35 @@ public class RobotContainer {
         return m_alliance;
     }
 
+    public Alliance getAutoWinner() {
+        switch (DriverStation.getGameSpecificMessage()) {
+            case "R":
+                return Alliance.Red;
+            case "B":
+                return Alliance.Blue;
+            default:
+                return null;
+        }
+    }
+
+    public boolean aboutToSwitch() {
+        double matchTime = DriverStation.getMatchTime();
+
+        return DriverStation.isTeleop()
+            && DriverStation.isFMSAttached()
+            && (
+                (matchTime <= 131 && matchTime > 130)
+                || (matchTime <= 106 && matchTime > 105)
+                || (matchTime <= 81 && matchTime > 80)
+                || (matchTime <= 56 && matchTime > 55)
+                || (matchTime <= 31 && matchTime > 30)
+                || (matchTime <= 1 && matchTime > 0)
+            );
+    }
+
     public void periodic() {
       m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+      SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
 
     private void createNamedCommands() {

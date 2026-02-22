@@ -1,5 +1,7 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Volts;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -9,7 +11,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.OperatorConstants;
@@ -121,7 +122,11 @@ public class RobotContainer {
         // Make gyroscope think current position is zero -- create button of driver controller
         m_driverController
             .create()
-            .onTrue(Commands.runOnce(() -> m_driveBase.zeroGyro(), m_driveBase));
+            .onTrue(new InstantCommand(() -> m_driveBase.zeroGyro(), m_driveBase));
+
+        m_driverController
+            .square()
+            .onTrue(new InstantCommand(() -> m_driveBase.runVolts(Volts.of(12))));
         
         // Enables Palantir-Class Target Lock on the hub
         m_driverController

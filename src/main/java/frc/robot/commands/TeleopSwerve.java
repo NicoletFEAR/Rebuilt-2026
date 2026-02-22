@@ -15,7 +15,7 @@ import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class TeleopSwerve extends Command {
     /** Creates a new TeleopSwerve. */
-    private SwerveDrive m_drivebase;
+    private SwerveDrive m_driveBase;
 
     private UniversalController m_driverController;
 
@@ -40,7 +40,7 @@ public class TeleopSwerve extends Command {
         double percentModifier,
         boolean isOpenLoop,
         boolean isFieldRelative) {
-        m_drivebase = SwerveDrive.getInstance();
+        m_driveBase = SwerveDrive.getInstance();
 
         m_driverController = driverController;
 
@@ -53,7 +53,7 @@ public class TeleopSwerve extends Command {
 
         m_isFieldRelative = isFieldRelative;
 
-        addRequirements(m_drivebase);
+        addRequirements(m_driveBase);
     }
 
     // Called when the command is initially scheduled.
@@ -87,7 +87,7 @@ public class TeleopSwerve extends Command {
         m_strafe *= m_percentModifier;
         m_steer *= m_percentModifier;
 
-        m_drivebase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
+        m_driveBase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
     }
 
     // Called once the command ends or is interrupted.

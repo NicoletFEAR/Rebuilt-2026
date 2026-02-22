@@ -26,8 +26,6 @@ public class DeviceConfigurator {
     public static void configureCANcoder(CANcoder encoder, double offset) {
         CANcoderConfiguration configuration = new CANcoderConfiguration();
 
-        encoder.getConfigurator().apply(configuration);
-
         configuration.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1; // Make sensor wrap-arround unsigned
         configuration.MagnetSensor.MagnetOffset = offset;
         configuration.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive; // Set the sensor to mesure positive distance as counter clockwise

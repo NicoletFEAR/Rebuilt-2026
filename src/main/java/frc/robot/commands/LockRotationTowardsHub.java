@@ -16,7 +16,7 @@ import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class LockRotationTowardsHub extends Command {
     /** Creates a new TeleopSwerve. */
-    private SwerveDrive m_drivebase;
+    private SwerveDrive m_driveBase;
 
     private UniversalController m_driverController;
 
@@ -26,7 +26,8 @@ public class LockRotationTowardsHub extends Command {
     private double m_throttle;
     private double m_strafe;
     private double m_steer;
-    private PIDController m_steerController = new PIDController(DriveConstants.getTurnKP(), DriveConstants.getTurnKI(), DriveConstants.getTurnKD());
+    private PIDController m_steerController = new PIDController(5, 0, .9);
+
 
     private boolean m_isOpenLoop;
     private boolean m_isFieldRelative;
@@ -40,7 +41,7 @@ public class LockRotationTowardsHub extends Command {
         double percentModifier,
         boolean isOpenLoop,
         boolean isFieldRelative) {
-        m_drivebase = SwerveDrive.getInstance();
+        m_driveBase = SwerveDrive.getInstance();
 
         m_driverController = driverController;
 
@@ -53,7 +54,7 @@ public class LockRotationTowardsHub extends Command {
 
         m_isFieldRelative = isFieldRelative;
 
-        addRequirements(m_drivebase);
+        addRequirements(m_driveBase);
     }
 
     // Called when the command is initially scheduled.
@@ -79,22 +80,22 @@ public class LockRotationTowardsHub extends Command {
         );
         
         double desiredAngle = Math.atan2(
-            DriveConstants.kHubPosition.getY() - m_drivebase.getPose().getTranslation().getY(),
-            DriveConstants.kHubPosition.getX() - m_drivebase.getPose().getTranslation().getX()
+            DriveConstants.kHubPosition.getY() - m_driveBase.getPose().getTranslation().getY(),
+            DriveConstants.kHubPosition.getX() - m_driveBase.getPose().getTranslation().getX()
         );
 
-        if (Math.abs(desiredAngle - m_drivebase.getYaw().getRadians()) < DriveConstants.getRotationTolerance()) {
+        if (Math.abs(desiredAngle - m_driveBase.getYaw().getRadians()) < DriveConstants.getRotationTolerance()) {
             m_steer = 0;    
 
         } else {
-            m_steer = m_steerController.calculate(m_drivebase.getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180;
+            m_steer = m_steerController.calculate(m_driveBase.getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180;
         }
 
         m_throttle *= m_percentModifier;
         m_strafe *= m_percentModifier;
         m_steer *= m_percentModifier;
 
-        m_drivebase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
+        m_driveBase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
     }
 
     // Called once the command ends or is interrupted.

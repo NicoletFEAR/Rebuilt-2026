@@ -163,11 +163,12 @@ public final class Constants {
         }
 
          public static int getHoodID() {
-             return Integer.parseInt(m_properties.getProperty("deviceIds.hood"));
+            return Integer.parseInt(m_properties.getProperty("deviceIds.hood"));
         }
 
-        public static final int kLeftLauncherServo = 0;
-        public static final int kRightLauncherServo = 1;
+        public static int getHoodEncoderID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.hood-encoder"));
+        }
     }
 
     public final class OperatorConstants {
@@ -420,20 +421,44 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("launcher.gear-ratio"));
         }
 
+        public static double getHoodGearRatio() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood.gear-ratio"));
+        }
+
         public static double getHoodSetpointTolerance() {
-            return Double.parseDouble(m_properties.getProperty("launcher.hood-setpoint-tolerance"));
+            return Double.parseDouble(m_properties.getProperty("launcher.hood.setpoint-tolerance"));
         }
 
         public static double getHoodManualModifier() {
-            return Double.parseDouble(m_properties.getProperty("launcher.hood-manual-modifier"));
+            return Double.parseDouble(m_properties.getProperty("launcher.hood.manual-modifier"));
+        }
+
+        public static double getHoodHomePosition() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood.home-position"));
         }
 
         public static double getHoodMinPosition() {
-            return Double.parseDouble(m_properties.getProperty("launcher.hood-min-position"));
+            return Double.parseDouble(m_properties.getProperty("launcher.hood.min-position"));
         }
 
         public static double getHoodMaxPosition() {
-            return Double.parseDouble(m_properties.getProperty("launcher.hood-max-position"));
+            return Double.parseDouble(m_properties.getProperty("launcher.hood.max-position"));
+        }
+
+        public static double getHoodKP() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood.kp"));
+        }
+
+        public static double getHoodKI() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood.ki"));
+        }
+
+        public static double getHoodKD() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood.kd"));
+        }
+        
+        public static double getHoodOffset() {
+            return Double.parseDouble(m_properties.getProperty("launcher.hood.offset"));
         }
         
         public static double getKP() {
@@ -485,66 +510,66 @@ public final class Constants {
 
     public final class IntakeConstants {
         public static double getDriverGearRatio() {
-            return Double.parseDouble(m_properties.getProperty("intake.driver-gear-ratio"));
+            return Double.parseDouble(m_properties.getProperty("intake.driver.gear-ratio"));
         }
         public static double getPivotGearRatio() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-gear-ratio"));
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.gear-ratio"));
         }
         
         public static double getDriverKP() {
-            return Double.parseDouble(m_properties.getProperty("intake.driver-kp"));
+            return Double.parseDouble(m_properties.getProperty("intake.driver.kp"));
         }
 
         public static double getDriverKI() {
-            return Double.parseDouble(m_properties.getProperty("intake.driver-ki"));
+            return Double.parseDouble(m_properties.getProperty("intake.driver.ki"));
         }
 
         public static double getDriverKD() {
-            return Double.parseDouble(m_properties.getProperty("intake.driver-kd"));
+            return Double.parseDouble(m_properties.getProperty("intake.driver.kd"));
         }
 
         public static double getPivotKP() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-kp"));
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.kp"));
         }
 
         public static double getPivotKI() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-ki"));
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.ki"));
         }
 
         public static double getPivotKD() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-kd"));
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.kd"));
         }
         
         public static double getDriverOffVoltage() {
-            return Double.parseDouble(m_properties.getProperty("intake.driver-off-voltage"));
+            return Double.parseDouble(m_properties.getProperty("intake.driver.off-voltage"));
         }
 
         public static double getDriverIntakeVoltage() {
-            return Double.parseDouble(m_properties.getProperty("intake.driver-intake-voltage"));
+            return Double.parseDouble(m_properties.getProperty("intake.driver.intake-voltage"));
         }
 
         public static double getPivotSetpointTolerance() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-setpoint-tolerance"));
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.setpoint-tolerance"));
         }
 
         public static double getPivotManualModifier() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-manual-modifier"));
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.manual-modifier"));
         }
 
         public static double getPivotMinPosition() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-min-position"));
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.min-position"));
         }
 
         public static double getPivotMaxPosition() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-max-position"));
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.max-position"));
         }
 
         public static double getPivotHomePosition() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-home-position"));
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.home-position"));
         }
 
         public static double getPivotOutPosition() {
-            return Double.parseDouble(m_properties.getProperty("intake.pivot-out-position"));
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.out-position"));
         }
     }
 

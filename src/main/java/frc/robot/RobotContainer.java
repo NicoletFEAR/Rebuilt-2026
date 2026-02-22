@@ -5,13 +5,16 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.LockRotationTowardsHub;
@@ -136,6 +139,10 @@ public class RobotContainer {
                     true
                 )
             );
+        
+        new Trigger(() -> aboutToSwitch())
+            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1)))
+            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0)));
 
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {
@@ -226,8 +233,34 @@ public class RobotContainer {
         return m_alliance;
     }
 
+    public Alliance getAutoWinner() {
+        switch (DriverStation.getGameSpecificMessage()) {
+            case "R":
+                return Alliance.Red;
+            case "B":
+                return Alliance.Blue;
+            default:
+                return null;
+        }
+    }
+
+    public boolean aboutToSwitch() {
+        double matchTime = DriverStation.getMatchTime();
+
+        return DriverStation.isTeleop()
+            && (
+                (matchTime <= 131 && matchTime > 130)
+                || (matchTime <= 106 && matchTime > 105)
+                || (matchTime <= 81 && matchTime > 80)
+                || (matchTime <= 56 && matchTime > 55)
+                || (matchTime <= 31 && matchTime > 30)
+                || (matchTime <= 1 && matchTime > 0)
+            );
+    }
+
     public void periodic() {
       m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+      SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
 
     private void createNamedCommands() {

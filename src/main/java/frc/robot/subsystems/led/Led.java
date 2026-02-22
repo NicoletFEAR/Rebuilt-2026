@@ -145,6 +145,14 @@ public class Led extends SubsystemBase {
         applyAnimation(0, AnimationType.None, null);
     }
 
+    public void startScoringSwitchAnimation() {
+        applyAnimation(0, AnimationType.Strobe, kRed);
+    }
+
+    public void stopScoringSwitchAnimation() {
+        applyAnimation(0, AnimationType.None, null);
+    }
+
     /**
      * This method will apply an animation for the selected slot and color
      * @param slot The slot to apply the animation to

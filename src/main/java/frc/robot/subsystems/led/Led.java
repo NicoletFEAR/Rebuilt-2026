@@ -146,6 +146,7 @@ public class Led extends SubsystemBase {
     }
 
     public void startScoringSwitchAnimation() {
+        // TODO Add the concept of duration
         applyAnimation(0, AnimationType.Strobe, kRed);
     }
 

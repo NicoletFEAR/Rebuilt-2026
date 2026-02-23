@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.controllers.UniversalController;
@@ -25,8 +26,14 @@ import frc.robot.subsystems.kitbot.KitbotLauncher;
 // import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
+import frc.robot.subsystems.led.Led;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
+/**
+ * This class is used to encapsulate the robot code, including all hardware subsystems.  
+ * In the case that new functionality should be added, it will likely need to added
+ * to this class as it is the central point of all subsystems.
+ */
 public class RobotContainer {
     private final UniversalController m_driverController = new UniversalController(
         OperatorConstants.getDriverControllerPort(), DriveConstants.getControllerType());
@@ -47,9 +54,12 @@ public class RobotContainer {
     private IntakeDriver m_intakeDriver;
     private IntakePivot m_intakePivot;
     private Climb m_climb;
+    private Led m_led;
 
     private static Alliance m_alliance = Alliance.Blue;
     private boolean m_limitOverrideMode = false;
+
+    private GameTimer m_gameTimer;
 
     public RobotContainer() {
         if (Constants.kRobotName.equals("kitbot")) {
@@ -62,6 +72,8 @@ public class RobotContainer {
             m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
+            m_led = new Led(DeviceIds.getLedID());
+            m_gameTimer = new GameTimer(m_operatorController, m_driverController, m_led);
         }
 
         createNamedCommands();
@@ -229,6 +241,47 @@ public class RobotContainer {
     public void periodic() {
       m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
     }
+
+    /**
+     * This method should be called at the start of autonomous and perform 
+     * any necessary setup and processing for the autonomous period
+     */
+    public void autonomousInit() {}
+
+    /**
+     * This method should be called at the end of autonomous and perform
+     * any necessary cleanup for the autonomous period
+     */
+    public void autonomousExit() {}
+
+    /**
+     * Ths mehtod should be called at the start of teleop and performs 
+     * any necessary setup and processing for the period.  This includes determining 
+     * who won autos, starting times, and sending alerts based on game shifts.
+     */
+    public void teleopInit() {
+        // Get the driver station game data and pass it to the robot to perform
+        // the necessary alerts and processing
+        String data = DriverStation.getGameSpecificMessage();
+
+        // Get the first character and determine the alliance that won autos
+        Alliance winningAlliance = Alliance.Red;
+        if ( (data.length() > 0) && (data.charAt(0) == 'B' ) ) 
+            winningAlliance = Alliance.Blue;
+
+        // Start the game timer
+        m_gameTimer.teleopStart(winningAlliance == m_alliance);
+    }
+
+    public void teleopPeriodic() {
+        m_gameTimer.periodic();
+    }
+
+    /**
+     * This method should be called at the end of teleop and perform
+     * any necessary cleanup for the teleop period
+     */
+    public void teleopExit() {}
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {

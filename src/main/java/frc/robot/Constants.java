@@ -162,8 +162,12 @@ public final class Constants {
             return Integer.parseInt(m_properties.getProperty("deviceIds.indexer-beam-break"));
         }
 
-         public static int getHoodID() {
-             return Integer.parseInt(m_properties.getProperty("deviceIds.hood"));
+        public static int getHoodID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.hood"));
+        }
+
+        public static int getLedID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.led"));
         }
 
         public static final int kLeftLauncherServo = 0;

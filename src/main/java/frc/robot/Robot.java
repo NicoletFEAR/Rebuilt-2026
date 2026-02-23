@@ -23,6 +23,12 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
+/**
+ * The system is configured to automatically run this class, and to call the functions corresponding to
+ * each mode, as described in the TimedRobot documentation. If you change the name of this class or
+ * the package after creating this project, you must also update the build.gradle file in the
+ * project.
+ */
 public class Robot extends LoggedRobot {
     private RobotContainer m_robotContainer;
     private double m_autoStart;
@@ -121,26 +127,36 @@ public class Robot extends LoggedRobot {
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().schedule(m_autonomousCommand);
         }
+
+        m_robotContainer.autonomousInit();
     }
 
     @Override
     public void autonomousPeriodic() {}
 
     @Override
-    public void autonomousExit() {}
+    public void autonomousExit() {
+        m_robotContainer.autonomousExit();
+    }
 
     @Override
     public void teleopInit() {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+
+        m_robotContainer.teleopInit();
     }
 
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+        m_robotContainer.teleopPeriodic();
+    }
 
     @Override
-    public void teleopExit() {}
+    public void teleopExit() {
+        m_robotContainer.teleopExit();
+    }
 
     @Override
     public void testInit() {

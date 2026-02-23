@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.16,
-        "y": 1.2
+        "x": 7.1,
+        "y": 0.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.180656151178407,
-        "y": 2.2228833749549395
+        "x": 7.120656151178406,
+        "y": 1.6728833749549397
       },
       "isLocked": false,
       "linkedName": "NZT Bottom-North"
     },
     {
       "anchor": {
-        "x": 7.16,
-        "y": 6.8
+        "x": 7.1,
+        "y": 7.35
       },
       "prevControl": {
-        "x": 7.1584314748969495,
-        "y": 5.995566126115867
+        "x": 7.09843147489695,
+        "y": 6.545566126115867
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,10 +33,10 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -50,5 +50,5 @@
     "velocity": 0,
     "rotation": -90.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

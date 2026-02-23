@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6,
-        "y": 4.0
+        "x": 3.202888888888889,
+        "y": 0.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.089644621143066,
-        "y": 3.711584760139374
+        "x": 1.777770081677114,
+        "y": 1.6705748113936272
       },
       "isLocked": false,
-      "linkedName": "Launch 2"
+      "linkedName": "Launch 3"
     },
     {
       "anchor": {
-        "x": 1.6583452211126959,
-        "y": 4.1191012838801715
+        "x": 1.66,
+        "y": 3.3325
       },
       "prevControl": {
-        "x": 2.04389218065958,
-        "y": 4.161520082803447
+        "x": 2.2621751218500283,
+        "y": 2.4948194795067318
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb Top"
+      "linkedName": "Climb Bottom"
     }
   ],
   "rotationTargets": [],
@@ -35,8 +35,8 @@
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 3.5,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -45,10 +45,10 @@
     "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Start T Paths",
+  "folder": "Start O and Outpost Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 66.78413838507123
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

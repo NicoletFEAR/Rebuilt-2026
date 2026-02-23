@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.260906037773876,
-        "y": 1.5949932461731184
+        "x": 3.3226778147557914,
+        "y": 1.3224139880954535
       },
       "isLocked": false,
       "linkedName": "Start O"
     },
     {
       "anchor": {
-        "x": 2.8715777777777785,
-        "y": 1.784033333333333
+        "x": 3.202888888888889,
+        "y": 0.65
       },
       "prevControl": {
-        "x": 3.3370255850811477,
-        "y": 1.7897104198248435
+        "x": 3.280595543059909,
+        "y": 0.8876166574496526
       },
       "nextControl": null,
       "isLocked": false,
@@ -35,14 +35,14 @@
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 3.5,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 56.0
+    "rotation": 66.78413838507123
   },
   "reversed": false,
   "folder": "Start O and Outpost Paths",
@@ -50,5 +50,5 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

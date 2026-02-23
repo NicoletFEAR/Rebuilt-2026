@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.9406294351442896,
-        "y": 2.681431364698985
+        "x": 1.098517261264192,
+        "y": 2.669195065714166
       },
       "isLocked": false,
       "linkedName": "Launch O"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 1.66,
-        "y": 3.3
+        "y": 3.3325
       },
       "prevControl": {
-        "x": 1.419655555555555,
-        "y": 1.8132666666666657
+        "x": 1.5538772185886753,
+        "y": 1.7672320733214382
       },
       "nextControl": null,
       "isLocked": false,
@@ -35,8 +35,8 @@
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 3.5,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -50,5 +50,5 @@
     "velocity": 0,
     "rotation": 41.05192631546355
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

@@ -3,29 +3,39 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.839486447931526,
-        "y": 5.542353780313838
+        "x": 2.6,
+        "y": 4.0
+        "x": 2.6,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8149200045803704,
-        "y": 4.432467324646067
+        "x": 2.286299372166844,
+        "y": 4.39142943213191
+        "x": 2.286299372166844,
+        "y": 4.39142943213191
       },
       "isLocked": false,
-      "linkedName": "Launch D"
+      "linkedName": "Launch 2"
+      "linkedName": "Launch 2"
     },
     {
       "anchor": {
-        "x": 1.6583452211126959,
-        "y": 4.1191012838801715
+        "x": 1.1,
+        "y": 5.95
+        "x": 1.1,
+        "y": 5.95
       },
       "prevControl": {
-        "x": 1.7581309645438006,
-        "y": 5.0692792612510695
+        "x": 1.3251527453008334,
+        "y": 5.659025810924633
+        "x": 1.3251527453008334,
+        "y": 5.659025810924633
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb Top"
+      "linkedName": "Depot Middle"
+      "linkedName": "Depot Middle"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +52,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Start D and Depot Paths",
+  "folder": "Start T Paths",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": -38.41805534482206
+    "velocity": 0.0,
+    "velocity": 0.0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

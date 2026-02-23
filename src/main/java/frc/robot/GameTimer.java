@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
-import  edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.subsystems.led.Led;
 import frc.robot.controllers.UniversalController;
@@ -125,32 +124,6 @@ public class GameTimer extends Timer {
      * @param phase The upcoming phase
      */
     private void sendNotices(Phase phase) {
-        SmartDashboard.putString("Phase", phase.toString());
-        SmartDashboard.putNumber("Time Remaining", phase.getDuration() - get());
-
-        switch(phase) {
-            case AUTO:
-                m_led.startAutoAnimation();
-                break;
-            case TRANSITION:
-                m_led.startScoringSwitchAnimation();
-                m_driverController.setRumble(RumbleType.kBothRumble, 1);
-                m_operatorController.setRumble(RumbleType.kBothRumble, 1);
-                break;
-            case OFFENSE:
-                m_led.startScoringSwitchAnimation();
-                m_driverController.setRumble(RumbleType.kRightRumble, 1);
-                m_driverController.setRumble(RumbleType.kRightRumble, 1);
-                break;
-            case DEFENCE:
-                m_led.startScoringSwitchAnimation();
-                m_driverController.setRumble(RumbleType.kLeftRumble, 1);
-                m_operatorController.setRumble(RumbleType.kLeftRumble, 1);
-                break;
-            case ENDGAME:
-                m_led.stopScoringSwitchAnimation();
-                m_led.stopClimbAnimation();
-                break;
-        }
+        // TODO Complete this method implementation
     }
 }

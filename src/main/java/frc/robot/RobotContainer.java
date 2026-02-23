@@ -77,7 +77,6 @@ public class RobotContainer {
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
             m_led = new Led(DeviceIds.getLedID());
-            m_gameTimer = new GameTimer(m_operatorController, m_driverController, m_led);
         }
 
         createNamedCommands();
@@ -158,8 +157,10 @@ public class RobotContainer {
             );
         
         new Trigger(() -> aboutToSwitch())
-            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1)))
-            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0)));
+            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1))
+            .alongWith(new InstantCommand(() -> m_led.startScoringSwitchAnimation())))
+            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0))
+            .alongWith(new InstantCommand(() -> m_led.stopScoringSwitchAnimation())));
 
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {

@@ -40,10 +40,7 @@ public class Led extends SubsystemBase {
      * CANdle supports 8 animation slots (0-7).
      */
     private static final int kSlot0StartIdx = 8;
-    private static final int kSlot0EndIdx = 37;
-
-    private static final int kSlot1StartIdx = 38;
-    private static final int kSlot1EndIdx = 67;
+    private static final int kSlot0EndIdx = 84;
 
     /**
      * The type of animation to play for the LEDs
@@ -189,21 +186,21 @@ public class Led extends SubsystemBase {
 
             case Larson:
                 m_candle.setControl(
-                    new LarsonAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(slot).withColor(color));
+                    new LarsonAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(slot).withColor(color));
                 return;
 
             case RgbFade:
-                m_candle.setControl(new RgbFadeAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(slot));
+                m_candle.setControl(new RgbFadeAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(slot));
                 return;
 
             case SingleFade:
                 m_candle.setControl(
-                    new SingleFadeAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(slot).withColor(color));
+                    new SingleFadeAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(slot).withColor(color));
                 return;
 
             case Strobe:
                 m_candle.setControl(
-                    new StrobeAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(slot).withColor(color));
+                    new StrobeAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(slot).withColor(color));
                 return;
             
             case Solid:

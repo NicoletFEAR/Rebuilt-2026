@@ -16,7 +16,6 @@ import java.util.Properties;
 
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -24,8 +23,9 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.PS5Controller.Axis;
 import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.controllers.Axis;
+import frc.robot.controllers.ControllerType;
 import frc.robot.util.SwerveModuleConstants;
 
 // Constants found in properties files in deploy folder
@@ -55,7 +55,7 @@ public final class Constants {
     public static boolean hasCANivore() {
         return m_properties.getProperty("has-canivore").equals("true");
     }
-
+    
     // How frequently the state of the robot updates during simulations
     // Set to 0.02 to represent once every loop (20 ms)
     public static final double kdt = 0.02;
@@ -183,10 +183,15 @@ public final class Constants {
         public static double getOperatorControllerDeadband() {
             return Double.parseDouble(m_properties.getProperty("operator.operator-controller-deadband"));
         }
+
+        public static final Axis operatorAxis = new Axis(DriveConstants.getControllerType());
+        public static final int kThrottleAxis = operatorAxis.getAxis("kLeftY");
+        public static final int kStrafeAxis = operatorAxis.getAxis("kLeftX");
+        public static final int kSteerAxis = operatorAxis.getAxis("kRightX");
         
-        public static final int kThrottleAxis = Axis.kLeftY.value;
-        public static final int kStrafeAxis = Axis.kLeftX.value;
-        public static final int kSteerAxis = Axis.kRightX.value;
+        public static ControllerType getControllerType() {
+            return ControllerType.valueOf(m_properties.getProperty("operator.controller-type"));
+        }
 
         public static double getDefaultSpeed() {
             return Double.parseDouble(m_properties.getProperty("operator.default-speed"));
@@ -198,6 +203,18 @@ public final class Constants {
     }
 
     public final class DriveConstants {
+        
+        public static int isBatteryInBack() {
+            if (m_properties.getProperty("battery-back").equals("true"))
+                return -1;
+            else 
+                return 1;
+        }
+
+        public static ControllerType getControllerType() {
+            return ControllerType.valueOf(m_properties.getProperty("drive.controller-type"));
+        }
+
         public static boolean usesDriveKrakens() {
             return m_properties.getProperty("drive.uses-drive-krakens").equals("true");
         }
@@ -318,6 +335,11 @@ public final class Constants {
         public static double getTurnKA() {
             return Double.parseDouble(m_properties.getProperty("drive.turn-ka"));
         }
+
+        public static double getRotationTolerance() {
+            return Double.parseDouble(m_properties.getProperty("drive.rotation-tolerance"));
+        }
+
         public static double getFrontLeftOffset() {
             return Double.parseDouble(m_properties.getProperty("drive.front-left-offset"));
         }
@@ -387,6 +409,8 @@ public final class Constants {
             DeviceIds.getBackRightSteerEncoderId(),
             getBackRightOffset()
         );
+
+        public static final Translation2d kHubPosition = new Translation2d(4.619, 4.033);
     }
 
     public final class LauncherConstants {
@@ -565,6 +589,10 @@ public final class Constants {
 
         public static double getL1Position() {
             return Double.parseDouble(m_properties.getProperty("climb.L1-position"));
+        }
+
+        public static double getL1RetractPosition() {
+            return Double.parseDouble(m_properties.getProperty("climb.L1-retract-position"));
         }
     }
 }

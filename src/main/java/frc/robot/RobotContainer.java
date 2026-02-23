@@ -10,11 +10,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
@@ -26,10 +28,10 @@ import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class RobotContainer {
-    private final CommandPS5Controller m_driverController = new CommandPS5Controller(
-        OperatorConstants.getDriverControllerPort());
-    private final CommandXboxController m_operatorController = new CommandXboxController(
-        OperatorConstants.getOperatorControllerPort());
+    private final UniversalController m_driverController = new UniversalController(
+        OperatorConstants.getDriverControllerPort(), DriveConstants.getControllerType());
+    private final UniversalController m_operatorController = new UniversalController(
+        OperatorConstants.getOperatorControllerPort(), OperatorConstants.getControllerType());
     
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
@@ -47,6 +49,7 @@ public class RobotContainer {
     private Climb m_climb;
 
     private static Alliance m_alliance = Alliance.Blue;
+    private boolean m_limitOverrideMode = false;
 
     public RobotContainer() {
         if (Constants.kRobotName.equals("kitbot")) {
@@ -120,6 +123,20 @@ public class RobotContainer {
             .create()
             .onTrue(Commands.runOnce(() -> m_driveBase.zeroGyro(), m_driveBase));
         
+        // Enables Palantir-Class Target Lock on the hub
+        m_driverController
+            .triangle()
+            .whileTrue(
+                new LockRotationTowardsHub(
+                    m_driverController,
+                    OperatorConstants.kThrottleAxis,
+                    OperatorConstants.kStrafeAxis,
+                    OperatorConstants.getDefaultSpeed(),
+                    true,
+                    true
+                )
+            );
+
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {
             // Intakes fuel -- left bumper of driver controller
@@ -140,31 +157,32 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("tusk")) {
             // Launches fuel by spinning up the launcher and then indexing the fuel -- y button of operator controller
             m_operatorController
-                .y()
+                .triangle()
                 .onTrue(m_indexer.index().alongWith(m_launcher.launch()))
                 .onFalse(m_indexer.off().alongWith(m_launcher.off()));
                 
             // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
             m_operatorController
-                .b()
+                .circle()
                 .onTrue(m_launcher.raiseSpeed());
             
             // Decreases launcher speed by 10% unless it's at 0%, in which case it goes back up to 100% -- x button of operator controller
             m_operatorController
-                .x()
+                .square()
                 .onTrue(m_launcher.lowerSpeed());
 
-            // Control the climb manually -- left and right bumpers of driver controller
+            // Control the climb manually -- left and right bumpers of operator controller
             m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
-                if (m_operatorController.leftBumper().getAsBoolean()) {
+                if (m_operatorController.L1().getAsBoolean()) {
                     return 1.0;
-                } else if (m_operatorController.rightBumper().getAsBoolean()) {
+                } else if (m_operatorController.R1().getAsBoolean()) {
                     return -1.0;
                 } else {
                     return 0.0;
                 }
-            }), m_climb));
+            }, m_limitOverrideMode), m_climb));
 
+            // Control the intake pivot manually -- left and right buttons on d-pad of operator controller
             m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
                 if (m_operatorController.povRight().getAsBoolean()) {
                     return 1.0;
@@ -173,11 +191,7 @@ public class RobotContainer {
                 } else {
                     return 0.0;
                 }
-            }), m_intakePivot));
-
-            m_operatorController.leftBumper().and(() -> m_operatorController.rightBumper().getAsBoolean()).whileFalse(new RunCommand(() -> {
-                m_climb.resetDesiredPosition();
-            }, m_climb));
+            }, m_limitOverrideMode), m_intakePivot));
 
             // Control the hood manually -- up and down arrows of operator controller
             // m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
@@ -192,9 +206,15 @@ public class RobotContainer {
             
             // Intakes fuel -- a button on operator controller
             m_operatorController
-                .a()
+                .cross()
                 .onTrue(m_intakeDriver.intake())
                 .onFalse(m_intakeDriver.off());
+
+            // Disables limits for manual mechanism control -- create button on operator control
+            m_operatorController
+                .create()
+                .onTrue(new InstantCommand(() -> m_limitOverrideMode = true))
+                .onFalse(new InstantCommand(() -> m_limitOverrideMode = false));
         }
     }
 
@@ -212,11 +232,12 @@ public class RobotContainer {
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
-            // NamedCommands.registerCommand("ClimbL1", m_climb.climbL1Height().andThen(m_climb.retract()));
-            // NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
-            // NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
-            // NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));
-            // NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
+            NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1Height());
+            NamedCommands.registerCommand("Climb", m_climb.L1ClimbRetract());
+            NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
+            NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
+            NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));
+            NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
         }
     }
 }

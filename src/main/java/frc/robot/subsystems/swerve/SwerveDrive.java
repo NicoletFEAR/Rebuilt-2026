@@ -376,9 +376,8 @@ public class SwerveDrive extends SubsystemBase {
 
     @Override
     public void periodic() {
-        
-        m_poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
-        m_megaTag1PoseEstimator.updateWithTime(Timer.getFPGATimestamp(), getPigeonYaw(), getModulePositions());
+        m_poseEstimator.updateWithTime(Timer.getTimestamp(), getYaw(), getModulePositions());
+        m_megaTag1PoseEstimator.updateWithTime(Timer.getTimestamp(), getPigeonYaw(), getModulePositions());
 
         m_field.getRobotObject().setPose(getPose());
 
@@ -388,7 +387,6 @@ public class SwerveDrive extends SubsystemBase {
         Logger.recordOutput("Swerve/Module States", getModuleStates());
         Logger.recordOutput("Swerve/Chassis Speeds", m_chassisSpeeds);
         Logger.recordOutput("Swerve/Robot Relative Chassis Speeds", getRobotRelativeSpeeds());
-        Logger.recordOutput("Swerve/Pose Estimator", m_poseEstimator.getEstimatedPosition());
     }
 
     public enum DriveMode {

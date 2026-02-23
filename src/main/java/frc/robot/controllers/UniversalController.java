@@ -2,9 +2,10 @@ package frc.robot.controllers;
 
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
-import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -13,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
  * use the of the CommandPS5Controller, CommandPS4Controller, and CommandXboxController classes
  * so that other systems won't have to be coded for a specific controller.  The code will assume
  * that all controllers use PS5 buttons.  In cases where a controller has a different button id or
- * name for the same thing, the PS5 equilivant button moth can be called.
+ * name for the same thing, the PS5 equivalent button method can be called.
  */
 public class UniversalController {
 
@@ -31,7 +32,6 @@ public class UniversalController {
      * @param controllerType The type of controller, aligns to a ControllerType
      */
     public UniversalController(int port, ControllerType controllerType) {
-        super();
         this.port = port;
         this.controllerType = controllerType;
 
@@ -352,7 +352,7 @@ public class UniversalController {
         }
     }
 
-    public void setRumble(GenericHID.RumbleType type, double value) {
+    public void setRumble(RumbleType type, double value) {
         switch(controllerType) {
             case PS4:
                 ps4Controller.setRumble(type, value);
@@ -369,11 +369,11 @@ public class UniversalController {
     }
 
     /**
-     * This method will retrun the underlying Command Controller. It is up to 
+     * This method will return the underlying Command Controller. It is up to 
      * the caller to cast it to the correct type.
      * @return The underlying command controller
      */
-    public Object getCommandController() {
+    public CommandGenericHID getCommandController() {
         switch (controllerType) {
             case PS4:
                 return ps4Controller;

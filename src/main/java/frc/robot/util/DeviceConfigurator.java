@@ -26,8 +26,6 @@ public class DeviceConfigurator {
     public static void configureCANcoder(CANcoder encoder, double offset) {
         CANcoderConfiguration configuration = new CANcoderConfiguration();
 
-        encoder.getConfigurator().apply(configuration);
-
         configuration.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1; // Make sensor wrap-arround unsigned
         configuration.MagnetSensor.MagnetOffset = offset;
         configuration.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive; // Set the sensor to mesure positive distance as counter clockwise
@@ -81,13 +79,13 @@ public class DeviceConfigurator {
     public static void configureSparkMaxDriveMotor(SparkMax motor) {
         SparkMaxConfig config = new SparkMaxConfig();
 
-        config.inverted(true)
+        config.inverted(false)
             .smartCurrentLimit(80)
             .idleMode(IdleMode.kBrake)
             .openLoopRampRate(DriveConstants.getDriveRampRate());
 
-        config.encoder.positionConversionFactor(DriveConstants.getDriveRevToMeters())
-            .velocityConversionFactor(DriveConstants.getDriveRevToMeters() / 60);
+        config.encoder.positionConversionFactor(1 / DriveConstants.getDriveRevToMeters())
+            .velocityConversionFactor(60 / DriveConstants.getDriveRevToMeters());
 
         config.closedLoop
             .p(DriveConstants.getDriveKP())

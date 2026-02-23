@@ -196,12 +196,12 @@ public class RobotContainer {
 
             // Control the intake pivot manually -- left and right buttons on d-pad of operator controller
             m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
-                if (m_operatorController.povRight().getAsBoolean()) {
-                    return 1.0;
-                } else if (m_operatorController.povLeft().getAsBoolean()) {
-                    return -1.0;
-                } else {
+                if (m_operatorController.povRight().getAsBoolean() ^ m_operatorController.povLeft().getAsBoolean()) {
                     return 0.0;
+                } else if (m_operatorController.povRight().getAsBoolean()) {
+                    return 1.0;
+                } else {
+                    return -1.0;
                 }
             }, m_limitOverrideMode), m_intakePivot));
 
@@ -271,8 +271,8 @@ public class RobotContainer {
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
-            NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1Height());
-            NamedCommands.registerCommand("Climb", m_climb.L1ClimbRetract());
+            NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1());
+            NamedCommands.registerCommand("Climb", m_climb.retract());
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
             NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
             NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));

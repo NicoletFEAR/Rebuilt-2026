@@ -630,8 +630,8 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("climb.L1-position"));
         }
 
-        public static double getL1RetractPosition() {
-            return Double.parseDouble(m_properties.getProperty("climb.L1-retract-position"));
+        public static double getClimbPosition() {
+            return Double.parseDouble(m_properties.getProperty("climb.climb-position"));
         }
     }
 }

@@ -39,7 +39,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;
     private TalonFX m_motor;
     private DCMotorSim m_motorSim;
-
+    private ClimbState m_state = ClimbState.RETRACT;
     private double m_minPosition;
     private double m_maxPosition;
 
@@ -97,16 +97,16 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         runToPosition(getPosition());
     }
 
-    public Command climbL1Height() {
-        return runProfileToPosition(ClimbConstants.getL1Position());
-    }
-
-    public Command L1ClimbRetract() {
-        return runProfileToPosition(ClimbConstants.getL1RetractPosition());
+    public Command climbL1() {
+        return new InstantCommand(() -> m_state = ClimbState.CLIMB_L1).andThen(runProfileToPosition(ClimbConstants.getL1Position()));
     }
 
     public Command retract() {
-        return runProfileToPosition(ClimbConstants.getHomePosition());
+        return new InstantCommand(() -> m_state = ClimbState.RETRACT).andThen(runProfileToPosition(ClimbConstants.getHomePosition()));
+    }
+
+    public Command climb() {
+        return new InstantCommand(() -> m_state = ClimbState.CLIMB).andThen(runProfileToPosition(ClimbConstants.getClimbPosition()));
     }
 
     @Override
@@ -144,5 +144,11 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         m_motorSim.update(0.02);
         motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * ClimbConstants.getGearRatio());
         motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * ClimbConstants.getGearRatio());
+    }
+
+    private enum ClimbState {
+        CLIMB,
+        CLIMB_L1,
+        RETRACT,
     }
 }

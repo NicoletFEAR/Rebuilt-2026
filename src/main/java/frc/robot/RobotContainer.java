@@ -251,14 +251,16 @@ public class RobotContainer {
     }
 
     public Alliance getAutoWinner() {
-        switch (DriverStation.getGameSpecificMessage()) {
-            case "R":
-                return Alliance.Red;
-            case "B":
-                return Alliance.Blue;
-            default:
-                return null;
-        }
+        // Get the driver station game data and pass it to the robot to perform
+        // the necessary alerts and processing
+        String data = DriverStation.getGameSpecificMessage();
+
+        // Get the first character and determine the alliance that won autos
+        Alliance winningAlliance = Alliance.Red;
+        if ( (data.length() > 0) && (data.charAt(0) == 'B' ) ) 
+            winningAlliance = Alliance.Blue;
+
+        return winningAlliance;
     }
 
     public boolean aboutToSwitch() {
@@ -299,17 +301,8 @@ public class RobotContainer {
      * who won autos, starting times, and sending alerts based on game shifts.
      */
     public void teleopInit() {
-        // Get the driver station game data and pass it to the robot to perform
-        // the necessary alerts and processing
-        String data = DriverStation.getGameSpecificMessage();
-
-        // Get the first character and determine the alliance that won autos
-        Alliance winningAlliance = Alliance.Red;
-        if ( (data.length() > 0) && (data.charAt(0) == 'B' ) ) 
-            winningAlliance = Alliance.Blue;
-
         // Start the game timer
-        m_gameTimer.teleopStart(winningAlliance == m_alliance);
+        m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
     }
 
     public void teleopPeriodic() {

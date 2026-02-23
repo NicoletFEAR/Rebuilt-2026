@@ -361,6 +361,18 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("drive.back-right-offset"));
         }
 
+        public static double getAutoTargetKP() {
+            return Double.parseDouble(m_properties.getProperty("drive.auto-target.kp"));
+        }
+
+        public static double getAutoTargetKI() {
+            return Double.parseDouble(m_properties.getProperty("drive.auto-target.ki"));
+        }
+
+        public static double getAutoTargetKD() {
+            return Double.parseDouble(m_properties.getProperty("drive.auto-target.kd"));
+        }
+
         // Positions of all the swerve modules relative to the center of the drivebase
         public static final Translation2d[] kModuleTranslations = {
             new Translation2d(getWheelBase()  / 2, getTrackWidth()  / 2),

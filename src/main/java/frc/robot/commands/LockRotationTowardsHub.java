@@ -26,7 +26,7 @@ public class LockRotationTowardsHub extends Command {
     private double m_throttle;
     private double m_strafe;
     private double m_steer;
-    private PIDController m_steerController = new PIDController(5, 0, .9);
+    private PIDController m_steerController = new PIDController(DriveConstants.getAutoTargetKP(), DriveConstants.getAutoTargetKI(), DriveConstants.getAutoTargetKD());
 
 
     private boolean m_isOpenLoop;

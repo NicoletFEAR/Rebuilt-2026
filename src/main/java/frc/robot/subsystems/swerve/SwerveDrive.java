@@ -43,6 +43,9 @@ import frc.robot.RobotContainer;
 
 import frc.robot.util.Utils;
 
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+
 import java.util.function.BooleanSupplier;
 
 import org.littletonrobotics.junction.Logger;
@@ -305,7 +308,7 @@ public class SwerveDrive extends SubsystemBase {
                         m_angleToSnap = Double.POSITIVE_INFINITY;
                 }
 
-                steer *= DriveConstants.getMaxModuleSpeed();
+                steer *= RotationsPerSecond.of(DriveConstants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
 
                 m_chassisSpeeds = isFieldRelative
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())

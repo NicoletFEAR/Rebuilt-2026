@@ -7,6 +7,7 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LEDConstants;
 
 import com.ctre.phoenix6.configs.CANdleConfiguration;
 import com.ctre.phoenix6.controls.EmptyAnimation;
@@ -41,8 +42,8 @@ public class Led extends SubsystemBase {
      * 0-7 are onboard, 8-399 are an external strip.
      * CANdle supports 8 animation slots (0-7).
      */
-    private static final int kSlot0StartIdx = 8;
-    private static final int kSlot0EndIdx = 84;
+    private static final int kSlot0StartIdx = LEDConstants.getSlotStart(0);
+    private static final int kSlot0EndIdx = LEDConstants.getSlotEnd(0);
 
     /**
      * The type of animation to play for the LEDs

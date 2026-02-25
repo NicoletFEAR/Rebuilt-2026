@@ -15,10 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.climb.Climb;
@@ -31,6 +31,7 @@ import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.subsystems.swerve.SwerveDrive.SwerveState;
 
 public class RobotContainer {
     private final UniversalController m_driverController = new UniversalController(
@@ -136,19 +137,32 @@ public class RobotContainer {
         m_driverController
             .triangle()
             .whileTrue(
-                new LockRotationTowardsHub(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.getDefaultSpeed(),
-                    true,
-                    true
+                new StartEndCommand(
+                    () -> m_driveBase.setState(SwerveState.TARGET_HUB),
+                    () -> m_driveBase.setState(SwerveState.DRIVE)
                 )
             );
+
+        // Locks the drivebase in place -- cross button of driver controller
+        m_driverController
+            .cross()
+            .onTrue(new InstantCommand(() -> m_driveBase.setState(SwerveState.X_WHEELS)));
         
+        // Rumbles controllers for a second when shifts are about to change
         new Trigger(() -> aboutToSwitch())
-            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1)))
-            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0)));
+            .whileTrue(
+                new StartEndCommand(
+                    () -> {
+                        m_driverController.setRumble(RumbleType.kBothRumble, 1);
+                        m_operatorController.setRumble(RumbleType.kBothRumble, 1);
+                    },
+
+                    () -> {
+                        m_driverController.setRumble(RumbleType.kBothRumble, 0);
+                        m_operatorController.setRumble(RumbleType.kBothRumble, 0);
+                    }
+                )
+            );
 
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {

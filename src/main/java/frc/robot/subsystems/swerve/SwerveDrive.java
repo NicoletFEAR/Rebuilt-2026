@@ -67,15 +67,13 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveModulePosition[] m_modulePositions;
     private ChassisSpeeds m_chassisSpeeds;
 
-    private DriveMode m_driveMode = DriveMode.TELEOP;
+    private SwerveState m_state = SwerveState.DRIVE;
 
     private Field2d m_field;
 
     private double m_simYaw;
 
-    private double m_angleToSnap = Double.POSITIVE_INFINITY;
-
-    private PIDController angleController = new PIDController(.016, 0.003, 0.0);
+    private PIDController m_steerController = new PIDController(DriveConstants.getAutoTargetKP(), DriveConstants.getAutoTargetKI(), DriveConstants.getAutoTargetKD());
 
     public SwerveDrive() {
         if (DriveConstants.usesDriveKrakens()) {
@@ -140,7 +138,8 @@ public class SwerveDrive extends SubsystemBase {
         m_field = new Field2d();
         RobotContainer.m_mainTab.add(m_field).withPosition(6, 2).withSize(6, 3);
 
-        angleController.setTolerance(1);
+        m_steerController.enableContinuousInput(-180, 180);
+        m_steerController.setTolerance(DriveConstants.getRotationTolerance());
 
         AutoBuilder.configure(
                 this::getPose,
@@ -198,7 +197,6 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public ChassisSpeeds getRobotRelativeSpeeds() {
-        // return m_chassisSpeeds;
         return m_kinematics.toChassisSpeeds(getModuleStates());
     }
 
@@ -227,8 +225,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setModuleStates(boolean isOpenLoop) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(
-                m_desiredModuleStates, DriveConstants.getMaxModuleSpeed());
+        SwerveDriveKinematics.desaturateWheelSpeeds(m_desiredModuleStates, DriveConstants.getMaxModuleSpeed());
 
         for (int i = 0; i < m_modules.length; i++) {
             m_modules[i].setSwerveModuleState(m_desiredModuleStates[i], isOpenLoop);
@@ -245,13 +242,15 @@ public class SwerveDrive extends SubsystemBase {
         if (getYaw().getDegrees() < 0) {
             return (getYaw().getDegrees() % -360) + 360;
         }
+
         return getYaw().getDegrees() % 360;
     }
 
     public Rotation2d getPigeonYaw() {
         if (RobotBase.isReal()) {
-            Rotation2d rotation = RobotContainer.getAlliance() == Alliance.Blue ? m_pigeon.getRotation2d()
-                    : m_pigeon.getRotation2d().plus(Rotation2d.fromDegrees(180));
+            Rotation2d rotation = RobotContainer.getAlliance() == Alliance.Blue
+                ? m_pigeon.getRotation2d()
+                : m_pigeon.getRotation2d().plus(Rotation2d.fromDegrees(180));
 
             return rotation;
         } else {
@@ -267,13 +266,12 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
-    public void setDriveMode(DriveMode driveMode) {
-        m_driveMode = driveMode;
+    public void setState(SwerveState state) {
+        m_state = state;
     }
 
 
     public void driveClosedLoop(double throttle, double strafe, double steer) {
-
         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw());
 
         m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
@@ -282,32 +280,20 @@ public class SwerveDrive extends SubsystemBase {
 
         setModuleStates(m_desiredModuleStates, false);
 
-        if (RobotBase.isSimulation())
+        if (RobotBase.isSimulation()) {
             m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kdt);
-
+        }
     }
 
-    public void drive(
-            double throttle, double strafe, double steer, boolean isOpenLoop, boolean isFieldRelative) {
-
-        if (throttle + strafe + steer != 0 && m_driveMode == DriveMode.XWHEELS) {
-            m_driveMode = DriveMode.TELEOP;
+    public void drive(double throttle, double strafe, double steer, boolean isOpenLoop, boolean isFieldRelative) {
+        if (throttle + strafe + steer != 0 && m_state == SwerveState.X_WHEELS) {
+            m_state = SwerveState.DRIVE;
         }
 
-        switch (m_driveMode) {
-            case TELEOP:
+        switch (m_state) {
+            case DRIVE:
                 throttle *= DriveConstants.getMaxModuleSpeed();
                 strafe *= DriveConstants.getMaxModuleSpeed();
-
-                if (m_angleToSnap != Double.POSITIVE_INFINITY) {
-                    steer = angleController.calculate(
-                            Utils.getAdjustedYawDegrees(getYaw().getDegrees(), m_angleToSnap), 180);
-                    steer *= DriveConstants.getMaxModuleSpeed();
-
-                    if (angleController.atSetpoint())
-                        m_angleToSnap = Double.POSITIVE_INFINITY;
-                }
-
                 steer *= RotationsPerSecond.of(DriveConstants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
 
                 m_chassisSpeeds = isFieldRelative
@@ -315,20 +301,44 @@ public class SwerveDrive extends SubsystemBase {
                         : new ChassisSpeeds(throttle, strafe, steer);
 
                 m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
-
                 m_desiredModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
 
-                if (isOpenLoop) {
-                    setModuleStates(m_desiredModuleStates, isOpenLoop);
-                } else {
-                    setModuleStates(m_desiredModuleStates, isOpenLoop);
+                setModuleStates(m_desiredModuleStates, isOpenLoop);
+
+                if (RobotBase.isSimulation()) {
+                    m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kdt);
                 }
 
-                if (RobotBase.isSimulation())
+                break;
+
+            case TARGET_HUB:
+                throttle *= DriveConstants.getMaxModuleSpeed();
+                strafe *= DriveConstants.getMaxModuleSpeed();
+
+                double desiredAngle = Math.atan2(
+                    DriveConstants.kHubPosition.getY() - getPose().getTranslation().getY(),
+                    DriveConstants.kHubPosition.getX() - getPose().getTranslation().getX()
+                );
+
+                steer = m_steerController.calculate(getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180.0;
+                steer *= RotationsPerSecond.of(DriveConstants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
+
+                m_chassisSpeeds = isFieldRelative
+                        ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())
+                        : new ChassisSpeeds(throttle, strafe, steer);
+
+                m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
+                m_desiredModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+
+                setModuleStates(m_desiredModuleStates, isOpenLoop);
+
+                if (RobotBase.isSimulation()) {
                     m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kdt);
+                }
 
                 break;
-            case XWHEELS:
+
+            case X_WHEELS:
                 Utils.copyModuleStates(DriveConstants.kXWheels, m_desiredModuleStates);
                 setModuleStates(isOpenLoop);
                 break;
@@ -369,12 +379,12 @@ public class SwerveDrive extends SubsystemBase {
 
     public void zeroGyro() {
         m_pigeon.setYaw(0);
+        
         if (RobotContainer.getAlliance() == Alliance.Blue) {
             m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(0), m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)));
         } else {
             m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(180), m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
         }
-        
     }
 
     @Override
@@ -392,8 +402,9 @@ public class SwerveDrive extends SubsystemBase {
         Logger.recordOutput("Swerve/Robot Relative Chassis Speeds", getRobotRelativeSpeeds());
     }
 
-    public enum DriveMode {
-        TELEOP,
-        XWHEELS
+    public enum SwerveState {
+        TARGET_HUB,
+        DRIVE,
+        X_WHEELS,
     }
 }

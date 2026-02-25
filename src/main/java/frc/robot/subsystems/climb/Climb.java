@@ -105,14 +105,19 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         return new InstantCommand(() -> m_state = ClimbState.RETRACT).andThen(runProfileToPosition(ClimbConstants.getHomePosition()));
     }
 
+    public Command retractAuto() {
+        return new InstantCommand(() -> m_state = ClimbState.RETRACT_AUTO).andThen(runProfileToPosition(ClimbConstants.getHomePosition()));
+    }
+
     public Command climb() {
         return new InstantCommand(() -> m_state = ClimbState.CLIMB).andThen(runProfileToPosition(ClimbConstants.getClimbPosition()));
     }
 
     @Override
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {
+        m_state = ClimbState.MANUAL_CONTROL;
+        
         double adjustedThrottle = throttle.get() * ClimbConstants.getManualModifier();
-
         double newDesiredPosition = m_desiredPosition + adjustedThrottle;
 
         if (!limitOverrideMode) {
@@ -123,6 +128,10 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
             m_desiredPosition = newDesiredPosition;
             runToPosition(m_desiredPosition);
         }
+    }
+
+    public ClimbState getState() {
+        return m_state;
     }
 
     @Override
@@ -146,9 +155,11 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * ClimbConstants.getGearRatio());
     }
 
-    private enum ClimbState {
+    public enum ClimbState {
         CLIMB,
         CLIMB_L1,
+        MANUAL_CONTROL,
         RETRACT,
+        RETRACT_AUTO,
     }
 }

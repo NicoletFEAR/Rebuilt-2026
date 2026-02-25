@@ -23,6 +23,7 @@ import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.climb.Climb.ClimbState;
 import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
 import frc.robot.subsystems.kitbot.KitbotIntake;
@@ -207,6 +208,10 @@ public class RobotContainer {
                 }
             }, m_limitOverrideMode), m_climb));
 
+            // Retracts the climb when teleop starts after climbing in auto
+            new Trigger(() -> DriverStation.isTeleopEnabled() && m_climb.getState() == ClimbState.RETRACT_AUTO)
+                .onTrue(m_climb.climbL1());
+
             // Control the intake pivot manually -- left and right buttons on d-pad of operator controller
             m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
                 if (m_operatorController.povRight().getAsBoolean() ^ m_operatorController.povLeft().getAsBoolean()) {
@@ -252,18 +257,23 @@ public class RobotContainer {
     }
 
     public Alliance getAutoWinner() {
-        // Get the driver station game data and pass it to the robot to perform
-        // the necessary alerts and processing
         String data = DriverStation.getGameSpecificMessage();
 
-        // Get the first character and determine the alliance that won autos
-        Alliance winningAlliance = Alliance.Red;
-        if ( (data.length() > 0) && (data.charAt(0) == 'B' ) ) 
-            winningAlliance = Alliance.Blue;
-
-        return winningAlliance;
+        if (data.length() > 0){
+            switch (data.charAt(0)) {
+                case 'R':
+                    return Alliance.Red;
+                case 'B':
+                    return Alliance.Blue;
+                default:
+                    return null;
+            }
+        } else {
+            return null;
+        }
     }
 
+    // TODO: Will be replaced by the GameTimer class
     public boolean aboutToSwitch() {
         double matchTime = DriverStation.getMatchTime();
 
@@ -319,7 +329,7 @@ public class RobotContainer {
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
             NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1());
-            NamedCommands.registerCommand("Climb", m_climb.retract());
+            NamedCommands.registerCommand("Climb", m_climb.retractAuto());
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
             NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
             NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));

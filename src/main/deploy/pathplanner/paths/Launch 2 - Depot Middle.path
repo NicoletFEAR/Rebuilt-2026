@@ -5,36 +5,26 @@
       "anchor": {
         "x": 2.6,
         "y": 4.0
-        "x": 2.6,
-        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.286299372166844,
-        "y": 4.39142943213191
-        "x": 2.286299372166844,
-        "y": 4.39142943213191
+        "x": 2.2528863871882585,
+        "y": 4.413145680893248
       },
       "isLocked": false,
-      "linkedName": "Launch 2"
       "linkedName": "Launch 2"
     },
     {
       "anchor": {
         "x": 1.1,
         "y": 5.95
-        "x": 1.1,
-        "y": 5.95
       },
       "prevControl": {
-        "x": 1.3251527453008334,
-        "y": 5.659025810924633
-        "x": 1.3251527453008334,
-        "y": 5.659025810924633
+        "x": 1.8345538546002795,
+        "y": 4.971736324925492
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot Middle"
       "linkedName": "Depot Middle"
     }
   ],
@@ -57,8 +47,7 @@
   "reversed": false,
   "folder": "Start T Paths",
   "idealStartingState": {
-    "velocity": 0.0,
-    "velocity": 0.0,
+    "velocity": 0,
     "rotation": 0.0
   },
   "useDefaultConstraints": true

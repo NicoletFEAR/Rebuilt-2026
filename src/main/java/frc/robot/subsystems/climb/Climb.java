@@ -105,6 +105,10 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         return new InstantCommand(() -> m_state = ClimbState.RETRACT).andThen(runProfileToPosition(ClimbConstants.getHomePosition()));
     }
 
+    public Command retractAuto() {
+        return new InstantCommand(() -> m_state = ClimbState.RETRACT_AUTO).andThen(runProfileToPosition(ClimbConstants.getHomePosition()));
+    }
+
     public Command climb() {
         return new InstantCommand(() -> m_state = ClimbState.CLIMB).andThen(runProfileToPosition(ClimbConstants.getClimbPosition()));
     }
@@ -123,6 +127,10 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
             m_desiredPosition = newDesiredPosition;
             runToPosition(m_desiredPosition);
         }
+    }
+
+    public ClimbState getState() {
+        return m_state;
     }
 
     @Override
@@ -146,9 +154,10 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * ClimbConstants.getGearRatio());
     }
 
-    private enum ClimbState {
+    public enum ClimbState {
         CLIMB,
         CLIMB_L1,
         RETRACT,
+        RETRACT_AUTO,
     }
 }

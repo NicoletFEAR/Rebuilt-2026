@@ -580,6 +580,10 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("intake.pivot.home-position"));
         }
 
+        public static double getPivotHoldPosition() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.hold-position"));
+        }
+
         public static double getPivotOutPosition() {
             return Double.parseDouble(m_properties.getProperty("intake.pivot.out-position"));
         }

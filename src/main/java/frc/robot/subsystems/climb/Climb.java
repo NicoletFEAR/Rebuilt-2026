@@ -115,8 +115,9 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
 
     @Override
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {
+        m_state = ClimbState.MANUAL_CONTROL;
+        
         double adjustedThrottle = throttle.get() * ClimbConstants.getManualModifier();
-
         double newDesiredPosition = m_desiredPosition + adjustedThrottle;
 
         if (!limitOverrideMode) {
@@ -157,6 +158,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     public enum ClimbState {
         CLIMB,
         CLIMB_L1,
+        MANUAL_CONTROL,
         RETRACT,
         RETRACT_AUTO,
     }

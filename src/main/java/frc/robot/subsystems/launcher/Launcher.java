@@ -118,7 +118,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * LauncherConstants.getGearRatio());
     }
 
-    private enum LauncherState {
+    public enum LauncherState {
         LAUNCHING,
         OFF,
     }

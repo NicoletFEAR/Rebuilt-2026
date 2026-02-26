@@ -638,4 +638,14 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("climb.climb-position"));
         }
     }
+
+    public final class VisionConstants {
+        public static final double kTargetAmountConstant = 2.0;
+        public static final double kSpeedsConstant = 1.0;
+        public static final double kRotationsConstant = 1.5;
+        public static final double kDistanceConstant = 0.25;
+        public static final double kAreaConstant = 0.01;
+
+        public static final double kOffsetTolerance = 1000.0;
+    }
 }

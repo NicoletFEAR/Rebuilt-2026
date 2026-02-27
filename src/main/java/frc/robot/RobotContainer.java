@@ -273,19 +273,18 @@ public class RobotContainer {
         }
     }
 
-    // TODO: Will be replaced by the GameTimer class
+    // TODO: Replace by the GameTimer class
     public boolean aboutToSwitch() {
         double matchTime = DriverStation.getMatchTime();
 
         return DriverStation.isTeleop()
             && DriverStation.isFMSAttached()
             && (
-                (matchTime <= 131 && matchTime > 130)
-                || (matchTime <= 106 && matchTime > 105)
-                || (matchTime <= 81 && matchTime > 80)
-                || (matchTime <= 56 && matchTime > 55)
-                || (matchTime <= 31 && matchTime > 30)
-                || (matchTime <= 1 && matchTime > 0)
+                (matchTime <= 131.0 && matchTime > 130.0)
+                || (matchTime <= 81.0 && matchTime > 80.0)
+                || (matchTime <= 56.0 && matchTime > 55.0)
+                || (matchTime <= 31.0 && matchTime > 30.0)
+                || (matchTime <= 1.0 && matchTime > 0.0)
             );
     }
 

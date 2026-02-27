@@ -159,9 +159,9 @@ public class RobotContainer {
         
         new Trigger(() -> aboutToSwitch())
             .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1))
-            .alongWith(new InstantCommand(() -> m_led.startScoringSwitchAnimation())))
+            .alongWith(m_led.startScoringSwitchAnimation()))
             .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0))
-            .alongWith(new InstantCommand(() -> m_led.stopScoringSwitchAnimation())));
+            .alongWith(m_led.stopAnimation()));
 
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {
@@ -184,8 +184,8 @@ public class RobotContainer {
             // Launches fuel by spinning up the launcher and then indexing the fuel -- y button of operator controller
             m_operatorController
                 .triangle()
-                .onTrue(m_indexer.index().alongWith(m_launcher.launch()))
-                .onFalse(m_indexer.off().alongWith(m_launcher.off()));
+                .onTrue(m_led.startLaunchAnimation().alongWith(m_indexer.index()).alongWith(m_launcher.launch()))
+                .onFalse(m_led.stopAnimation().alongWith(m_indexer.off()).alongWith(m_launcher.off()));
                 
             // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
             m_operatorController
@@ -237,8 +237,8 @@ public class RobotContainer {
             // Intakes fuel -- a button on operator controller
             m_operatorController
                 .cross()
-                .onTrue(m_intakeDriver.intake())
-                .onFalse(m_intakeDriver.off());
+                .onTrue(m_led.startIntakeAnimation().alongWith(m_intakeDriver.intake()))
+                .onFalse(m_led.stopAnimation().alongWith(m_intakeDriver.off()));
 
             // Disables limits for manual mechanism control -- create button on operator control
             m_operatorController
@@ -250,6 +250,10 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
+    }
+
+    public Command runAutoLedAnimation() {
+        return m_led.startAutoAnimation();
     }
 
     public static Alliance getAlliance() {

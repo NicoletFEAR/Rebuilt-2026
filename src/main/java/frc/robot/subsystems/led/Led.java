@@ -6,6 +6,8 @@ import com.ctre.phoenix6.signals.RGBWColor;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
 
@@ -106,53 +108,33 @@ public class Led extends SubsystemBase {
         applyAnimation(0, AnimationType.None, null);
     }
 
-    public void startLaunchAnimation() {
-        applyAnimation(0, AnimationType.Fire, kTeal);
+    public Command startLaunchAnimation() {
+        return new InstantCommand(() -> applyAnimation(0, AnimationType.Fire, kTeal));
     }
 
-    public void stopLaunchAnimation() {
-        applyAnimation(0, AnimationType.None, null);
+    public Command startIntakeAnimation() {
+        return new InstantCommand(() -> applyAnimation(0, AnimationType.Fire, kYellow));
     }
 
-    public void startIntakeAnimation() {
-        applyAnimation(0, AnimationType.Fire, kYellow);
+    public Command startClimbAnimation() {
+        return new InstantCommand(() -> applyAnimation(0, AnimationType.SingleFade, kBlue));
     }
 
-    public void stopIntakeAnimation() {
-        applyAnimation(0, AnimationType.None, null);
+    public Command startAutoAnimation() {
+        return new InstantCommand(() -> applyAnimation(0, AnimationType.Rainbow, kRed));
     }
 
-    public void startClimbAnimation() {
-        applyAnimation(0, AnimationType.SingleFade, kBlue);
+    public Command startSwerveAnimation() {
+        return new InstantCommand(() -> applyAnimation(0, AnimationType.ColorFlow, kWhite));
     }
 
-    public void stopClimbAnimation() {
-        applyAnimation(0, AnimationType.None, null);
-    }
-
-    public void startAutoAnimation() {
-        applyAnimation(0, AnimationType.Rainbow, kRed);
-    }
-
-    public void stopAutoAnimation() {
-        applyAnimation(0, AnimationType.None, null);
-    }
-
-    public void startSwerveAnimation() {
-        applyAnimation(0, AnimationType.ColorFlow, kWhite);
-    }
-
-    public void stopSwerveAnimation() {
-        applyAnimation(0, AnimationType.None, null);
-    }
-
-    public void startScoringSwitchAnimation() {
+    public Command startScoringSwitchAnimation() {
         // TODO Add the concept of duration
-        applyAnimation(0, AnimationType.Strobe, kRed);
+        return new InstantCommand(() -> applyAnimation(0, AnimationType.Strobe, kRed));
     }
 
-    public void stopScoringSwitchAnimation() {
-        applyAnimation(0, AnimationType.None, null);
+    public Command stopAnimation() {
+        return new InstantCommand(() -> applyAnimation(0, AnimationType.None, null));
     }
 
     /**

@@ -22,7 +22,7 @@ public class GameTimer extends Timer {
         AUTO(20),
         TRANSITION(10),
         OFFENSE(25),
-        DEFENCE(25),
+        DEFENSE(25),
         ENDGAME(30);
 
         private final int m_duration;

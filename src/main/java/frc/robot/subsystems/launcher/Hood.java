@@ -92,6 +92,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         }
 
         if (m_desiredPosition != newDesiredPosition) {
+            m_desiredPosition = newDesiredPosition;
             runToPosition(m_desiredPosition);
         }
     }

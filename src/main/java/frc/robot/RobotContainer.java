@@ -1,7 +1,5 @@
 package frc.robot;
 
-import static edu.wpi.first.units.Units.Volts;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -18,10 +16,12 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.climb.Climb.ClimbState;
 import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
 import frc.robot.subsystems.kitbot.KitbotIntake;
@@ -29,8 +29,14 @@ import frc.robot.subsystems.kitbot.KitbotLauncher;
 import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
+import frc.robot.subsystems.led.Led;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
+/**
+ * This class is used to encapsulate the robot code, including all hardware subsystems.  
+ * In the case that new functionality should be added, it will likely need to added
+ * to this class as it is the central point of all subsystems.
+ */
 public class RobotContainer {
     private final UniversalController m_driverController = new UniversalController(
         OperatorConstants.getDriverControllerPort(), DriveConstants.getControllerType());
@@ -51,9 +57,12 @@ public class RobotContainer {
     private IntakeDriver m_intakeDriver;
     private IntakePivot m_intakePivot;
     private Climb m_climb;
+    private Led m_led;
 
     private static Alliance m_alliance = Alliance.Blue;
     private boolean m_limitOverrideMode = false;
+
+    // private GameTimer m_gameTimer;
 
     public RobotContainer() {
         if (Constants.kRobotName.equals("kitbot")) {
@@ -66,6 +75,7 @@ public class RobotContainer {
             m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
+            m_led = new Led(DeviceIds.getLedID());
         }
 
         createNamedCommands();
@@ -107,33 +117,14 @@ public class RobotContainer {
                 )
             );
 
-        // Slows speed and drives robot relative -- right trigger of driver controller
-        m_driverController
-            .R2()
-            .whileTrue(
-                new TeleopSwerve(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
-                    OperatorConstants.getSlowSpeed(),
-                    true,
-                    false
-                )
-            );
-
         // Make gyroscope think current position is zero -- create button of driver controller
         m_driverController
             .create()
             .onTrue(new InstantCommand(() -> m_driveBase.zeroGyro(), m_driveBase));
-
-        m_driverController
-            .square()
-            .onTrue(new InstantCommand(() -> m_driveBase.runVolts(Volts.of(12))));
         
         // Enables Palantir-Class Target Lock on the hub
         m_driverController
-            .triangle()
+            .R2()
             .whileTrue(
                 new LockRotationTowardsHub(
                     m_driverController,
@@ -146,8 +137,10 @@ public class RobotContainer {
             );
         
         new Trigger(() -> aboutToSwitch())
-            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1)))
-            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0)));
+            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1))
+            .alongWith(m_led.startScoringSwitchAnimation()))
+            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0))
+            .alongWith(m_led.stopAnimation()));
 
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {
@@ -170,8 +163,8 @@ public class RobotContainer {
             // Launches fuel by spinning up the launcher and then indexing the fuel -- y button of operator controller
             m_operatorController
                 .triangle()
-                .onTrue(m_indexer.index().alongWith(m_launcher.launch()))
-                .onFalse(m_indexer.off().alongWith(m_launcher.off()));
+                .onTrue(m_led.startLaunchAnimation().alongWith(m_indexer.index()).alongWith(m_launcher.launch()))
+                .onFalse(m_led.stopAnimation().alongWith(m_indexer.off()).alongWith(m_launcher.off()));
                 
             // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
             m_operatorController
@@ -194,6 +187,10 @@ public class RobotContainer {
                 }
             }, m_limitOverrideMode), m_climb));
 
+            // Retracts the climb when teleop starts after climbing in auto
+            new Trigger(() -> DriverStation.isTeleopEnabled() && m_climb.getState() == ClimbState.RETRACT_AUTO)
+                .onTrue(m_climb.climbL1());
+
             // Control the intake pivot manually -- left and right buttons on d-pad of operator controller
             m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
                 if (m_operatorController.povRight().getAsBoolean()) {
@@ -207,20 +204,20 @@ public class RobotContainer {
 
             // Control the hood manually -- up and down arrows of operator controller
             m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
-                if (m_operatorController.povUp().getAsBoolean() ^ m_operatorController.povDown().getAsBoolean()) {
-                    return 0.0;
-                } else if (m_operatorController.povUp().getAsBoolean()) {
+                if (m_operatorController.povUp().getAsBoolean()) {
                     return 1.0;
-                } else {
+                } else if (m_operatorController.povDown().getAsBoolean()) {
                     return -1.0;
+                } else {
+                    return 0.0;
                 }
             }, m_limitOverrideMode), m_hood));
             
             // Intakes fuel -- a button on operator controller
             m_operatorController
                 .cross()
-                .onTrue(m_intakeDriver.intake())
-                .onFalse(m_intakeDriver.off());
+                .onTrue(m_led.startIntakeAnimation().alongWith(m_intakePivot.out()).alongWith(m_intakeDriver.intake()))
+                .onFalse(m_led.stopAnimation().alongWith(m_intakePivot.in().until(() -> m_intakePivot.isStuckOnBall())).alongWith(m_intakeDriver.off()));
 
             // Disables limits for manual mechanism control -- create button on operator control
             m_operatorController
@@ -234,33 +231,43 @@ public class RobotContainer {
         return autoChooser.getSelected();
     }
 
+    public Command runAutoLedAnimation() {
+        return m_led.startAutoAnimation();
+    }
+
     public static Alliance getAlliance() {
         return m_alliance;
     }
 
     public Alliance getAutoWinner() {
-        switch (DriverStation.getGameSpecificMessage()) {
-            case "R":
-                return Alliance.Red;
-            case "B":
-                return Alliance.Blue;
-            default:
-                return null;
+        String data = DriverStation.getGameSpecificMessage();
+
+        if (data.length() > 0){
+            switch (data.charAt(0)) {
+                case 'R':
+                    return Alliance.Red;
+                case 'B':
+                    return Alliance.Blue;
+                default:
+                    return null;
+            }
+        } else {
+            return null;
         }
     }
 
+    // TODO: Replace by the GameTimer class
     public boolean aboutToSwitch() {
         double matchTime = DriverStation.getMatchTime();
 
         return DriverStation.isTeleop()
             && DriverStation.isFMSAttached()
             && (
-                (matchTime <= 131 && matchTime > 130)
-                || (matchTime <= 106 && matchTime > 105)
-                || (matchTime <= 81 && matchTime > 80)
-                || (matchTime <= 56 && matchTime > 55)
-                || (matchTime <= 31 && matchTime > 30)
-                || (matchTime <= 1 && matchTime > 0)
+                (matchTime <= 131.0 && matchTime > 130.0)
+                || (matchTime <= 81.0 && matchTime > 80.0)
+                || (matchTime <= 56.0 && matchTime > 55.0)
+                || (matchTime <= 31.0 && matchTime > 30.0)
+                || (matchTime <= 1.0 && matchTime > 0.0)
             );
     }
 
@@ -269,10 +276,42 @@ public class RobotContainer {
       SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
 
+    /**
+     * This method should be called at the start of autonomous and perform 
+     * any necessary setup and processing for the autonomous period
+     */
+    public void autonomousInit() {}
+
+    /**
+     * This method should be called at the end of autonomous and perform
+     * any necessary cleanup for the autonomous period
+     */
+    public void autonomousExit() {}
+
+    /**
+     * Ths mehtod should be called at the start of teleop and performs 
+     * any necessary setup and processing for the period.  This includes determining 
+     * who won autos, starting times, and sending alerts based on game shifts.
+     */
+    public void teleopInit() {
+        // Start the game timer
+        // m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
+    }
+
+    public void teleopPeriodic() {
+        // m_gameTimer.periodic();
+    }
+
+    /**
+     * This method should be called at the end of teleop and perform
+     * any necessary cleanup for the teleop period
+     */
+    public void teleopExit() {}
+
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
-            NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1Height());
-            NamedCommands.registerCommand("Climb", m_climb.L1ClimbRetract());
+            NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1());
+            NamedCommands.registerCommand("Climb", m_climb.retractAuto());
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
             NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
             NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));

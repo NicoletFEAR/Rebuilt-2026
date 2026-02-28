@@ -25,6 +25,7 @@ public class UniversalController {
     private CommandXboxController xboxController;
     private Axis controllerAxis;
     private Button controllerButton;
+    private Alert alert = new Alert("Controllers", "Unsupported Controller Type: " + controllerType, AlertType.kError);
     
     /**
      * Create a new instance
@@ -402,6 +403,9 @@ public class UniversalController {
      */
     private void sendAlert(String message, AlertType alertType) {
         System.out.println("Unsupported Controller Type: " + controllerType + " " + message);
-        new Alert("Unsupported Controller Type: " + controllerType + " " + message, alertType);
+
+        // An issue occurred, set the alert as active
+        alert.setText("Unsupported Controller Type: " + controllerType + " " + message);
+        alert.set(true);
     }
 }

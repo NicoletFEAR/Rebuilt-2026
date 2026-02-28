@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.15,
-        "y": 1.2000000000000002
+        "x": 7.1,
+        "y": 0.6500000000000004
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.2103073792140915,
-        "y": 0.8579798566743311
+        "x": 5.503117703146366,
+        "y": 0.6640264441718888
       },
       "isLocked": false,
       "linkedName": "NZT Bottom-South"
     },
     {
       "anchor": {
-        "x": 4.75,
-        "y": 0.5
+        "x": 3.203,
+        "y": 0.65
       },
       "prevControl": {
-        "x": 5.25,
-        "y": 0.4999999999999999
-      },
-      "nextControl": {
-        "x": 3.65,
-        "y": 0.5000000000000001
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.8715777777777785,
-        "y": 1.784033333333333
-      },
-      "prevControl": {
-        "x": 2.8715777777777785,
-        "y": 1.2302459590964372
+        "x": 5.001736334049636,
+        "y": 0.671697517673415
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,34 +29,20 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.0,
-      "maxWaypointRelativePos": 2.0,
-      "constraints": {
-        "maxVelocity": 4.0,
-        "maxAcceleration": 4.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 3.5,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 56.0
+    "rotation": 66.78413838507123
   },
   "reversed": false,
   "folder": "Neutral Zone Trench Paths",
@@ -80,5 +50,5 @@
     "velocity": 0,
     "rotation": 90.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

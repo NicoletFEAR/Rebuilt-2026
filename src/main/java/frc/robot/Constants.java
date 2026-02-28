@@ -169,6 +169,10 @@ public final class Constants {
         public static int getHoodEncoderID() {
             return Integer.parseInt(m_properties.getProperty("deviceIds.hood-encoder"));
         }
+
+        public static int getLedID() {
+            return Integer.parseInt(m_properties.getProperty("deviceIds.led"));
+        }
     }
 
     public final class OperatorConstants {
@@ -355,6 +359,18 @@ public final class Constants {
 
         public static double getBackRightOffset() {
             return Double.parseDouble(m_properties.getProperty("drive.back-right-offset"));
+        }
+
+        public static double getAutoTargetKP() {
+            return Double.parseDouble(m_properties.getProperty("drive.auto-target.kp"));
+        }
+
+        public static double getAutoTargetKI() {
+            return Double.parseDouble(m_properties.getProperty("drive.auto-target.ki"));
+        }
+
+        public static double getAutoTargetKD() {
+            return Double.parseDouble(m_properties.getProperty("drive.auto-target.kd"));
         }
 
         // Positions of all the swerve modules relative to the center of the drivebase
@@ -548,6 +564,10 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("intake.driver.intake-voltage"));
         }
 
+        public static double getIntakeStuckOnBallThreshold() {
+            return Double.parseDouble(m_properties.getProperty("intake.stuck-on-ball-threshold"));
+        }
+
         public static double getPivotSetpointTolerance() {
             return Double.parseDouble(m_properties.getProperty("intake.pivot.setpoint-tolerance"));
         }
@@ -566,6 +586,10 @@ public final class Constants {
 
         public static double getPivotHomePosition() {
             return Double.parseDouble(m_properties.getProperty("intake.pivot.home-position"));
+        }
+
+        public static double getPivotHoldPosition() {
+            return Double.parseDouble(m_properties.getProperty("intake.pivot.hold-position"));
         }
 
         public static double getPivotOutPosition() {
@@ -618,8 +642,28 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("climb.L1-position"));
         }
 
-        public static double getL1RetractPosition() {
-            return Double.parseDouble(m_properties.getProperty("climb.L1-retract-position"));
+        public static double getClimbPosition() {
+            return Double.parseDouble(m_properties.getProperty("climb.climb-position"));
         }
+    }
+
+    public final class LEDConstants {
+        public static int getSlotStart(int slot) {
+            return Integer.parseInt(m_properties.getProperty("led.slot-" + slot + ".start"));
+        }
+
+        public static int getSlotEnd(int slot) {
+            return Integer.parseInt(m_properties.getProperty("led.slot-" + slot + ".end"));
+        }
+    }
+
+    public final class VisionConstants {
+        public static final double kTargetAmountConstant = 2.0;
+        public static final double kSpeedsConstant = 1.0;
+        public static final double kRotationsConstant = 1.5;
+        public static final double kDistanceConstant = 0.25;
+        public static final double kAreaConstant = 0.01;
+
+        public static final double kOffsetTolerance = 1000.0;
     }
 }

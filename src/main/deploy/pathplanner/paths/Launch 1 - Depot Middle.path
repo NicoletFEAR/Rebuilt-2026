@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.4,
-        "y": 6.196
+        "x": 3.205,
+        "y": 7.35
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2054062810320807,
-        "y": 6.049071083960362
+        "x": 2.7566952669334457,
+        "y": 7.1602937843788705
       },
       "isLocked": false,
       "linkedName": "Launch 1"
@@ -20,8 +20,8 @@
         "y": 5.95
       },
       "prevControl": {
-        "x": 2.774524872635987,
-        "y": 6.03133597812396
+        "x": 1.9769739251013396,
+        "y": 6.492705202137071
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,10 +33,10 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -48,7 +48,7 @@
   "folder": "Start D and Depot Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -56.0
+    "rotation": -62.93424938861828
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

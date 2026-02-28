@@ -14,7 +14,6 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
@@ -39,7 +38,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
     private double m_desiredPosition;
     private TalonFX m_motor;
     private DCMotorSim m_motorSim;
-
+    private ClimbState m_state = ClimbState.RETRACT;
     private double m_minPosition;
     private double m_maxPosition;
 
@@ -84,7 +83,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         return new FunctionalCommand(
             () -> {
                 m_desiredPosition = position;
-                m_motor.setControl(new MotionMagicVoltage(position));
+                m_motor.setControl(new PositionVoltage(m_desiredPosition).withSlot(0));
             },
             () -> {},
             (isFinished) -> {},
@@ -97,22 +96,27 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         runToPosition(getPosition());
     }
 
-    public Command climbL1Height() {
-        return runProfileToPosition(ClimbConstants.getL1Position());
-    }
-
-    public Command L1ClimbRetract() {
-        return runProfileToPosition(ClimbConstants.getL1RetractPosition());
+    public Command climbL1() {
+        return new InstantCommand(() -> m_state = ClimbState.CLIMB_L1).andThen(runProfileToPosition(ClimbConstants.getL1Position()));
     }
 
     public Command retract() {
-        return runProfileToPosition(ClimbConstants.getHomePosition());
+        return new InstantCommand(() -> m_state = ClimbState.RETRACT).andThen(runProfileToPosition(ClimbConstants.getHomePosition()));
+    }
+
+    public Command retractAuto() {
+        return new InstantCommand(() -> m_state = ClimbState.RETRACT_AUTO).andThen(runProfileToPosition(ClimbConstants.getHomePosition()));
+    }
+
+    public Command climb() {
+        return new InstantCommand(() -> m_state = ClimbState.CLIMB).andThen(runProfileToPosition(ClimbConstants.getClimbPosition()));
     }
 
     @Override
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {
+        m_state = ClimbState.MANUAL_CONTROL;
+        
         double adjustedThrottle = throttle.get() * ClimbConstants.getManualModifier();
-
         double newDesiredPosition = m_desiredPosition + adjustedThrottle;
 
         if (!limitOverrideMode) {
@@ -123,6 +127,10 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
             m_desiredPosition = newDesiredPosition;
             runToPosition(m_desiredPosition);
         }
+    }
+
+    public ClimbState getState() {
+        return m_state;
     }
 
     @Override
@@ -144,5 +152,13 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         m_motorSim.update(0.02);
         motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * ClimbConstants.getGearRatio());
         motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * ClimbConstants.getGearRatio());
+    }
+
+    public enum ClimbState {
+        CLIMB,
+        CLIMB_L1,
+        MANUAL_CONTROL,
+        RETRACT,
+        RETRACT_AUTO,
     }
 }

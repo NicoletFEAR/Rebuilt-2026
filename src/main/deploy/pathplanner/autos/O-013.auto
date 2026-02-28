@@ -17,9 +17,28 @@
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 2.5
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
+                }
+              }
+            ]
           }
         },
         {
@@ -29,9 +48,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "NZT Bottom-North - NZT Top-North"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZT Bottom-North - NZT Top-North"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndIntake"
+                }
+              }
+            ]
           }
         },
         {
@@ -41,15 +79,34 @@
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 4.9
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
+                }
+              }
+            ]
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "013",
+  "folder": "013 ⚐",
   "choreoAuto": false
 }

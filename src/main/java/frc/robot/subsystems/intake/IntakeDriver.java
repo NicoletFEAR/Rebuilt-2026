@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants;
 import frc.robot.Constants.DeviceIds;
 
 public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
@@ -32,7 +33,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     // private DigitalInput m_beamBreak;
 
     public IntakeDriver() {
-        m_motor = new TalonFX(DeviceIds.getIntakeDriverID(), new CANBus("rio"));
+        m_motor = new TalonFX(DeviceIds.getIntakeDriverID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.getDriverGearRatio()), DCMotor.getKrakenX60(1));
         // m_beamBreak = new DigitalInput(DeviceIds.kIntakeBeamBreak);
 
@@ -41,7 +42,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
         config.Slot0.kP = IntakeConstants.getDriverKP();
         config.Slot0.kI = IntakeConstants.getDriverKI();
         config.Slot0.kD = IntakeConstants.getDriverKD();
-        config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         m_motor.getConfigurator().apply(config);
     }
 

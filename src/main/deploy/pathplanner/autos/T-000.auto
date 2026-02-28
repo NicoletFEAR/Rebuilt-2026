@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start T - Launch T"
+            "pathName": "Start T - Launch 2"
           }
         },
         {
@@ -23,7 +23,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.5
+                  "waitTime": 1.25
                 }
               },
               {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Launch T - Climb Top"
+            "pathName": "Launch 2 - Climb Top"
           }
         },
         {

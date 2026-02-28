@@ -17,9 +17,28 @@
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 2.5
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
+                }
+              }
+            ]
           }
         },
         {
@@ -43,19 +62,38 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
+            "waitTime": 4.0
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 4.7
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
+                }
+              }
+            ]
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "⚑ 032",
+  "folder": "032 ⚐",
   "choreoAuto": false
 }

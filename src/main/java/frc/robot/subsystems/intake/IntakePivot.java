@@ -10,9 +10,10 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import edu.wpi.first.math.MathUtil;
@@ -48,6 +49,8 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         config.Slot0.kI = IntakeConstants.getPivotKI();
         config.Slot0.kD = IntakeConstants.getPivotKD();
         config.Feedback.SensorToMechanismRatio = IntakeConstants.getPivotGearRatio();
+        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         m_motor.getConfigurator().apply(config);
 
         m_desiredPosition = IntakeConstants.getPivotHomePosition();
@@ -75,7 +78,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         return new FunctionalCommand(
             () -> {
                 m_desiredPosition = position;
-                m_motor.setControl(new MotionMagicVoltage(position));
+                m_motor.setControl(new PositionVoltage(position).withSlot(0));
             },
             () -> {},
             (isFinished) -> {},
@@ -88,8 +91,16 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         return runProfileToPosition(IntakeConstants.getPivotOutPosition());
     }
 
+    public Command hold() {
+        return runProfileToPosition(IntakeConstants.getPivotHoldPosition());
+    }
+
     public Command in() {
         return runProfileToPosition(IntakeConstants.getPivotHomePosition());
+    }
+
+    public boolean isStuckOnBall() {
+        return m_motor.getStatorCurrent().getValueAsDouble() > IntakeConstants.getIntakeStuckOnBallThreshold();
     }
 
     @Override
@@ -108,6 +119,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         }
 
         if (m_desiredPosition != newDesiredPosition) {
+            m_desiredPosition = newDesiredPosition;
             runToPosition(m_desiredPosition);
         }
     }

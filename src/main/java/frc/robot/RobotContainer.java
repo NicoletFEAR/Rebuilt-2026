@@ -1,7 +1,5 @@
 package frc.robot;
 
-import static edu.wpi.first.units.Units.Volts;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -218,8 +216,8 @@ public class RobotContainer {
             // Intakes fuel -- a button on operator controller
             m_operatorController
                 .cross()
-                .onTrue(m_led.startIntakeAnimation().alongWith(m_intakeDriver.intake()))
-                .onFalse(m_led.stopAnimation().alongWith(m_intakeDriver.off()));
+                .onTrue(m_led.startIntakeAnimation().alongWith(m_intakePivot.out()).alongWith(m_intakeDriver.intake()))
+                .onFalse(m_led.stopAnimation().alongWith(m_intakePivot.in().until(() -> m_intakePivot.isStuckOnBall())).alongWith(m_intakeDriver.off()));
 
             // Disables limits for manual mechanism control -- create button on operator control
             m_operatorController

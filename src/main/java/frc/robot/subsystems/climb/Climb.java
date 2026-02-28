@@ -14,7 +14,6 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
@@ -84,7 +83,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         return new FunctionalCommand(
             () -> {
                 m_desiredPosition = position;
-                m_motor.setControl(new MotionMagicVoltage(position));
+                m_motor.setControl(new PositionVoltage(m_desiredPosition).withSlot(0));
             },
             () -> {},
             (isFinished) -> {},

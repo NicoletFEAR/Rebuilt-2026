@@ -10,7 +10,6 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -79,7 +78,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         return new FunctionalCommand(
             () -> {
                 m_desiredPosition = position;
-                m_motor.setControl(new MotionMagicVoltage(position));
+                m_motor.setControl(new PositionVoltage(position).withSlot(0));
             },
             () -> {},
             (isFinished) -> {},
@@ -98,6 +97,10 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
 
     public Command in() {
         return runProfileToPosition(IntakeConstants.getPivotHomePosition());
+    }
+
+    public boolean isStuckOnBall() {
+        return m_motor.getStatorCurrent().getValueAsDouble() > IntakeConstants.getIntakeStuckOnBallThreshold();
     }
 
     @Override

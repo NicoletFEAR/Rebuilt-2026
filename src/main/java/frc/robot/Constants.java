@@ -564,6 +564,10 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("intake.driver.intake-voltage"));
         }
 
+        public static double getIntakeStuckOnBallThreshold() {
+            return Double.parseDouble(m_properties.getProperty("intake.stuck-on-ball-threshold"));
+        }
+
         public static double getPivotSetpointTolerance() {
             return Double.parseDouble(m_properties.getProperty("intake.pivot.setpoint-tolerance"));
         }

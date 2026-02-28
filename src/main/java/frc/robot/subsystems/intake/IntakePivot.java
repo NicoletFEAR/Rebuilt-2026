@@ -13,6 +13,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import edu.wpi.first.math.MathUtil;
@@ -48,6 +50,8 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         config.Slot0.kI = IntakeConstants.getPivotKI();
         config.Slot0.kD = IntakeConstants.getPivotKD();
         config.Feedback.SensorToMechanismRatio = IntakeConstants.getPivotGearRatio();
+        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         m_motor.getConfigurator().apply(config);
 
         m_desiredPosition = IntakeConstants.getPivotHomePosition();
@@ -112,6 +116,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         }
 
         if (m_desiredPosition != newDesiredPosition) {
+            m_desiredPosition = newDesiredPosition;
             runToPosition(m_desiredPosition);
         }
     }

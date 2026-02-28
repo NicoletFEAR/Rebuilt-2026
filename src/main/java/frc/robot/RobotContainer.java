@@ -64,7 +64,7 @@ public class RobotContainer {
     private static Alliance m_alliance = Alliance.Blue;
     private boolean m_limitOverrideMode = false;
 
-    private GameTimer m_gameTimer;
+    // private GameTimer m_gameTimer;
 
     public RobotContainer() {
         if (Constants.kRobotName.equals("kitbot")) {
@@ -119,33 +119,14 @@ public class RobotContainer {
                 )
             );
 
-        // Slows speed and drives robot relative -- right trigger of driver controller
-        m_driverController
-            .R2()
-            .whileTrue(
-                new TeleopSwerve(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
-                    OperatorConstants.getSlowSpeed(),
-                    true,
-                    false
-                )
-            );
-
         // Make gyroscope think current position is zero -- create button of driver controller
         m_driverController
             .create()
             .onTrue(new InstantCommand(() -> m_driveBase.zeroGyro(), m_driveBase));
-
-        m_driverController
-            .square()
-            .onTrue(new InstantCommand(() -> m_driveBase.runVolts(Volts.of(12))));
         
         // Enables Palantir-Class Target Lock on the hub
         m_driverController
-            .triangle()
+            .R2()
             .whileTrue(
                 new LockRotationTowardsHub(
                     m_driverController,
@@ -214,23 +195,23 @@ public class RobotContainer {
 
             // Control the intake pivot manually -- left and right buttons on d-pad of operator controller
             m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
-                if (m_operatorController.povRight().getAsBoolean() ^ m_operatorController.povLeft().getAsBoolean()) {
-                    return 0.0;
-                } else if (m_operatorController.povRight().getAsBoolean()) {
+                if (m_operatorController.povRight().getAsBoolean()) {
                     return 1.0;
-                } else {
+                } else if (m_operatorController.povLeft().getAsBoolean()) {
                     return -1.0;
+                } else {
+                    return 0.0;
                 }
             }, m_limitOverrideMode), m_intakePivot));
 
             // Control the hood manually -- up and down arrows of operator controller
             m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
-                if (m_operatorController.povUp().getAsBoolean() ^ m_operatorController.povDown().getAsBoolean()) {
-                    return 0.0;
-                } else if (m_operatorController.povUp().getAsBoolean()) {
+                if (m_operatorController.povUp().getAsBoolean()) {
                     return 1.0;
-                } else {
+                } else if (m_operatorController.povDown().getAsBoolean()) {
                     return -1.0;
+                } else {
+                    return 0.0;
                 }
             }, m_limitOverrideMode), m_hood));
             
@@ -277,19 +258,18 @@ public class RobotContainer {
         }
     }
 
-    // TODO: Will be replaced by the GameTimer class
+    // TODO: Replace by the GameTimer class
     public boolean aboutToSwitch() {
         double matchTime = DriverStation.getMatchTime();
 
         return DriverStation.isTeleop()
             && DriverStation.isFMSAttached()
             && (
-                (matchTime <= 131 && matchTime > 130)
-                || (matchTime <= 106 && matchTime > 105)
-                || (matchTime <= 81 && matchTime > 80)
-                || (matchTime <= 56 && matchTime > 55)
-                || (matchTime <= 31 && matchTime > 30)
-                || (matchTime <= 1 && matchTime > 0)
+                (matchTime <= 131.0 && matchTime > 130.0)
+                || (matchTime <= 81.0 && matchTime > 80.0)
+                || (matchTime <= 56.0 && matchTime > 55.0)
+                || (matchTime <= 31.0 && matchTime > 30.0)
+                || (matchTime <= 1.0 && matchTime > 0.0)
             );
     }
 
@@ -317,11 +297,11 @@ public class RobotContainer {
      */
     public void teleopInit() {
         // Start the game timer
-        m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
+        // m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
     }
 
     public void teleopPeriodic() {
-        m_gameTimer.periodic();
+        // m_gameTimer.periodic();
     }
 
     /**

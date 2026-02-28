@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -140,7 +141,7 @@ public class RobotContainer {
             .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1))
             .alongWith(m_led.startScoringSwitchAnimation()))
             .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0))
-            .alongWith(m_led.stopAnimation()));
+            .alongWith(m_led.startSwerveAnimation()));
 
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {
@@ -164,7 +165,7 @@ public class RobotContainer {
             m_operatorController
                 .triangle()
                 .onTrue(m_led.startLaunchAnimation().alongWith(m_indexer.index()).alongWith(m_launcher.launch()))
-                .onFalse(m_led.stopAnimation().alongWith(m_indexer.off()).alongWith(m_launcher.off()));
+                .onFalse(m_led.startSwerveAnimation().alongWith(m_indexer.off()).alongWith(m_launcher.off()));
                 
             // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
             m_operatorController
@@ -178,12 +179,12 @@ public class RobotContainer {
 
             // Control the climb manually -- left and right bumpers of operator controller
             m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
-                if (m_operatorController.L1().getAsBoolean()) {
-                    return 1.0;
-                } else if (m_operatorController.R1().getAsBoolean()) {
-                    return -1.0;
-                } else {
+                if (m_operatorController.L1().getAsBoolean() == m_operatorController.R1().getAsBoolean()) {
                     return 0.0;
+                } else if (m_operatorController.L1().getAsBoolean()) {
+                    return 1.0;
+                } else {
+                    return -1.0;
                 }
             }, m_limitOverrideMode), m_climb));
 
@@ -193,23 +194,23 @@ public class RobotContainer {
 
             // Control the intake pivot manually -- left and right buttons on d-pad of operator controller
             m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
-                if (m_operatorController.povRight().getAsBoolean()) {
-                    return 1.0;
-                } else if (m_operatorController.povLeft().getAsBoolean()) {
-                    return -1.0;
-                } else {
+                if (m_operatorController.povRight().getAsBoolean() == m_operatorController.povLeft().getAsBoolean()) {
                     return 0.0;
+                } else if (m_operatorController.povRight().getAsBoolean()) {
+                    return 1.0;
+                } else {
+                    return -1.0;
                 }
             }, m_limitOverrideMode), m_intakePivot));
 
             // Control the hood manually -- up and down arrows of operator controller
             m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
-                if (m_operatorController.povUp().getAsBoolean()) {
-                    return 1.0;
-                } else if (m_operatorController.povDown().getAsBoolean()) {
-                    return -1.0;
-                } else {
+                if (m_operatorController.povUp().getAsBoolean() == m_operatorController.povDown().getAsBoolean()) {
                     return 0.0;
+                } else if (m_operatorController.povUp().getAsBoolean()) {
+                    return 1.0;
+                } else {
+                    return -1.0;
                 }
             }, m_limitOverrideMode), m_hood));
             
@@ -217,7 +218,7 @@ public class RobotContainer {
             m_operatorController
                 .cross()
                 .onTrue(m_led.startIntakeAnimation().alongWith(m_intakePivot.out()).alongWith(m_intakeDriver.intake()))
-                .onFalse(m_led.stopAnimation().alongWith(m_intakePivot.in().until(() -> m_intakePivot.isStuckOnBall())).alongWith(m_intakeDriver.off()));
+                .onFalse(m_led.startSwerveAnimation().alongWith(m_intakePivot.in().until(() -> m_intakePivot.isStuckOnBall())).alongWith(m_intakeDriver.off()));
 
             // Disables limits for manual mechanism control -- create button on operator control
             m_operatorController
@@ -233,6 +234,10 @@ public class RobotContainer {
 
     public Command runAutoLedAnimation() {
         return m_led.startAutoAnimation();
+    }
+
+    public Command stopLedAnimation() {
+        return m_led.stopAnimation();
     }
 
     public static Alliance getAlliance() {
@@ -296,6 +301,7 @@ public class RobotContainer {
     public void teleopInit() {
         // Start the game timer
         // m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
+        CommandScheduler.getInstance().schedule(m_led.startSwerveAnimation());
     }
 
     public void teleopPeriodic() {

@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
+import frc.robot.Constants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
@@ -34,15 +36,16 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
 
     public Hood() {
         m_motor = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
-        m_encoder = new CANcoder(DeviceIds.getHoodEncoderID());
-        m_pidController = m_motor.getClosedLoopController();
+        m_encoder = new CANcoder(DeviceIds.getHoodEncoderID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
 
         SparkMaxConfig config = new SparkMaxConfig();
         config.closedLoop
             .p(LauncherConstants.getHoodKP())
             .i(LauncherConstants.getHoodKI())
             .d(LauncherConstants.getHoodKD());
-        config.encoder.positionConversionFactor(LauncherConstants.getHoodGearRatio());
+        config.encoder.positionConversionFactor(1 / LauncherConstants.getHoodGearRatio());
+
+        m_pidController = m_motor.getClosedLoopController();
 
         m_desiredPosition = LauncherConstants.getHoodHomePosition();
         m_minPosition = LauncherConstants.getHoodMinPosition();

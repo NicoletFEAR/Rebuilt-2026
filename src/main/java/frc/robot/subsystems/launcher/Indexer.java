@@ -57,7 +57,7 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     }
 
     public Command index() {
-        return new WaitCommand(0.5).andThen(new InstantCommand(() -> setVoltage(IndexerConstants.getIndexVoltage())));
+        return new WaitCommand(1.0).andThen(new InstantCommand(() -> setVoltage(IndexerConstants.getIndexVoltage())));
     }
 
     public Command off() {

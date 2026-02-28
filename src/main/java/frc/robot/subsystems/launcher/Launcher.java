@@ -29,7 +29,7 @@ import frc.robot.Constants.DeviceIds;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
-    private double m_speedModifier = 0.5;
+    private double m_speedModifier = 1.0;
     private LauncherState m_state = LauncherState.OFF;
     private TalonFX m_leftLauncher;
     private TalonFX m_rightLauncher;

@@ -16,6 +16,7 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import edu.wpi.first.math.MathUtil;
@@ -51,6 +52,7 @@ public class Climb extends SubsystemBase implements PositionSubsystem {
         config.Slot0.kI = ClimbConstants.getKI();
         config.Slot0.kD = ClimbConstants.getKD();
         config.Feedback.SensorToMechanismRatio = ClimbConstants.getGearRatio();
+        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         m_motor.getConfigurator().apply(config);
 
         m_desiredPosition = ClimbConstants.getHomePosition();

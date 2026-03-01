@@ -105,6 +105,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         Logger.recordOutput("Launcher/Launcher/Voltage", getVoltage());
         Logger.recordOutput("Launcher/Launcher/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Launcher/Current", m_leftLauncher.getStatorCurrent().getValueAsDouble());
+        Logger.recordOutput("Launcher/Launcher/Velocity", m_leftLauncher.getVelocity().getValueAsDouble());
     }
 
     @Override

@@ -15,12 +15,6 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -35,7 +29,6 @@ import frc.robot.util.DeviceConfigurator;
 
 public class Hood extends SubsystemBase implements PositionSubsystem {
     private SparkMax m_motor;
-    private SparkMaxSim m_motorSim;
     private CANcoder m_encoder;
     private SparkClosedLoopController m_pidController;
 
@@ -45,9 +38,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
 
     public Hood() {
         m_motor = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
-        m_motorSim = new SparkMaxSim(m_motor, DCMotor.getNeo550(1));
         m_encoder = new CANcoder(DeviceIds.getHoodEncoderID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-        // m_encoderSim = new SparkAbsoluteEncoderSim(m_motor);
 
         SparkMaxConfig config = new SparkMaxConfig();
         config.closedLoop

@@ -121,7 +121,7 @@ public class RobotContainer {
         // Make gyroscope think current position is zero -- create button of driver controller
         m_driverController
             .create()
-            .onTrue(new InstantCommand(() -> m_driveBase.zeroGyro(), m_driveBase));
+            .onTrue(new InstantCommand(m_driveBase::zeroGyro, m_driveBase));
         
         // Enables Palantir-Class Target Lock on the hub
         m_driverController
@@ -137,10 +137,10 @@ public class RobotContainer {
                 )
             );
         
-        new Trigger(() -> aboutToSwitch())
-            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1))
+        new Trigger(this::aboutToSwitch)
+            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1.0))
             .alongWith(m_led.startScoringSwitchAnimation()))
-            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0))
+            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0.0))
             .alongWith(m_led.startSwerveAnimation()));
 
         // These are the controls for the kitbot subsystems
@@ -173,12 +173,12 @@ public class RobotContainer {
                         .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))))
                 .onFalse(m_led.startSwerveAnimation().alongWith(m_indexer.off()).alongWith(m_launcher.off()));
                 
-            // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
+            // Increases launcher speed by 10% unless it's already at 100% -- b button on operator controller
             m_operatorController
                 .circle()
                 .onTrue(m_launcher.raiseSpeed());
             
-            // Decreases launcher speed by 10% unless it's at 0%, in which case it goes back up to 100% -- x button of operator controller
+            // Decreases launcher speed by 10% unless it's at 0% -- x button of operator controller
             m_operatorController
                 .square()
                 .onTrue(m_launcher.lowerSpeed());
@@ -229,8 +229,8 @@ public class RobotContainer {
                 .onFalse(m_led.startSwerveAnimation()
                     .alongWith(m_intakePivot
                         .in()
-                        .until(() -> m_intakePivot.isStuckOnBall())
-                        .andThen(new InstantCommand(() -> m_intakePivot.resetDesiredPosition())))
+                        .until(m_intakePivot::isStuckOnBall)
+                        .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition)))
                         .alongWith(m_intakeDriver.off()));
 
             // Disables limits for manual mechanism control -- create button on operator control

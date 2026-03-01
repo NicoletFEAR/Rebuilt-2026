@@ -6,6 +6,8 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -43,7 +45,8 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
             .p(LauncherConstants.getHoodKP())
             .i(LauncherConstants.getHoodKI())
             .d(LauncherConstants.getHoodKD());
-        config.encoder.positionConversionFactor(1 / LauncherConstants.getHoodGearRatio());
+        config.encoder.positionConversionFactor(LauncherConstants.getHoodGearRatio());
+        m_motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_pidController = m_motor.getClosedLoopController();
 
@@ -58,7 +61,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     }
 
     public double getPosition() {
-        return m_encoder.getPosition().getValueAsDouble();
+        return m_encoder.getAbsolutePosition().getValueAsDouble() * 360.0;
     }
 
     public void runToPosition(double position) {
@@ -104,9 +107,9 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     public void periodic() {
         Logger.recordOutput("Launcher/Hood/Desired Position", m_desiredPosition);
         Logger.recordOutput("Launcher/Hood/Position", getPosition());
-        Logger.recordOutput("Intake/Pivot/Current", m_motor.getOutputCurrent());
-        Logger.recordOutput("Intake/Pivot/Voltage", m_motor.getBusVoltage());
-        Logger.recordOutput("Intake/Pivot/Velocity", m_encoder.getVelocity().getValueAsDouble());
+        Logger.recordOutput("Launcher/Hood/Current", m_motor.getOutputCurrent());
+        Logger.recordOutput("Launcher/Hood/Voltage", m_motor.getBusVoltage());
+        Logger.recordOutput("Launcher/Hood/Velocity", m_encoder.getVelocity().getValueAsDouble());
         Logger.recordOutput("Launcher/Hood/Is At Setpoint", getIsAtSetpoint());
     }
 }

@@ -65,15 +65,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     @Override
     public double getVoltage() {
-        return Math.max(getLeftVoltage(), getRightVoltage());
-    }
-
-    public double getLeftVoltage() {
-        return m_leftMotor.getMotorVoltage().getValueAsDouble();
-    }
-
-    public double getRightVoltage() {
-        return m_rightMotor.getMotorVoltage().getValueAsDouble();
+        return Math.max(m_leftMotor.getMotorVoltage().getValueAsDouble(), m_rightMotor.getMotorVoltage().getValueAsDouble());
     }
 
     public void setVelocity(double velocity) {
@@ -86,8 +78,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     public void setVoltage(double voltage) {}
 
     public boolean isAtVelocity() {
-        return Math.abs(getLeftVoltage() - m_desiredVelocity) < LauncherConstants.getVelocityTolerance()
-            && Math.abs(getRightVoltage() - m_desiredVelocity) < LauncherConstants.getVelocityTolerance();
+        return Math.abs(m_leftMotor.getVelocity().getValueAsDouble() - m_desiredVelocity) < LauncherConstants.getVelocityTolerance()
+            && Math.abs(m_rightMotor.getVelocity().getValueAsDouble() - m_desiredVelocity) < LauncherConstants.getVelocityTolerance();
     }
 
     public Command runProfileToVelocity(double velocity) {

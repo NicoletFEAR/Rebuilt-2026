@@ -104,7 +104,7 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
     }
 
     public Command jostleOut() {
-        return runProfileToPosition(IntakeConstants.getPivotJostlePosition());
+        return runProfileToPosition(Math.min(getPosition() + IntakeConstants.getPivotOutPosition() / 10.0, m_maxPosition));
     }
 
     public boolean isStuckOnBall() {

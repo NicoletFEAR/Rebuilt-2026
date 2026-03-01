@@ -99,6 +99,10 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         return runProfileToPosition(IntakeConstants.getPivotHomePosition());
     }
 
+    public Command jostleOut() {
+        return runProfileToPosition(IntakeConstants.getPivotJostlePosition());
+    }
+
     public boolean isStuckOnBall() {
         return m_motor.getStatorCurrent().getValueAsDouble() > IntakeConstants.getIntakeStuckOnBallThreshold();
     }

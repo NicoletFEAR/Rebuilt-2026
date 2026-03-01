@@ -165,7 +165,12 @@ public class RobotContainer {
             m_operatorController
                 .triangle()
                 .onTrue(m_led.startLaunchAnimation().alongWith(m_indexer.index()).alongWith(m_launcher.launch()))
-                .whileTrue(m_intakePivot.hold().andThen(m_intakePivot.in()))
+                .whileTrue(m_intakePivot
+                    .jostleOut()
+                    .andThen(m_intakePivot
+                        .in()
+                        .until(m_intakePivot::isStuckOnBall)
+                        .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))))
                 .onFalse(m_led.startSwerveAnimation().alongWith(m_indexer.off()).alongWith(m_launcher.off()));
                 
             // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
@@ -222,7 +227,8 @@ public class RobotContainer {
                     .alongWith(m_intakePivot.out())
                     .alongWith(m_intakeDriver.intake()))
                 .onFalse(m_led.startSwerveAnimation()
-                    .alongWith(m_intakePivot.in()
+                    .alongWith(m_intakePivot
+                        .in()
                         .until(() -> m_intakePivot.isStuckOnBall())
                         .andThen(new InstantCommand(() -> m_intakePivot.resetDesiredPosition())))
                         .alongWith(m_intakeDriver.off()));

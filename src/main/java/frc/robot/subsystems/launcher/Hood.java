@@ -53,12 +53,14 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
 
         DeviceConfigurator.configureCANcoder(m_encoder, LauncherConstants.getHoodOffset());
 
+        m_motor.getEncoder().setPosition(getPosition());
+
         SmartDashboard.putData("MechSettings/Launcher/Hood/Reset Min Hood Position", new InstantCommand(() -> m_minPosition = getPosition()));
         SmartDashboard.putData("MechSettings/Launcher/Hood/Reset Max Hood Position", new InstantCommand(() -> m_maxPosition = getPosition()));
     }
 
     public double getPosition() {
-        return m_encoder.getPosition().getValueAsDouble();
+        return m_encoder.getAbsolutePosition().getValueAsDouble();
     }
 
     public void runToPosition(double position) {

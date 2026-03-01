@@ -87,6 +87,10 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         );
     }
 
+    public void resetDesiredPosition() {
+        m_desiredPosition = getPosition();
+    }
+
     public Command out() {
         return runProfileToPosition(IntakeConstants.getPivotOutPosition());
     }

@@ -218,8 +218,14 @@ public class RobotContainer {
             // Intakes fuel -- a button on operator controller
             m_operatorController
                 .cross()
-                .onTrue(m_led.startIntakeAnimation().alongWith(m_intakePivot.out()).alongWith(m_intakeDriver.intake()))
-                .onFalse(m_led.startSwerveAnimation().alongWith(m_intakePivot.in().until(() -> m_intakePivot.isStuckOnBall())).alongWith(m_intakeDriver.off()));
+                .onTrue(m_led.startIntakeAnimation()
+                    .alongWith(m_intakePivot.out())
+                    .alongWith(m_intakeDriver.intake()))
+                .onFalse(m_led.startSwerveAnimation()
+                    .alongWith(m_intakePivot.in()
+                        .until(() -> m_intakePivot.isStuckOnBall())
+                        .andThen(new InstantCommand(() -> m_intakePivot.resetDesiredPosition())))
+                        .alongWith(m_intakeDriver.off()));
 
             // Disables limits for manual mechanism control -- create button on operator control
             m_operatorController

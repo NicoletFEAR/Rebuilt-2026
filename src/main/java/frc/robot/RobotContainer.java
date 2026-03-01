@@ -268,11 +268,11 @@ public class RobotContainer {
         return DriverStation.isTeleop()
             && DriverStation.isFMSAttached()
             && (
-                (matchTime <= 131.0 && matchTime > 130.0)
-                || (matchTime <= 81.0 && matchTime > 80.0)
-                || (matchTime <= 56.0 && matchTime > 55.0)
-                || (matchTime <= 31.0 && matchTime > 30.0)
-                || (matchTime <= 1.0 && matchTime > 0.0)
+                (matchTime <= 131.0d && matchTime > 130.0d)
+                || (matchTime <= 81.0d && matchTime > 80.0d)
+                || (matchTime <= 56.0d && matchTime > 55.0d)
+                || (matchTime <= 31.0d && matchTime > 30.0d)
+                || (matchTime <= 1.0d && matchTime > 0.0d)
             );
     }
 

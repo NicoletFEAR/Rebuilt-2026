@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
@@ -121,7 +122,7 @@ public class RobotContainer {
         // Make gyroscope think current position is zero -- create button of driver controller
         m_driverController
             .create()
-            .onTrue(new InstantCommand(() -> m_driveBase.zeroGyro(), m_driveBase));
+            .onTrue(new InstantCommand(m_driveBase::zeroGyro, m_driveBase));
         
         // Enables Palantir-Class Target Lock on the hub
         m_driverController
@@ -137,10 +138,10 @@ public class RobotContainer {
                 )
             );
         
-        new Trigger(() -> aboutToSwitch())
-            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1))
+        new Trigger(this::aboutToSwitch)
+            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1.0))
             .alongWith(m_led.startScoringSwitchAnimation()))
-            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0))
+            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0.0))
             .alongWith(m_led.startSwerveAnimation()));
 
         // These are the controls for the kitbot subsystems
@@ -164,15 +165,25 @@ public class RobotContainer {
             // Launches fuel by spinning up the launcher and then indexing the fuel -- y button of operator controller
             m_operatorController
                 .triangle()
-                .onTrue(m_led.startLaunchAnimation().alongWith(m_indexer.index()).alongWith(m_launcher.launch()))
+                .onTrue(m_led
+                    .startLaunchAnimation()
+                    .alongWith(m_launcher.launch())
+                    .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
+                    .andThen(m_indexer.index()))
+                .whileTrue(m_intakePivot
+                    .jostleOut()
+                    .andThen(m_intakePivot
+                        .in()
+                        .until(m_intakePivot::isStuckOnBall)
+                        .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))))
                 .onFalse(m_led.startSwerveAnimation().alongWith(m_indexer.off()).alongWith(m_launcher.off()));
                 
-            // Increases launcher speed by 10% unless it's already at 100%, in which cases it goes back down to 10& -- b button on operator controller
+            // Increases launcher speed by 10% unless it's already at 100% -- b button on operator controller
             m_operatorController
                 .circle()
                 .onTrue(m_launcher.raiseSpeed());
             
-            // Decreases launcher speed by 10% unless it's at 0%, in which case it goes back up to 100% -- x button of operator controller
+            // Decreases launcher speed by 10% unless it's at 0% -- x button of operator controller
             m_operatorController
                 .square()
                 .onTrue(m_launcher.lowerSpeed());
@@ -217,8 +228,15 @@ public class RobotContainer {
             // Intakes fuel -- a button on operator controller
             m_operatorController
                 .cross()
-                .onTrue(m_led.startIntakeAnimation().alongWith(m_intakePivot.out()).alongWith(m_intakeDriver.intake()))
-                .onFalse(m_led.startSwerveAnimation().alongWith(m_intakePivot.in().until(() -> m_intakePivot.isStuckOnBall())).alongWith(m_intakeDriver.off()));
+                .onTrue(m_led.startIntakeAnimation()
+                    .alongWith(m_intakePivot.out())
+                    .alongWith(m_intakeDriver.intake()))
+                .onFalse(m_led.startSwerveAnimation()
+                    .alongWith(m_intakePivot
+                        .in()
+                        .until(m_intakePivot::isStuckOnBall)
+                        .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition)))
+                        .alongWith(m_intakeDriver.off()));
 
             // Disables limits for manual mechanism control -- create button on operator control
             m_operatorController

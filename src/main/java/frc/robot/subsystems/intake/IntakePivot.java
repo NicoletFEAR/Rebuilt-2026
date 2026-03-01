@@ -87,6 +87,10 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         );
     }
 
+    public void resetDesiredPosition() {
+        m_desiredPosition = getPosition();
+    }
+
     public Command out() {
         return runProfileToPosition(IntakeConstants.getPivotOutPosition());
     }
@@ -97,6 +101,10 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
 
     public Command in() {
         return runProfileToPosition(IntakeConstants.getPivotHomePosition());
+    }
+
+    public Command jostleOut() {
+        return runProfileToPosition(Math.min(getPosition() + IntakeConstants.getPivotOutPosition() / 10.0, m_maxPosition));
     }
 
     public boolean isStuckOnBall() {

@@ -97,7 +97,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.getOperatorControllerDeadband())
             * LauncherConstants.getHoodManualModifier();
 
-        double newDesiredPosition = Math.abs((m_desiredPosition + adjustedThrottle) % 1);
+        double newDesiredPosition = m_desiredPosition + adjustedThrottle;
 
          if (!limitOverrideMode) {
             newDesiredPosition = MathUtil.clamp(newDesiredPosition, m_minPosition, m_maxPosition);

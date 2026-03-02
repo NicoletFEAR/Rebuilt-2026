@@ -177,7 +177,9 @@ public class RobotContainer {
                         .in()
                         .until(m_intakePivot::isStuckOnBall)
                         .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))))
-                .onFalse(m_led.startSwerveAnimation().alongWith(m_indexer.off()).alongWith(m_launcher.off()));
+                .onFalse(m_led.startSwerveAnimation()
+                    .alongWith(m_indexer.off())
+                    .alongWith(m_launcher.off()));
                 
             // Increases launcher speed by 10% unless it's already at 100% -- b button on operator controller
             m_operatorController

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANdleConfiguration;
 import com.ctre.phoenix6.controls.EmptyAnimation;
 import com.ctre.phoenix6.controls.ColorFlowAnimation;
@@ -72,7 +73,8 @@ public class Led extends SubsystemBase {
      * @param candleId The ID of the CANdle
      */
     public Led(int candleId) {
-        this.m_candle = new CANdle(candleId);
+        // Create the candle and set it on the right bus
+        this.m_candle = new CANdle(candleId, new CANBus("rio"));
 
         // Configure CANdle
         CANdleConfiguration cfg = new CANdleConfiguration();

@@ -433,6 +433,9 @@ public final class Constants {
     }
 
     public final class LauncherConstants {
+        public static double[][] kAutoAimHoodPositions = {{}};
+        public static double[][] kAutoAimSpeeds = {{}};
+
         public static double getGearRatio() {
             return Double.parseDouble(m_properties.getProperty("launcher.gear-ratio"));
         }

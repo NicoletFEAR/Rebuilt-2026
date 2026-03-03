@@ -8,22 +8,20 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.AlternateEncoderConfig;
 import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
-import frc.robot.Constants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
@@ -32,7 +30,7 @@ import frc.robot.util.DeviceConfigurator;
 public class Hood extends SubsystemBase implements PositionSubsystem {
     private SparkMax m_motor;
     private CANcoder m_encoder;
-    private SparkClosedLoopController m_pidController;
+    private PIDController m_pidController;
 
     private double m_desiredPosition;
     private double m_minPosition;
@@ -40,7 +38,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
 
     public Hood() {
         m_motor = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
-        m_encoder = new CANcoder(DeviceIds.getHoodEncoderID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_encoder = new CANcoder(DeviceIds.getHoodEncoderID(), new CANBus("rio"));
 
         SparkMaxConfig config = new SparkMaxConfig();
         config.closedLoop
@@ -50,7 +48,13 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         config.encoder.positionConversionFactor(LauncherConstants.getHoodGearRatio());
         m_motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        m_pidController = m_motor.getClosedLoopController();
+        m_pidController = new PIDController(
+            LauncherConstants.getHoodKP(),
+            LauncherConstants.getHoodKI(),
+            LauncherConstants.getHoodKD()
+        );
+
+        m_pidController.enableContinuousInput(0.0, 1.0);
 
         m_desiredPosition = LauncherConstants.getHoodHomePosition();
         m_minPosition = LauncherConstants.getHoodMinPosition();
@@ -70,7 +74,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
 
     public void runToPosition(double position) {
         m_desiredPosition = position;
-        m_pidController.setSetpoint(position, ControlType.kPosition);
+        m_motor.set(m_pidController.calculate(getPosition(), position));
     }
 
     @Override
@@ -78,7 +82,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         return new FunctionalCommand(
             () -> {
                 m_desiredPosition = position;
-                m_pidController.setSetpoint(position, ControlType.kPosition);
+                m_motor.set(m_pidController.calculate(getPosition(), position));
             },
             () -> {},
             (isFinished) -> {},
@@ -101,10 +105,8 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
             newDesiredPosition = MathUtil.clamp(newDesiredPosition, m_minPosition, m_maxPosition);
         }
 
-        if (m_desiredPosition != newDesiredPosition) {
-            m_desiredPosition = newDesiredPosition;
-            runToPosition(m_desiredPosition);
-        }
+        m_desiredPosition = newDesiredPosition;
+        runToPosition(m_desiredPosition);
     }
 
     @Override

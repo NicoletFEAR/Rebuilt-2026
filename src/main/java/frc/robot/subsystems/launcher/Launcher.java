@@ -124,6 +124,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         SmartDashboard.putString("Launcher Speed", 100 * m_speedModifier + "%");
         Logger.recordOutput("Launcher/Launcher/Voltage", getVoltage());
         Logger.recordOutput("Launcher/Launcher/Desired Voltage", m_desiredVelocity);
+        Logger.recordOutput("Launcher/Launcher/Left Velocity", m_leftMotor.getVelocity().getValueAsDouble());
+        Logger.recordOutput("Launcher/Launcher/Right Velocity", m_rightMotor.getVelocity().getValueAsDouble());
         Logger.recordOutput("Launcher/Left Launcher/Current", m_leftMotor.getStatorCurrent().getValueAsDouble());
         Logger.recordOutput("Launcher/Right Launcher/Current", m_rightMotor.getStatorCurrent().getValueAsDouble());
     }

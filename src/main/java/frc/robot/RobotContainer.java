@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
@@ -176,9 +175,10 @@ public class RobotContainer {
                     .andThen(m_intakePivot
                         .in()
                         .until(m_intakePivot::isStuckOnBall)
-                        .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition)))
-                        .repeatedly()))
-                .onFalse(m_led.startSwerveAnimation().alongWith(m_indexer.off()).alongWith(m_launcher.off()).alongWith(m_intakePivot.in()));
+                        .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))))
+                .onFalse(m_led.startSwerveAnimation()
+                    .alongWith(m_indexer.off())
+                    .alongWith(m_launcher.off()));
                 
             // Increases launcher speed by 10% unless it's already at 100% -- b button on operator controller
             m_operatorController
@@ -338,10 +338,27 @@ public class RobotContainer {
         if (Constants.kRobotName.equals("tusk")) {
             NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1());
             NamedCommands.registerCommand("Climb", m_climb.retractAuto());
+            // TODO: Replace these old commands with their newer versions in the autos
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
             NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
             NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));
             NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
+
+            NamedCommands.registerCommand(
+                "Launch",
+                m_launcher
+                    .launch()
+                    .andThen(new WaitCommand(1))
+                    .andThen(m_indexer.index())
+                    .andThen(m_intakePivot.jostleOut()
+                        .andThen(m_intakePivot
+                            .in()
+                            .until(m_intakePivot::isStuckOnBall)
+                            .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))
+                            .repeatedly())
+                        .raceWith(new WaitCommand(1.25)))
+                    .andThen(m_indexer.off().alongWith(m_launcher.off()))
+            );
         }
     }
 }

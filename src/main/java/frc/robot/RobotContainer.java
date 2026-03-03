@@ -162,9 +162,9 @@ public class RobotContainer {
                 .onFalse(m_kitbotIntake.off())
                 .onFalse(m_kitbotLauncher.off());
         } else if (Constants.kRobotName.equals("tusk")) {
-            // Launches fuel by spinning up the launcher and then indexing the fuel -- y button of operator controller
+            // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
             m_operatorController
-                .triangle()
+                .R2()
                 .onTrue(m_led
                     .startLaunchAnimation()
                     .alongWith(m_launcher.launch())
@@ -227,9 +227,9 @@ public class RobotContainer {
                 }
             }, m_limitOverrideMode), m_hood));
             
-            // Intakes fuel -- a button on operator controller
+            // Intakes fuel -- left trigger button on operator controller
             m_operatorController
-                .cross()
+                .L2()
                 .onTrue(m_led.startIntakeAnimation()
                     .alongWith(m_intakePivot.out())
                     .alongWith(m_intakeDriver.intake()))

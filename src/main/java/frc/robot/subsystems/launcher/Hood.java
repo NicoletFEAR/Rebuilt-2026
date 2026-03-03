@@ -36,7 +36,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
 
     public Hood() {
         m_motor = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
-        m_encoder = new CANcoder(DeviceIds.getHoodEncoderID(), new CANBus("rio"));
+        m_encoder = new CANcoder(DeviceIds.getHoodEncoderID(), new CANBus("*"));
 
         SparkMaxConfig config = new SparkMaxConfig();
         config.closedLoop

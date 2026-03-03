@@ -9,6 +9,7 @@ import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
@@ -50,7 +51,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         leftConfig.Slot0.kI = LauncherConstants.getKI();
         leftConfig.Slot0.kD = LauncherConstants.getKD();
         leftConfig.MotionMagic.MotionMagicAcceleration = 1;
-        leftConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        leftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         m_leftMotor.getConfigurator().apply(leftConfig);
 
         TalonFXConfiguration rightConfig = new TalonFXConfiguration();
@@ -59,7 +60,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         rightConfig.Slot0.kI = LauncherConstants.getKI();
         rightConfig.Slot0.kD = LauncherConstants.getKD();
         rightConfig.MotionMagic.MotionMagicAcceleration = 1;
-        rightConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        rightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         m_rightMotor.getConfigurator().apply(rightConfig);
     }
 
@@ -70,8 +71,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public void setVelocity(double velocity) {
         m_desiredVelocity = velocity;
-        m_leftMotor.set(m_desiredVelocity);
-        m_rightMotor.set(m_desiredVelocity);
+        m_leftMotor.setControl(new VoltageOut(m_desiredVelocity));
+        m_rightMotor.setControl(new VoltageOut(m_desiredVelocity));
     }
 
     @Override
@@ -87,6 +88,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
             () -> {
                 m_desiredVelocity = velocity;
                 m_leftMotor.setControl(new MotionMagicVelocityVoltage(velocity));
+                m_rightMotor.setControl(new MotionMagicVelocityVoltage(velocity));
             },
             () -> {},
             (isFinished) -> {},
@@ -96,11 +98,17 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     }
 
     public Command launch() {
-        return new InstantCommand(() -> m_state = LauncherState.LAUNCHING).andThen(runProfileToVelocity(LauncherConstants.getLaunchVelocity()));
+        return new InstantCommand(() -> {
+            m_state = LauncherState.LAUNCHING;
+            setVelocity(12.0 * m_speedModifier);
+        });
     }
 
     public Command off() {
-        return new InstantCommand(() -> m_state = LauncherState.OFF).andThen(runProfileToVelocity(LauncherConstants.getOffVelocity()));
+        return new InstantCommand(() -> {
+            m_state = LauncherState.OFF;
+            setVelocity(0.0);
+        });
     }
 
     public Command raiseSpeed() {

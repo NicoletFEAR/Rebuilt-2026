@@ -433,6 +433,18 @@ public final class Constants {
     }
 
     public final class LauncherConstants {
+        // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired hood position
+        // Must be sorted from low to high distance from the hub
+        public static double[][] kAutoAimHoodPositions = {
+            {},
+        };
+
+        // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired launcher speed modifier
+        // Must be sorted from low to high distance from the hub
+        public static double[][] kAutoAimSpeeds = {
+            {},
+        };
+
         public static double getGearRatio() {
             return Double.parseDouble(m_properties.getProperty("launcher.gear-ratio"));
         }

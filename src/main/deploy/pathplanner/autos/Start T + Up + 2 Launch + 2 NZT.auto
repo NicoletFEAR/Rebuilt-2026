@@ -1,0 +1,129 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start T - Pre-Trench D"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pre-Trench D - NZT Top South"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StartIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Top-South - NZT Bottom-South"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "EndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Bottom-South - Launch 3"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Launch 3 - NZT Bottom North"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StartIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Bottom-North - NZT Top-North"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "EndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Top-North - Launch 1"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Lakeland",
+  "choreoAuto": false
+}

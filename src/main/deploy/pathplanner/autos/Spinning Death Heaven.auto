@@ -11,31 +11,6 @@
           }
         },
         {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartLaunch"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndLaunch"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Launch 1 - Spinning Death Heaven"
@@ -50,38 +25,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Spinning Death Heaven - Climb Bottom"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ClimbPrepare"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              }
-            ]
+            "pathName": "Heaven - Hell"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Climb Bottom - Insertion"
+            "pathName": "Spinning Death - Hell"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hell - Heaven"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Spinning Death - Heaven"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Spinning Death Heaven - Launch 3"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Climb"
+            "name": "StartLaunch"
           }
         }
       ]

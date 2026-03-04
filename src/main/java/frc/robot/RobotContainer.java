@@ -166,7 +166,8 @@ public class RobotContainer {
             m_driverController
                 .R2()
                 .whileTrue(m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub)
-                    .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub)));
+                    .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub)))
+                .onFalse(m_hood.endAutoTarget());
 
             // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
             m_operatorController
@@ -346,7 +347,12 @@ public class RobotContainer {
             // NamedCommands.registerCommand("Climb", m_climb.retractAuto());
             // TODO: Replace these old commands with their newer versions in the autos
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
-            NamedCommands.registerCommand("EndIntake", m_intakePivot.in().alongWith(m_intakeDriver.off()));
+            
+            NamedCommands.registerCommand(
+                "EndIntake",
+                m_intakePivot.in().alongWith(m_intakeDriver.off())
+            );
+
             NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));
             NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
 

@@ -35,6 +35,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     private PIDController m_pidController;
 
     private double m_desiredPosition;
+    private double m_returnPosition;
     private double m_minPosition;
     private double m_maxPosition;
 
@@ -59,6 +60,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         m_pidController.enableContinuousInput(0.0, 1.0);
 
         m_desiredPosition = LauncherConstants.getHoodHomePosition();
+        m_returnPosition = -1.0;
         m_minPosition = LauncherConstants.getHoodMinPosition();
         m_maxPosition = LauncherConstants.getHoodMaxPosition();
 
@@ -97,8 +99,18 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         return Math.abs(getPosition() - m_desiredPosition) < LauncherConstants.getHoodSetpointTolerance();
     }
 
+    public Command endAutoTarget() {
+        return runProfileToPosition(m_returnPosition).andThen(new InstantCommand(() -> m_returnPosition = -1.0));
+    }
+
     public Command adjustToHubDistance(DoubleSupplier distance) {
-        return new RunCommand(() -> runToPosition(MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimHoodPositions), m_minPosition, m_maxPosition)));
+        return new RunCommand(() -> {
+            if (m_returnPosition < 0) {
+                m_returnPosition = m_desiredPosition;
+            }
+
+            runToPosition(MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimHoodPositions), m_minPosition, m_maxPosition));
+        });
     }
 
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {

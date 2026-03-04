@@ -1,5 +1,6 @@
 package frc.robot.subsystems.launcher;
 
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import org.littletonrobotics.junction.Logger;
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
@@ -25,6 +27,7 @@ import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.util.DeviceConfigurator;
+import frc.robot.util.Utils;
 
 public class Hood extends SubsystemBase implements PositionSubsystem {
     private SparkMax m_motor;
@@ -92,6 +95,10 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
 
     public boolean getIsAtSetpoint() {
         return Math.abs(getPosition() - m_desiredPosition) < LauncherConstants.getHoodSetpointTolerance();
+    }
+
+    public Command adjustToHubDistance(DoubleSupplier distance) {
+        return new RunCommand(() -> runToPosition(MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimHoodPositions), m_minPosition, m_maxPosition)));
     }
 
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {

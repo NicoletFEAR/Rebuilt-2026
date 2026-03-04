@@ -4,6 +4,8 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import java.util.function.DoubleSupplier;
+
 import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.CANBus;
@@ -13,6 +15,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Voltage;
@@ -22,10 +25,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.LauncherConstants;
+import frc.robot.util.Utils;
 import frc.robot.Constants.DeviceIds;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
@@ -88,18 +93,27 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         });
     }
 
+    // TODO: Replace 0.05 with 0.1 once tuning the launcher speeds is complete
     public Command raiseSpeed() {
         return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.1, 1.0)), 
-            new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.1, 1.0)).andThen(launch()),
+            new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)), 
+            new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)).andThen(launch()),
             () -> m_state == LauncherState.OFF
         );
     }
 
     public Command lowerSpeed() {
         return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.1, 0.1)), 
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.1, 0.1)).andThen(launch()),
+            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, 0.05)), 
+            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, 0.05)).andThen(launch()),
+            () -> m_state == LauncherState.OFF
+        );
+    }
+
+    public Command adjustSpeedToHubDistance(DoubleSupplier distance) {
+        return new ConditionalCommand(
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimSpeeds), 0.0, 1.0)),
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimSpeeds), 0.0, 1.0)).andThen(launch()),
             () -> m_state == LauncherState.OFF
         );
     }
@@ -107,14 +121,14 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     @Override
     public void periodic() {
         SmartDashboard.putString("Launcher Speed", 100 * m_speedModifier + "%");
+        Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
+        Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Left/Voltage", m_leftMotor.getMotorVoltage().getValueAsDouble());
-        Logger.recordOutput("Launcher/Left/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Left/Current", m_leftMotor.getStatorCurrent().getValueAsDouble());
         Logger.recordOutput("Launcher/Left/Velocity", m_leftMotor.getVelocity().getValueAsDouble());
-        Logger.recordOutput("Launcher/Left/Voltage", m_leftMotor.getMotorVoltage().getValueAsDouble());
-        Logger.recordOutput("Launcher/Left/Desired Voltage", m_desiredVoltage);
-        Logger.recordOutput("Launcher/Left/Current", m_leftMotor.getStatorCurrent().getValueAsDouble());
-        Logger.recordOutput("Launcher/Left/Velocity", m_leftMotor.getVelocity().getValueAsDouble());
+        Logger.recordOutput("Launcher/Right/Voltage", m_rightMotor.getMotorVoltage().getValueAsDouble());
+        Logger.recordOutput("Launcher/Right/Current", m_rightMotor.getStatorCurrent().getValueAsDouble());
+        Logger.recordOutput("Launcher/Right/Velocity", m_rightMotor.getVelocity().getValueAsDouble());
     }
 
     @Override

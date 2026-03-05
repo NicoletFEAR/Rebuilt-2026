@@ -15,7 +15,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 
-import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
@@ -1160,11 +1160,9 @@ public class LimelightHelpers {
 
     public static URL getLimelightURLString(String tableName, String request) {
         String urlString = "http://" + sanitizeName(tableName) + ".local:5807/" + request;
-        URL url;
         try {
-            url = new URL(urlString);
-            return url;
-        } catch (MalformedURLException e) {
+            return new URI(urlString).toURL();
+        } catch (Exception e) {
             System.err.println("bad LL URL");
         }
         return null;

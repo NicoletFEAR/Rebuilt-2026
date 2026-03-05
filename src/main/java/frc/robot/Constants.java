@@ -24,6 +24,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.containers.BotEnum;
 import frc.robot.controllers.Axis;
 import frc.robot.controllers.ControllerType;
 import frc.robot.util.SwerveModuleConstants;
@@ -42,7 +43,7 @@ public final class Constants {
         if (Robot.isReal()) {
             kRobotName = kTeamNumberToName.get(RobotController.getTeamNumber());
         } else {
-            kRobotName = "tusk";
+            kRobotName = BotEnum.TUSK.getName();
         }
 
         try (InputStream input = new FileInputStream(new File(Filesystem.getDeployDirectory(), kRobotName + ".properties"))) {

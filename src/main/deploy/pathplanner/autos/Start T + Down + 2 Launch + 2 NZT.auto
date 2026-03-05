@@ -7,7 +7,44 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start T - Launch 2"
+            "pathName": "Start T - Pre-Trench O"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pre-Trench O - NZT Bottom North"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZT Bottom-North - NZT Top-North"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Top-North - Launch 1"
           }
         },
         {
@@ -38,69 +75,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Launch 2 - Depot Middle"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartIntake"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Depot Middle - Launch D"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartLaunch"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndLaunch"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Launch D - NZT Top"
+            "pathName": "Launch 1 - NZT Top South"
           }
         },
         {
@@ -133,11 +108,36 @@
           "data": {
             "pathName": "NZT Bottom-South - Launch 3"
           }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
+                }
+              }
+            ]
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "001 (replace the colon and slashes)",
+  "folder": "Lakeland",
   "choreoAuto": false
 }

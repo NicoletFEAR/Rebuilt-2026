@@ -7,7 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start O - Launch 3"
+            "pathName": "Start O - NZT Bottom North"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StartIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Bottom-North - NZT Top-North"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "EndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Top-North - Launch 1"
           }
         },
         {
@@ -38,13 +62,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Launch 3 - Spinning Death Hell"
+            "pathName": "Launch 1 - NZT Top South"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StartIntake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Spinning Death - Hell"
+            "pathName": "NZT Top-South - NZT Bottom-South"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "EndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Bottom-South - Launch 3"
           }
         },
         {
@@ -52,48 +94,30 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Hell - Heaven"
+                  "name": "StartLaunch"
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "Spinning Death - Heaven"
+                  "waitTime": 1.25
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Heaven - Hell"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Spinning Death - Hell"
+                  "name": "EndLaunch"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Spinning Death Hell - Launch 1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartLaunch"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Spinning Death",
+  "folder": "Lakeland",
   "choreoAuto": false
 }

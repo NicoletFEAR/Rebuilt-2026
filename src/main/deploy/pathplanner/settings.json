@@ -3,8 +3,9 @@
   "robotLength": 0.83947,
   "holonomicMode": true,
   "pathFolders": [
-    "Neutral Zone Trench Paths",
     "Climb Insertion",
+    "Lakeland",
+    "Neutral Zone Trench Paths",
     "Start D and Depot Paths",
     "Start O and Outpost Paths",
     "Start T Paths",
@@ -31,6 +32,7 @@
     "025 ⚐",
     "031 ⚐",
     "032 ⚐",
+    "Lakeland",
     "Spinning Death"
   ],
   "defaultMaxVel": 3.5,

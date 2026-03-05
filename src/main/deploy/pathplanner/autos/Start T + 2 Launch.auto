@@ -54,7 +54,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.5
+                  "waitTime": 5.0
                 }
               },
               {
@@ -73,71 +73,15 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartLaunch"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndLaunch"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Launch D - NZT Top"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "NZT Top-South - NZT Bottom-South"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NZT Bottom-South - Launch 3"
+            "name": "StartLaunch"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "001 (replace the colon and slashes)",
+  "folder": "Lakeland",
   "choreoAuto": false
 }

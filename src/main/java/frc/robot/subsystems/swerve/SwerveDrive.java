@@ -123,20 +123,22 @@ public class SwerveDrive extends SubsystemBase {
         resetModulesToAbsolute();
 
         m_poseEstimator = new SwerveDrivePoseEstimator(
-                m_kinematics,
-                RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
-                getModulePositions(),
-                new Pose2d(),
-                VecBuilder.fill(0.1, 0.1, 0.0),
-                VecBuilder.fill(0.9, 0.9, 9999999));
+            m_kinematics,
+            RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
+            getModulePositions(),
+            new Pose2d(),
+            VecBuilder.fill(0.1, 0.1, 0.0),
+            VecBuilder.fill(0.9, 0.9, 9999999)
+        );
 
         m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(
-                m_kinematics,
-                RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
-                getModulePositions(),
-                new Pose2d(),
-                VecBuilder.fill(0.1, 0.1, 0.0001),
-                VecBuilder.fill(0.9, 0.9, .5));
+            m_kinematics,
+            RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
+            getModulePositions(),
+            new Pose2d(),
+            VecBuilder.fill(0.1, 0.1, 0.0001),
+            VecBuilder.fill(0.9, 0.9, .5)
+        );
 
         m_pigeon.setYaw(0);
 
@@ -146,26 +148,27 @@ public class SwerveDrive extends SubsystemBase {
         angleController.setTolerance(1);
 
         AutoBuilder.configure(
-                this::getPose,
-                this::resetPose,
-                this::getRobotRelativeSpeeds,
-                (speeds, feedforwards) -> driveRobotRelative(speeds),
+            this::getPose,
+            this::resetPose,
+            this::getRobotRelativeSpeeds,
+            (speeds, feedforwards) -> driveRobotRelative(speeds),
 
-                new PPHolonomicDriveController(
-                        new PIDConstants(DriveConstants.getDriveKP(), DriveConstants.getDriveKI(), DriveConstants.getDriveKD()),
-                        new PIDConstants(DriveConstants.getTurnKP(), DriveConstants.getTurnKI(), DriveConstants.getTurnKD())),
+            new PPHolonomicDriveController(
+                new PIDConstants(DriveConstants.getDriveKP(), DriveConstants.getDriveKI(), DriveConstants.getDriveKD()),
+                new PIDConstants(DriveConstants.getTurnKP(), DriveConstants.getTurnKI(), DriveConstants.getTurnKD())),
 
-                DriveConstants.kRobotConfig,
+            DriveConstants.kRobotConfig,
 
-                () -> {
-                    var alliancenew = DriverStation.getAlliance();
-                    if (alliancenew.isPresent()) {
-                        return alliancenew.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
-                },
+            () -> {
+                var alliancenew = DriverStation.getAlliance();
+                if (alliancenew.isPresent()) {
+                    return alliancenew.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            },
 
-                this);
+            this
+        );
     }
 
     public static SwerveDrive getInstance() {
@@ -230,8 +233,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setModuleStates(boolean isOpenLoop) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(
-                m_desiredModuleStates, DriveConstants.getMaxModuleSpeed());
+        SwerveDriveKinematics.desaturateWheelSpeeds(m_desiredModuleStates, DriveConstants.getMaxModuleSpeed());
 
         for (int i = 0; i < m_modules.length; i++) {
             m_modules[i].setSwerveModuleState(m_desiredModuleStates[i], isOpenLoop);
@@ -248,13 +250,15 @@ public class SwerveDrive extends SubsystemBase {
         if (getYaw().getDegrees() < 0) {
             return (getYaw().getDegrees() % -360) + 360;
         }
+
         return getYaw().getDegrees() % 360;
     }
 
     public Rotation2d getPigeonYaw() {
         if (RobotBase.isReal()) {
-            Rotation2d rotation = RobotContainer.getAlliance() == Alliance.Blue ? m_pigeon.getRotation2d()
-                    : m_pigeon.getRotation2d().plus(Rotation2d.fromDegrees(180));
+            Rotation2d rotation = RobotContainer.getAlliance() == Alliance.Blue
+                ? m_pigeon.getRotation2d()
+                : m_pigeon.getRotation2d().plus(Rotation2d.fromDegrees(180));
 
             return rotation;
         } else {
@@ -274,9 +278,7 @@ public class SwerveDrive extends SubsystemBase {
         m_driveMode = driveMode;
     }
 
-
     public void driveClosedLoop(double throttle, double strafe, double steer) {
-
         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw());
 
         m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
@@ -285,13 +287,13 @@ public class SwerveDrive extends SubsystemBase {
 
         setModuleStates(m_desiredModuleStates, false);
 
-        if (RobotBase.isSimulation())
+        if (RobotBase.isSimulation()) {
             m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kdt);
-
+        }
     }
 
     public void drive(
-            double throttle, double strafe, double steer, boolean isOpenLoop, boolean isFieldRelative) {
+        double throttle, double strafe, double steer, boolean isOpenLoop, boolean isFieldRelative) {
 
         if (throttle + strafe + steer != 0 && m_driveMode == DriveMode.XWHEELS) {
             m_driveMode = DriveMode.TELEOP;
@@ -304,7 +306,7 @@ public class SwerveDrive extends SubsystemBase {
 
                 if (m_angleToSnap != Double.POSITIVE_INFINITY) {
                     steer = angleController.calculate(
-                            Utils.getAdjustedYawDegrees(getYaw().getDegrees(), m_angleToSnap), 180);
+                        Utils.getAdjustedYawDegrees(getYaw().getDegrees(), m_angleToSnap), 180);
                     steer *= DriveConstants.getMaxModuleSpeed();
 
                     if (angleController.atSetpoint())
@@ -314,8 +316,8 @@ public class SwerveDrive extends SubsystemBase {
                 steer *= RotationsPerSecond.of(DriveConstants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
 
                 m_chassisSpeeds = isFieldRelative
-                        ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())
-                        : new ChassisSpeeds(throttle, strafe, steer);
+                    ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())
+                    : new ChassisSpeeds(throttle, strafe, steer);
 
                 m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
 
@@ -346,29 +348,29 @@ public class SwerveDrive extends SubsystemBase {
 
     public Command characterizeDrivebase(BooleanSupplier finishRoutine) {
         var sysIdRoutine = new SysIdRoutine(
-                new SysIdRoutine.Config(
-                        null,
-                        null,
-                        null,
-                        (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
-                new SysIdRoutine.Mechanism((voltage) -> runVolts(voltage), null, this));
+            new SysIdRoutine.Config(
+                null,
+                null,
+                null,
+                (state) -> Logger.recordOutput("SysIdTestState", state.toString())
+            ),
+            new SysIdRoutine.Mechanism((voltage) -> runVolts(voltage), null, this)
+        );
 
         return new SequentialCommandGroup(
-                new PrintCommand("Starting"),
-                sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward).raceWith(new WaitCommand(6)),
-                new WaitCommand(1.0),
-                new PrintCommand("Starting"),
-                sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).raceWith(new WaitCommand(6)),
-                new PrintCommand("Starting"),
-                new WaitCommand(1.0),
-                sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward).raceWith(new WaitCommand(3)),
-                new PrintCommand("Starting"),
-                new WaitCommand(1.0),
-                sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).raceWith(new WaitCommand(3
-
-                )));
+            new PrintCommand("Starting"),
+            sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward).raceWith(new WaitCommand(6)),
+            new WaitCommand(1.0),
+            new PrintCommand("Starting"),
+            sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).raceWith(new WaitCommand(6)),
+            new PrintCommand("Starting"),
+            new WaitCommand(1.0),
+            sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward).raceWith(new WaitCommand(3)),
+            new PrintCommand("Starting"),
+            new WaitCommand(1.0),
+            sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).raceWith(new WaitCommand(3))
+        );
     }
-
 
     public void zeroGyro() {
         m_pigeon.setYaw(0);
@@ -377,7 +379,13 @@ public class SwerveDrive extends SubsystemBase {
         } else {
             m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(180), m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
         }
-        
+    }
+
+    public double distanceToHub() {
+        return Math.hypot(
+            DriveConstants.kHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
+            DriveConstants.kHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
+        );
     }
 
     @Override
@@ -419,6 +427,8 @@ public class SwerveDrive extends SubsystemBase {
         Logger.recordOutput("Swerve/Module States", getModuleStates());
         Logger.recordOutput("Swerve/Chassis Speeds", m_chassisSpeeds);
         Logger.recordOutput("Swerve/Robot Relative Chassis Speeds", getRobotRelativeSpeeds());
+
+        Logger.recordOutput("Swerve/Distance To Hub", distanceToHub());
     }
 
     public enum DriveMode {

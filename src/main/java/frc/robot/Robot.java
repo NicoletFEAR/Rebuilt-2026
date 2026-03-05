@@ -106,14 +106,14 @@ public class Robot extends LoggedRobot {
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     }
 
-    private int getTeamNumber() {
+    public static int getTeamNumber() {
         if (Robot.isReal())
             return RobotController.getTeamNumber();
         else
             return BotEnum.TUSK.getTeamNumber();
     }
 
-    private Alliance getAlliance() {
+    public static Alliance getAlliance() {
         Alliance alliance = null;
 
         try {

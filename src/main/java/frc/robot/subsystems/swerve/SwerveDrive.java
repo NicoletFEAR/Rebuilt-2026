@@ -75,7 +75,7 @@ public class SwerveDrive extends SubsystemBase {
 
     private double m_angleToSnap = Double.POSITIVE_INFINITY;
 
-    private LimelightCamera m_launcherCamera = new LimelightCamera("limelight-launcher");
+    private LimelightCamera m_launcherCamera = new LimelightCamera("limelight-launch");
     private LimelightCamera m_climbCamera = new LimelightCamera("limelight-climb");
 
     private PIDController angleController = new PIDController(.016, 0.003, 0.0);

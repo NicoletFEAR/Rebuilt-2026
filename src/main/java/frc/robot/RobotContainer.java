@@ -252,6 +252,18 @@ public class RobotContainer {
                 .create()
                 .onTrue(new InstantCommand(() -> m_limitOverrideMode = true))
                 .onFalse(new InstantCommand(() -> m_limitOverrideMode = false));
+            
+            // Only indexes -- Left bumper on operator controller
+            m_operatorController
+                .L1()
+                .onTrue(m_indexer.index())
+                .onFalse(m_indexer.off());
+            
+            // Only launches -- Right bumper on operator controller
+            m_operatorController
+                .R1()
+                .onTrue(m_launcher.launch())
+                .onFalse(m_launcher.off());
         }
     }
 

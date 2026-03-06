@@ -436,13 +436,15 @@ public final class Constants {
         // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired hood position
         // Must be sorted from low to high distance from the hub
         public static double[][] kAutoAimHoodPositions = {
-            {},
+            {1.85, 0.0},
+            {4.45, 0.6315},
         };
 
         // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired launcher speed modifier
         // Must be sorted from low to high distance from the hub
         public static double[][] kAutoAimSpeeds = {
-            {},
+            {1.85, 0.7},
+            {4.45, 1.0},
         };
 
         public static double getGearRatio() {

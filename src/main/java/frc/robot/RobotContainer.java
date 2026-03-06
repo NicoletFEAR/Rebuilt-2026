@@ -346,6 +346,7 @@ public class RobotContainer {
             // NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1());
             // NamedCommands.registerCommand("Climb", m_climb.retractAuto());
             // TODO: Replace these old commands with their newer versions in the autos
+            NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
             
             NamedCommands.registerCommand(
@@ -353,7 +354,7 @@ public class RobotContainer {
                 m_intakePivot.in().alongWith(m_intakeDriver.off())
             );
 
-            NamedCommands.registerCommand("StartLaunch", m_indexer.index().alongWith(m_launcher.launch()));
+            NamedCommands.registerCommand("StartLaunch", m_launcher.launch().alongWith(m_indexer.index()));
             NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
 
             NamedCommands.registerCommand(

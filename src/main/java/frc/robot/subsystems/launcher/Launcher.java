@@ -121,6 +121,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     @Override
     public void periodic() {
         SmartDashboard.putString("Launcher Speed", 100 * m_speedModifier + "%");
+        SmartDashboard.putBoolean("Launching?", m_state == LauncherState.LAUNCHING);
         Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
         Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Left/Voltage", m_leftMotor.getMotorVoltage().getValueAsDouble());

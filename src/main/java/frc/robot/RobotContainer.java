@@ -64,7 +64,7 @@ public class RobotContainer {
     private static Alliance m_alliance = Alliance.Blue;
     private boolean m_limitOverrideMode = false;
 
-    // private GameTimer m_gameTimer;
+    private GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
 
     public RobotContainer() {
         if (Constants.kRobotName.equals("kitbot")) {
@@ -327,12 +327,12 @@ public class RobotContainer {
      */
     public void teleopInit() {
         // Start the game timer
-        // m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
+        m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
         CommandScheduler.getInstance().schedule(m_led.startSwerveAnimation());
     }
 
     public void teleopPeriodic() {
-        // m_gameTimer.periodic();
+        m_gameTimer.periodic();
     }
 
     /**

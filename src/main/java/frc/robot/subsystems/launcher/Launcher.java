@@ -81,7 +81,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public boolean isAtVelocity() {
         return Math.abs(m_leftMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance()
-            && Math.abs(m_rightMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance();
+            || Math.abs(m_rightMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance();
     }
 
     public Command launch() {
@@ -96,6 +96,10 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
             m_state = LauncherState.OFF;
             setVoltage(LauncherConstants.getOffVoltage() * m_speedModifier);
         });
+    }
+
+    public Command setSpeedModifier(double newSpeedModifier) {
+        return new InstantCommand(() -> m_speedModifier = newSpeedModifier);
     }
 
     // TODO: Replace 0.05 with 0.1 once tuning the launcher speeds is complete

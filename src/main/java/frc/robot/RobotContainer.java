@@ -373,7 +373,23 @@ public class RobotContainer {
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(m_indexer.index())
             );
-            NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
+
+            NamedCommands.registerCommand(
+                "StartLaunchSlow",
+                m_launcher
+                    .setSpeedModifier(0.7)
+                    .andThen(m_launcher.launch())
+                    .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
+                    .andThen(m_indexer.index())
+            );
+
+            NamedCommands.registerCommand(
+                "EndLaunch",
+                m_indexer
+                    .off()
+                    .alongWith(m_launcher.off())
+                    .alongWith(m_launcher.setSpeedModifier(1.0))
+            );
         }
     }
 }

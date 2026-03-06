@@ -163,11 +163,11 @@ public class RobotContainer {
                 .onFalse(m_kitbotLauncher.off());
         } else if (Constants.kRobotName.equals("tusk")) {
             // Adjusts hood and speed during auto-targeting -- right trigger of driver controller
-            m_driverController
-                .R2()
-                .whileTrue(m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub)
-                    .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub)))
-                .onFalse(m_hood.endAutoTarget());
+            // m_driverController
+            //     .R2()
+            //     .whileTrue(m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub)
+            //         .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub)))
+            //     .onFalse(m_hood.endAutoTarget());
 
             // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
             m_operatorController

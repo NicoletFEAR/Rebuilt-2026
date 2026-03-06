@@ -505,12 +505,16 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("launcher.velocity-tolerance"));
         }
 
+        public static double getLaunchVelocity() {
+            return Double.parseDouble(m_properties.getProperty("launcher.launch-velocity"));
+        }
+
         public static double getOffVoltage() {
-            return Double.parseDouble(m_properties.getProperty("launcher.off-velocity"));
+            return Double.parseDouble(m_properties.getProperty("launcher.off-voltage"));
         }
 
         public static double getLaunchVoltage() {
-            return Double.parseDouble(m_properties.getProperty("launcher.launch-velocity"));
+            return Double.parseDouble(m_properties.getProperty("launcher.launch-voltage"));
         }
     }
 

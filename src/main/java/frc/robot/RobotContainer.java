@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
@@ -172,10 +172,10 @@ public class RobotContainer {
             // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
             m_operatorController
                 .R2()
-                .onTrue(m_led
+                .whileTrue(m_led
                     .startLaunchAnimation()
                     .alongWith(m_launcher.launch())
-                    .andThen(new WaitCommand(1))
+                    .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(m_indexer.index())
                     // .alongWith(m_intakePivot
                     //     .jostleOut()
@@ -366,24 +366,14 @@ public class RobotContainer {
                 m_intakePivot.in().alongWith(m_intakeDriver.off())
             );
 
-            NamedCommands.registerCommand("StartLaunch", m_launcher.launch().alongWith(m_indexer.index()));
-            NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
-
             NamedCommands.registerCommand(
-                "Launch",
+                "StartLaunch",
                 m_launcher
                     .launch()
-                    .andThen(new WaitCommand(1))
+                    .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(m_indexer.index())
-                    .andThen(m_intakePivot.jostleOut()
-                        .andThen(m_intakePivot
-                            .in()
-                            .until(m_intakePivot::isStuckOnBall)
-                            .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))
-                            .repeatedly())
-                        .raceWith(new WaitCommand(1.25)))
-                    .andThen(m_indexer.off().alongWith(m_launcher.off()))
             );
+            NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
         }
     }
 }

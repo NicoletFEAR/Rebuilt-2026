@@ -79,6 +79,11 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         m_rightMotor.setControl(new VoltageOut(m_desiredVoltage));
     }
 
+    public boolean isAtVelocity() {
+        return Math.abs(m_leftMotor.getVelocity().getValueAsDouble() - LauncherConstants.getLaunchVelocity()) < LauncherConstants.getVelocityTolerance()
+            && Math.abs(m_rightMotor.getVelocity().getValueAsDouble() - LauncherConstants.getLaunchVelocity()) < LauncherConstants.getVelocityTolerance();
+    }
+
     public Command launch() {
         return new InstantCommand(() -> {
             m_state = LauncherState.LAUNCHING;

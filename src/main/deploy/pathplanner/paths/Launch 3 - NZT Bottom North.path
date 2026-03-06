@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 6.7,
-        "y": 0.6500000000000004
+        "y": 0.6500000000000001
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -70.0
   },
   "reversed": false,
   "folder": "Lakeland",

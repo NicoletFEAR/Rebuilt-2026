@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.205,
-        "y": 7.45
+        "x": 2.989,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.410738446265537,
-        "y": 5.7664117911668695
+        "x": 2.989,
+        "y": 3.0
       },
       "isLocked": false,
-      "linkedName": "Launch 1"
+      "linkedName": "Start T - Slight Back"
     },
     {
       "anchor": {
-        "x": 1.6583452211126959,
-        "y": 4.1191012838801715
+        "x": 2.989,
+        "y": 0.624
       },
       "prevControl": {
-        "x": 2.1886873258463857,
-        "y": 5.192620406188013
+        "x": 2.989,
+        "y": 1.624
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb Top"
+      "linkedName": "Pre-Trench O"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Start D and Depot Paths",
+  "folder": "Lakeland",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -62.93424938861828
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

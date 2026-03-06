@@ -82,14 +82,14 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     public Command launch() {
         return new InstantCommand(() -> {
             m_state = LauncherState.LAUNCHING;
-            setVoltage(LauncherConstants.getLaunchVelocity() * m_speedModifier);
+            setVoltage(LauncherConstants.getLaunchVoltage() * m_speedModifier);
         });
     }
 
     public Command off() {
         return new InstantCommand(() -> {
             m_state = LauncherState.OFF;
-            setVoltage(LauncherConstants.getOffVelocity() * m_speedModifier);
+            setVoltage(LauncherConstants.getOffVoltage() * m_speedModifier);
         });
     }
 

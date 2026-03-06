@@ -17,7 +17,7 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
     }
 
     @Override
-    void createRobotSubsystems() {
+    protected void createRobotSubsystems() {
         this.m_kitbotIntake = KitbotIntake.getInstance();
         this.m_kitbotLauncher = KitbotLauncher.getInstance();
     }
@@ -75,7 +75,7 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
     }
 
     @Override
-    void createNamedCommands() {
+    protected void createNamedCommands() {
         // TODO Auto-generated method stub
         
     }

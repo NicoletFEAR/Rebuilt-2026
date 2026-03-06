@@ -12,7 +12,7 @@ public class HadesRobotContainer extends AbstractRobotContainer {
     }
 
     @Override
-    void configureBindings() {
+    protected void configureBindings() {
         // Driving -- joysticks of driver controller
         m_driveBase.setDefaultCommand(
             new TeleopSwerve(
@@ -48,13 +48,13 @@ public class HadesRobotContainer extends AbstractRobotContainer {
     }
 
     @Override
-    void createNamedCommands() {
+    protected void createNamedCommands() {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    void createRobotSubsystems() {
+    protected void createRobotSubsystems() {
         // TODO Auto-generated method stub
         
     }

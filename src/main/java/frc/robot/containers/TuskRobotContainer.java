@@ -1,15 +1,10 @@
 package frc.robot.containers;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -17,21 +12,16 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
-import frc.robot.subsystems.kitbot.KitbotIntake;
-import frc.robot.subsystems.kitbot.KitbotLauncher;
 import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.led.Led;
-import frc.robot.subsystems.swerve.SwerveDrive;
 
 /**
  * This class is used to encapsulate the robot code, including all hardware subsystems.  
@@ -53,7 +43,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
     }
 
     @Override
-    void createRobotSubsystems() {
+    protected void createRobotSubsystems() {
         this.m_launcher = new Launcher();
         this.m_indexer = new Indexer();
         this.m_hood = new Hood();
@@ -189,7 +179,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
     }
 
     @Override
-    void createNamedCommands() {
+    protected void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
             // TODO: Replace these old commands with their newer versions in the autos
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
@@ -265,6 +255,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
      * any necessary setup and processing for the period.  This includes determining 
      * who won autos, starting times, and sending alerts based on game shifts.
      */
+    @Override
     public void teleopInit() {
         super.teleopInit();
         CommandScheduler.getInstance().schedule(m_led.startSwerveAnimation());

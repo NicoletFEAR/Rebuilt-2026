@@ -81,7 +81,7 @@ public class UniversalController {
                 return xboxController.getRawAxis(axis);
             default:
                 sendAlert("getRawAxis");
-                return 0D;
+                return 0d;
         }
     }
 

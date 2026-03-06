@@ -40,6 +40,7 @@ import com.pathplanner.lib.commands.FollowPathCommand;
  * project.
  */
 public class Robot extends LoggedRobot {
+    
     private AbstractRobotContainer m_robotContainer;
     private double m_autoStart;
     private boolean m_printedAutoTiming = false;
@@ -150,8 +151,10 @@ public class Robot extends LoggedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        m_robotContainer.periodic();
-        Command command = m_robotContainer.getAutonomousCommand();
+        Command command = null;
+        
+        if (m_robotContainer != null)
+            command = m_robotContainer.getAutonomousCommand();
 
         if (command != null) {
             if (!command.isScheduled() && !m_printedAutoTiming) {
@@ -163,66 +166,81 @@ public class Robot extends LoggedRobot {
                 m_printedAutoTiming = true;
             }
         }
+
+        if (m_robotContainer != null)
+            m_robotContainer.periodic();
     }
 
     @Override
     public void disabledInit() {
-        m_robotContainer.disabledInit();
+        if (m_robotContainer != null)
+            m_robotContainer.disabledInit();
     }
 
     @Override
     public void disabledPeriodic() {
-        m_robotContainer.disabledPeriodic();
+        if (m_robotContainer != null)
+            m_robotContainer.disabledPeriodic();
     }
 
     @Override
     public void disabledExit() {
-        m_robotContainer.disabledExit();
+        if (m_robotContainer != null)
+            m_robotContainer.disabledExit();
     }
 
     @Override
     public void autonomousInit() {
         m_autoStart = Timer.getTimestamp();
-        m_robotContainer.autonomousInit();
+        if (m_robotContainer != null)
+            m_robotContainer.autonomousInit();
     }
 
     @Override
     public void autonomousPeriodic() {
-        m_robotContainer.autonomousPeriodic();
+        if (m_robotContainer != null)
+            m_robotContainer.autonomousPeriodic();
     }
 
     @Override
     public void autonomousExit() {
-        m_robotContainer.autonomousExit();
+        if (m_robotContainer != null)
+            m_robotContainer.autonomousExit();
     }
 
     @Override
     public void teleopInit() {
-        m_robotContainer.teleopInit();
+        if (m_robotContainer != null)
+            m_robotContainer.teleopInit();
     }
 
     @Override
     public void teleopPeriodic() {
-        m_robotContainer.teleopPeriodic();
+        if (m_robotContainer != null)
+            m_robotContainer.teleopPeriodic();
     }
 
     @Override
     public void teleopExit() {
-        m_robotContainer.teleopExit();
+        if (m_robotContainer != null)
+            m_robotContainer.teleopExit();
     }
 
     @Override
     public void testInit() {
-        m_robotContainer.testInit();
+        if (m_robotContainer != null)
+            m_robotContainer.testInit();
     }
 
     @Override
     public void testPeriodic() {
-        m_robotContainer.testPeriodic();
+        if (m_robotContainer != null)
+            m_robotContainer.testPeriodic();
     }
 
     @Override
     public void testExit() {
-        m_robotContainer.testExit();
+        if (m_robotContainer != null)
+            m_robotContainer.testExit();
     }
 }

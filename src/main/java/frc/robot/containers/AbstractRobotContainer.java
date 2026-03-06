@@ -63,7 +63,7 @@ public abstract class AbstractRobotContainer {
      * create the drive base for the robot.  This is only called once
      * per robot type.
      */
-    void createDriveBase() {
+    protected void createDriveBase() {
         this.m_driveBase = SwerveDrive.getInstance();
     }
 
@@ -72,21 +72,21 @@ public abstract class AbstractRobotContainer {
      * create all of the subsystems for the robot.  This is only called once
      * per robot type.
      */
-    abstract void createRobotSubsystems();
+    protected abstract void createRobotSubsystems();
 
     /**
      * This method is called when the robot container is created.  This is used to 
      * create all of the named commands for the robot.  This is only called once
      * per robot type.
      */
-    abstract void createNamedCommands();
+    protected abstract void createNamedCommands();
     
     /**
      * This method is called when the robot container is created.  This is used to
      * configure the button bindings for the robot.  This is called every time
      * the robot is enabled.
      */
-    abstract void configureBindings();
+    protected abstract void configureBindings();
 
     /**
      * This method will return the command to run in Autonomous

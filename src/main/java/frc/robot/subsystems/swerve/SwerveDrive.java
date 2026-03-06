@@ -397,13 +397,13 @@ public class SwerveDrive extends SubsystemBase {
 
         if (m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {
             m_launcherCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getYaw());
-            Logger.recordOutput("Vision/limelight-launcher/MT2 Pose Estimate Blue",
+            Logger.recordOutput("Vision/limelight-launch/MT2 Pose Estimate Blue",
                     m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2().pose);
         }
 
         if (m_launcherCamera.getBotPoseEstimate_wpiBlue() != null) {
             m_launcherCamera.addPoseEstimateMegatag1(m_megaTag1PoseEstimator, m_chassisSpeeds);
-            Logger.recordOutput("Vision/limelight-launcher/MT1 Pose Estimate Blue",
+            Logger.recordOutput("Vision/limelight-launch/MT1 Pose Estimate Blue",
                     m_launcherCamera.getBotPoseEstimate_wpiBlue().pose);
         }
 

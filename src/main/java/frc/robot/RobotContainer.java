@@ -63,6 +63,7 @@ public class RobotContainer {
 
     private static Alliance m_alliance = Alliance.Blue;
     private boolean m_limitOverrideMode = false;
+    // private boolean m_resetMinPositions = false;
 
     private GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
 
@@ -264,6 +265,14 @@ public class RobotContainer {
                 .R1()
                 .onTrue(m_launcher.launch())
                 .onFalse(m_launcher.off());
+            
+            // m_operatorController
+            //     .touchpad()
+            //     .and(m_operatorController.create()::getAsBoolean)
+            //     .and(m_operatorController.povUp()::getAsBoolean)
+            //     .and(m_operatorController.options()::getAsBoolean)
+            //     .onTrue(new InstantCommand(() -> m_resetMinPositions = true))
+            //     .onFalse(new InstantCommand(() -> m_x()));
         }
     }
 

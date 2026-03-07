@@ -30,7 +30,9 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -45,6 +47,7 @@ import frc.robot.util.Utils;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.BooleanSupplier;
 
@@ -169,6 +172,8 @@ public class SwerveDrive extends SubsystemBase {
 
             this
         );
+
+        SmartDashboard.putData("MechSettings/Swerve/Run 12 Volts", new InstantCommand(() -> runVolts(Volts.of(12))));
     }
 
     public static SwerveDrive getInstance() {

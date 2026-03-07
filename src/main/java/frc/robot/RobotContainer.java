@@ -188,15 +188,25 @@ public class RobotContainer {
                     .alongWith(m_indexer.off())
                     .alongWith(m_launcher.off()));
                 
-            // Increases launcher speed by 10% unless it's already at 100% -- b button on operator controller
+            // Increases launcher speed by 10% unless it's already at 100% -- circle button on operator controller
             m_operatorController
                 .circle()
                 .onTrue(m_launcher.raiseSpeed());
             
-            // Decreases launcher speed by 10% unless it's at 0% -- x button of operator controller
+            // Decreases launcher speed by 10% unless it's at 0% -- square button of operator controller
             m_operatorController
                 .square()
                 .onTrue(m_launcher.lowerSpeed());
+            
+            // Good speed for shooting from the middle of the alliance zone generally -- cross button of operator controller
+            m_operatorController
+                .cross()
+                .onTrue(m_launcher.setSpeedModifier(0.7));
+            
+            // Good speed for shooting from the trench -- triangle button of operator controller
+            m_operatorController
+                .triangle()
+                .onTrue(m_launcher.setSpeedModifier(1.0));
 
             // Control the climb manually -- left and right bumpers of operator controller
             // m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
@@ -235,7 +245,7 @@ public class RobotContainer {
                 }
             }, m_limitOverrideMode), m_hood));
             
-            // Intakes fuel -- left trigger button on operator controller
+            // Intakes fuel -- left trigger on operator controller
             m_operatorController
                 .L2()
                 .onTrue(m_led.startIntakeAnimation()
@@ -349,7 +359,11 @@ public class RobotContainer {
     public void teleopInit() {
         // Start the game timer
         m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
-        CommandScheduler.getInstance().schedule(m_led.startSwerveAnimation());
+
+        CommandScheduler.getInstance().schedule(
+            m_led.startSwerveAnimation()
+                .andThen(m_launcher.setSpeedModifier(1.0))
+        );
     }
 
     public void teleopPeriodic() {

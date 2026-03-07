@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.LauncherConstants;
+// import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
@@ -29,7 +29,7 @@ import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
-import frc.robot.subsystems.launcher.Hood;
+// import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.led.Led;
@@ -56,7 +56,7 @@ public class RobotContainer {
 
     private Launcher m_launcher;
     private Indexer m_indexer;
-    private Hood m_hood;
+    // private Hood m_hood;
     private IntakeDriver m_intakeDriver;
     private IntakePivot m_intakePivot;
     // private Climb m_climb;
@@ -74,7 +74,7 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("tusk")) {
             m_launcher = new Launcher();
             m_indexer = new Indexer();
-            m_hood = new Hood();
+            // m_hood = new Hood();
             // m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
@@ -231,15 +231,15 @@ public class RobotContainer {
             }, m_limitOverrideMode), m_intakePivot));
 
             // Control the hood manually -- up and down arrows of operator controller
-            m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
-                if (m_operatorController.povUp().getAsBoolean() == m_operatorController.povDown().getAsBoolean()) {
-                    return 0.0;
-                } else if (m_operatorController.povUp().getAsBoolean()) {
-                    return 1.0;
-                } else {
-                    return -1.0;
-                }
-            }, m_limitOverrideMode), m_hood));
+            // m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
+            //     if (m_operatorController.povUp().getAsBoolean() == m_operatorController.povDown().getAsBoolean()) {
+            //         return 0.0;
+            //     } else if (m_operatorController.povUp().getAsBoolean()) {
+            //         return 1.0;
+            //     } else {
+            //         return -1.0;
+            //     }
+            // }, m_limitOverrideMode), m_hood));
             
             // Intakes fuel -- left trigger on operator controller
             m_operatorController
@@ -354,7 +354,7 @@ public class RobotContainer {
                 .alongWith(m_indexer.off())
                 .alongWith(m_intakeDriver.off())
                 .alongWith(m_launcher.setSpeedModifier(1.0))
-                .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition() * 0.80))
+                // .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition() * 0.80))
         );
     }
 
@@ -373,7 +373,7 @@ public class RobotContainer {
             // NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1());
             // NamedCommands.registerCommand("Climb", m_climb.retractAuto());
             // TODO: Replace these old commands with their newer versions in the autos
-            NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
+            // NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
             
             NamedCommands.registerCommand(

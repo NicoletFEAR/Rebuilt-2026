@@ -350,10 +350,8 @@ public class RobotContainer {
 
         CommandScheduler.getInstance().schedule(
             m_led.startSwerveAnimation()
-                .andThen(m_launcher.setSpeedModifier(1.0)
-                .alongWith(m_hood
-                    .runProfileToPosition(LauncherConstants
-                        .getHoodMaxPosition() * 0.4)))
+                .alongWith(m_launcher.setSpeedModifier(1.0))
+                .alongWith(new RunCommand(() -> m_hood.runToPosition(LauncherConstants.getHoodMaxPosition() * 0.4)).until(m_hood::getIsAtSetpoint))
         );
     }
 

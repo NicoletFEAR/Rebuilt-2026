@@ -177,13 +177,8 @@ public class RobotContainer {
                     .startLaunchAnimation()
                     .alongWith(m_launcher.launch())
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
-                    .andThen(m_indexer.index())
-                    // .alongWith(m_intakePivot
-                    //     .jostleOut()
-                    //     .andThen(m_intakePivot
-                    //         .in()
-                    //         .until(m_intakePivot::isStuckOnBall)
-                    //         .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))))
+                    .andThen(m_indexer.index()
+                        .alongWith(m_intakePivot.hold().andThen(m_intakePivot.in()).repeatedly()))
                 ).onFalse(m_led.startSwerveAnimation()
                     .alongWith(m_indexer.off())
                     .alongWith(m_launcher.off()));

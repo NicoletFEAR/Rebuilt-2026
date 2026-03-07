@@ -354,7 +354,7 @@ public class RobotContainer {
                 .alongWith(m_indexer.off())
                 .alongWith(m_intakeDriver.off())
                 .alongWith(m_launcher.setSpeedModifier(1.0))
-                // .alongWith(new RunCommand(() -> m_hood.runToPosition(LauncherConstants.getHoodMaxPosition() * 0.4)).until(m_hood::getIsAtSetpoint))
+                .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition() * 0.4))
         );
     }
 

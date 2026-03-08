@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -65,6 +66,9 @@ public class RobotContainer {
 
     private static Alliance m_alliance = Alliance.Blue;
     private boolean m_limitOverrideMode = false;
+    private boolean m_automaticLaunching = false;
+    private boolean m_manualLaunching = false;
+    private boolean m_manualIndexing = false;
 
     private GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
 
@@ -177,14 +181,26 @@ public class RobotContainer {
                 .whileTrue(m_led
                     .startLaunchAnimation()
                     .alongWith(m_launcher.launch())
+                    .alongWith(new InstantCommand(() -> m_automaticLaunching = true))
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(new InstantCommand(() -> m_driveBase.setDriveMode(DriveMode.XWHEELS))
                         .alongWith(m_indexer.index())
                         .alongWith(m_intakePivot.hold().andThen(m_intakePivot.in()).repeatedly())
                     )
                 ).onFalse(m_led.startSwerveAnimation()
-                    .alongWith(m_indexer.off())
-                    .alongWith(m_launcher.off())
+                    .alongWith(new ConditionalCommand(
+                        new InstantCommand(),
+                        m_indexer.off(),
+                        () -> m_manualIndexing
+                    ))
+                    // .alongWith(m_indexer.off())
+                    .alongWith(new ConditionalCommand(
+                        new InstantCommand(),
+                        m_launcher.off(),
+                        () -> m_manualLaunching
+                    ))
+                    // .alongWith(m_launcher.off())
+                    .alongWith(new InstantCommand(() -> m_automaticLaunching = false))
                     .alongWith(m_intakePivot
                         .in()
                         .until(m_intakePivot::isStuckOnBall)
@@ -270,14 +286,24 @@ public class RobotContainer {
             // Only indexes -- Left bumper on operator controller
             m_operatorController
                 .L1()
-                .onTrue(m_indexer.index())
-                .onFalse(m_indexer.off());
+                .onTrue(new InstantCommand(() -> m_manualIndexing = true).andThen(m_indexer.index()))
+                // .onFalse(m_launcher.off());
+                .onFalse(new InstantCommand(() -> m_manualIndexing = false).andThen(new ConditionalCommand(
+                    new InstantCommand(),
+                    m_indexer.off(),
+                    () -> m_automaticLaunching
+                )));
             
             // Only launches -- Right bumper on operator controller
             m_operatorController
                 .R1()
-                .onTrue(m_launcher.launch())
-                .onFalse(m_launcher.off());
+                .onTrue(new InstantCommand(() -> m_manualLaunching = true).andThen(m_launcher.launch()))
+                // .onFalse(m_launcher.off());
+                .onFalse(new InstantCommand(() -> m_manualLaunching = false).andThen(new ConditionalCommand(
+                    new InstantCommand(),
+                    m_launcher.off(),
+                    () -> m_automaticLaunching
+                )));
             
             //TODO: Make Min and Max reset button - use niche buttons(multiple)
         }

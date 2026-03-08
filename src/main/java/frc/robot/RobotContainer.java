@@ -185,7 +185,11 @@ public class RobotContainer {
                 ).onFalse(m_led.startSwerveAnimation()
                     .alongWith(m_indexer.off())
                     .alongWith(m_launcher.off())
-                    .alongWith(m_intakePivot.in()));
+                    .alongWith(m_intakePivot
+                        .in()
+                        .until(m_intakePivot::isStuckOnBall)
+                        .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))
+                    ));
                 
             // Increases launcher speed by 10% unless it's already at 100% -- circle button on operator controller
             m_operatorController

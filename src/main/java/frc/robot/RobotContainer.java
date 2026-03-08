@@ -175,6 +175,7 @@ public class RobotContainer {
             //         .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub)))
             //     .onFalse(m_hood.endAutoTarget());
 
+            // TODO: Fix jostle distance in case the intake is stuck on a ball
             // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
             m_operatorController
                 .R2()

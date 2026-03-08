@@ -34,6 +34,7 @@ import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.led.Led;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.subsystems.swerve.SwerveDrive.DriveMode;
 
 /**
  * This class is used to encapsulate the robot code, including all hardware subsystems.  
@@ -177,7 +178,8 @@ public class RobotContainer {
                     .startLaunchAnimation()
                     .alongWith(m_launcher.launch())
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
-                    .andThen(m_indexer.index()
+                    .andThen(new InstantCommand(() -> m_driveBase.setDriveMode(DriveMode.XWHEELS))
+                        .alongWith(m_indexer.index())
                         .alongWith(m_intakePivot.hold().andThen(m_intakePivot.in()).repeatedly())
                     )
                 ).onFalse(m_led.startSwerveAnimation()
@@ -272,6 +274,8 @@ public class RobotContainer {
                 .R1()
                 .onTrue(m_launcher.launch())
                 .onFalse(m_launcher.off());
+            
+            //TODO: Make Min and Max reset button - use niche buttons(multiple)
         }
     }
 

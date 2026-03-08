@@ -183,7 +183,7 @@ public class RobotContainer {
                 ).onFalse(m_led.startSwerveAnimation()
                     .alongWith(m_indexer.off())
                     .alongWith(m_launcher.off())
-                    .alongWith(m_intake.in()));
+                    .alongWith(m_intakePivot.in()));
                 
             // Increases launcher speed by 10% unless it's already at 100% -- circle button on operator controller
             m_operatorController
@@ -354,6 +354,7 @@ public class RobotContainer {
                 .alongWith(m_launcher.off())
                 .alongWith(m_indexer.off())
                 .alongWith(m_intakeDriver.off())
+                .alongWith(m_intakePivot.in())
                 .alongWith(m_launcher.setSpeedModifier(1.0))
                 // .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition() * 0.80))
         );

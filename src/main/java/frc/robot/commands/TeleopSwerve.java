@@ -39,9 +39,8 @@ public class TeleopSwerve extends Command {
         int steerAxis,
         double percentModifier,
         boolean isOpenLoop,
-        boolean isFieldRelative) {
-        m_driveBase = SwerveDrive.getInstance();
-
+        boolean isFieldRelative,
+        SwerveDrive driveBase) {
         m_driverController = driverController;
 
         m_throttleAxis = throttleAxis;
@@ -52,6 +51,8 @@ public class TeleopSwerve extends Command {
         m_isOpenLoop = isOpenLoop;
 
         m_isFieldRelative = isFieldRelative;
+
+        m_driveBase = driveBase;
 
         addRequirements(m_driveBase);
     }

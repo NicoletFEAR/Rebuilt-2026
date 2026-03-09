@@ -35,7 +35,6 @@ import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.led.Led;
 import frc.robot.subsystems.swerve.SwerveDrive;
-import frc.robot.subsystems.swerve.SwerveDrive.DriveMode;
 
 /**
  * This class is used to encapsulate the robot code, including all hardware subsystems.  
@@ -51,7 +50,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
 
-    private final SwerveDrive m_driveBase = SwerveDrive.getInstance();
+    private final SwerveDrive m_driveBase = new SwerveDrive();
 
     private KitbotIntake m_kitbotIntake;
     private KitbotLauncher m_kitbotLauncher;
@@ -70,7 +69,7 @@ public class RobotContainer {
     private boolean m_manualLaunching = false;
     private boolean m_manualIndexing = false;
 
-    private GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
+    private final GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
 
     public RobotContainer() {
         if (Constants.kRobotName.equals("kitbot")) {
@@ -106,7 +105,8 @@ public class RobotContainer {
                 OperatorConstants.kSteerAxis,
                 OperatorConstants.getDefaultSpeed(),
                 true,
-                true
+                true,
+                m_driveBase
             )
         );
 
@@ -121,7 +121,8 @@ public class RobotContainer {
                     OperatorConstants.kSteerAxis,
                     OperatorConstants.getSlowSpeed(),
                     true,
-                    true
+                    true,
+                    m_driveBase
                 )
             );
 
@@ -140,7 +141,8 @@ public class RobotContainer {
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.getDefaultSpeed(),
                     true,
-                    true
+                    true,
+                    m_driveBase
                 )
             );
         
@@ -184,7 +186,7 @@ public class RobotContainer {
                     .alongWith(m_launcher.launch())
                     .alongWith(new InstantCommand(() -> m_automaticLaunching = true))
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
-                    .andThen(new InstantCommand(() -> m_driveBase.setDriveMode(DriveMode.XWHEELS))
+                    .andThen(m_driveBase.xWheels()
                         .alongWith(m_indexer.index())
                         .alongWith(m_intakePivot.hold().andThen(m_intakePivot.in()).repeatedly())
                     )

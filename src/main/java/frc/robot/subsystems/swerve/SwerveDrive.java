@@ -15,7 +15,6 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -54,9 +53,6 @@ import java.util.function.BooleanSupplier;
 import org.littletonrobotics.junction.Logger;
 
 public class SwerveDrive extends SubsystemBase {
-
-    private static SwerveDrive m_instance = null;
-
     private SwerveModule[] m_modules;
 
     private Pigeon2 m_pigeon;
@@ -70,18 +66,14 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveModulePosition[] m_modulePositions;
     private ChassisSpeeds m_chassisSpeeds;
 
-    private DriveMode m_driveMode = DriveMode.TELEOP;
+    private SwerveState m_state = SwerveState.TELEOP;
 
     private Field2d m_field;
 
     private double m_simYaw;
 
-    private double m_angleToSnap = Double.POSITIVE_INFINITY;
-
     // private LimelightCamera m_launcherCamera = new LimelightCamera("limelight-launch");
     // private LimelightCamera m_climbCamera = new LimelightCamera("limelight-climb");
-
-    private PIDController angleController = new PIDController(.016, 0.003, 0.0);
 
     public SwerveDrive() {
         if (DriveConstants.usesDriveKrakens()) {
@@ -148,8 +140,6 @@ public class SwerveDrive extends SubsystemBase {
         m_field = new Field2d();
         RobotContainer.m_mainTab.add(m_field).withPosition(6, 2).withSize(6, 3);
 
-        angleController.setTolerance(1);
-
         AutoBuilder.configure(
             this::getPose,
             this::resetPose,
@@ -174,14 +164,6 @@ public class SwerveDrive extends SubsystemBase {
         );
 
         SmartDashboard.putData("MechSettings/Swerve/Run 12 Volts", new InstantCommand(() -> runVolts(Volts.of(12))));
-    }
-
-    public static SwerveDrive getInstance() {
-        if (m_instance == null) {
-            m_instance = new SwerveDrive();
-        }
-
-        return m_instance;
     }
 
     public SwerveModulePosition[] getModulePositions() {
@@ -279,8 +261,8 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
-    public void setDriveMode(DriveMode driveMode) {
-        m_driveMode = driveMode;
+    public Command xWheels() {
+        return new InstantCommand(() -> m_state = SwerveState.X_WHEELS);
     }
 
     public void driveClosedLoop(double throttle, double strafe, double steer) {
@@ -297,27 +279,15 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
-    public void drive(
-        double throttle, double strafe, double steer, boolean isOpenLoop, boolean isFieldRelative) {
-
-        if (throttle + strafe + steer != 0 && m_driveMode == DriveMode.XWHEELS) {
-            m_driveMode = DriveMode.TELEOP;
+    public void drive(double throttle, double strafe, double steer, boolean isOpenLoop, boolean isFieldRelative) {
+        if (throttle + strafe + steer != 0 && m_state == SwerveState.X_WHEELS) {
+            m_state = SwerveState.TELEOP;
         }
 
-        switch (m_driveMode) {
+        switch (m_state) {
             case TELEOP:
                 throttle *= DriveConstants.getMaxModuleSpeed();
                 strafe *= DriveConstants.getMaxModuleSpeed();
-
-                if (m_angleToSnap != Double.POSITIVE_INFINITY) {
-                    steer = angleController.calculate(
-                        Utils.getAdjustedYawDegrees(getYaw().getDegrees(), m_angleToSnap), 180);
-                    steer *= DriveConstants.getMaxModuleSpeed();
-
-                    if (angleController.atSetpoint())
-                        m_angleToSnap = Double.POSITIVE_INFINITY;
-                }
-
                 steer *= RotationsPerSecond.of(DriveConstants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
 
                 m_chassisSpeeds = isFieldRelative
@@ -330,20 +300,17 @@ public class SwerveDrive extends SubsystemBase {
                 // }
 
                 m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
-
                 m_desiredModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
 
-                if (isOpenLoop) {
-                    setModuleStates(m_desiredModuleStates, isOpenLoop);
-                } else {
-                    setModuleStates(m_desiredModuleStates, isOpenLoop);
+                setModuleStates(m_desiredModuleStates, isOpenLoop);
+
+                if (RobotBase.isSimulation()) {
+                    m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kdt);
                 }
 
-                if (RobotBase.isSimulation())
-                    m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kdt);
-
                 break;
-            case XWHEELS:
+
+            case X_WHEELS:
                 Utils.copyModuleStates(DriveConstants.kXWheels, m_desiredModuleStates);
                 setModuleStates(isOpenLoop);
                 break;
@@ -384,6 +351,7 @@ public class SwerveDrive extends SubsystemBase {
 
     public void zeroGyro() {
         m_pigeon.setYaw(0);
+
         if (RobotContainer.getAlliance() == Alliance.Blue) {
             m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(0), m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)));
         } else {
@@ -441,8 +409,8 @@ public class SwerveDrive extends SubsystemBase {
         Logger.recordOutput("Swerve/Distance To Hub", distanceToHub());
     }
 
-    public enum DriveMode {
+    public enum SwerveState {
         TELEOP,
-        XWHEELS
+        X_WHEELS,
     }
 }

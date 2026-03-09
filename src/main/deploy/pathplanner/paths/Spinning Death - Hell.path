@@ -28,12 +28,7 @@
       "linkedName": "Spinning Death - Hell Top"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -95.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 80.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
     "velocity": 0.0,
-    "rotation": 90.0
+    "rotation": 91.0
   },
   "useDefaultConstraints": true
 }

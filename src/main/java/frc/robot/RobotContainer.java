@@ -12,12 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
+// import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
@@ -28,11 +30,12 @@ import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
-import frc.robot.subsystems.launcher.Hood;
+// import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.led.Led;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.subsystems.swerve.SwerveDrive.DriveMode;
 
 /**
  * This class is used to encapsulate the robot code, including all hardware subsystems.  
@@ -55,7 +58,7 @@ public class RobotContainer {
 
     private Launcher m_launcher;
     private Indexer m_indexer;
-    private Hood m_hood;
+    // private Hood m_hood;
     private IntakeDriver m_intakeDriver;
     private IntakePivot m_intakePivot;
     // private Climb m_climb;
@@ -63,6 +66,9 @@ public class RobotContainer {
 
     private static Alliance m_alliance = Alliance.Blue;
     private boolean m_limitOverrideMode = false;
+    private boolean m_automaticLaunching = false;
+    private boolean m_manualLaunching = false;
+    private boolean m_manualIndexing = false;
 
     private GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
 
@@ -73,7 +79,7 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("tusk")) {
             m_launcher = new Launcher();
             m_indexer = new Indexer();
-            m_hood = new Hood();
+            // m_hood = new Hood();
             // m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
@@ -169,33 +175,58 @@ public class RobotContainer {
             //         .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub)))
             //     .onFalse(m_hood.endAutoTarget());
 
+            // TODO: Fix jostle distance in case the intake is stuck on a ball
             // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
             m_operatorController
                 .R2()
                 .whileTrue(m_led
                     .startLaunchAnimation()
                     .alongWith(m_launcher.launch())
+                    .alongWith(new InstantCommand(() -> m_automaticLaunching = true))
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
-                    .andThen(m_indexer.index())
-                    // .alongWith(m_intakePivot
-                    //     .jostleOut()
-                    //     .andThen(m_intakePivot
-                    //         .in()
-                    //         .until(m_intakePivot::isStuckOnBall)
-                    //         .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))))
+                    .andThen(new InstantCommand(() -> m_driveBase.setDriveMode(DriveMode.XWHEELS))
+                        .alongWith(m_indexer.index())
+                        .alongWith(m_intakePivot.hold().andThen(m_intakePivot.in()).repeatedly())
+                    )
                 ).onFalse(m_led.startSwerveAnimation()
-                    .alongWith(m_indexer.off())
-                    .alongWith(m_launcher.off()));
+                    .alongWith(new ConditionalCommand(
+                        new InstantCommand(),
+                        m_indexer.off(),
+                        () -> m_manualIndexing
+                    ))
+                    // .alongWith(m_indexer.off())
+                    .alongWith(new ConditionalCommand(
+                        new InstantCommand(),
+                        m_launcher.off(),
+                        () -> m_manualLaunching
+                    ))
+                    // .alongWith(m_launcher.off())
+                    .alongWith(new InstantCommand(() -> m_automaticLaunching = false))
+                    .alongWith(m_intakePivot
+                        .in()
+                        .until(m_intakePivot::isStuckOnBall)
+                        .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition))
+                    ));
                 
-            // Increases launcher speed by 10% unless it's already at 100% -- b button on operator controller
+            // Increases launcher speed by 10% unless it's already at 100% -- circle button on operator controller
             m_operatorController
                 .circle()
                 .onTrue(m_launcher.raiseSpeed());
             
-            // Decreases launcher speed by 10% unless it's at 0% -- x button of operator controller
+            // Decreases launcher speed by 10% unless it's at 0% -- square button of operator controller
             m_operatorController
                 .square()
                 .onTrue(m_launcher.lowerSpeed());
+            
+            // Good speed for shooting from the middle of the alliance zone generally -- cross button of operator controller
+            m_operatorController
+                .cross()
+                .onTrue(m_launcher.setSpeedModifier(0.7));
+            
+            // Good speed for shooting from the trench -- triangle button of operator controller
+            m_operatorController
+                .triangle()
+                .onTrue(m_launcher.setSpeedModifier(1.0));
 
             // Control the climb manually -- left and right bumpers of operator controller
             // m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
@@ -224,17 +255,17 @@ public class RobotContainer {
             }, m_limitOverrideMode), m_intakePivot));
 
             // Control the hood manually -- up and down arrows of operator controller
-            m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
-                if (m_operatorController.povUp().getAsBoolean() == m_operatorController.povDown().getAsBoolean()) {
-                    return 0.0;
-                } else if (m_operatorController.povUp().getAsBoolean()) {
-                    return 1.0;
-                } else {
-                    return -1.0;
-                }
-            }, m_limitOverrideMode), m_hood));
+            // m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
+            //     if (m_operatorController.povUp().getAsBoolean() == m_operatorController.povDown().getAsBoolean()) {
+            //         return 0.0;
+            //     } else if (m_operatorController.povUp().getAsBoolean()) {
+            //         return 1.0;
+            //     } else {
+            //         return -1.0;
+            //     }
+            // }, m_limitOverrideMode), m_hood));
             
-            // Intakes fuel -- left trigger button on operator controller
+            // Intakes fuel -- left trigger on operator controller
             m_operatorController
                 .L2()
                 .onTrue(m_led.startIntakeAnimation()
@@ -256,14 +287,26 @@ public class RobotContainer {
             // Only indexes -- Left bumper on operator controller
             m_operatorController
                 .L1()
-                .onTrue(m_indexer.index())
-                .onFalse(m_indexer.off());
+                .onTrue(new InstantCommand(() -> m_manualIndexing = true).andThen(m_indexer.index()))
+                // .onFalse(m_launcher.off());
+                .onFalse(new InstantCommand(() -> m_manualIndexing = false).andThen(new ConditionalCommand(
+                    new InstantCommand(),
+                    m_indexer.off(),
+                    () -> m_automaticLaunching
+                )));
             
             // Only launches -- Right bumper on operator controller
             m_operatorController
                 .R1()
-                .onTrue(m_launcher.launch())
-                .onFalse(m_launcher.off());
+                .onTrue(new InstantCommand(() -> m_manualLaunching = true).andThen(m_launcher.launch()))
+                // .onFalse(m_launcher.off());
+                .onFalse(new InstantCommand(() -> m_manualLaunching = false).andThen(new ConditionalCommand(
+                    new InstantCommand(),
+                    m_launcher.off(),
+                    () -> m_automaticLaunching
+                )));
+            
+            //TODO: Make Min and Max reset button - use niche buttons(multiple)
         }
     }
 
@@ -340,7 +383,16 @@ public class RobotContainer {
     public void teleopInit() {
         // Start the game timer
         m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
-        CommandScheduler.getInstance().schedule(m_led.startSwerveAnimation());
+
+        CommandScheduler.getInstance().schedule(
+            m_led.startSwerveAnimation()
+                .alongWith(m_launcher.off())
+                .alongWith(m_indexer.off())
+                .alongWith(m_intakeDriver.off())
+                .alongWith(m_intakePivot.in())
+                .alongWith(m_launcher.setSpeedModifier(1.0))
+                // .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition() * 0.80))
+        );
     }
 
     public void teleopPeriodic() {
@@ -358,7 +410,7 @@ public class RobotContainer {
             // NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1());
             // NamedCommands.registerCommand("Climb", m_climb.retractAuto());
             // TODO: Replace these old commands with their newer versions in the autos
-            NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
+            // NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
             
             NamedCommands.registerCommand(
@@ -373,7 +425,23 @@ public class RobotContainer {
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(m_indexer.index())
             );
-            NamedCommands.registerCommand("EndLaunch", m_indexer.off().alongWith(m_launcher.off()));
+
+            NamedCommands.registerCommand(
+                "StartLaunchSlow",
+                m_launcher
+                    .setSpeedModifier(0.7)
+                    .andThen(m_launcher.launch())
+                    .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
+                    .andThen(m_indexer.index())
+            );
+
+            NamedCommands.registerCommand(
+                "EndLaunch",
+                m_indexer
+                    .off()
+                    .alongWith(m_launcher.off())
+                    .alongWith(m_launcher.setSpeedModifier(1.0))
+            );
         }
     }
 }

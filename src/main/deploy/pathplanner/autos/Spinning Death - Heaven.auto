@@ -17,45 +17,54 @@
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Spinning Death - Heaven"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Spinning Death - Heaven"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Heaven - Bottom to Top"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Heaven - Hell"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Spinning Death - Heaven"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Heaven - Bottom to Top"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Spinning Death - Hell"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Hell - Heaven"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Spinning Death - Heaven"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Spinning Death Heaven - Launch 3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartLaunch"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Spinning Death - Heaven"
+                }
+              }
+            ]
           }
         }
       ]

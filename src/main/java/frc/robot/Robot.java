@@ -88,6 +88,9 @@ public class Robot extends LoggedRobot {
 
         WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
 
+        // Use our own joystick connection warnings instead
+        DriverStation.silenceJoystickConnectionWarning(true);
+        
         RoboRioSim.setTeamNumber(4786);
         m_robotContainer = new RobotContainer();
 

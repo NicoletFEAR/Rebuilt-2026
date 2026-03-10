@@ -2,7 +2,9 @@ package frc.robot.subsystems.controller;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.architecture.StateSubsystem;
@@ -13,8 +15,8 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
     private final String m_name;
     private final int m_port;
     private ControllerIO m_controllerIO;
-    private ControllerIOInputsAutoLogged m_controllerInputs = new ControllerIOInputsAutoLogged();
-    private Thread m_controllerIOProcessThread;
+    private final ControllerIOInputsAutoLogged m_controllerInputs = new ControllerIOInputsAutoLogged();
+    private final Alert m_missingIO;
     private DesiredState m_desiredState = DesiredState.IDLE;
     private State m_state = State.IDLE;
 
@@ -23,52 +25,63 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
     public ControllerSubsystem(String name, int port) {
         m_name = name;
         m_port = port;
-        m_controllerIO = chooseImplementation();
+        m_missingIO = new Alert(
+            String.format("%s disconnected. (port %d)", m_name, m_port),
+            AlertType.kWarning
+        );
 
-        m_controllerIOProcessThread = new Thread(
+        m_controllerIO = chooseIO();
+
+        new Thread(
             new SubsystemIOProcessor<ControllerIOInputs>(
                 m_controllerIO,
                 m_controllerInputs
             )
-        );
-        m_controllerIOProcessThread.start();
+        ).start();
 
-        createImplementationChangeTriggers();
+        createIOChangeTriggers();
     }
 
-    private ControllerIO chooseImplementation() {
+    private ControllerIO chooseIO() {
         m_joystickName = DriverStation.getJoystickName(m_port);
 
         return switch (m_joystickName) {
             case "Keyboard 0": {
+                m_missingIO.set(false);
                 yield new ControllerIOKeyboard0(m_port);
             }
             case "Keyboard 1": {
+                m_missingIO.set(false);
                 yield new ControllerIOKeyboard1(m_port);
             }
             case "Keyboard 2": {
+                m_missingIO.set(false);
                 yield new ControllerIOKeyboard2(m_port);
             }
 
             case "Wireless Controller": {
+                m_missingIO.set(false);
                 yield new ControllerIOPS4(m_port);
             }
             case "DualSense Wireless Controller": {
+                m_missingIO.set(false);
                 yield new ControllerIOPS5(m_port);
             }
             case "Xbox 360 Controller": {
+                m_missingIO.set(false);
                 yield new ControllerIOXbox(m_port);
             }
 
             default: {
+                m_missingIO.set(true);
                 yield new ControllerIONone();
             }
         };
     }
 
-    private void createImplementationChangeTriggers() {
+    private void createIOChangeTriggers() {
         new Trigger(() -> !m_joystickName.equals(DriverStation.getJoystickName(m_port)))
-            .onTrue(new InstantCommand(() -> m_controllerIO = chooseImplementation()));
+            .onTrue(new InstantCommand(() -> m_controllerIO = chooseIO()));
     }
 
     public static enum DesiredState {

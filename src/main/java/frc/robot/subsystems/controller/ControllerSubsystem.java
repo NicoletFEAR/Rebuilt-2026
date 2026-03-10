@@ -13,13 +13,13 @@ import frc.robot.util.SubsystemIOProcessor;
 
 public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.State> {
     private final String m_name;
-    private final int m_port;
     private ControllerIO m_controllerIO;
     private final ControllerIOInputsAutoLogged m_controllerInputs = new ControllerIOInputsAutoLogged();
     private final Alert m_missingIO;
     private DesiredState m_desiredState = DesiredState.IDLE;
     private State m_state = State.IDLE;
 
+    private final int m_port;
     private String m_joystickName;
 
     public ControllerSubsystem(String name, int port) {

@@ -60,6 +60,8 @@ public final class Constants {
     // Set to 0.02 to represent once every loop (20 ms)
     public static final double kLoopTime = 0.02;
 
+    public static final double kFloatingPointEqualityTolerance = 0.000000001;
+
     // These are the unique identifiers for each RoboRIO we plan to use
     public static final HashMap<Integer, String> kTeamNumberToName;
     static {

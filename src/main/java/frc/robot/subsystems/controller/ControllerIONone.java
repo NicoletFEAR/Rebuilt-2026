@@ -1,8 +1,6 @@
 package frc.robot.subsystems.controller;
 
 public class ControllerIONone implements ControllerIO {
-    public ControllerIONone() {}
-
     @Override
     public void setLeftRumble(double strength) {}
 

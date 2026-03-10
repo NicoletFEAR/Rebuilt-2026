@@ -1,4 +1,4 @@
-package frc.robot.subsystems.controllers;
+package frc.robot.subsystems.controller;
 
 import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -46,7 +46,7 @@ public class ControllerIOPS5 implements ControllerIO {
     }
 
     @Override
-    public void refreshInputs() {
+    public void refreshData() {
         m_circle = m_controller.getCircleButton();
         m_create = m_controller.getCreateButton();
         m_cross = m_controller.getCrossButton();

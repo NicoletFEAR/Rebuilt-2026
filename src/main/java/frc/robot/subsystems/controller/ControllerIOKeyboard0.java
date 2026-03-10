@@ -1,4 +1,4 @@
-package frc.robot.subsystems.controllers;
+package frc.robot.subsystems.controller;
 
 import edu.wpi.first.wpilibj.GenericHID;
 
@@ -28,7 +28,7 @@ public class ControllerIOKeyboard0 implements ControllerIO {
     public void setRumble(double strength) {}
 
     @Override
-    public void refreshInputs() {
+    public void refreshData() {
         m_l1 = m_keyboard.getRawButton(2);
         m_l2 = m_keyboard.getRawButton(1);
         m_leftX = m_keyboard.getRawAxis(0);

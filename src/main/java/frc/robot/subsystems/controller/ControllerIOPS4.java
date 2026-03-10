@@ -1,10 +1,10 @@
-package frc.robot.subsystems.controllers;
+package frc.robot.subsystems.controller;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
-public class ControllerIOXbox implements ControllerIO {
-    private final XboxController m_controller;
+public class ControllerIOPS4 implements ControllerIO {
+    private final PS4Controller m_controller;
 
     private boolean m_circle;
     private boolean m_create;
@@ -15,6 +15,7 @@ public class ControllerIOXbox implements ControllerIO {
     private double m_leftX;
     private double m_leftY;
     private boolean m_options;
+    private boolean m_playStation;
     private int m_pov;
     private boolean m_r1;
     private double m_r2;
@@ -22,10 +23,11 @@ public class ControllerIOXbox implements ControllerIO {
     private double m_rightX;
     private double m_rightY;
     private boolean m_square;
+    private boolean m_touchpad;
     private boolean m_triangle;
 
-    public ControllerIOXbox(int port) {
-        m_controller = new XboxController(port);
+    public ControllerIOPS4(int port) {
+        m_controller = new PS4Controller(port);
     }
 
     @Override
@@ -44,24 +46,26 @@ public class ControllerIOXbox implements ControllerIO {
     }
 
     @Override
-    public void refreshInputs() {
-        m_circle = m_controller.getBButton();
-        m_create = m_controller.getBackButton();
-        m_cross = m_controller.getAButton();
-        m_l1 = m_controller.getLeftBumperButton();
-        m_l2 = m_controller.getLeftTriggerAxis();
-        m_l3 = m_controller.getLeftStickButton();
+    public void refreshData() {
+        m_circle = m_controller.getCircleButton();
+        m_create = m_controller.getShareButton();
+        m_cross = m_controller.getCrossButton();
+        m_l1 = m_controller.getL1Button();
+        m_l2 = m_controller.getL2Axis();
+        m_l3 = m_controller.getL3Button();
         m_leftX = m_controller.getLeftX();
         m_leftY = m_controller.getLeftY();
-        m_options = m_controller.getStartButton();
+        m_options = m_controller.getOptionsButton();
+        m_playStation = m_controller.getPSButton();
         m_pov = m_controller.getPOV();
-        m_r1 = m_controller.getRightBumperButton();
-        m_r2 = m_controller.getRightTriggerAxis();
-        m_r3 = m_controller.getRightStickButton();
+        m_r1 = m_controller.getR1Button();
+        m_r2 = m_controller.getR2Axis();
+        m_r3 = m_controller.getR3Button();
         m_rightX = m_controller.getRightX();
         m_rightY = m_controller.getRightY();
-        m_square = m_controller.getXButton();
-        m_triangle = m_controller.getYButton();
+        m_square = m_controller.getSquareButton();
+        m_touchpad = m_controller.getTouchpadButton();
+        m_triangle = m_controller.getTriangleButton();
     }
 
     @Override
@@ -77,6 +81,7 @@ public class ControllerIOXbox implements ControllerIO {
         inputs.LeftX = m_leftX;
         inputs.LeftY = m_leftY;
         inputs.Options = m_options;
+        inputs.PlayStation = m_playStation;
         inputs.R1 = m_r1;
         inputs.R2 = m_r2;
         inputs.R3 = m_r3;
@@ -84,6 +89,7 @@ public class ControllerIOXbox implements ControllerIO {
         inputs.RightX = m_rightX;
         inputs.RightY = m_rightY;
         inputs.Square = m_square;
+        inputs.Touchpad = m_touchpad;
         inputs.Triangle = m_triangle;
         inputs.Up = m_pov == 0 || m_pov == 45 || m_pov == 315;
     }

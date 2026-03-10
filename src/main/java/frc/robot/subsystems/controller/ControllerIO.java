@@ -1,4 +1,4 @@
-package frc.robot.subsystems.controllers;
+package frc.robot.subsystems.controller;
 
 import org.littletonrobotics.junction.AutoLog;
 

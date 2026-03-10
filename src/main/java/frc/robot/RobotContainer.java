@@ -5,7 +5,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -18,12 +17,11 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.DriveConstants;
 // import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.controllers.UniversalController;
+import frc.robot.subsystems.controller.ControllerSubsystem;
 // import frc.robot.subsystems.climb.Climb;
 // import frc.robot.subsystems.climb.Climb.ClimbState;
 import frc.robot.subsystems.intake.IntakeDriver;
@@ -42,10 +40,15 @@ import frc.robot.subsystems.swerve.SwerveDrive;
  * to this class as it is the central point of all subsystems.
  */
 public class RobotContainer {
-    private final UniversalController m_driverController = new UniversalController(
-        OperatorConstants.getDriverControllerPort(), DriveConstants.getControllerType());
-    private final UniversalController m_operatorController = new UniversalController(
-        OperatorConstants.getOperatorControllerPort(), OperatorConstants.getControllerType());
+    private final ControllerSubsystem m_driverController = new ControllerSubsystem(
+        "DriverController",
+        OperatorConstants.getDriverControllerPort()
+    );
+
+    private final ControllerSubsystem m_operatorController = new ControllerSubsystem(
+        "OperatorController",
+        OperatorConstants.getOperatorControllerPort()
+    );
     
     private final SendableChooser<Command> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
@@ -69,7 +72,7 @@ public class RobotContainer {
     private boolean m_manualLaunching = false;
     private boolean m_manualIndexing = false;
 
-    private final GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
+    // private final GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
 
     public RobotContainer() {
         if (Constants.kRobotName.equals("kitbot")) {
@@ -100,9 +103,6 @@ public class RobotContainer {
         m_driveBase.setDefaultCommand(
             new TeleopSwerve(
                 m_driverController,
-                OperatorConstants.kThrottleAxis,
-                OperatorConstants.kStrafeAxis,
-                OperatorConstants.kSteerAxis,
                 OperatorConstants.getDefaultSpeed(),
                 true,
                 true,
@@ -111,14 +111,10 @@ public class RobotContainer {
         );
 
         // Slows speed -- left trigger of driver controller
-        m_driverController
-            .L2()
+        new Trigger(m_driverController::leftTrigger)
             .whileTrue(
                 new TeleopSwerve(
                     m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
                     OperatorConstants.getSlowSpeed(),
                     true,
                     true,
@@ -127,18 +123,14 @@ public class RobotContainer {
             );
 
         // Make gyroscope think current position is zero -- create button of driver controller
-        m_driverController
-            .create()
+        new Trigger(m_driverController::create)
             .onTrue(new InstantCommand(m_driveBase::zeroGyro, m_driveBase));
         
         // Enables Palantir-Class Target Lock on the hub
-        m_driverController
-            .R2()
+        new Trigger(m_driverController::rightTrigger)
             .whileTrue(
                 new LockRotationTowardsHub(
                     m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
                     OperatorConstants.getDefaultSpeed(),
                     true,
                     true,
@@ -147,24 +139,22 @@ public class RobotContainer {
             );
         
         new Trigger(this::aboutToSwitch)
-            .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1.0))
+            .onTrue(new InstantCommand(() -> m_driverController.rumble())
             .alongWith(m_led.startScoringSwitchAnimation()))
-            .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0.0))
+            .onFalse(new InstantCommand(() -> m_driverController.idle())
             .alongWith(m_led.startSwerveAnimation()));
 
         // These are the controls for the kitbot subsystems
         if (Constants.kRobotName.equals("kitbot")) {
             // Intakes fuel -- left bumper of driver controller
-            m_driverController
-                .L1()
+            new Trigger(m_driverController::leftBumper)
                 .onTrue(m_kitbotIntake.intake())
                 .onTrue(m_kitbotLauncher.intake())
                 .onFalse(m_kitbotIntake.off())
                 .onFalse(m_kitbotLauncher.off());
                 
             // launches fuel -- right bumper of driver controller
-            m_driverController
-                .R1()
+            new Trigger(m_driverController::leftBumper)
                 .onTrue(m_kitbotIntake.launch())
                 .onTrue(m_kitbotLauncher.launch())
                 .onFalse(m_kitbotIntake.off())
@@ -179,8 +169,7 @@ public class RobotContainer {
 
             // TODO: Fix jostle distance in case the intake is stuck on a ball
             // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
-            m_operatorController
-                .R2()
+            new Trigger(m_operatorController::rightTrigger)
                 .whileTrue(m_led
                     .startLaunchAnimation()
                     .alongWith(m_launcher.launch())
@@ -211,23 +200,19 @@ public class RobotContainer {
                     ));
                 
             // Increases launcher speed by 10% unless it's already at 100% -- circle button on operator controller
-            m_operatorController
-                .circle()
+            new Trigger(m_operatorController::circle)
                 .onTrue(m_launcher.raiseSpeed());
             
             // Decreases launcher speed by 10% unless it's at 0% -- square button of operator controller
-            m_operatorController
-                .square()
+            new Trigger(m_operatorController::square)
                 .onTrue(m_launcher.lowerSpeed());
             
             // Good speed for shooting from the middle of the alliance zone generally -- cross button of operator controller
-            m_operatorController
-                .cross()
+            new Trigger(m_operatorController::cross)
                 .onTrue(m_launcher.setSpeedModifier(0.7));
             
             // Good speed for shooting from the trench -- triangle button of operator controller
-            m_operatorController
-                .triangle()
+            new Trigger(m_operatorController::triangle)
                 .onTrue(m_launcher.setSpeedModifier(1.0));
 
             // Control the climb manually -- left and right bumpers of operator controller
@@ -247,9 +232,9 @@ public class RobotContainer {
 
             // Control the intake pivot manually -- left and right buttons on d-pad of operator controller
             m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
-                if (m_operatorController.povRight().getAsBoolean() == m_operatorController.povLeft().getAsBoolean()) {
+                if (m_operatorController.right() == m_operatorController.left()) {
                     return 0.0;
-                } else if (m_operatorController.povRight().getAsBoolean()) {
+                } else if (m_operatorController.right()) {
                     return 1.0;
                 } else {
                     return -1.0;
@@ -268,8 +253,7 @@ public class RobotContainer {
             // }, m_limitOverrideMode), m_hood));
             
             // Intakes fuel -- left trigger on operator controller
-            m_operatorController
-                .L2()
+            new Trigger(m_operatorController::leftTrigger)
                 .onTrue(m_led.startIntakeAnimation()
                     .alongWith(m_intakePivot.out())
                     .alongWith(m_intakeDriver.intake()))
@@ -281,14 +265,12 @@ public class RobotContainer {
                         .alongWith(m_intakeDriver.off()));
 
             // Disables limits for manual mechanism control -- create button on operator control
-            m_operatorController
-                .create()
+            new Trigger(m_operatorController::create)
                 .onTrue(new InstantCommand(() -> m_limitOverrideMode = true))
                 .onFalse(new InstantCommand(() -> m_limitOverrideMode = false));
             
             // Only indexes -- Left bumper on operator controller
-            m_operatorController
-                .L1()
+            new Trigger(m_operatorController::leftBumper)
                 .onTrue(new InstantCommand(() -> m_manualIndexing = true).andThen(m_indexer.index()))
                 // .onFalse(m_launcher.off());
                 .onFalse(new InstantCommand(() -> m_manualIndexing = false).andThen(new ConditionalCommand(
@@ -298,8 +280,7 @@ public class RobotContainer {
                 )));
             
             // Only launches -- Right bumper on operator controller
-            m_operatorController
-                .R1()
+            new Trigger(m_operatorController::rightBumper)
                 .onTrue(new InstantCommand(() -> m_manualLaunching = true).andThen(m_launcher.launch()))
                 // .onFalse(m_launcher.off());
                 .onFalse(new InstantCommand(() -> m_manualLaunching = false).andThen(new ConditionalCommand(
@@ -384,7 +365,7 @@ public class RobotContainer {
      */
     public void teleopInit() {
         // Start the game timer
-        m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
+        // m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
 
         CommandScheduler.getInstance().schedule(
             m_led.startSwerveAnimation()
@@ -398,7 +379,8 @@ public class RobotContainer {
     }
 
     public void teleopPeriodic() {
-        m_gameTimer.periodic();
+        System.out.println(DriverStation.getJoystickName(0));
+        // m_gameTimer.periodic();
     }
 
     /**

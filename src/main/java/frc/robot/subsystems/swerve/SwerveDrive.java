@@ -203,14 +203,14 @@ public class SwerveDrive extends SubsystemBase {
         setModuleStates(m_kinematics.toSwerveModuleStates(speeds), false);
         m_chassisSpeeds = speeds;
 
-        m_simYaw += Units.radiansToDegrees(speeds.omegaRadiansPerSecond * Constants.kdt);
+        m_simYaw += Units.radiansToDegrees(speeds.omegaRadiansPerSecond * Constants.kLoopTime);
     }
 
     public void driveFieldRelative(ChassisSpeeds speeds) {
         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, getYaw());
         setModuleStates(m_kinematics.toSwerveModuleStates(m_chassisSpeeds), false);
 
-        m_simYaw += Units.radiansToDegrees(speeds.omegaRadiansPerSecond * Constants.kdt);
+        m_simYaw += Units.radiansToDegrees(speeds.omegaRadiansPerSecond * Constants.kLoopTime);
     }
 
     public void resetModulesToAbsolute() {
@@ -268,14 +268,14 @@ public class SwerveDrive extends SubsystemBase {
     public void driveClosedLoop(double throttle, double strafe, double steer) {
         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw());
 
-        m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
+        m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kLoopTime);
 
         m_desiredModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
 
         setModuleStates(m_desiredModuleStates, false);
 
         if (RobotBase.isSimulation()) {
-            m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kdt);
+            m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kLoopTime);
         }
     }
 
@@ -299,13 +299,13 @@ public class SwerveDrive extends SubsystemBase {
                 //     m_chassisSpeeds.vyMetersPerSecond *= -1.0;
                 // }
 
-                m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
+                m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kLoopTime);
                 m_desiredModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
 
                 setModuleStates(m_desiredModuleStates, isOpenLoop);
 
                 if (RobotBase.isSimulation()) {
-                    m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kdt);
+                    m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kLoopTime);
                 }
 
                 break;

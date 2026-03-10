@@ -70,20 +70,22 @@ public class ControllerIOXbox implements ControllerIO {
         inputs.Create = m_create;
         inputs.Cross = m_cross;
         inputs.Down = m_pov == 135 || m_pov == 180 || m_pov == 225;
-        inputs.L1 = m_l1;
-        inputs.L2 = m_l2;
-        inputs.L3 = m_l3;
+        inputs.LeftBumper = m_l1;
+        inputs.LeftTrigger = m_l2;
+        inputs.LeftStick = m_l3;
         inputs.Left = m_pov == 225 || m_pov == 270 || m_pov == 315;
         inputs.LeftX = m_leftX;
         inputs.LeftY = m_leftY;
         inputs.Options = m_options;
-        inputs.R1 = m_r1;
-        inputs.R2 = m_r2;
-        inputs.R3 = m_r3;
+        inputs.PlayStation = false;
+        inputs.RightBumper = m_r1;
+        inputs.RightTrigger = m_r2;
+        inputs.RightStick = m_r3;
         inputs.Right = m_pov == 45 || m_pov == 90 || m_pov == 135;
         inputs.RightX = m_rightX;
         inputs.RightY = m_rightY;
         inputs.Square = m_square;
+        inputs.Touchpad = false;
         inputs.Triangle = m_triangle;
         inputs.Up = m_pov == 0 || m_pov == 45 || m_pov == 315;
     }

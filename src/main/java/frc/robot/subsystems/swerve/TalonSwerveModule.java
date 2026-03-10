@@ -148,7 +148,7 @@ public class TalonSwerveModule implements SwerveModule {
         if (RobotBase.isSimulation()) {
             m_simAngle = moduleState.angle;
             m_simVel = moduleState.speedMetersPerSecond;
-            m_simDist += moduleState.speedMetersPerSecond / (1 / Constants.kdt);
+            m_simDist += moduleState.speedMetersPerSecond / (1 / Constants.kLoopTime);
         }
     }
 }

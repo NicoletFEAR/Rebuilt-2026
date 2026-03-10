@@ -38,10 +38,26 @@ public class ControllerIOKeyboard1 implements ControllerIO {
     @Override
     public void updateInputs(ControllerIOInputs inputs) {
         inputs.Circle = m_circle;
+        inputs.Create = false;
         inputs.Cross = m_cross;
+        inputs.Down = false;
+        inputs.LeftBumper = false;
+        inputs.LeftTrigger = 0.0;
+        inputs.LeftStick = false;
+        inputs.Left = false;
         inputs.LeftX = m_leftX;
         inputs.LeftY = m_leftY;
+        inputs.Options = false;
+        inputs.PlayStation = false;
+        inputs.RightBumper = false;
+        inputs.RightTrigger = 0.0;
+        inputs.RightStick = false;
+        inputs.Right = false;
+        inputs.RightX = 0.0;
+        inputs.RightY = 0.0;
         inputs.Square = m_square;
+        inputs.Touchpad = false;
         inputs.Triangle = m_triangle;
+        inputs.Up = false;
     }
 }

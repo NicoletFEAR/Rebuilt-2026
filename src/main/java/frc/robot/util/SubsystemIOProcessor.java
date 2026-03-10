@@ -53,8 +53,8 @@ public class SubsystemIOProcessor<T> implements Runnable {
             try {
                 long difference = System.currentTimeMillis() - m_timestamp;
 
-                if (difference < (long) (Constants.kdt * 1000.0)) {
-                    Thread.sleep((long) (Constants.kdt * 1000.0) - difference);
+                if (difference < (long) (Constants.kLoopTime * 1000.0)) {
+                    Thread.sleep((long) (Constants.kLoopTime * 1000.0) - difference);
                 }
             } catch (InterruptedException e) {}
         }

@@ -11,23 +11,19 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.controllers.UniversalController;
+import frc.robot.subsystems.controller.ControllerSubsystem;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class LockRotationTowardsHub extends Command {
     /** Creates a new TeleopSwerve. */
     private SwerveDrive m_driveBase;
 
-    private UniversalController m_driverController;
-
-    private int m_throttleAxis;
-    private int m_strafeAxis;
+    private ControllerSubsystem m_driverController;
 
     private double m_throttle;
     private double m_strafe;
     private double m_steer;
     private PIDController m_steerController = new PIDController(DriveConstants.getAutoTargetKP(), DriveConstants.getAutoTargetKI(), DriveConstants.getAutoTargetKD());
-
 
     private boolean m_isOpenLoop;
     private boolean m_isFieldRelative;
@@ -35,17 +31,13 @@ public class LockRotationTowardsHub extends Command {
     private double m_percentModifier;
 
     public LockRotationTowardsHub(
-        UniversalController driverController,
-        int throttleAxis,
-        int strafeAxis,
+        ControllerSubsystem driverController,
         double percentModifier,
         boolean isOpenLoop,
         boolean isFieldRelative,
         SwerveDrive driveBase) {
         m_driverController = driverController;
 
-        m_throttleAxis = throttleAxis;
-        m_strafeAxis = strafeAxis;
         m_percentModifier = percentModifier;
         m_isOpenLoop = isOpenLoop;
 
@@ -71,12 +63,12 @@ public class LockRotationTowardsHub extends Command {
     public void execute() {
         //isBatteryInBack gives value to change controls based on location of battery
         m_throttle = MathUtil.applyDeadband(
-            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
+            DriveConstants.isBatteryInBack() * m_driverController.leftY(),
             DriveConstants.getSwerveDeadband()
         );
 
         m_strafe = MathUtil.applyDeadband(
-            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
+            DriveConstants.isBatteryInBack() * m_driverController.leftX(),
             DriveConstants.getSwerveDeadband()
         );
         

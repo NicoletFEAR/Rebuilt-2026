@@ -2,23 +2,73 @@ package frc.robot.subsystems.controller;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.architecture.StateSubsystem;
 import frc.robot.subsystems.controller.ControllerIO.ControllerIOInputs;
-import frc.robot.subsystems.controllers.ControllerIOInputsAutoLogged;
 import frc.robot.util.SubsystemIOProcessor;
 
 public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.State> {
     private final String m_name;
+    private final int m_port;
     private ControllerIO m_controllerIO;
     private ControllerIOInputsAutoLogged m_controllerInputs = new ControllerIOInputsAutoLogged();
+    private Thread m_controllerIOProcessThread;
     private DesiredState m_desiredState = DesiredState.IDLE;
     private State m_state = State.IDLE;
 
-    public ControllerSubsystem(String name, ControllerIO controllerIO) {
+    private String m_joystickName;
+
+    public ControllerSubsystem(String name, int port) {
         m_name = name;
-        m_controllerIO = controllerIO;
-        new Thread(new SubsystemIOProcessor<ControllerIOInputs>(m_controllerIO, m_controllerInputs)).start();
+        m_port = port;
+        m_controllerIO = chooseImplementation();
+
+        m_controllerIOProcessThread = new Thread(
+            new SubsystemIOProcessor<ControllerIOInputs>(
+                m_controllerIO,
+                m_controllerInputs
+            )
+        );
+        m_controllerIOProcessThread.start();
+
+        createImplementationChangeTriggers();
+    }
+
+    private ControllerIO chooseImplementation() {
+        m_joystickName = DriverStation.getJoystickName(m_port);
+
+        return switch (m_joystickName) {
+            case "Keyboard 0": {
+                yield new ControllerIOKeyboard0(m_port);
+            }
+            case "Keyboard 1": {
+                yield new ControllerIOKeyboard1(m_port);
+            }
+            case "Keyboard 2": {
+                yield new ControllerIOKeyboard2(m_port);
+            }
+
+            case "Wireless Controller": {
+                yield new ControllerIOPS4(m_port);
+            }
+            case "DualSense Wireless Controller": {
+                yield new ControllerIOPS5(m_port);
+            }
+            case "Xbox 360 Controller": {
+                yield new ControllerIOXbox(m_port);
+            }
+
+            default: {
+                yield new ControllerIONone();
+            }
+        };
+    }
+
+    private void createImplementationChangeTriggers() {
+        new Trigger(() -> !m_joystickName.equals(DriverStation.getJoystickName(m_port)))
+            .onTrue(new InstantCommand(() -> m_controllerIO = chooseImplementation()));
     }
 
     public static enum DesiredState {
@@ -31,27 +81,93 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
         RUMBLING,
     }
 
-    public double leftXValue() {
+    public boolean circle() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.Circle;
+        }
+    }
+
+    public boolean create() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.Create;
+        }
+    }
+
+    public boolean cross() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.Cross;
+        }
+    }
+
+    public boolean leftBumper() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.LeftBumper;
+        }
+    }
+
+    public boolean leftTrigger() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.LeftTrigger > 0.5;
+        }
+    }
+
+    public boolean left() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.Left;
+        }
+    }
+
+    public double leftX() {
         synchronized (m_controllerInputs) {
             return m_controllerInputs.LeftX;
         }
     }
 
-    public double leftYValue() {
+    public double leftY() {
         synchronized (m_controllerInputs) {
             return m_controllerInputs.LeftY;
         }
     }
 
-    public double rightXValue() {
+    public boolean rightBumper() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.RightBumper;
+        }
+    }
+
+    public boolean rightTrigger() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.RightTrigger > 0.5;
+        }
+    }
+
+    public boolean right() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.Right;
+        }
+    }
+
+    public double rightX() {
         synchronized (m_controllerInputs) {
             return m_controllerInputs.RightX;
         }
     }
 
-    public double rightYValue() {
+    public double rightY() {
         synchronized (m_controllerInputs) {
             return m_controllerInputs.RightY;
+        }
+    }
+
+    public boolean square() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.Square;
+        }
+    }
+
+    public boolean triangle() {
+        synchronized (m_controllerInputs) {
+            return m_controllerInputs.Triangle;
         }
     }
 

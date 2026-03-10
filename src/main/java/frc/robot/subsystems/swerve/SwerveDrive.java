@@ -405,11 +405,10 @@ public class SwerveDrive extends SubsystemBase {
         Logger.recordOutput("Swerve/Module States", getModuleStates());
         Logger.recordOutput("Swerve/Chassis Speeds", m_chassisSpeeds);
         Logger.recordOutput("Swerve/Robot Relative Chassis Speeds", getRobotRelativeSpeeds());
-
         Logger.recordOutput("Swerve/Distance To Hub", distanceToHub());
     }
 
-    public enum SwerveState {
+    public static enum SwerveState {
         TELEOP,
         X_WHEELS,
     }

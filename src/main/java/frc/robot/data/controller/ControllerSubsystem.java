@@ -55,45 +55,45 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
         m_joystickName = DriverStation.getJoystickName(m_port);
 
         return switch (m_joystickName) {
-            case "Keyboard 0": {
+            case "Keyboard 0" -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOKeyboard0(m_port);
             }
-            case "Keyboard 1": {
+            case "Keyboard 1" -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOKeyboard1(m_port);
             }
-            case "Keyboard 2": {
+            case "Keyboard 2" -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOKeyboard2(m_port);
             }
 
-            case "Wireless Controller": {
+            case "Wireless Controller" -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOPS4(m_port);
             }
-            case "DualSense Wireless Controller": {
+            case "DualSense Wireless Controller" -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOPS5(m_port);
             }
-            case "Xbox Controller": {
+            case "Controller (Gamepad F310)", "Xbox Controller" -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOXbox(m_port);
             }
 
-            case "": {
+            case "" -> {
                 m_missingIO.set(true);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIONone();
             }
 
-            default: {
+            default -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.setText(
                     String.format("Unrecognized controller type: %s. (port %d)", m_joystickName, m_port)
@@ -215,27 +215,19 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
     @Override
     protected State updateState() {
         return switch (m_desiredState) {
-            case IDLE: {
-                yield State.IDLE;
-            }
-
-            case RUMBLING: {
-                yield State.RUMBLING;
-            }
+            case IDLE -> State.IDLE;
+            case RUMBLING -> State.RUMBLING;
         };
     }
 
     @Override
     protected void applyState() {
         switch (m_state) {
-            case IDLE: {
+            case IDLE -> {
                 m_controllerIO.get().setRumble(0.0);
-                break;
             }
-
-            case RUMBLING: {
+            case RUMBLING -> {
                 m_controllerIO.get().setRumble(1.0);
-                break;
             }
         }
     }

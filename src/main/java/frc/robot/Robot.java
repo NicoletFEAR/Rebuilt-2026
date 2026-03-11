@@ -7,9 +7,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.net.WebServer;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -86,7 +85,8 @@ public class Robot extends LoggedRobot {
         // Start logging! No more data receivers, replay sources, or metadata values may be added.
         Logger.start();
 
-        WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
+        // WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
+        PortForwarder.add(5800, "10.47.86.11", 5800);
 
         RoboRioSim.setTeamNumber(4786);
         m_robotContainer = new RobotContainer();

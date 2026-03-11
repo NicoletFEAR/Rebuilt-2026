@@ -294,10 +294,10 @@ public class SwerveDrive extends SubsystemBase {
                     ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())
                     : new ChassisSpeeds(throttle, strafe, steer);
                 
-                // if (RobotContainer.getAlliance() == Alliance.Red) {
-                //     m_chassisSpeeds.vxMetersPerSecond *= -1.0;
-                //     m_chassisSpeeds.vyMetersPerSecond *= -1.0;
-                // }
+                if (RobotContainer.getAlliance() == Alliance.Red) {
+                    m_chassisSpeeds.vxMetersPerSecond *= -1.0;
+                    m_chassisSpeeds.vyMetersPerSecond *= -1.0;
+                }
 
                 m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
                 m_desiredModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);

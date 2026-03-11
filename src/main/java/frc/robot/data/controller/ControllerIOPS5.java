@@ -1,4 +1,4 @@
-package frc.robot.subsystems.controller;
+package frc.robot.data.controller;
 
 import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;

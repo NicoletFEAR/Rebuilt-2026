@@ -1,4 +1,4 @@
-package frc.robot.subsystems.controller;
+package frc.robot.data.controller;
 
 public class ControllerIONone implements ControllerIO {
     @Override

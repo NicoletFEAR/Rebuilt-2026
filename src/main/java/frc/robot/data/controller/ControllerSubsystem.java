@@ -1,4 +1,4 @@
-package frc.robot.subsystems.controller;
+package frc.robot.data.controller;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.architecture.StateSubsystem;
-import frc.robot.subsystems.controller.ControllerIO.ControllerIOInputs;
+import frc.robot.data.controller.ControllerIO.ControllerIOInputs;
+import frc.robot.subsystems.controller.ControllerIOInputsAutoLogged;
 import frc.robot.util.SubsystemIOProcessor;
 
 public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.State> {

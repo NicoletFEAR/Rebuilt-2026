@@ -21,7 +21,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.subsystems.controller.ControllerSubsystem;
+import frc.robot.data.controller.ControllerSubsystem;
 // import frc.robot.subsystems.climb.Climb;
 // import frc.robot.subsystems.climb.Climb.ClimbState;
 import frc.robot.subsystems.intake.IntakeDriver;

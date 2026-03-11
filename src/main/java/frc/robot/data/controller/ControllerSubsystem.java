@@ -19,6 +19,7 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
     private final AtomicReference<ControllerIO> m_controllerIO;
     private final ControllerIOInputsAutoLogged m_controllerInputs = new ControllerIOInputsAutoLogged();
     private final Alert m_missingIO;
+    private final Alert m_unrecognizedIO;
     private DesiredState m_desiredState = DesiredState.IDLE;
     private State m_state = State.IDLE;
 
@@ -32,6 +33,7 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
             String.format("%s disconnected. (port %d)", m_name, m_port),
             AlertType.kWarning
         );
+        m_unrecognizedIO = new Alert("", AlertType.kWarning);
 
         m_controllerIO = new AtomicReference<ControllerIO>(chooseIO());
 
@@ -56,32 +58,48 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
         return switch (m_joystickName) {
             case "Keyboard 0": {
                 m_missingIO.set(false);
+                m_unrecognizedIO.set(false);
                 yield new ControllerIOKeyboard0(m_port);
             }
             case "Keyboard 1": {
                 m_missingIO.set(false);
+                m_unrecognizedIO.set(false);
                 yield new ControllerIOKeyboard1(m_port);
             }
             case "Keyboard 2": {
                 m_missingIO.set(false);
+                m_unrecognizedIO.set(false);
                 yield new ControllerIOKeyboard2(m_port);
             }
 
             case "Wireless Controller": {
                 m_missingIO.set(false);
+                m_unrecognizedIO.set(false);
                 yield new ControllerIOPS4(m_port);
             }
             case "DualSense Wireless Controller": {
                 m_missingIO.set(false);
+                m_unrecognizedIO.set(false);
                 yield new ControllerIOPS5(m_port);
             }
             case "Xbox Controller": {
                 m_missingIO.set(false);
+                m_unrecognizedIO.set(false);
                 yield new ControllerIOXbox(m_port);
             }
 
-            default: {
+            case "": {
                 m_missingIO.set(true);
+                m_unrecognizedIO.set(false);
+                yield new ControllerIONone();
+            }
+
+            default: {
+                m_missingIO.set(false);
+                m_unrecognizedIO.setText(
+                    String.format("Unrecognized controller type: %s. (port %d)", m_joystickName, m_port)
+                );
+                m_unrecognizedIO.set(true);
                 yield new ControllerIONone();
             }
         };

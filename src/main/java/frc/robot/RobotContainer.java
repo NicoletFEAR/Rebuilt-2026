@@ -379,7 +379,6 @@ public class RobotContainer {
     }
 
     public void teleopPeriodic() {
-        System.out.println(DriverStation.getJoystickName(0));
         // m_gameTimer.periodic();
     }
 

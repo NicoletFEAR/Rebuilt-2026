@@ -1,5 +1,7 @@
 package frc.robot.util;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import frc.lib.architecture.SubsystemIO;
 import frc.robot.Constants;
 
@@ -13,7 +15,7 @@ import frc.robot.Constants;
  * @param <T> the type of the inputs
  */
 public class SubsystemIOProcessor<T> implements Runnable {
-    private SubsystemIO<T> m_subsystemIO;
+    private AtomicReference<? extends SubsystemIO<T>> m_subsystemIO;
     private T m_subsystemInputs;
     private long m_timestamp;
 
@@ -21,11 +23,12 @@ public class SubsystemIOProcessor<T> implements Runnable {
      * Creates a new {@code SubsystemIOProcessor} with the specified
      * {@code SubsystemIO} object and inputs.
      * 
-     * @param subsystemIO the {@code SubsystemIO} to
-     * use
+     * @param subsystemIO the {@code SubsystemIO} to use, passed as an atomic reference to allow dynamic
+     * implementation changing
+     *
      * @param subsystemInputs the inputs object to use
      */
-    public SubsystemIOProcessor(SubsystemIO<T> subsystemIO, T subsystemInputs) {
+    public SubsystemIOProcessor(AtomicReference<? extends SubsystemIO<T>> subsystemIO, T subsystemInputs) {
         m_subsystemIO = subsystemIO;
         m_subsystemInputs = subsystemInputs;
     }
@@ -44,10 +47,10 @@ public class SubsystemIOProcessor<T> implements Runnable {
     public void run() {
         while (true) {
             m_timestamp = System.currentTimeMillis();
-            m_subsystemIO.refreshData();
+            m_subsystemIO.get().refreshData();
 
             synchronized (m_subsystemInputs) {
-                m_subsystemIO.updateInputs(m_subsystemInputs);
+                m_subsystemIO.get().updateInputs(m_subsystemInputs);
             }
 
             try {

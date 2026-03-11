@@ -1,5 +1,7 @@
 package frc.robot.subsystems.controller;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.Alert;
@@ -13,7 +15,7 @@ import frc.robot.util.SubsystemIOProcessor;
 
 public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.State> {
     private final String m_name;
-    private ControllerIO m_controllerIO;
+    private final AtomicReference<ControllerIO> m_controllerIO;
     private final ControllerIOInputsAutoLogged m_controllerInputs = new ControllerIOInputsAutoLogged();
     private final Alert m_missingIO;
     private DesiredState m_desiredState = DesiredState.IDLE;
@@ -30,7 +32,7 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
             AlertType.kWarning
         );
 
-        m_controllerIO = chooseIO();
+        m_controllerIO = new AtomicReference<ControllerIO>(chooseIO());
 
         new Thread(
             new SubsystemIOProcessor<ControllerIOInputs>(
@@ -39,7 +41,12 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
             )
         ).start();
 
-        createIOChangeTriggers();
+        new Trigger(this::shouldChangeIO)
+            .onTrue(new InstantCommand(() -> m_controllerIO.set(chooseIO())).ignoringDisable(true));
+    }
+
+    private boolean shouldChangeIO() {
+        return !m_joystickName.equals(DriverStation.getJoystickName(m_port));
     }
 
     private ControllerIO chooseIO() {
@@ -67,7 +74,7 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
                 m_missingIO.set(false);
                 yield new ControllerIOPS5(m_port);
             }
-            case "Xbox 360 Controller": {
+            case "Xbox Controller": {
                 m_missingIO.set(false);
                 yield new ControllerIOXbox(m_port);
             }
@@ -77,11 +84,6 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
                 yield new ControllerIONone();
             }
         };
-    }
-
-    private void createIOChangeTriggers() {
-        new Trigger(() -> !m_joystickName.equals(DriverStation.getJoystickName(m_port)))
-            .onTrue(new InstantCommand(() -> m_controllerIO = chooseIO()));
     }
 
     public static enum DesiredState {
@@ -209,12 +211,12 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
     protected void applyState() {
         switch (m_state) {
             case IDLE: {
-                m_controllerIO.setRumble(0.0);
+                m_controllerIO.get().setRumble(0.0);
                 break;
             }
 
             case RUMBLING: {
-                m_controllerIO.setRumble(1.0);
+                m_controllerIO.get().setRumble(1.0);
                 break;
             }
         }
@@ -225,7 +227,7 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
         synchronized (m_controllerInputs) {
             Logger.processInputs(m_name, m_controllerInputs);
             m_state = updateState();
-            Logger.recordOutput(m_name + "/Desired State", m_desiredState);
+            Logger.recordOutput(m_name + "/DesiredState", m_desiredState);
             Logger.recordOutput(m_name + "/State", m_state);
             applyState();
         }

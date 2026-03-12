@@ -52,7 +52,7 @@ public class GameTimer extends Timer {
     /**
      * Default constructor
      */
-    public GameTimer(UniversalController operatorController, UniversalController driverController, Led led) {
+    public GameTimer(UniversalController driverController, UniversalController operatorController, Led led) {
         super();
         this.m_driverController = driverController;
         this.m_operatorController = operatorController;

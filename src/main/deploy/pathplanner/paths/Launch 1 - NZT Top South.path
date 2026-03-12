@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 3.205,
-        "y": 7.35
+        "y": 7.45
       },
       "prevControl": null,
       "nextControl": {
         "x": 4.205,
-        "y": 7.35
+        "y": 7.45
       },
       "isLocked": false,
       "linkedName": "Launch 1"
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.7,
+    "maxAcceleration": 4.7,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 66.78
   },
   "reversed": false,
   "folder": "Lakeland",

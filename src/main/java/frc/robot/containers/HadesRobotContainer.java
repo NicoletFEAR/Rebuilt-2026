@@ -1,9 +1,6 @@
 package frc.robot.containers;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.TeleopSwerve;
 
 public class HadesRobotContainer extends AbstractRobotContainer {
 
@@ -12,50 +9,41 @@ public class HadesRobotContainer extends AbstractRobotContainer {
     }
 
     @Override
-    protected void configureBindings() {
-        // Driving -- joysticks of driver controller
-        m_driveBase.setDefaultCommand(
-            new TeleopSwerve(
-                m_driverController,
-                OperatorConstants.kThrottleAxis,
-                OperatorConstants.kStrafeAxis,
-                OperatorConstants.kSteerAxis,
-                OperatorConstants.getDefaultSpeed(),
-                true,
-                true
-            )
-        );
-
-        // Slows speed -- left trigger of driver controller
-        m_driverController
-            .L2()
-            .whileTrue(
-                new TeleopSwerve(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
-                    OperatorConstants.getSlowSpeed(),
-                    true,
-                    true
-                )
-            );
-
-        // Make gyroscope think current position is zero -- create button of driver controller
-        m_driverController
-            .create()
-            .onTrue(new InstantCommand(m_driveBase::zeroGyro, m_driveBase));
-    }
+    protected void configureBindings() {}
 
     @Override
-    protected void createNamedCommands() {
-        // TODO Auto-generated method stub
-        
-    }
+    protected void createNamedCommands() {}
 
     @Override
-    protected void createRobotSubsystems() {
-        // TODO Auto-generated method stub
-        
-    }
+    protected void createRobotSubsystems() {}
+
+    @Override
+    public void autonomousInit() {}
+
+    @Override
+    public void autonomousPeriodic() {}
+
+    @Override
+    public void autonomousExit() {}
+
+    @Override
+    public void teleopPeriodic() {}
+
+    @Override
+    public void teleopExit() {}
+
+    @Override
+    public void disabledInit() {}
+
+    @Override
+    public void disabledPeriodic() {}
+
+    @Override
+    public void disabledExit() {}
+
+    @Override
+    public void testPeriodic() {}
+
+    @Override
+    public void testExit() {}
 }

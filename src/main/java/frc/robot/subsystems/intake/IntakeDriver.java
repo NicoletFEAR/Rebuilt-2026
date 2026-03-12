@@ -18,6 +18,7 @@ import edu.wpi.first.units.measure.Voltage;
 // import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,6 +32,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     private TalonFX m_motor;
     private DCMotorSim m_motorSim;
     // private DigitalInput m_beamBreak;
+    private IntakeDriverState m_state = IntakeDriverState.OFF;
 
     public IntakeDriver() {
         m_motor = new TalonFX(DeviceIds.getIntakeDriverID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
@@ -58,15 +60,22 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     }
 
     public Command intake() {
-        return new InstantCommand(() -> setVoltage(IntakeConstants.getDriverIntakeVoltage()), this);
+        return new InstantCommand(() -> {
+            m_state = IntakeDriverState.INTAKING;
+            setVoltage(IntakeConstants.getDriverIntakeVoltage());
+        }, this);
     }
 
     public Command off() {
-        return new InstantCommand(() -> setVoltage(IntakeConstants.getDriverOffVoltage()), this);
+        return new InstantCommand(() -> {
+            m_state = IntakeDriverState.OFF;
+            setVoltage(IntakeConstants.getDriverOffVoltage());
+        }, this);
     }
     
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("Intaking?", m_state == IntakeDriverState.INTAKING);
         Logger.recordOutput("Intake/Driver/Voltage", getVoltage());
         Logger.recordOutput("Intake/Driver/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Intake/Driver/Current", m_motor.getStatorCurrent().getValueAsDouble());
@@ -82,5 +91,10 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
         m_motorSim.update(0.02);
         motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IntakeConstants.getDriverGearRatio());
         motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IntakeConstants.getDriverGearRatio());
+    }
+
+    public enum IntakeDriverState {
+        INTAKING,
+        OFF,
     }
 }

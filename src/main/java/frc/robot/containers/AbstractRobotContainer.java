@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.TeleopSwerve;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
@@ -54,6 +56,7 @@ public abstract class AbstractRobotContainer {
         createDriveBase();
         createRobotSubsystems();
         createNamedCommands();
+        configureSwerveBindings();
         configureBindings();
         this.m_autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -66,7 +69,48 @@ public abstract class AbstractRobotContainer {
      * per robot type.
      */
     protected void createDriveBase() {
-        this.m_driveBase = SwerveDrive.getInstance();
+        this.m_driveBase = new SwerveDrive();
+    }
+
+    /**
+     * This method is used to set the default bindings for the swerve drive.  This should
+     * only be overridden in rare cases.  This is only called once per robot type.
+     */
+    protected void configureSwerveBindings() {
+        // Driving -- joysticks of driver controller
+        m_driveBase.setDefaultCommand(
+            new TeleopSwerve(
+                m_driverController,
+                OperatorConstants.kThrottleAxis,
+                OperatorConstants.kStrafeAxis,
+                OperatorConstants.kSteerAxis,
+                OperatorConstants.getDefaultSpeed(),
+                true,
+                true,
+                m_driveBase
+            )
+        );
+
+        // Slows speed -- left trigger of driver controller
+        m_driverController
+            .L2()
+            .whileTrue(
+                new TeleopSwerve(
+                    m_driverController,
+                    OperatorConstants.kThrottleAxis,
+                    OperatorConstants.kStrafeAxis,
+                    OperatorConstants.kSteerAxis,
+                    OperatorConstants.getSlowSpeed(),
+                    true,
+                    true,
+                    m_driveBase
+                )
+            );
+        
+        // Make gyroscope think current position is zero -- create button of driver controller
+        m_driverController
+            .create()
+            .onTrue(new InstantCommand(m_driveBase::zeroGyro, m_driveBase));
     }
 
     /**
@@ -120,18 +164,18 @@ public abstract class AbstractRobotContainer {
      * This method should be called at the start of autonomous and perform 
      * any necessary setup and processing for the autonomous period
      */
-    public void autonomousInit() {}
+    public abstract void autonomousInit();
 
     /**
      * This method is called periodically durring autonomous
      */
-    public void autonomousPeriodic() {}
+    public abstract void autonomousPeriodic();
 
     /**
      * This method should be called at the end of autonomous and perform
      * any necessary cleanup for the autonomous period
      */
-    public void autonomousExit() {}
+    public abstract void autonomousExit();
 
     /**
      * Ths mehtod should be called at the start of teleop and performs 
@@ -149,25 +193,47 @@ public abstract class AbstractRobotContainer {
      * should not be used for robot functionality, but instead used to update
      * dashboards
      */
-    public void teleopPeriodic() {}
+    public abstract void teleopPeriodic();
 
     /**
      * This method should be called at the end of teleop and perform
      * any necessary cleanup for the teleop period
      */
-    public void teleopExit() {}
+    public abstract void teleopExit();
 
-    public void disabledInit() {}
+    /**
+     * This method should be called when the robot is disabled and perform any necessary
+     * cleanup for the disabled period
+     */
+    public abstract void disabledInit();
 
-    public void disabledPeriodic() {}
+    /**
+     * This method should be called periodically while the robot is disabled
+     */
+    public abstract void disabledPeriodic();
 
-    public void disabledExit() {}
+    /**
+     * This method should be called at the end of disabled and perform
+     * any necessary cleanup for the disabled period
+     */
+    public abstract void disabledExit();
 
+    /**
+     * This method should be called at the start of test mode and perform any necessary
+     * setup and processing for the test period
+     */
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
     }
 
-    public void testPeriodic() {}
+    /**
+     * This method should be called periodically while the robot is in test mode
+     */
+    public abstract void testPeriodic();
 
-    public void testExit() {}
+    /**
+     * This method should be called at the end of test mode and perform
+     * any necessary cleanup for the test period
+     */
+    public abstract void testExit();
 }

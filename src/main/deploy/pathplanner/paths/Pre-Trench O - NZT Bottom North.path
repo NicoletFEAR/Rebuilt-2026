@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 0.6244444444444435
+        "x": 2.989,
+        "y": 0.624
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.6,
-        "y": 0.6244444444444435
+        "x": 3.9889999999999994,
+        "y": 0.624
       },
       "isLocked": false,
       "linkedName": "Pre-Trench O"
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 6.7,
-        "y": 0.6500000000000004
+        "y": 0.6500000000000001
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.7,
+    "maxAcceleration": 4.7,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -70.0
   },
   "reversed": false,
   "folder": "Lakeland",

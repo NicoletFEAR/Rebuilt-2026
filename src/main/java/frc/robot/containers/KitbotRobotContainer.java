@@ -1,11 +1,8 @@
 package frc.robot.containers;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class KitbotRobotContainer extends AbstractRobotContainer {
 

@@ -13,10 +13,10 @@ import frc.lib.architecture.StateSubsystem;
 import frc.robot.data.controller.ControllerIO.ControllerIOInputs;
 import frc.robot.util.SubsystemIOProcessor;
 
-public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.State> {
+public class Controller extends StateSubsystem<Controller.State> {
     private final String m_name;
-    private final AtomicReference<ControllerIO> m_controllerIO;
-    private final ControllerIOInputsAutoLogged m_controllerInputs = new ControllerIOInputsAutoLogged();
+    private final AtomicReference<ControllerIO> m_io;
+    private final ControllerIOInputsAutoLogged m_inputs = new ControllerIOInputsAutoLogged();
     private final Alert m_missingIO;
     private final Alert m_unrecognizedIO;
     private DesiredState m_desiredState = DesiredState.IDLE;
@@ -25,7 +25,7 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
     private final int m_port;
     private String m_joystickName;
 
-    public ControllerSubsystem(String name, int port) {
+    public Controller(String name, int port) {
         m_name = name;
         m_port = port;
         m_missingIO = new Alert(
@@ -34,17 +34,17 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
         );
         m_unrecognizedIO = new Alert("", AlertType.kWarning);
 
-        m_controllerIO = new AtomicReference<ControllerIO>(chooseIO());
+        m_io = new AtomicReference<ControllerIO>(chooseIO());
 
         new Thread(
             new SubsystemIOProcessor<ControllerIOInputs>(
-                m_controllerIO,
-                m_controllerInputs
+                m_io,
+                m_inputs
             )
         ).start();
 
         new Trigger(this::shouldChangeIO)
-            .onTrue(new InstantCommand(() -> m_controllerIO.set(chooseIO())).ignoringDisable(true));
+            .onTrue(new InstantCommand(() -> m_io.set(chooseIO())).ignoringDisable(true));
     }
 
     private boolean shouldChangeIO() {
@@ -115,92 +115,92 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
     }
 
     public boolean circle() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.Circle;
+        synchronized (m_inputs) {
+            return m_inputs.Circle;
         }
     }
 
     public boolean create() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.Create;
+        synchronized (m_inputs) {
+            return m_inputs.Create;
         }
     }
 
     public boolean cross() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.Cross;
+        synchronized (m_inputs) {
+            return m_inputs.Cross;
         }
     }
 
     public boolean leftBumper() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.LeftBumper;
+        synchronized (m_inputs) {
+            return m_inputs.LeftBumper;
         }
     }
 
     public boolean leftTrigger() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.LeftTrigger > 0.5;
+        synchronized (m_inputs) {
+            return m_inputs.LeftTrigger > 0.5;
         }
     }
 
     public boolean left() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.Left;
+        synchronized (m_inputs) {
+            return m_inputs.Left;
         }
     }
 
     public double leftX() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.LeftX;
+        synchronized (m_inputs) {
+            return m_inputs.LeftX;
         }
     }
 
     public double leftY() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.LeftY;
+        synchronized (m_inputs) {
+            return m_inputs.LeftY;
         }
     }
 
     public boolean rightBumper() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.RightBumper;
+        synchronized (m_inputs) {
+            return m_inputs.RightBumper;
         }
     }
 
     public boolean rightTrigger() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.RightTrigger > 0.5;
+        synchronized (m_inputs) {
+            return m_inputs.RightTrigger > 0.5;
         }
     }
 
     public boolean right() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.Right;
+        synchronized (m_inputs) {
+            return m_inputs.Right;
         }
     }
 
     public double rightX() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.RightX;
+        synchronized (m_inputs) {
+            return m_inputs.RightX;
         }
     }
 
     public double rightY() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.RightY;
+        synchronized (m_inputs) {
+            return m_inputs.RightY;
         }
     }
 
     public boolean square() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.Square;
+        synchronized (m_inputs) {
+            return m_inputs.Square;
         }
     }
 
     public boolean triangle() {
-        synchronized (m_controllerInputs) {
-            return m_controllerInputs.Triangle;
+        synchronized (m_inputs) {
+            return m_inputs.Triangle;
         }
     }
 
@@ -224,18 +224,18 @@ public class ControllerSubsystem extends StateSubsystem<ControllerSubsystem.Stat
     protected void applyState() {
         switch (m_state) {
             case IDLE -> {
-                m_controllerIO.get().setRumble(0.0);
+                m_io.get().setRumble(0.0);
             }
             case RUMBLING -> {
-                m_controllerIO.get().setRumble(1.0);
+                m_io.get().setRumble(1.0);
             }
         }
     }
 
     @Override
     public void periodic() {
-        synchronized (m_controllerInputs) {
-            Logger.processInputs(m_name, m_controllerInputs);
+        synchronized (m_inputs) {
+            Logger.processInputs(m_name, m_inputs);
             m_state = updateState();
             Logger.recordOutput(m_name + "/DesiredState", m_desiredState);
             Logger.recordOutput(m_name + "/State", m_state);

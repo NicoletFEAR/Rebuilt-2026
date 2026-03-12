@@ -21,7 +21,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.data.controller.ControllerSubsystem;
+import frc.robot.data.controller.Controller;
 // import frc.robot.subsystems.climb.Climb;
 // import frc.robot.subsystems.climb.Climb.ClimbState;
 import frc.robot.subsystems.intake.IntakeDriver;
@@ -40,12 +40,12 @@ import frc.robot.subsystems.swerve.SwerveDrive;
  * to this class as it is the central point of all subsystems.
  */
 public class RobotContainer {
-    private final ControllerSubsystem m_driverController = new ControllerSubsystem(
+    private final Controller m_driverController = new Controller(
         "DriverController",
         OperatorConstants.getDriverControllerPort()
     );
 
-    private final ControllerSubsystem m_operatorController = new ControllerSubsystem(
+    private final Controller m_operatorController = new Controller(
         "OperatorController",
         OperatorConstants.getOperatorControllerPort()
     );

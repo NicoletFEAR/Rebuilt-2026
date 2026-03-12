@@ -11,14 +11,14 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.data.controller.ControllerSubsystem;
+import frc.robot.data.controller.Controller;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class LockRotationTowardsHub extends Command {
     /** Creates a new TeleopSwerve. */
     private SwerveDrive m_driveBase;
 
-    private ControllerSubsystem m_driverController;
+    private Controller m_driverController;
 
     private double m_throttle;
     private double m_strafe;
@@ -31,7 +31,7 @@ public class LockRotationTowardsHub extends Command {
     private double m_percentModifier;
 
     public LockRotationTowardsHub(
-        ControllerSubsystem driverController,
+        Controller driverController,
         double percentModifier,
         boolean isOpenLoop,
         boolean isFieldRelative,

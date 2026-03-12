@@ -28,8 +28,9 @@ public abstract class AbstractRobotContainer {
         OperatorConstants.getOperatorControllerPort(), OperatorConstants.getControllerType());
     protected final BotEnum m_botEnum;
     protected final Alliance m_alliance;
-    protected SendableChooser<Command> m_autoChooser = AutoBuilder.buildAutoChooser();
+    protected SendableChooser<Command> m_autoChooser;
     protected SwerveDrive m_driveBase;
+
 
     /**
      * This constructor will create the robot container and the common setup needed for a robot
@@ -54,11 +55,12 @@ public abstract class AbstractRobotContainer {
         createRobotSubsystems();
         createNamedCommands();
         configureBindings();
+        this.m_autoChooser = AutoBuilder.buildAutoChooser();
 
         Shuffleboard.getTab("Main").add("Auto Chooser", m_autoChooser).withPosition(5, 0).withSize(5, 2);
     }
 
-    /**
+    /**P
      * This method is called when the robot container is created.  This is used to
      * create the drive base for the robot.  This is only called once
      * per robot type.

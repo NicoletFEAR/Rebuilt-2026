@@ -3,47 +3,33 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5049666666666663,
-        "y": 6.285966666666667
+        "x": 2.989,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.20053286637625,
-        "y": 6.2859330437843415
+        "x": 2.989,
+        "y": 3.0
       },
       "isLocked": false,
-      "linkedName": "Start 2"
+      "linkedName": "Start T - Slight Back"
     },
     {
       "anchor": {
-        "x": 2.3356333333333335,
-        "y": 6.285966666666667
+        "x": 2.989,
+        "y": 0.624
       },
       "prevControl": {
-        "x": 2.609178453894025,
-        "y": 6.286517263364803
+        "x": 2.989,
+        "y": 1.624
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "H-Score"
+      "linkedName": "Pre-Trench O"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.5,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -59,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Test Paths",
+  "folder": "Lakeland",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

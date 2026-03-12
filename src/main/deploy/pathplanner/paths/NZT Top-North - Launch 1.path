@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 7.7,
-        "y": 7.35
+        "y": 7.45
       },
       "prevControl": null,
       "nextControl": {
         "x": 6.925603566708609,
-        "y": 7.365733145666472
+        "y": 7.465733145666473
       },
       "isLocked": false,
       "linkedName": "NZT Top-North"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 3.205,
-        "y": 7.35
+        "y": 7.45
       },
       "prevControl": {
         "x": 4.461205492167323,
-        "y": 7.329096528731186
+        "y": 7.429096528731186
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.7,
+    "maxAcceleration": 4.7,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -48,7 +48,7 @@
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -70.0
   },
   "useDefaultConstraints": true
 }

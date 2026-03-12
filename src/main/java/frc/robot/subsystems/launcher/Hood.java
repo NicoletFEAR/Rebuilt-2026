@@ -86,10 +86,14 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         return new FunctionalCommand(
             () -> {
                 m_desiredPosition = position;
-                m_motor.set(m_pidController.calculate(getPosition(), position));
+                m_motor.set(m_pidController.calculate(getPosition(), m_desiredPosition));
             },
-            () -> {},
-            (isFinished) -> {},
+            () -> {
+                m_motor.set(m_pidController.calculate(getPosition(), m_desiredPosition));
+            },
+            (isFinished) -> {
+                m_motor.set(0.0);
+            },
             this::getIsAtSetpoint,
             this
         );

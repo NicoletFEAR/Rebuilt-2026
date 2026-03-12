@@ -4,15 +4,15 @@
     {
       "anchor": {
         "x": 7.7,
-        "y": 0.6500000000000004
+        "y": 7.35
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.95,
-        "y": 0.6500000000000004
+        "x": 7.7,
+        "y": 6.3500000000000005
       },
       "isLocked": false,
-      "linkedName": "Spinning Death - Heaven Bottom"
+      "linkedName": "Spinning Death - Hell Top"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.6500000000000004
       },
       "prevControl": {
-        "x": 7.45,
-        "y": 0.6500000000000004
+        "x": 7.7,
+        "y": 1.6500000000000004
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.7,
+    "maxAcceleration": 4.7,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 91.0
   },
   "reversed": false,
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 100.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

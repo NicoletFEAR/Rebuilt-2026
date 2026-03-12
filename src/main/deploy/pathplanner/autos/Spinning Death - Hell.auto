@@ -11,40 +11,28 @@
           }
         },
         {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartLaunch"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndLaunch"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Launch 3 - Spinning Death Hell"
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Spinning Death - Hell"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Spinning Death - Hell"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Hell - Top to Bottom"
+                }
+              }
+            ]
           }
         },
         {
@@ -54,21 +42,22 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Hell - Heaven"
+                  "pathName": "Spinning Death - Hell"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Spinning Death - Heaven"
+                  "pathName": "Hell - Top to Bottom"
                 }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Heaven - Hell"
-                }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
               {
                 "type": "path",
                 "data": {
@@ -76,18 +65,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Spinning Death Hell - Launch 1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartLaunch"
           }
         }
       ]

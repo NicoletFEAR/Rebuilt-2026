@@ -15,7 +15,6 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,7 +29,9 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -40,20 +41,18 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.util.LimelightCamera;
+// import frc.robot.util.LimelightCamera;
 import frc.robot.util.Utils;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.BooleanSupplier;
 
 import org.littletonrobotics.junction.Logger;
 
 public class SwerveDrive extends SubsystemBase {
-
-    private static SwerveDrive m_instance = null;
-
     private SwerveModule[] m_modules;
 
     private Pigeon2 m_pigeon;
@@ -67,18 +66,14 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveModulePosition[] m_modulePositions;
     private ChassisSpeeds m_chassisSpeeds;
 
-    private DriveMode m_driveMode = DriveMode.TELEOP;
+    private SwerveState m_state = SwerveState.TELEOP;
 
     private Field2d m_field;
 
     private double m_simYaw;
 
-    private double m_angleToSnap = Double.POSITIVE_INFINITY;
-
-    private LimelightCamera m_launcherCamera = new LimelightCamera("limelight-launch");
-    private LimelightCamera m_climbCamera = new LimelightCamera("limelight-climb");
-
-    private PIDController angleController = new PIDController(.016, 0.003, 0.0);
+    // private LimelightCamera m_launcherCamera = new LimelightCamera("limelight-launch");
+    // private LimelightCamera m_climbCamera = new LimelightCamera("limelight-climb");
 
     public SwerveDrive() {
         if (DriveConstants.usesDriveKrakens()) {
@@ -143,11 +138,8 @@ public class SwerveDrive extends SubsystemBase {
         m_pigeon.setYaw(0);
 
         m_field = new Field2d();
-        
-        // TODO generalize this
-        // RobotContainer.m_mainTab.add(m_field).withPosition(6, 2).withSize(6, 3);
-
-        angleController.setTolerance(1);
+        // TODO Fix this into the new structure
+        //RobotContainer.m_mainTab.add(m_field).withPosition(6, 2).withSize(6, 3);
 
         AutoBuilder.configure(
             this::getPose,
@@ -171,14 +163,8 @@ public class SwerveDrive extends SubsystemBase {
 
             this
         );
-    }
 
-    public static SwerveDrive getInstance() {
-        if (m_instance == null) {
-            m_instance = new SwerveDrive();
-        }
-
-        return m_instance;
+        SmartDashboard.putData("MechSettings/Swerve/Run 12 Volts", new InstantCommand(() -> runVolts(Volts.of(12))));
     }
 
     public SwerveModulePosition[] getModulePositions() {
@@ -276,8 +262,8 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
-    public void setDriveMode(DriveMode driveMode) {
-        m_driveMode = driveMode;
+    public Command xWheels() {
+        return new InstantCommand(() -> m_state = SwerveState.X_WHEELS);
     }
 
     public void driveClosedLoop(double throttle, double strafe, double steer) {
@@ -294,48 +280,38 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
-    public void drive(
-        double throttle, double strafe, double steer, boolean isOpenLoop, boolean isFieldRelative) {
-
-        if (throttle + strafe + steer != 0 && m_driveMode == DriveMode.XWHEELS) {
-            m_driveMode = DriveMode.TELEOP;
+    public void drive(double throttle, double strafe, double steer, boolean isOpenLoop, boolean isFieldRelative) {
+        if (throttle + strafe + steer != 0 && m_state == SwerveState.X_WHEELS) {
+            m_state = SwerveState.TELEOP;
         }
 
-        switch (m_driveMode) {
+        switch (m_state) {
             case TELEOP:
                 throttle *= DriveConstants.getMaxModuleSpeed();
                 strafe *= DriveConstants.getMaxModuleSpeed();
-
-                if (m_angleToSnap != Double.POSITIVE_INFINITY) {
-                    steer = angleController.calculate(
-                        Utils.getAdjustedYawDegrees(getYaw().getDegrees(), m_angleToSnap), 180);
-                    steer *= DriveConstants.getMaxModuleSpeed();
-
-                    if (angleController.atSetpoint())
-                        m_angleToSnap = Double.POSITIVE_INFINITY;
-                }
-
                 steer *= RotationsPerSecond.of(DriveConstants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
 
                 m_chassisSpeeds = isFieldRelative
                     ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())
                     : new ChassisSpeeds(throttle, strafe, steer);
-
-                m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
-
-                m_desiredModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-
-                if (isOpenLoop) {
-                    setModuleStates(m_desiredModuleStates, isOpenLoop);
-                } else {
-                    setModuleStates(m_desiredModuleStates, isOpenLoop);
+                
+                if (Robot.getAlliance() == Alliance.Red) {
+                    m_chassisSpeeds.vxMetersPerSecond *= -1.0;
+                    m_chassisSpeeds.vyMetersPerSecond *= -1.0;
                 }
 
-                if (RobotBase.isSimulation())
+                m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
+                m_desiredModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+
+                setModuleStates(m_desiredModuleStates, isOpenLoop);
+
+                if (RobotBase.isSimulation()) {
                     m_simYaw += Units.radiansToDegrees(m_chassisSpeeds.omegaRadiansPerSecond * Constants.kdt);
+                }
 
                 break;
-            case XWHEELS:
+
+            case X_WHEELS:
                 Utils.copyModuleStates(DriveConstants.kXWheels, m_desiredModuleStates);
                 setModuleStates(isOpenLoop);
                 break;
@@ -376,6 +352,7 @@ public class SwerveDrive extends SubsystemBase {
 
     public void zeroGyro() {
         m_pigeon.setYaw(0);
+
         if (Robot.getAlliance() == Alliance.Blue) {
             m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(0), m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)));
         } else {
@@ -392,34 +369,34 @@ public class SwerveDrive extends SubsystemBase {
 
     @Override
     public void periodic() {
-        m_launcherCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
-        m_climbCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
+        // m_launcherCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
+        // m_climbCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
         m_poseEstimator.updateWithTime(Timer.getTimestamp(), getYaw(), getModulePositions());
         m_megaTag1PoseEstimator.updateWithTime(Timer.getTimestamp(), getPigeonYaw(), getModulePositions());
 
-        if (m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {
-            m_launcherCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getYaw());
-            Logger.recordOutput("Vision/limelight-launcher/MT2 Pose Estimate Blue",
-                    m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2().pose);
-        }
+        // if (m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {
+        //     m_launcherCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getYaw());
+        //     Logger.recordOutput("Vision/limelight-launch/MT2 Pose Estimate Blue",
+        //             m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2().pose);
+        // }
 
-        if (m_launcherCamera.getBotPoseEstimate_wpiBlue() != null) {
-            m_launcherCamera.addPoseEstimateMegatag1(m_megaTag1PoseEstimator, m_chassisSpeeds);
-            Logger.recordOutput("Vision/limelight-launcher/MT1 Pose Estimate Blue",
-                    m_launcherCamera.getBotPoseEstimate_wpiBlue().pose);
-        }
+        // if (m_launcherCamera.getBotPoseEstimate_wpiBlue() != null) {
+        //     m_launcherCamera.addPoseEstimateMegatag1(m_megaTag1PoseEstimator, m_chassisSpeeds);
+        //     Logger.recordOutput("Vision/limelight-launch/MT1 Pose Estimate Blue",
+        //             m_launcherCamera.getBotPoseEstimate_wpiBlue().pose);
+        // }
 
-        if (m_climbCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {
-            m_climbCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getYaw());
-            Logger.recordOutput("Vision/limelight-climb/MT2 Pose Estimate Blue",
-                    m_climbCamera.getBotPoseEstimate_wpiBlue_MegaTag2().pose);
-        }
+        // if (m_climbCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {
+        //     m_climbCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getYaw());
+        //     Logger.recordOutput("Vision/limelight-climb/MT2 Pose Estimate Blue",
+        //             m_climbCamera.getBotPoseEstimate_wpiBlue_MegaTag2().pose);
+        // }
 
-        if (m_climbCamera.getBotPoseEstimate_wpiBlue() != null) {
-            m_climbCamera.addPoseEstimateMegatag1(m_megaTag1PoseEstimator, m_chassisSpeeds);
-            Logger.recordOutput("Vision/limelight-climb/MT1 Pose Estimate Blue",
-                    m_climbCamera.getBotPoseEstimate_wpiBlue().pose);
-        } 
+        // if (m_climbCamera.getBotPoseEstimate_wpiBlue() != null) {
+        //     m_climbCamera.addPoseEstimateMegatag1(m_megaTag1PoseEstimator, m_chassisSpeeds);
+        //     Logger.recordOutput("Vision/limelight-climb/MT1 Pose Estimate Blue",
+        //             m_climbCamera.getBotPoseEstimate_wpiBlue().pose);
+        // } 
 
         m_field.getRobotObject().setPose(getPose());
 
@@ -433,8 +410,8 @@ public class SwerveDrive extends SubsystemBase {
         Logger.recordOutput("Swerve/Distance To Hub", distanceToHub());
     }
 
-    public enum DriveMode {
+    public enum SwerveState {
         TELEOP,
-        XWHEELS
+        X_WHEELS,
     }
 }

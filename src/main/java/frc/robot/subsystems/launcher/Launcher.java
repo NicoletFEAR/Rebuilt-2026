@@ -79,18 +79,27 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         m_rightMotor.setControl(new VoltageOut(m_desiredVoltage));
     }
 
+    public boolean isAtVelocity() {
+        return Math.abs(m_leftMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance()
+            || Math.abs(m_rightMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance();
+    }
+
     public Command launch() {
         return new InstantCommand(() -> {
             m_state = LauncherState.LAUNCHING;
-            setVoltage(LauncherConstants.getLaunchVelocity() * m_speedModifier);
+            setVoltage(LauncherConstants.getLaunchVoltage() * m_speedModifier);
         });
     }
 
     public Command off() {
         return new InstantCommand(() -> {
             m_state = LauncherState.OFF;
-            setVoltage(LauncherConstants.getOffVelocity() * m_speedModifier);
+            setVoltage(LauncherConstants.getOffVoltage() * m_speedModifier);
         });
+    }
+
+    public Command setSpeedModifier(double newSpeedModifier) {
+        return new InstantCommand(() -> m_speedModifier = newSpeedModifier);
     }
 
     // TODO: Replace 0.05 with 0.1 once tuning the launcher speeds is complete
@@ -120,7 +129,9 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     @Override
     public void periodic() {
-        SmartDashboard.putString("Launcher Speed", 100 * m_speedModifier + "%");
+        // TODO: Replace the rounding thing with String.format
+        SmartDashboard.putString("Launcher Speed", Math.round(1000.0 * m_speedModifier) / 10.0 + "%");
+        SmartDashboard.putBoolean("Launching?", m_state == LauncherState.LAUNCHING);
         Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
         Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Left/Voltage", m_leftMotor.getMotorVoltage().getValueAsDouble());

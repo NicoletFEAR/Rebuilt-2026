@@ -79,8 +79,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     }
 
     public boolean isAtVelocity() {
-        return Math.abs(m_leftMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance()
-            || Math.abs(m_rightMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance();
+        return MathUtil.isNear(m_leftMotor.getVelocity().getValueAsDouble(), LauncherConstants.getLaunchVelocity() * m_speedModifier, LauncherConstants.getVelocityTolerance())
+            || MathUtil.isNear(m_rightMotor.getVelocity().getValueAsDouble(), LauncherConstants.getLaunchVelocity() * m_speedModifier, LauncherConstants.getVelocityTolerance());
     }
 
     public Command launch() {
@@ -128,8 +128,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     @Override
     public void periodic() {
-        // TODO: Replace the rounding thing with String.format
-        SmartDashboard.putString("Launcher Speed", Math.round(1000.0 * m_speedModifier) / 10.0 + "%");
+        SmartDashboard.putString("Launcher Speed", String.format("%.2f%%", m_speedModifier * 100));
         SmartDashboard.putBoolean("Launching?", m_state == LauncherState.LAUNCHING);
         Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
         Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);

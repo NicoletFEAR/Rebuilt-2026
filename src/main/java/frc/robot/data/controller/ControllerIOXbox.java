@@ -1,12 +1,15 @@
 package frc.robot.data.controller;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
-public class ControllerIOXbox implements ControllerIO {
+public class ControllerIOXbox extends ControllerIO {
+    private int m_port;
     private final XboxController m_controller;
 
     private boolean m_circle;
+    private Type m_controllerType;
     private boolean m_create;
     private boolean m_cross;
     private boolean m_l1;
@@ -25,7 +28,8 @@ public class ControllerIOXbox implements ControllerIO {
     private boolean m_triangle;
 
     public ControllerIOXbox(int port) {
-        m_controller = new XboxController(port);
+        m_port = port;
+        m_controller = new XboxController(m_port);
     }
 
     @Override
@@ -36,6 +40,7 @@ public class ControllerIOXbox implements ControllerIO {
     @Override
     public void refreshData() {
         m_circle = m_controller.getBButton();
+        m_controllerType = getTypeFromName(DriverStation.getJoystickName(m_port));
         m_create = m_controller.getBackButton();
         m_cross = m_controller.getAButton();
         m_l1 = m_controller.getLeftBumperButton();
@@ -57,6 +62,7 @@ public class ControllerIOXbox implements ControllerIO {
     @Override
     public void updateInputs(ControllerIOInputs inputs) {
         inputs.Circle = m_circle;
+        inputs.ControllerType = m_controllerType;
         inputs.Create = m_create;
         inputs.Cross = m_cross;
         inputs.Down = m_pov == 135 || m_pov == 180 || m_pov == 225;

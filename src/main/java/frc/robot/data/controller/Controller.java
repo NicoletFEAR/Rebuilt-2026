@@ -3,12 +3,14 @@ package frc.robot.data.controller;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.Alert;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.architecture.StateSubsystem;
 import frc.robot.data.controller.ControllerIO.ControllerIOInputs;
+import frc.robot.data.controller.ControllerIO.Type;
 import frc.robot.util.Container;
 import frc.robot.util.IOProcessor;
 import frc.robot.util.SubsystemIOProcessor;
@@ -17,13 +19,13 @@ public class Controller extends StateSubsystem<Controller.State> {
     private final String m_name;
     private final Container<ControllerIO> m_io;
     private final ControllerIOInputsAutoLogged m_inputs = new ControllerIOInputsAutoLogged();
+    private Type m_ioType = Type.NONE;
     private final Alert m_missingIO;
     private final Alert m_unrecognizedIO = new Alert("", AlertType.kWarning);
     private DesiredState m_desiredState = DesiredState.IDLE;
     private State m_state = State.IDLE;
 
     private final int m_port;
-    private String m_joystickName;
 
     public Controller(String name, int port, IOProcessor processor) {
         m_name = name;
@@ -46,7 +48,16 @@ public class Controller extends StateSubsystem<Controller.State> {
     }
 
     private boolean shouldChangeIO() {
-        return !m_joystickName.equals(DriverStation.getJoystickName(m_port));
+        boolean result = false;
+
+        synchronized (m_inputs) {
+            if (!m_ioType.equals(m_inputs.ControllerType)) {
+                result = true;
+                m_ioType = m_inputs.ControllerType;
+            }
+        }
+
+        return result;
     }
 
     private void createIOChangeTrigger() {
@@ -58,61 +69,59 @@ public class Controller extends StateSubsystem<Controller.State> {
     }
 
     private ControllerIO chooseIO() {
-        m_joystickName = DriverStation.getJoystickName(m_port);
-
-        return switch (m_joystickName) {
-            case "Keyboard 0" -> {
+        return switch (m_ioType) {
+            case KEYBOARD_0 -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOKeyboard0(m_port);
             }
-            case "Keyboard 1" -> {
+            case KEYBOARD_1 -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOKeyboard1(m_port);
             }
-            case "Keyboard 2" -> {
+            case KEYBOARD_2 -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOKeyboard2(m_port);
             }
 
-            case "Wireless Controller" -> {
+            case PS_4 -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOPS4(m_port);
             }
-            case "DualSense Wireless Controller" -> {
+            case PS_5 -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOPS5(m_port);
             }
-            case "Controller (Gamepad F310)", "Xbox Controller" -> {
+            case XBOX -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.set(false);
                 yield new ControllerIOXbox(m_port);
             }
 
-            case "" -> {
+            case NONE -> {
                 m_missingIO.set(true);
                 m_unrecognizedIO.set(false);
-                yield new ControllerIONone();
+                yield new ControllerIONone(m_port);
             }
 
-            default -> {
+            case UNRECOGNIZED -> {
                 m_missingIO.set(false);
                 m_unrecognizedIO.setText(
-                    String.format("Unrecognized controller type: %s. (port %d)", m_joystickName, m_port)
+                    String.format("Unrecognized controller type. (port %d)", m_port)
                 );
                 m_unrecognizedIO.set(true);
-                yield new ControllerIONone();
+                yield new ControllerIONone(m_port);
             }
         };
     }
 
     public static enum DesiredState {
         IDLE,
-        RUMBLING,
+        RUMBLE,
     }
 
     public static enum State {
@@ -210,19 +219,19 @@ public class Controller extends StateSubsystem<Controller.State> {
         }
     }
 
-    public InstantCommand idle() {
-        return new InstantCommand(() -> m_desiredState = DesiredState.IDLE);
+    public Command idle() {
+        return Commands.runOnce(() -> m_desiredState = DesiredState.IDLE);
     }
 
-    public InstantCommand rumble() {
-        return new InstantCommand(() -> m_desiredState = DesiredState.RUMBLING);
+    public Command rumble() {
+        return Commands.runOnce(() -> m_desiredState = DesiredState.RUMBLE);
     }
     
     @Override
     protected State updateState() {
         return switch (m_desiredState) {
             case IDLE -> State.IDLE;
-            case RUMBLING -> State.RUMBLING;
+            case RUMBLE -> State.RUMBLING;
         };
     }
 

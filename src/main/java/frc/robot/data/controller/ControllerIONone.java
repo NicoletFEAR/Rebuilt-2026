@@ -1,15 +1,28 @@
 package frc.robot.data.controller;
 
-public class ControllerIONone implements ControllerIO {
+import edu.wpi.first.wpilibj.DriverStation;
+
+public class ControllerIONone extends ControllerIO {
+    private int m_port;
+    
+    private Type m_controllerType;
+
+    public ControllerIONone(int port) {
+        m_port = port;
+    }
+
     @Override
     public void setRumble(double strength) {}
 
     @Override
-    public void refreshData() {}
+    public void refreshData() {
+        m_controllerType = getTypeFromName(DriverStation.getJoystickName(m_port));
+    }
 
     @Override
     public void updateInputs(ControllerIOInputs inputs) {
         inputs.Circle = false;
+        inputs.ControllerType = m_controllerType;
         inputs.Create = false;
         inputs.Cross = false;
         inputs.Down = false;

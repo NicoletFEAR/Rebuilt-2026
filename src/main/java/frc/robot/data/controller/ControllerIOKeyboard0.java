@@ -1,10 +1,13 @@
 package frc.robot.data.controller;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 
-public class ControllerIOKeyboard0 implements ControllerIO {
+public class ControllerIOKeyboard0 extends ControllerIO {
+    private int m_port;
     private final GenericHID m_keyboard;
 
+    private Type m_controllerType;
     private boolean m_leftBumper;
     private boolean m_leftTrigger;
     private double m_leftX;
@@ -15,7 +18,8 @@ public class ControllerIOKeyboard0 implements ControllerIO {
     private double m_rightX;
 
     public ControllerIOKeyboard0(int port) {
-        m_keyboard = new GenericHID(port);
+        m_port = port;
+        m_keyboard = new GenericHID(m_port);
     }
 
     @Override
@@ -23,6 +27,7 @@ public class ControllerIOKeyboard0 implements ControllerIO {
 
     @Override
     public void refreshData() {
+        m_controllerType = getTypeFromName(DriverStation.getJoystickName(m_port));
         m_leftBumper = m_keyboard.getRawButton(2);
         m_leftTrigger = m_keyboard.getRawButton(1);
         m_leftX = m_keyboard.getRawAxis(0);
@@ -36,6 +41,7 @@ public class ControllerIOKeyboard0 implements ControllerIO {
     @Override
     public void updateInputs(ControllerIOInputs inputs) {
         inputs.Circle = false;
+        inputs.ControllerType = m_controllerType;
         inputs.Create = false;
         inputs.Cross = false;
         inputs.Down = m_pov == 135 || m_pov == 180 || m_pov == 225;

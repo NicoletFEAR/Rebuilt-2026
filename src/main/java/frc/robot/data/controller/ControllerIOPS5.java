@@ -1,12 +1,15 @@
 package frc.robot.data.controller;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
-public class ControllerIOPS5 implements ControllerIO {
+public class ControllerIOPS5 extends ControllerIO {
+    private int m_port;
     private final PS5Controller m_controller;
 
     private boolean m_circle;
+    private Type m_controllerType;
     private boolean m_create;
     private boolean m_cross;
     private boolean m_leftBumper;
@@ -27,7 +30,8 @@ public class ControllerIOPS5 implements ControllerIO {
     private boolean m_triangle;
 
     public ControllerIOPS5(int port) {
-        m_controller = new PS5Controller(port);
+        m_port = port;
+        m_controller = new PS5Controller(m_port);
     }
 
     @Override
@@ -38,6 +42,7 @@ public class ControllerIOPS5 implements ControllerIO {
     @Override
     public void refreshData() {
         m_circle = m_controller.getCircleButton();
+        m_controllerType = getTypeFromName(DriverStation.getJoystickName(m_port));
         m_create = m_controller.getCreateButton();
         m_cross = m_controller.getCrossButton();
         m_leftBumper = m_controller.getL1Button();
@@ -61,6 +66,7 @@ public class ControllerIOPS5 implements ControllerIO {
     @Override
     public void updateInputs(ControllerIOInputs inputs) {
         inputs.Circle = m_circle;
+        inputs.ControllerType = m_controllerType;
         inputs.Create = m_create;
         inputs.Cross = m_cross;
         inputs.Down = m_pov == 135 || m_pov == 180 || m_pov == 225;

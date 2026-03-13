@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix6.CANBus;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -24,8 +25,8 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.data.controller.Controller;
 // import frc.robot.subsystems.climb.Climb;
 // import frc.robot.subsystems.climb.Climb.ClimbState;
-import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
+import frc.robot.subsystems.intake.driver.IntakeDriver;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
 // import frc.robot.subsystems.launcher.Hood;
@@ -33,6 +34,7 @@ import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.led.Led;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.util.CANId;
 import frc.robot.util.IOProcessor;
 
 /**
@@ -80,8 +82,6 @@ public class RobotContainer {
     // private final GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
 
     public RobotContainer() {
-        new Thread(m_ioProcessor).start();
-
         if (Constants.kRobotName.equals("kitbot")) {
             m_kitbotIntake = KitbotIntake.getInstance();
             m_kitbotLauncher = KitbotLauncher.getInstance();
@@ -90,10 +90,12 @@ public class RobotContainer {
             m_indexer = new Indexer();
             // m_hood = new Hood();
             // m_climb = new Climb();
-            m_intakeDriver = new IntakeDriver();
+            m_intakeDriver = new IntakeDriver("IntakeDriver", new CANId(DeviceIds.getIntakeDriverID(), new CANBus("*")), m_ioProcessor);
             m_intakePivot = new IntakePivot();
             m_led = new Led(DeviceIds.getLedID());
         }
+
+        new Thread(m_ioProcessor).start();
 
         createNamedCommands();
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -269,7 +271,7 @@ public class RobotContainer {
                         .in()
                         .until(m_intakePivot::isStuckOnBall)
                         .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition)))
-                        .alongWith(m_intakeDriver.off()));
+                        .alongWith(m_intakeDriver.idle()));
 
             // Disables limits for manual mechanism control -- create button on operator control
             new Trigger(m_operatorController::create)
@@ -378,7 +380,7 @@ public class RobotContainer {
             m_led.startSwerveAnimation()
                 .alongWith(m_launcher.off())
                 .alongWith(m_indexer.off())
-                .alongWith(m_intakeDriver.off())
+                .alongWith(m_intakeDriver.idle())
                 .alongWith(m_intakePivot.in())
                 .alongWith(m_launcher.setSpeedModifier(1.0))
                 // .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition() * 0.80))
@@ -405,7 +407,7 @@ public class RobotContainer {
             
             NamedCommands.registerCommand(
                 "EndIntake",
-                m_intakePivot.in().alongWith(m_intakeDriver.off())
+                m_intakePivot.in().alongWith(m_intakeDriver.idle())
             );
 
             NamedCommands.registerCommand(

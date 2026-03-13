@@ -6,10 +6,13 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.architecture.StateSubsystem;
 import frc.robot.subsystems.intake.driver.IntakeDriverIO.IntakeDriverIOInputs;
+import frc.robot.subsystems.intake.driver.IntakeDriverIO.Type;
 import frc.robot.util.CANId;
 import frc.robot.util.Container;
 import frc.robot.util.IOProcessor;
@@ -19,8 +22,8 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
     private final String m_name;
     private final Container<IntakeDriverIO> m_io;
     private final IntakeDriverIOInputsAutoLogged m_inputs = new IntakeDriverIOInputsAutoLogged();
+    private Type m_ioType = Type.NONE;
     private final Alert m_missingIO;
-    private final Alert m_unrecognizedIO = new Alert("", AlertType.kError);
     private DesiredState m_desiredState = DesiredState.IDLE;
     private State m_state = State.IDLE;
 
@@ -47,7 +50,16 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
     }
 
     private boolean shouldChangeIO() {
-        return false;
+        boolean result = false;
+
+        synchronized (m_inputs) {
+            if (m_ioType != m_inputs.IntakeDriverType) {
+                result = true;
+                m_ioType = m_inputs.IntakeDriverType;
+            }
+        }
+
+        return result;
     }
 
     private void createIOChangeTrigger() {
@@ -59,21 +71,47 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
     }
 
     private IntakeDriverIO chooseIO() {
-        return new IntakeDriverIOTalonFX(m_id);
+        return switch (m_ioType) {
+            case TALON_FX -> {
+                m_missingIO.set(false);
+                yield new IntakeDriverIOTalonFX(m_id);
+            }
+
+            case SIMULATED -> {
+                m_missingIO.set(false);
+                yield new IntakeDriverIOTalonFXSimulated(m_id);
+            }
+
+            case NONE -> {
+                m_missingIO.set(true);
+                yield new IntakeDriverIONone(m_id);
+            }
+        };
     }
 
     public static enum DesiredState {
         IDLE,
+        INTAKE,
     }
 
     public static enum State {
         IDLE,
+        INTAKING,
+    }
+
+    public Command idle() {
+        return Commands.runOnce(() -> m_desiredState = DesiredState.IDLE);
+    }
+
+    public Command intake() {
+        return Commands.runOnce(() -> m_desiredState = DesiredState.INTAKE);
     }
 
     @Override
     protected State updateState() {
         return switch (m_desiredState) {
             case IDLE -> State.IDLE;
+            case INTAKE -> State.INTAKING;
         };
     }
 
@@ -83,6 +121,12 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
             case IDLE -> {
                 synchronized (m_io) {
                     m_io.get().setVelocity(RotationsPerSecond.of(0.0));
+                }
+            }
+
+            case INTAKING -> {
+                synchronized (m_io) {
+                    m_io.get().setVelocity(RotationsPerSecond.of(130.0));
                 }
             }
         }

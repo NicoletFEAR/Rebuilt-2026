@@ -15,10 +15,11 @@ import edu.wpi.first.units.measure.Voltage;
 import frc.robot.util.CANId;
 import frc.robot.util.Utils;
 
-public class IntakeDriverIOTalonFX implements IntakeDriverIO {
+public class IntakeDriverIOTalonFX extends IntakeDriverIO {
     private final TalonFX m_motor;
 
     private final boolean m_configured;
+    private Type m_intakeDriverType;
     private final StatusSignal<Current> m_statorCurrent;
     private final StatusSignal<Current> m_supplyCurrent;
     private final StatusSignal<Temperature> m_temperature;
@@ -68,6 +69,8 @@ public class IntakeDriverIOTalonFX implements IntakeDriverIO {
 
     @Override
     public void refreshData() {
+        m_intakeDriverType = m_motor.isAlive() ? Type.TALON_FX : Type.NONE;
+        
         BaseStatusSignal.refreshAll(
             m_statorCurrent,
             m_supplyCurrent,
@@ -80,6 +83,7 @@ public class IntakeDriverIOTalonFX implements IntakeDriverIO {
     @Override
     public void updateInputs(IntakeDriverIOInputs inputs) {
         inputs.Configured = m_configured;
+        inputs.IntakeDriverType = m_intakeDriverType;
         inputs.StatorCurrent = m_statorCurrent.getValue();
         inputs.SupplyCurrent = m_supplyCurrent.getValue();
         inputs.Temperature = m_temperature.getValue();

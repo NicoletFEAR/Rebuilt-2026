@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.architecture.StateSubsystem;
 import frc.robot.data.controller.ControllerIO.ControllerIOInputs;
@@ -61,7 +60,7 @@ public class Controller extends StateSubsystem<Controller.State> {
     }
 
     private void createIOChangeTrigger() {
-        new Trigger(this::shouldChangeIO).onTrue(new InstantCommand(() -> {
+        new Trigger(this::shouldChangeIO).onTrue(Commands.runOnce(() -> {
                 synchronized (m_io) {
                     m_io.set(chooseIO());
                 }

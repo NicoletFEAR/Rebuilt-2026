@@ -24,7 +24,7 @@ public abstract class IntakeDriverIO implements SubsystemIO<IntakeDriverIO.Intak
 
     public static enum Type {
         NONE,
-        SIMULATED,
+        TALON_FX_SIMULATED,
         TALON_FX,
     }
 }

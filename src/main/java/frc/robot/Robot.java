@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -92,6 +93,7 @@ public class Robot extends LoggedRobot {
         DriverStation.silenceJoystickConnectionWarning(true);
         
         RoboRioSim.setTeamNumber(4786);
+        DriverStationSim.setDsAttached(true);
         m_robotContainer = new RobotContainer();
 
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());

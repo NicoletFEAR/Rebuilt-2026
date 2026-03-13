@@ -1,7 +1,7 @@
 package frc.robot.subsystems.intake.driver;
 
 import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Kelvin;
+import static edu.wpi.first.units.Units.Celsius;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
@@ -21,7 +21,7 @@ public class IntakeDriverIONone extends IntakeDriverIO {
     private Type m_intakeDriverType;
     private final Current m_statorCurrent = Amps.of(0.0);
     private final Current m_supplyCurrent = Amps.of(0.0);
-    private final Temperature m_temperature = Kelvin.of(0.0);
+    private final Temperature m_temperature = Celsius.of(20.0);
     private final AngularVelocity m_velocity = RotationsPerSecond.of(0.0);
     private final Voltage m_voltage = Volts.of(0.0);
 
@@ -34,7 +34,7 @@ public class IntakeDriverIONone extends IntakeDriverIO {
 
     @Override
     public void refreshData() {
-        m_intakeDriverType = Robot.isSimulation() ? Type.SIMULATED : m_motor.isAlive() ? Type.TALON_FX : Type.NONE;
+        m_intakeDriverType = Robot.isSimulation() ? Type.TALON_FX_SIMULATED : m_motor.isAlive() ? Type.TALON_FX : Type.NONE;
     }
 
     @Override

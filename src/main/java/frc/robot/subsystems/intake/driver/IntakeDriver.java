@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.architecture.StateSubsystem;
 import frc.robot.subsystems.intake.driver.IntakeDriverIO.IntakeDriverIOInputs;
@@ -48,14 +47,13 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
 
         createIOChangeTrigger();
     }
-
+    
     private boolean shouldChangeIO() {
         boolean result = false;
 
         synchronized (m_inputs) {
             if (m_ioType != m_inputs.IntakeDriverType) {
                 result = true;
-                m_ioType = m_inputs.IntakeDriverType;
             }
         }
 
@@ -63,30 +61,51 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
     }
 
     private void createIOChangeTrigger() {
-        new Trigger(this::shouldChangeIO).onTrue(new InstantCommand(() -> {
+        new Trigger(this::shouldChangeIO).onTrue(Commands.runOnce(() -> {
                 synchronized (m_io) {
                     m_io.set(chooseIO());
                 }
             }).ignoringDisable(true));
     }
 
+    public Command keyBoardCall() {
+        return Commands.runOnce(() -> {
+            synchronized (m_io) {
+                m_io.set(chooseIO());
+            }
+        }).ignoringDisable(true);
+    }
+
     private IntakeDriverIO chooseIO() {
-        return switch (m_ioType) {
-            case TALON_FX -> {
-                m_missingIO.set(false);
-                yield new IntakeDriverIOTalonFX(m_id);
-            }
-
-            case SIMULATED -> {
-                m_missingIO.set(false);
-                yield new IntakeDriverIOTalonFXSimulated(m_id);
-            }
-
-            case NONE -> {
+        synchronized (m_inputs) {
+            if (m_inputs.IntakeDriverType == null) {
                 m_missingIO.set(true);
-                yield new IntakeDriverIONone(m_id);
+                m_ioType = Type.NONE;
+                return new IntakeDriverIONone(m_id);
             }
-        };
+
+            return switch (m_inputs.IntakeDriverType) {
+                case TALON_FX -> {
+                    m_missingIO.set(false);
+                    m_ioType = Type.TALON_FX;
+                    yield new IntakeDriverIOTalonFX(m_id);
+                }
+
+                case TALON_FX_SIMULATED -> {
+                    System.out.println("Actually creating the right talon");
+                    m_missingIO.set(false);
+                    m_ioType = Type.TALON_FX_SIMULATED;
+                    yield new IntakeDriverIOTalonFXSimulated(m_id);
+                }
+
+                case NONE -> {
+                    System.out.println("Creating none");
+                    m_missingIO.set(true);
+                    m_ioType = Type.NONE;
+                    yield new IntakeDriverIONone(m_id);
+                }
+            };
+        }
     }
 
     public static enum DesiredState {

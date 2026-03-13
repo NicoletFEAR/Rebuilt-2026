@@ -71,4 +71,12 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
     @Override
     public void testExit() {}
     
+    public class KitbotMotorIds {
+        public static int launcherId = 15;
+        public static int intakeId = 14;
+    }
+
+    public class KitbotDrivebaseConstants {
+
+    }
 }

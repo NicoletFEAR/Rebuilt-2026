@@ -10,9 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
@@ -25,7 +23,7 @@ public abstract class AbstractRobotContainer {
 
     // Common items for a robot
     protected final UniversalController m_driverController = new UniversalController(
-        OperatorConstants.getDriverControllerPort(), DriveConstants.getControllerType());
+        OperatorConstants.driverControllerPort(), DriveConstants.getControllerType());
     protected final UniversalController m_operatorController = new UniversalController(
         OperatorConstants.getOperatorControllerPort(), OperatorConstants.getControllerType());
     protected final BotEnum m_botEnum;
@@ -236,4 +234,32 @@ public abstract class AbstractRobotContainer {
      * any necessary cleanup for the test period
      */
     public abstract void testExit();
+
+    public class DrivebaseMotorIds {
+        public static int frontLeftSteerMotorId = 1;
+        public static int frontLeftDriveMotorId = 2;
+        public static int frontLeftSteerEncoderId = 3;
+
+        public static int frontRightSteerMotorId = 4;
+        public static int frontRightDriveMotorId = 5;
+        public static int frontRightSteerencoderId = 6;
+
+        public static int backLeftSteerMotorId = 10;
+        public static int backLeftDriveMotorId = 11;
+        public static int backLeftSteerEncoderId = 12;
+
+        public static int backRightSteerMotorId = 7;
+        public static int backRightDriveMotorId = 8;
+        public static int backRightSteerEncoderId = 9;
+
+        public static int pigeonId = 13;
+    }
+
+    public class OperatorConstants {
+        public static int driverControllerPort = 0;
+        public static int operatorControllerPort = 1;
+        public static double operatorControllerDeadband = 0.1d;
+        public static double defaultSpeed = 1.0d;
+        public static double slowSpeed = 0.4d;
+    }
 }

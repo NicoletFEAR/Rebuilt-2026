@@ -30,7 +30,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.LauncherConstants;
-import frc.robot.util.Utils;
 import frc.robot.Constants.DeviceIds;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
@@ -121,8 +120,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public Command adjustSpeedToHubDistance(DoubleSupplier distance) {
         return new ConditionalCommand(
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimSpeeds), 0.0, 1.0)),
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimSpeeds), 0.0, 1.0)).andThen(launch()),
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)),
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)).andThen(launch()),
             () -> m_state == LauncherState.OFF
         );
     }

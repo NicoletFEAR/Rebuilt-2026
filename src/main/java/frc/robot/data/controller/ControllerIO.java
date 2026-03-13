@@ -30,8 +30,6 @@ public interface ControllerIO extends SubsystemIO<ControllerIO.ControllerIOInput
         public boolean Triangle;
         public boolean Up;
     }
-
-    void setLeftRumble(double strength);
-    void setRightRumble(double strength);
+    
     void setRumble(double strength);
 }

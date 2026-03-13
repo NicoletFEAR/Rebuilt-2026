@@ -29,16 +29,6 @@ public class ControllerIOXbox implements ControllerIO {
     }
 
     @Override
-    public void setLeftRumble(double strength) {
-        m_controller.setRumble(RumbleType.kLeftRumble, strength);
-    }
-
-    @Override
-    public void setRightRumble(double strength) {
-        m_controller.setRumble(RumbleType.kRightRumble, strength);
-    }
-
-    @Override
     public void setRumble(double strength) {
         m_controller.setRumble(RumbleType.kBothRumble, strength);
     }

@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.subsystems.led.Led;
-import frc.robot.controllers.UniversalController;
+import frc.robot.data.controller.Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -37,8 +37,8 @@ public class GameTimer extends Timer {
 
     private Phase m_phase = Phase.TRANSITION;
     private boolean wonAuto = false;
-    private UniversalController m_operatorController;
-    private UniversalController m_driverController;
+    private Controller m_operatorController;
+    private Controller m_driverController;
     private Led m_led;
     private int m_shiftCount = 0;
 
@@ -52,7 +52,7 @@ public class GameTimer extends Timer {
     /**
      * Default constructor
      */
-    public GameTimer(UniversalController driverController, UniversalController operatorController, Led led) {
+    public GameTimer(Controller driverController, Controller operatorController, Led led) {
         super();
         this.m_driverController = driverController;
         this.m_operatorController = operatorController;

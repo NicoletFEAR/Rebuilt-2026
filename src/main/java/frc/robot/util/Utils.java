@@ -7,6 +7,10 @@
 
 package frc.robot.util;
 
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,6 +19,40 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.DriveConstants;
 
 public class Utils {
+    public static boolean configure(TalonFX motor, TalonFXConfiguration configuration) {
+        boolean result = false;
+        int tries = 0;
+
+        while (result == false && tries < 5) {
+            StatusCode code = motor.getConfigurator().apply(configuration);
+            int subtries = 0;
+
+            while (code != StatusCode.OK && subtries < 5) {
+                code = motor.getConfigurator().apply(configuration);
+                subtries++;
+            }
+
+            if (code == StatusCode.OK) {
+                TalonFXConfiguration readConfiguration = new TalonFXConfiguration();
+                code = motor.getConfigurator().refresh(readConfiguration);
+                subtries = 0;
+
+                while (code != StatusCode.OK && subtries < 5) {
+                    code = motor.getConfigurator().refresh(readConfiguration);
+                    subtries++;
+                }
+
+                if (code == StatusCode.OK && Equality.equals(readConfiguration, configuration)) {
+                    result = true;
+                }
+            }
+
+            tries++;
+        }
+
+        return result;
+    }
+    
     public static void copyModuleStates(SwerveModuleState[] copier, SwerveModuleState[] reciever) {
         for (int i = 0; i < copier.length; i++) {
             reciever[i] = new SwerveModuleState(copier[i].speedMetersPerSecond, copier[i].angle);

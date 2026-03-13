@@ -33,6 +33,7 @@ import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.led.Led;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.util.IOProcessor;
 
 /**
  * This class is used to encapsulate the robot code, including all hardware subsystems.  
@@ -40,14 +41,18 @@ import frc.robot.subsystems.swerve.SwerveDrive;
  * to this class as it is the central point of all subsystems.
  */
 public class RobotContainer {
+    private IOProcessor m_ioProcessor = new IOProcessor();
+
     private final Controller m_driverController = new Controller(
         "DriverController",
-        OperatorConstants.getDriverControllerPort()
+        OperatorConstants.getDriverControllerPort(),
+        m_ioProcessor
     );
 
     private final Controller m_operatorController = new Controller(
         "OperatorController",
-        OperatorConstants.getOperatorControllerPort()
+        OperatorConstants.getOperatorControllerPort(),
+        m_ioProcessor
     );
     
     private final SendableChooser<Command> autoChooser;
@@ -75,6 +80,8 @@ public class RobotContainer {
     // private final GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
 
     public RobotContainer() {
+        new Thread(m_ioProcessor).start();
+
         if (Constants.kRobotName.equals("kitbot")) {
             m_kitbotIntake = KitbotIntake.getInstance();
             m_kitbotLauncher = KitbotLauncher.getInstance();

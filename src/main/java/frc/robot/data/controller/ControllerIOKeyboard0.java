@@ -19,12 +19,6 @@ public class ControllerIOKeyboard0 implements ControllerIO {
     }
 
     @Override
-    public void setLeftRumble(double strength) {}
-
-    @Override
-    public void setRightRumble(double strength) {}
-
-    @Override
     public void setRumble(double strength) {}
 
     @Override

@@ -2,12 +2,6 @@ package frc.robot.data.controller;
 
 public class ControllerIONone implements ControllerIO {
     @Override
-    public void setLeftRumble(double strength) {}
-
-    @Override
-    public void setRightRumble(double strength) {}
-
-    @Override
     public void setRumble(double strength) {}
 
     @Override

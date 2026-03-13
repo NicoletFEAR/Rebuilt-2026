@@ -1,7 +1,5 @@
 package frc.robot.data.controller;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.Alert;
@@ -11,44 +9,52 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.architecture.StateSubsystem;
 import frc.robot.data.controller.ControllerIO.ControllerIOInputs;
+import frc.robot.util.Container;
+import frc.robot.util.IOProcessor;
 import frc.robot.util.SubsystemIOProcessor;
 
 public class Controller extends StateSubsystem<Controller.State> {
     private final String m_name;
-    private final AtomicReference<ControllerIO> m_io;
+    private final Container<ControllerIO> m_io;
     private final ControllerIOInputsAutoLogged m_inputs = new ControllerIOInputsAutoLogged();
     private final Alert m_missingIO;
-    private final Alert m_unrecognizedIO;
+    private final Alert m_unrecognizedIO = new Alert("", AlertType.kWarning);
     private DesiredState m_desiredState = DesiredState.IDLE;
     private State m_state = State.IDLE;
 
     private final int m_port;
     private String m_joystickName;
 
-    public Controller(String name, int port) {
+    public Controller(String name, int port, IOProcessor processor) {
         m_name = name;
         m_port = port;
         m_missingIO = new Alert(
             String.format("%s disconnected. (port %d)", m_name, m_port),
             AlertType.kWarning
         );
-        m_unrecognizedIO = new Alert("", AlertType.kWarning);
 
-        m_io = new AtomicReference<ControllerIO>(chooseIO());
+        m_io = new Container<ControllerIO>(chooseIO());
 
-        new Thread(
+        processor.add(
             new SubsystemIOProcessor<ControllerIOInputs>(
                 m_io,
                 m_inputs
             )
-        ).start();
+        );
 
-        new Trigger(this::shouldChangeIO)
-            .onTrue(new InstantCommand(() -> m_io.set(chooseIO())).ignoringDisable(true));
+        createIOChangeTrigger();
     }
 
     private boolean shouldChangeIO() {
         return !m_joystickName.equals(DriverStation.getJoystickName(m_port));
+    }
+
+    private void createIOChangeTrigger() {
+        new Trigger(this::shouldChangeIO).onTrue(new InstantCommand(() -> {
+                synchronized (m_io) {
+                    m_io.set(chooseIO());
+                }
+            }).ignoringDisable(true));
     }
 
     private ControllerIO chooseIO() {
@@ -224,10 +230,14 @@ public class Controller extends StateSubsystem<Controller.State> {
     protected void applyState() {
         switch (m_state) {
             case IDLE -> {
-                m_io.get().setRumble(0.0);
+                synchronized (m_io) {
+                    m_io.get().setRumble(0.0);
+                }
             }
             case RUMBLING -> {
-                m_io.get().setRumble(1.0);
+                synchronized (m_io) {
+                    m_io.get().setRumble(1.0);
+                }
             }
         }
     }
@@ -236,10 +246,11 @@ public class Controller extends StateSubsystem<Controller.State> {
     public void periodic() {
         synchronized (m_inputs) {
             Logger.processInputs(m_name, m_inputs);
-            m_state = updateState();
-            Logger.recordOutput(m_name + "/DesiredState", m_desiredState);
-            Logger.recordOutput(m_name + "/State", m_state);
-            applyState();
         }
+
+        m_state = updateState();
+        Logger.recordOutput(m_name + "/DesiredState", m_desiredState);
+        Logger.recordOutput(m_name + "/State", m_state);
+        applyState();
     }
 }

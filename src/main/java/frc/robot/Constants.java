@@ -24,8 +24,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotController;
-import frc.robot.controllers.Axis;
-import frc.robot.controllers.ControllerType;
 import frc.robot.util.SwerveModuleConstants;
 
 // Constants found in properties files in deploy folder
@@ -191,15 +189,6 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("operator.operator-controller-deadband"));
         }
 
-        public static final Axis operatorAxis = new Axis(DriveConstants.getControllerType());
-        public static final int kThrottleAxis = operatorAxis.getAxis("kLeftY");
-        public static final int kStrafeAxis = operatorAxis.getAxis("kLeftX");
-        public static final int kSteerAxis = operatorAxis.getAxis("kRightX");
-        
-        public static ControllerType getControllerType() {
-            return ControllerType.valueOf(m_properties.getProperty("operator.controller-type"));
-        }
-
         public static double getDefaultSpeed() {
             return Double.parseDouble(m_properties.getProperty("operator.default-speed"));
         }
@@ -216,10 +205,6 @@ public final class Constants {
                 return -1;
             else 
                 return 1;
-        }
-
-        public static ControllerType getControllerType() {
-            return ControllerType.valueOf(m_properties.getProperty("drive.controller-type"));
         }
 
         public static boolean usesDriveKrakens() {

@@ -1,11 +1,23 @@
 package frc.robot.containers;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.TeleopSwerve;
+import frc.robot.constants.HadesConstants.HadesOperatorConstants;
+import frc.robot.controllers.UniversalController;
 
 public class HadesRobotContainer extends AbstractRobotContainer {
 
+    protected final UniversalController m_driverController = new UniversalController(
+        GeneralOperatorConstants.driverControllerPort, HadesOperatorConstants.driveControllerType);
+    protected final UniversalController m_operatorController = new UniversalController(
+        GeneralOperatorConstants.operatorControllerPort, HadesOperatorConstants.operatorControllerType);
+
     public HadesRobotContainer(Alliance alliance) {
         super(BotEnum.HADES, alliance);
+
+        configureSwerveBindings();
     }
 
     @Override
@@ -46,4 +58,45 @@ public class HadesRobotContainer extends AbstractRobotContainer {
 
     @Override
     public void testExit() {}
+
+    /**
+    * This method is used to set the default bindings for the swerve drive.  This should
+    * only be overridden in rare cases.  This is only called once per robot type.
+    */
+    protected void configureSwerveBindings() {
+        // Driving -- joysticks of driver controller
+        m_driveBase.setDefaultCommand(
+            new TeleopSwerve(
+                m_driverController,
+                OperatorConstants.kThrottleAxis,
+                OperatorConstants.kStrafeAxis,
+                OperatorConstants.kSteerAxis,
+                GeneralOperatorConstants.defaultSpeed,
+                true,
+                true,
+                m_driveBase
+            )
+        );
+
+        // Slows speed -- left trigger of driver controller
+        m_driverController
+            .L2()
+            .whileTrue(
+                new TeleopSwerve(
+                    m_driverController,
+                    OperatorConstants.kThrottleAxis,
+                    OperatorConstants.kStrafeAxis,
+                    OperatorConstants.kSteerAxis,
+                    GeneralOperatorConstants.slowSpeed,
+                    true,
+                    true,
+                    m_driveBase
+                )
+            );
+        
+        // Make gyroscope think current position is zero -- create button of driver controller
+        m_driverController
+            .create()
+            .onTrue(new InstantCommand(m_driveBase::zeroGyro, m_driveBase));
+    }
 }

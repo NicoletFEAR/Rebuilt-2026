@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.containers.AbstractRobotContainer;
+import frc.robot.containers.AbstractRobotContainer.GeneralConstants;
 import frc.robot.containers.KitbotRobotContainer;
 import frc.robot.containers.TuskRobotContainer;
 import frc.robot.containers.HadesRobotContainer;
@@ -77,7 +78,7 @@ public class Robot extends LoggedRobot {
             Logger.addDataReceiver(new NT4Publisher());
 
         } 
-        else if (Constants.kIsReplay) {
+        else if (GeneralConstants.kIsReplay) {
             // When replaying on a laptop, run unconstrained by RoboRIO hardware limitations
             setUseTiming(false);
             // Gets the path to the log file open in AdvantageScope

@@ -31,9 +31,6 @@ import frc.robot.util.SwerveModuleConstants;
 
 // Constants found in properties files in deploy folder
 public final class Constants {
-    // Set to true to enable replaying log files
-    public static final boolean kIsReplay = false;
-    
     private static Properties m_properties;
     public static String kRobotName;
 
@@ -56,10 +53,6 @@ public final class Constants {
     public static boolean hasCANivore() {
         return m_properties.getProperty("has-canivore").equals("true");
     }
-    
-    // How frequently the state of the robot updates during simulations
-    // Set to 0.02 to represent once every loop (20 ms)
-    public static final double kdt = 0.02;
 
     // These are the unique identifiers for each RoboRIO we plan to use
     public static final HashMap<Integer, String> kTeamNumberToName;

@@ -9,9 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.TeleopSwerve;
-import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 /**
@@ -22,10 +19,6 @@ import frc.robot.subsystems.swerve.SwerveDrive;
 public abstract class AbstractRobotContainer {
 
     // Common items for a robot
-    protected final UniversalController m_driverController = new UniversalController(
-        OperatorConstants.driverControllerPort(), DriveConstants.getControllerType());
-    protected final UniversalController m_operatorController = new UniversalController(
-        OperatorConstants.getOperatorControllerPort(), OperatorConstants.getControllerType());
     protected final BotEnum m_botEnum;
     protected final Alliance m_alliance;
     protected SendableChooser<Command> m_autoChooser;
@@ -54,7 +47,6 @@ public abstract class AbstractRobotContainer {
         createDriveBase();
         createRobotSubsystems();
         createNamedCommands();
-        configureSwerveBindings();
         configureBindings();
         this.m_autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -69,47 +61,7 @@ public abstract class AbstractRobotContainer {
     protected void createDriveBase() {
         this.m_driveBase = new SwerveDrive();
     }
-
-    /**
-     * This method is used to set the default bindings for the swerve drive.  This should
-     * only be overridden in rare cases.  This is only called once per robot type.
-     */
-    protected void configureSwerveBindings() {
-        // Driving -- joysticks of driver controller
-        m_driveBase.setDefaultCommand(
-            new TeleopSwerve(
-                m_driverController,
-                OperatorConstants.kThrottleAxis,
-                OperatorConstants.kStrafeAxis,
-                OperatorConstants.kSteerAxis,
-                OperatorConstants.getDefaultSpeed(),
-                true,
-                true,
-                m_driveBase
-            )
-        );
-
-        // Slows speed -- left trigger of driver controller
-        m_driverController
-            .L2()
-            .whileTrue(
-                new TeleopSwerve(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
-                    OperatorConstants.getSlowSpeed(),
-                    true,
-                    true,
-                    m_driveBase
-                )
-            );
-        
-        // Make gyroscope think current position is zero -- create button of driver controller
-        m_driverController
-            .create()
-            .onTrue(new InstantCommand(m_driveBase::zeroGyro, m_driveBase));
-    }
+    
 
     /**
      * This method is called when the robot container is created.  This is used to
@@ -134,7 +86,7 @@ public abstract class AbstractRobotContainer {
 
     /**
      * This method will return the command to run in Autonomous
-     * @return The Command to exectue
+     * @return The Command to execute
      */
     public Command getAutonomousCommand() {
         return m_autoChooser.getSelected();
@@ -235,31 +187,40 @@ public abstract class AbstractRobotContainer {
      */
     public abstract void testExit();
 
-    public class DrivebaseMotorIds {
-        public static int frontLeftSteerMotorId = 1;
-        public static int frontLeftDriveMotorId = 2;
-        public static int frontLeftSteerEncoderId = 3;
+    public class GeneralConstants {
+        // Set to true to enable replaying log files
+        public static final boolean kIsReplay = false;
 
-        public static int frontRightSteerMotorId = 4;
-        public static int frontRightDriveMotorId = 5;
-        public static int frontRightSteerencoderId = 6;
-
-        public static int backLeftSteerMotorId = 10;
-        public static int backLeftDriveMotorId = 11;
-        public static int backLeftSteerEncoderId = 12;
-
-        public static int backRightSteerMotorId = 7;
-        public static int backRightDriveMotorId = 8;
-        public static int backRightSteerEncoderId = 9;
-
-        public static int pigeonId = 13;
+        // How frequently the state of the robot updates during simulations
+        // Set to 0.02 to represent once every loop (20 ms)
+        public static final double kdt = 0.02;
     }
 
-    public class OperatorConstants {
-        public static int driverControllerPort = 0;
-        public static int operatorControllerPort = 1;
-        public static double operatorControllerDeadband = 0.1d;
-        public static double defaultSpeed = 1.0d;
-        public static double slowSpeed = 0.4d;
+    public class DrivebaseMotorIds {
+        public static final int frontLeftSteerMotorId = 1;
+        public static final int frontLeftDriveMotorId = 2;
+        public static final int frontLeftSteerEncoderId = 3;
+
+        public static final int frontRightSteerMotorId = 4;
+        public static final int frontRightDriveMotorId = 5;
+        public static final int frontRightSteerencoderId = 6;
+
+        public static final int backLeftSteerMotorId = 10;
+        public static final int backLeftDriveMotorId = 11;
+        public static final int backLeftSteerEncoderId = 12;
+
+        public static final int backRightSteerMotorId = 7;
+        public static final int backRightDriveMotorId = 8;
+        public static final int backRightSteerEncoderId = 9;
+
+        public static final int pigeonId = 13;
+    }
+
+    public class GeneralOperatorConstants {
+        public static final int driverControllerPort = 0;
+        public static final int operatorControllerPort = 1;
+        public static final double operatorControllerDeadband = 0.1d;
+        public static final double defaultSpeed = 1.0d;
+        public static final double slowSpeed = 0.4d;
     }
 }

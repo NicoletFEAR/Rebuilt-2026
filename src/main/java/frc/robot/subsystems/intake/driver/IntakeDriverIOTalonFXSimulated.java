@@ -1,7 +1,6 @@
 package frc.robot.subsystems.intake.driver;
 
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -89,7 +88,7 @@ public class IntakeDriverIOTalonFXSimulated extends IntakeDriverIO {
     @Override
     public void refreshData() {
         m_motorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
-        m_motorModel.setInputVoltage(m_motorSim.getMotorVoltageMeasure().in(Volts));
+        m_motorModel.setInputVoltage(m_motorSim.getMotorVoltage());
         m_motorModel.update(Constants.kLoopTime);
         m_motorSim.setRawRotorPosition(m_motorModel.getAngularPosition().times(0.6));
         m_motorSim.setRotorVelocity(m_motorModel.getAngularVelocity().times(0.6));

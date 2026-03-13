@@ -272,8 +272,7 @@ public class RobotContainer {
                         .until(m_intakePivot::isStuckOnBall)
                         .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition)))
                         .alongWith(m_intakeDriver.idle()));
-            new Trigger(m_operatorController::leftBumper)
-            .onTrue(m_intakeDriver.keyBoardCall());
+
             // Disables limits for manual mechanism control -- create button on operator control
             new Trigger(m_operatorController::create)
                 .onTrue(new InstantCommand(() -> m_limitOverrideMode = true))

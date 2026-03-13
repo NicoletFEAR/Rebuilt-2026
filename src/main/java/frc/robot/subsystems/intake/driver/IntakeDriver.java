@@ -5,6 +5,7 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -45,7 +46,7 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
             )
         );
 
-        createIOChangeTrigger();
+        createIOChangeTriggers();
     }
     
     private boolean shouldChangeIO() {
@@ -60,20 +61,18 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
         return result;
     }
 
-    private void createIOChangeTrigger() {
+    private void createIOChangeTriggers() {
         new Trigger(this::shouldChangeIO).onTrue(Commands.runOnce(() -> {
                 synchronized (m_io) {
                     m_io.set(chooseIO());
                 }
             }).ignoringDisable(true));
-    }
 
-    public Command keyBoardCall() {
-        return Commands.runOnce(() -> {
-            synchronized (m_io) {
-                m_io.set(chooseIO());
-            }
-        }).ignoringDisable(true);
+        new Trigger(DriverStation::isDSAttached).onTrue(Commands.runOnce(() -> {
+                synchronized (m_io) {
+                    m_io.set(chooseIO());
+                }
+            }).ignoringDisable(true));
     }
 
     private IntakeDriverIO chooseIO() {
@@ -92,14 +91,12 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
                 }
 
                 case TALON_FX_SIMULATED -> {
-                    System.out.println("Actually creating the right talon");
                     m_missingIO.set(false);
                     m_ioType = Type.TALON_FX_SIMULATED;
                     yield new IntakeDriverIOTalonFXSimulated(m_id);
                 }
 
                 case NONE -> {
-                    System.out.println("Creating none");
                     m_missingIO.set(true);
                     m_ioType = Type.NONE;
                     yield new IntakeDriverIONone(m_id);

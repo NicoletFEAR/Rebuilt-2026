@@ -42,6 +42,7 @@ public class Robot extends LoggedRobot {
     private AbstractRobotContainer m_robotContainer;
     private double m_autoStart;
     private boolean m_printedAutoTiming = false;
+    private Command m_autonomousCommand;
 
     @Override
     public void robotInit() {
@@ -190,8 +191,12 @@ public class Robot extends LoggedRobot {
     @Override
     public void autonomousInit() {
         m_autoStart = Timer.getTimestamp();
-        if (m_robotContainer != null)
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+        if (m_robotContainer != null) {
+            CommandScheduler.getInstance().schedule(m_autonomousCommand);
             m_robotContainer.autonomousInit();
+        }
     }
 
     @Override
@@ -208,6 +213,10 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void teleopInit() {
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
+        
         if (m_robotContainer != null)
             m_robotContainer.teleopInit();
     }

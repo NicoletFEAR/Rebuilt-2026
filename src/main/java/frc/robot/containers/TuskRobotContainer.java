@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.GameTimer;
@@ -80,6 +81,8 @@ public class TuskRobotContainer extends AbstractRobotContainer {
             .alongWith(m_led.startScoringSwitchAnimation()))
             .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0.0))
             .alongWith(m_led.startSwerveAnimation()));
+
+        RobotModeTriggers.autonomous().onTrue(runAutoLedAnimation());
 
         
         // Adjusts hood and speed during auto-targeting -- right trigger of driver controller
@@ -307,7 +310,6 @@ public class TuskRobotContainer extends AbstractRobotContainer {
      */
     @Override
     public void teleopInit() {
-        super.teleopInit();
         CommandScheduler.getInstance().schedule(m_led.startSwerveAnimation());
 
         // Start the game timer
@@ -325,12 +327,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
     }
 
     @Override
-    public void autonomousInit() {
-        Command autonomousCommand = getAutonomousCommand();
-        if (autonomousCommand != null) {
-            CommandScheduler.getInstance().schedule(runAutoLedAnimation().alongWith(autonomousCommand));
-        }
-    }
+    public void autonomousInit() {}
 
     @Override
     public void periodic() {

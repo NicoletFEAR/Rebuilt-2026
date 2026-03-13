@@ -182,12 +182,7 @@ public abstract class AbstractRobotContainer {
      * any necessary setup and processing for the period.  This includes determining 
      * who won autos, starting times, and sending alerts based on game shifts.
      */
-    public void teleopInit() {
-        Command command = getAutonomousCommand();
-        if (command != null)
-            command.cancel();
-    }
-
+    public abstract void teleopInit();
     /**
      * This methid should be called at internvals in the teleop period.  This 
      * should not be used for robot functionality, but instead used to update

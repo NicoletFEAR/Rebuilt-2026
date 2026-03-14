@@ -1,15 +1,19 @@
 package frc.robot.subsystems.intake.driver;
 
-import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.architecture.StateSubsystem;
 import frc.robot.subsystems.intake.driver.IntakeDriverIO.IntakeDriverIOInputs;
 import frc.robot.subsystems.intake.driver.IntakeDriverIO.Type;
@@ -28,6 +32,21 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
     private State m_state = State.IDLE;
 
     private final CANId m_id;
+    private Voltage m_runningVoltage = Volts.of(0.0);
+
+    private final SysIdRoutine m_sysIdRoutine = new SysIdRoutine(
+        new SysIdRoutine.Config(
+            Volts.of(1.0).per(Seconds),
+            Volts.of(7.0),
+            Seconds.of(5),
+            (state) -> Logger.recordOutput("SysIdState", state.toString())
+        ),
+        new SysIdRoutine.Mechanism(
+            (voltage) -> m_runningVoltage = voltage,
+            null,
+            this
+        )
+    );
 
     public IntakeDriver(String name, CANId driverId, IOProcessor processor) {
         m_name = name;
@@ -77,12 +96,6 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
 
     private IntakeDriverIO chooseIO() {
         synchronized (m_inputs) {
-            if (m_inputs.IntakeDriverType == null) {
-                m_missingIO.set(true);
-                m_ioType = Type.NONE;
-                return new IntakeDriverIONone(m_id);
-            }
-
             return switch (m_inputs.IntakeDriverType) {
                 case TALON_FX -> {
                     m_missingIO.set(false);
@@ -108,11 +121,13 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
     public static enum DesiredState {
         IDLE,
         INTAKE,
+        RUN_VOLTAGE,
     }
 
     public static enum State {
         IDLE,
         INTAKING,
+        RUNNING_VOLTAGE,
     }
 
     public Command idle() {
@@ -123,11 +138,29 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
         return Commands.runOnce(() -> m_desiredState = DesiredState.INTAKE);
     }
 
+    public Command runVoltage(Voltage voltage) {
+        m_runningVoltage = voltage;
+        return Commands.runOnce(() -> m_desiredState = DesiredState.RUN_VOLTAGE);
+    }
+
+    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+        return Commands.runOnce(() -> m_desiredState = DesiredState.RUN_VOLTAGE)
+            .andThen(m_sysIdRoutine.quasistatic(direction))
+            .andThen(Commands.runOnce(() -> m_desiredState = DesiredState.IDLE));
+    }
+
+    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+        return Commands.runOnce(() -> m_desiredState = DesiredState.RUN_VOLTAGE)
+            .andThen(m_sysIdRoutine.dynamic(direction))
+            .andThen(Commands.runOnce(() -> m_desiredState = DesiredState.IDLE));
+    }
+
     @Override
     protected State updateState() {
         return switch (m_desiredState) {
             case IDLE -> State.IDLE;
             case INTAKE -> State.INTAKING;
+            case RUN_VOLTAGE -> State.RUNNING_VOLTAGE;
         };
     }
 
@@ -136,13 +169,19 @@ public class IntakeDriver extends StateSubsystem<IntakeDriver.State> {
         switch (m_state) {
             case IDLE -> {
                 synchronized (m_io) {
-                    m_io.get().setVelocity(RotationsPerSecond.of(0.0));
+                    m_io.get().setVelocity(RadiansPerSecond.of(0.0));
                 }
             }
 
             case INTAKING -> {
                 synchronized (m_io) {
-                    m_io.get().setVelocity(RotationsPerSecond.of(130.0));
+                    m_io.get().setVelocity(RadiansPerSecond.of(600.0));
+                }
+            }
+
+            case RUNNING_VOLTAGE -> {
+                synchronized (m_io) {
+                    m_io.get().setVoltage(m_runningVoltage);
                 }
             }
         }

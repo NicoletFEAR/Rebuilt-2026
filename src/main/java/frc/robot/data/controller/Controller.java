@@ -3,6 +3,7 @@ package frc.robot.data.controller;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -43,7 +44,7 @@ public class Controller extends StateSubsystem<Controller.State> {
             )
         );
 
-        createIOChangeTrigger();
+        createIOChangeTriggers();
     }
 
     private boolean shouldChangeIO() {
@@ -52,70 +53,77 @@ public class Controller extends StateSubsystem<Controller.State> {
         synchronized (m_inputs) {
             if (!m_ioType.equals(m_inputs.ControllerType)) {
                 result = true;
-                m_ioType = m_inputs.ControllerType;
             }
         }
 
         return result;
     }
 
-    private void createIOChangeTrigger() {
+    private void createIOChangeTriggers() {
         new Trigger(this::shouldChangeIO).onTrue(Commands.runOnce(() -> {
                 synchronized (m_io) {
                     m_io.set(chooseIO());
                 }
             }).ignoringDisable(true));
+
+        new Trigger(DriverStation::isDSAttached).onTrue(Commands.runOnce(() -> {
+            synchronized (m_io) {
+                m_io.set(chooseIO());
+            }
+        }).ignoringDisable(true));
     }
 
     private ControllerIO chooseIO() {
-        return switch (m_ioType) {
-            case KEYBOARD_0 -> {
-                m_missingIO.set(false);
-                m_unrecognizedIO.set(false);
-                yield new ControllerIOKeyboard0(m_port);
-            }
-            case KEYBOARD_1 -> {
-                m_missingIO.set(false);
-                m_unrecognizedIO.set(false);
-                yield new ControllerIOKeyboard1(m_port);
-            }
-            case KEYBOARD_2 -> {
-                m_missingIO.set(false);
-                m_unrecognizedIO.set(false);
-                yield new ControllerIOKeyboard2(m_port);
-            }
+        synchronized (m_inputs) {
+            return switch (m_inputs.ControllerType) {
+                case KEYBOARD_0 -> {
+                    m_missingIO.set(false);
+                    m_unrecognizedIO.set(false);
+                    yield new ControllerIOKeyboard0(m_port);
+                }
+                case KEYBOARD_1 -> {
+                    m_missingIO.set(false);
+                    m_unrecognizedIO.set(false);
+                    yield new ControllerIOKeyboard1(m_port);
+                }
+                case KEYBOARD_2 -> {
+                    m_missingIO.set(false);
+                    m_unrecognizedIO.set(false);
+                    yield new ControllerIOKeyboard2(m_port);
+                }
 
-            case PS_4 -> {
-                m_missingIO.set(false);
-                m_unrecognizedIO.set(false);
-                yield new ControllerIOPS4(m_port);
-            }
-            case PS_5 -> {
-                m_missingIO.set(false);
-                m_unrecognizedIO.set(false);
-                yield new ControllerIOPS5(m_port);
-            }
-            case XBOX -> {
-                m_missingIO.set(false);
-                m_unrecognizedIO.set(false);
-                yield new ControllerIOXbox(m_port);
-            }
+                case PS_4 -> {
+                    m_missingIO.set(false);
+                    m_unrecognizedIO.set(false);
+                    yield new ControllerIOPS4(m_port);
+                }
+                case PS_5 -> {
+                    m_missingIO.set(false);
+                    m_unrecognizedIO.set(false);
+                    yield new ControllerIOPS5(m_port);
+                }
+                case XBOX -> {
+                    m_missingIO.set(false);
+                    m_unrecognizedIO.set(false);
+                    yield new ControllerIOXbox(m_port);
+                }
 
-            case NONE -> {
-                m_missingIO.set(true);
-                m_unrecognizedIO.set(false);
-                yield new ControllerIONone(m_port);
-            }
+                case NONE -> {
+                    m_missingIO.set(true);
+                    m_unrecognizedIO.set(false);
+                    yield new ControllerIONone(m_port);
+                }
 
-            case UNRECOGNIZED -> {
-                m_missingIO.set(false);
-                m_unrecognizedIO.setText(
-                    String.format("Unrecognized controller type. (port %d)", m_port)
-                );
-                m_unrecognizedIO.set(true);
-                yield new ControllerIONone(m_port);
-            }
-        };
+                case UNRECOGNIZED -> {
+                    m_missingIO.set(false);
+                    m_unrecognizedIO.setText(
+                        String.format("Unrecognized controller type. (port %d)", m_port)
+                    );
+                    m_unrecognizedIO.set(true);
+                    yield new ControllerIONone(m_port);
+                }
+            };
+        }
     }
 
     public static enum DesiredState {

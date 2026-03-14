@@ -2,8 +2,8 @@ package frc.robot.containers;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
 import frc.robot.constants.HadesConstants.HadesOperatorConstants;
 import frc.robot.controllers.UniversalController;
 
@@ -11,8 +11,6 @@ public class HadesRobotContainer extends AbstractRobotContainer {
 
     protected final UniversalController m_driverController = new UniversalController(
         GeneralOperatorConstants.driverControllerPort, HadesOperatorConstants.driveControllerType);
-    protected final UniversalController m_operatorController = new UniversalController(
-        GeneralOperatorConstants.operatorControllerPort, HadesOperatorConstants.operatorControllerType);
 
     public HadesRobotContainer(Alliance alliance) {
         super(BotEnum.HADES, alliance);
@@ -68,9 +66,9 @@ public class HadesRobotContainer extends AbstractRobotContainer {
         m_driveBase.setDefaultCommand(
             new TeleopSwerve(
                 m_driverController,
-                OperatorConstants.kThrottleAxis,
-                OperatorConstants.kStrafeAxis,
-                OperatorConstants.kSteerAxis,
+                HadesOperatorConstants.kThrottleAxis,
+                HadesOperatorConstants.kStrafeAxis,
+                HadesOperatorConstants.kSteerAxis,
                 GeneralOperatorConstants.defaultSpeed,
                 true,
                 true,
@@ -84,9 +82,9 @@ public class HadesRobotContainer extends AbstractRobotContainer {
             .whileTrue(
                 new TeleopSwerve(
                     m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
+                    HadesOperatorConstants.kThrottleAxis,
+                    HadesOperatorConstants.kStrafeAxis,
+                    HadesOperatorConstants.kSteerAxis,
                     GeneralOperatorConstants.slowSpeed,
                     true,
                     true,

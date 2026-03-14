@@ -41,7 +41,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.containers.AbstractRobotContainer.GeneralConstants;
+import frc.robot.constants.GeneralConstants;
 // import frc.robot.util.LimelightCamera;
 import frc.robot.util.Utils;
 

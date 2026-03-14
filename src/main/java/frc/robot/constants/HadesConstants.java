@@ -1,5 +1,10 @@
 package frc.robot.constants;
 
+import static edu.wpi.first.units.Units.FeetPerSecond;
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 
@@ -8,8 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.DeviceIds;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.constants.GeneralConstants.DrivebaseMotorIds;
 import frc.robot.controllers.Axis;
 import frc.robot.controllers.ControllerType;
 import frc.robot.util.SwerveModuleConstants;
@@ -24,36 +28,41 @@ public class HadesConstants {
     }
 
     public class HadesOperatorConstants {
-        public static final ControllerType operatorControllerType = ControllerType.XBOX;
         public static final ControllerType driveControllerType = ControllerType.PS5;
 
-        public static final Axis operatorAxis = new Axis(operatorControllerType);
-        public static final int kThrottleAxis = operatorAxis.getAxis("kLeftY");
-        public static final int kStrafeAxis = operatorAxis.getAxis("kLeftX");
-        public static final int kSteerAxis = operatorAxis.getAxis("kRightX");
+        public static final Axis driverAxis = new Axis(driveControllerType);
+        public static final int kThrottleAxis = driverAxis.getAxis("kLeftY");
+        public static final int kStrafeAxis = driverAxis.getAxis("kLeftX");
+        public static final int kSteerAxis = driverAxis.getAxis("kRightX");
     }
 
     public class HadesDriveConstants {
         public static final boolean usesDriveKrakens = false;
 
-        public static final double maxModuleSpeed = 16.18d;
+        public static final double maxModuleSpeed = MetersPerSecond.convertFrom(16.18, FeetPerSecond);
         public static final double getMaxRotationsPerSecond = 1.5d;
+        // Distance between centers of right and left wheels on robot
         public static final double trackWidth = 20.75d;
+        // Distance between centers of front and back wheels on robo
         public static final double wheelBase = 20.75d;
-        public static final double driveGearRatio = 6.746031746031747d;
-        public static final double turnGearRatio = 21.428571428571427d;
-        public static final double wheelDiameter = 0.100470221083d;
+        // Defined as half the diagonal of the drivebase
+        public static final double getDrivebaseRadius = Math.hypot(trackWidth, wheelBase);
+        public static final double driveGearRatio = 6.75d;
+        public static final double turnGearRatio = 12.8;
+        // TODO: Run the WheelCharacterization command to find the wheel diameter
+        public static final double wheelDiameter = Meters.convertFrom(3.95552051507874003, Inches);
         public static final double driveRevToMeters = driveGearRatio / (Math.PI * wheelDiameter);
         public static final double turnRotationsToDegrees = 360.0 / turnGearRatio;
         public static final double wheelCof = 1.0d;
         public static final double currentLimit = 103.0d;
 
+        // TODO: Tune PID
         public static final double driveKP = 2.7141d;
         public static final double driveKI = 0.0d;
         public static final double driveKD = 0.0d;
-        public static final double driveKS = 0.0d;
-        public static final double driveKV = 0.0d;
-        public static final double driveKA = 0.0d;
+        public static final double driveKS = 0.067703d;
+        public static final double driveKV = 2.4746d;
+        public static final double driveKA = 0.36888d;
 
         public static final double rampRate = 0.1d;
 
@@ -95,39 +104,39 @@ public class HadesConstants {
             new ModuleConfig(wheelDiameter / 2,
                 maxModuleSpeed,
                 wheelCof,
-                DriveConstants.usesDriveKrakens() ?
+                HadesDriveConstants.usesDriveKrakens ?
                     DCMotor.getKrakenX60(1).withReduction(driveGearRatio) :
                     DCMotor.getNEO(1).withReduction(driveGearRatio),
                 currentLimit,
                 1),
-            DriveConstants.kModuleTranslations
+            HadesDriveConstants.kModuleTranslations
         );
 
         public static final SwerveModuleConstants kFrontLeft = new SwerveModuleConstants(
-            DeviceIds.getFrontLeftDriveId(),
-            DeviceIds.getFrontLeftSteerId(),
-            DeviceIds.getFrontLeftSteerEncoderId(),
+            DrivebaseMotorIds.frontLeftDriveMotorId,
+            DrivebaseMotorIds.frontLeftSteerEncoderId,
+            DrivebaseMotorIds.frontLeftSteerEncoderId,
             frontLeftOffset
         );
 
         public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
-            DeviceIds.getFrontRightDriveId(),
-            DeviceIds.getFrontRightSteerId(),
-            DeviceIds.getFrontRightSteerEncoderId(),
+            DrivebaseMotorIds.frontRightDriveMotorId,
+            DrivebaseMotorIds.frontRightSteerMotorId,
+            DrivebaseMotorIds.frontRightSteerEncoderId,
             frontRightOffset
         );
 
         public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
-            DeviceIds.getBackLeftDriveId(),
-            DeviceIds.getBackLeftSteerId(),
-            DeviceIds.getBackLeftSteerEncoderId(),
+            DrivebaseMotorIds.backLeftDriveMotorId,
+            DrivebaseMotorIds.backLeftSteerMotorId,
+            DrivebaseMotorIds.backLeftSteerEncoderId,
             backLeftOffset
         );
 
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
-            DeviceIds.getBackRightDriveId(),
-            DeviceIds.getBackRightSteerId(),
-            DeviceIds.getBackRightSteerEncoderId(),
+            DrivebaseMotorIds.backRightDriveMotorId,
+            DrivebaseMotorIds.backRightSteerMotorId,
+            DrivebaseMotorIds.backRightSteerEncoderId,
             backRightOffset
         );
 

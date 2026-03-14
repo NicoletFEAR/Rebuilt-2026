@@ -1,22 +1,75 @@
 package frc.robot.containers;
 
+import frc.robot.commands.TeleopSwerve;
+import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
+import frc.robot.constants.HadesConstants.HadesOperatorConstants;
+import frc.robot.constants.KitbotConstants.KitbotOperatorConstants;
+import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class KitbotRobotContainer extends AbstractRobotContainer {
+
+    protected final UniversalController m_driverController = new UniversalController(
+        GeneralOperatorConstants.driverControllerPort, KitbotOperatorConstants.driveControllerType);
 
     private KitbotIntake m_kitbotIntake;
     private KitbotLauncher m_kitbotLauncher;
 
     public KitbotRobotContainer(Alliance alliance) {
-        super(BotEnum.KITBOT, alliance);
+       super(BotEnum.KITBOT, alliance);
+
+        configureSwerveBindings();
+        configureBindings();
     }
 
     @Override
     protected void createRobotSubsystems() {
         this.m_kitbotIntake = KitbotIntake.getInstance();
         this.m_kitbotLauncher = KitbotLauncher.getInstance();
+    }
+
+    /**
+    * This method is used to set the default bindings for the swerve drive.  This should
+    * only be overridden in rare cases.  This is only called once per robot type.
+    */
+    protected void configureSwerveBindings() {
+        // Driving -- joysticks of driver controller
+        m_driveBase.setDefaultCommand(
+            new TeleopSwerve(
+                m_driverController,
+                KitbotOperatorConstants.kThrottleAxis,
+                KitbotOperatorConstants.kStrafeAxis,
+                KitbotOperatorConstants.kSteerAxis,
+                GeneralOperatorConstants.defaultSpeed,
+                true,
+                true,
+                m_driveBase
+            )
+        );
+
+        // Slows speed -- left trigger of driver controller
+        m_driverController
+            .L2()
+            .whileTrue(
+                new TeleopSwerve(
+                    m_driverController,
+                    KitbotOperatorConstants.kThrottleAxis,
+                    KitbotOperatorConstants.kStrafeAxis,
+                    KitbotOperatorConstants.kSteerAxis,
+                    GeneralOperatorConstants.slowSpeed,
+                    true,
+                    true,
+                    m_driveBase
+                )
+            );
+        
+        // Make gyroscope think current position is zero -- create button of driver controller
+        m_driverController
+            .create()
+            .onTrue(new InstantCommand(m_driveBase::zeroGyro, m_driveBase));
     }
 
     @Override
@@ -70,11 +123,6 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
 
     @Override
     public void testExit() {}
-    
-    public class KitbotMotorIds {
-        public static int launcherId = 15;
-        public static int intakeId = 14;
-    }
 
     public class KitbotDrivebaseConstants {
 

@@ -27,7 +27,7 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.containers.AbstractRobotContainer.GeneralConstants;
+import frc.robot.constants.GeneralConstants;
 import frc.robot.util.DeviceConfigurator;
 import frc.robot.util.SwerveModuleConstants;
 import frc.robot.util.Utils;

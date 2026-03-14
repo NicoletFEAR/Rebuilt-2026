@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 6.65
+        "x": 4.5,
+        "y": 7.44
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6370627980079036,
-        "y": 6.380274315239294
+        "x": 3.5370627980079035,
+        "y": 7.170274315239294
       },
       "isLocked": false,
       "linkedName": "Start D"
@@ -48,7 +48,7 @@
   "folder": "Lakeland",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 65.0
   },
   "useDefaultConstraints": true
 }

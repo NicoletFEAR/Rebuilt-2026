@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.7,
-        "y": 0.65
+        "x": 7.704822222222223,
+        "y": 1.0337111111111108
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.7,
-        "y": 1.6730919193018354
+        "x": 7.704822222222223,
+        "y": 2.0568030304129463
       },
       "isLocked": false,
       "linkedName": "NZT Bottom-North"

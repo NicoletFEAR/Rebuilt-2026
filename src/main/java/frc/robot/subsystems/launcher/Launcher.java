@@ -30,7 +30,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.LauncherConstants;
-import frc.robot.util.Utils;
 import frc.robot.Constants.DeviceIds;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
@@ -80,8 +79,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     }
 
     public boolean isAtVelocity() {
-        return Math.abs(m_leftMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance()
-            || Math.abs(m_rightMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance();
+        return MathUtil.isNear(m_leftMotor.getVelocity().getValueAsDouble(), LauncherConstants.getLaunchVelocity() * m_speedModifier, LauncherConstants.getVelocityTolerance())
+            || MathUtil.isNear(m_rightMotor.getVelocity().getValueAsDouble(), LauncherConstants.getLaunchVelocity() * m_speedModifier, LauncherConstants.getVelocityTolerance());
     }
 
     public Command launch() {
@@ -121,16 +120,15 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public Command adjustSpeedToHubDistance(DoubleSupplier distance) {
         return new ConditionalCommand(
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimSpeeds), 0.0, 1.0)),
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimSpeeds), 0.0, 1.0)).andThen(launch()),
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)),
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)).andThen(launch()),
             () -> m_state == LauncherState.OFF
         );
     }
 
     @Override
     public void periodic() {
-        // TODO: Replace the rounding thing with String.format
-        SmartDashboard.putString("Launcher Speed", Math.round(1000.0 * m_speedModifier) / 10.0 + "%");
+        SmartDashboard.putString("Launcher Speed", String.format("%.2f%%", m_speedModifier * 100));
         SmartDashboard.putBoolean("Launching?", m_state == LauncherState.LAUNCHING);
         Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
         Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);

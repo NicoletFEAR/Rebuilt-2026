@@ -27,7 +27,6 @@ import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.util.DeviceConfigurator;
-import frc.robot.util.Utils;
 
 public class Hood extends SubsystemBase implements PositionSubsystem {
     private SparkMax m_motor;
@@ -113,7 +112,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
                 m_returnPosition = m_desiredPosition;
             }
 
-            runToPosition(MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimHoodPositions), m_minPosition, m_maxPosition));
+            runToPosition(MathUtil.clamp(LauncherConstants.kAutoAimHoodPositions.get(distance.getAsDouble()), m_minPosition, m_maxPosition));
         });
     }
 

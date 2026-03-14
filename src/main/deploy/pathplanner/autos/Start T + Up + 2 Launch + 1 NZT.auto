@@ -70,61 +70,6 @@
               }
             ]
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Launch 3 - NZT Bottom North"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NZT Bottom-North - NZT Top-North"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "EndIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NZT Top-North - Launch 1"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartLaunch"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndLaunch"
-                }
-              }
-            ]
-          }
         }
       ]
     }

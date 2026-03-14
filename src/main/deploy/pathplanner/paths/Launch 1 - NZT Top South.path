@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.205,
-        "y": 7.45
+        "x": 4.908166666666667,
+        "y": 7.3968333333333325
       },
       "isLocked": false,
       "linkedName": "Launch 1"
@@ -20,8 +20,8 @@
         "y": 6.938844444444444
       },
       "prevControl": {
-        "x": 6.734055555555555,
-        "y": 6.938844444444444
+        "x": 6.067755555555557,
+        "y": 7.338366666666666
       },
       "nextControl": null,
       "isLocked": false,

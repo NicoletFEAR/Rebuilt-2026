@@ -22,10 +22,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
-import frc.robot.Constants;
-import frc.robot.Constants.DeviceIds;
-import frc.robot.Constants.LauncherConstants;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
+import frc.robot.constants.TuskConstants.LauncherConstants;
+import frc.robot.constants.TuskConstants.TuskDeviceIds;
+import frc.robot.constants.TuskConstants.TuskGeneralConstants;
 import frc.robot.util.DeviceConfigurator;
 import frc.robot.util.Utils;
 
@@ -40,31 +40,31 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     private double m_maxPosition;
 
     public Hood() {
-        m_motor = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
-        m_encoder = new CANcoder(DeviceIds.getHoodEncoderID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_motor = new SparkMax(TuskDeviceIds.kHoodId, MotorType.kBrushed);
+        m_encoder = new CANcoder(TuskDeviceIds.kHoodEncoderId, new CANBus(TuskGeneralConstants.kHasCanivore ? "*" : "rio"));
 
         SparkMaxConfig config = new SparkMaxConfig();
         config.closedLoop
-            .p(LauncherConstants.getHoodKP())
-            .i(LauncherConstants.getHoodKI())
-            .d(LauncherConstants.getHoodKD());
-        config.encoder.positionConversionFactor(LauncherConstants.getHoodGearRatio());
+            .p(LauncherConstants.kHoodKP)
+            .i(LauncherConstants.kHoodKI)
+            .d(LauncherConstants.kHoodKD);
+        config.encoder.positionConversionFactor(LauncherConstants.kLauncherHoodGearRatio);
         m_motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_pidController = new PIDController(
-            LauncherConstants.getHoodKP(),
-            LauncherConstants.getHoodKI(),
-            LauncherConstants.getHoodKD()
+            LauncherConstants.kHoodKP,
+            LauncherConstants.kHoodKI,
+            LauncherConstants.kHoodKD
         );
 
         m_pidController.enableContinuousInput(0.0, 1.0);
 
-        m_desiredPosition = LauncherConstants.getHoodHomePosition();
+        m_desiredPosition = LauncherConstants.kHoodHomePosition;
         m_returnPosition = -1.0;
-        m_minPosition = LauncherConstants.getHoodMinPosition();
-        m_maxPosition = LauncherConstants.getHoodMaxPosition();
+        m_minPosition = LauncherConstants.kHoodMinPosition;
+        m_maxPosition = LauncherConstants.kHoodMaxPosition;
 
-        DeviceConfigurator.configureCANcoder(m_encoder, LauncherConstants.getHoodOffset());
+        DeviceConfigurator.configureCANcoder(m_encoder, LauncherConstants.kHoodOffset);
 
         m_motor.getEncoder().setPosition(getPosition());
 
@@ -100,7 +100,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     }
 
     public boolean getIsAtSetpoint() {
-        return Math.abs(getPosition() - m_desiredPosition) < LauncherConstants.getHoodSetpointTolerance();
+        return Math.abs(getPosition() - m_desiredPosition) < LauncherConstants.kHoodSetpointTolerance;
     }
 
     public Command endAutoTarget() {
@@ -118,8 +118,8 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     }
 
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {
-        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), OperatorConstants.getOperatorControllerDeadband())
-            * LauncherConstants.getHoodManualModifier();
+        double adjustedThrottle = MathUtil.applyDeadband(throttle.get(), GeneralOperatorConstants.kOperatorControllerDeadband)
+            * LauncherConstants.kHoodManualModifier;
 
         double newDesiredPosition = m_desiredPosition + adjustedThrottle;
 

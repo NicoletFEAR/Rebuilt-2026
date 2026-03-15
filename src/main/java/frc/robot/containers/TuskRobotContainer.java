@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.GameTimer;
-import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
 import frc.robot.constants.KitbotConstants.KitbotOperatorConstants;
+import frc.robot.constants.TuskConstants.TuskDeviceIds;
 import frc.robot.constants.TuskConstants.TuskOperatorConstants;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.intake.IntakeDriver;
@@ -35,9 +35,9 @@ import frc.robot.subsystems.led.Led;
 public class TuskRobotContainer extends AbstractRobotContainer {
     
     protected final UniversalController m_driverController = new UniversalController(
-        GeneralOperatorConstants.kDriverControllerPort, TuskOperatorConstants.driveControllerType);
+        GeneralOperatorConstants.kDriverControllerPort, TuskOperatorConstants.kDriveControllerType);
     protected final UniversalController m_operatorController = new UniversalController(
-        GeneralOperatorConstants.kOperatorControllerPort, TuskOperatorConstants.operatorControllerType);
+        GeneralOperatorConstants.kOperatorControllerPort, TuskOperatorConstants.kOperatorControllerType);
     
     private Launcher m_launcher;
     private Indexer m_indexer;
@@ -65,7 +65,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
         this.m_hood = new Hood();
         this.m_intakeDriver = new IntakeDriver();
         this.m_intakePivot = new IntakePivot();
-        this.m_led = new Led(DeviceIds.getLedID());
+        this.m_led = new Led(TuskDeviceIds.kLEDId);
     }
 
     /**

@@ -10,7 +10,7 @@ import frc.robot.controllers.UniversalController;
 public class HadesRobotContainer extends AbstractRobotContainer {
 
     protected final UniversalController m_driverController = new UniversalController(
-        GeneralOperatorConstants.kDriverControllerPort, HadesOperatorConstants.driveControllerType);
+        GeneralOperatorConstants.kDriverControllerPort, HadesOperatorConstants.kDriveControllerType);
 
     public HadesRobotContainer(Alliance alliance) {
         super(BotEnum.HADES, alliance);

@@ -10,7 +10,9 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.constants.TuskConstants.TuskDriveConstants;
+import frc.robot.constants.TuskConstants.TuskGeneralConstants;
+import frc.robot.containers.BotEnum;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
@@ -26,7 +28,7 @@ public class LockRotationTowardsHub extends Command {
     private double m_throttle;
     private double m_strafe;
     private double m_steer;
-    private PIDController m_steerController = new PIDController(DriveConstants.getAutoTargetKP(), DriveConstants.getAutoTargetKI(), DriveConstants.getAutoTargetKD());
+    private PIDController m_steerController = new PIDController(TuskDriveConstants.getAutoTargetKP, TuskDriveConstants.getAutoTargetKI, TuskDriveConstants.getAutoTargetKD);
 
 
     private boolean m_isOpenLoop;
@@ -71,14 +73,15 @@ public class LockRotationTowardsHub extends Command {
     public void execute() {
         //isBatteryInBack gives value to change controls based on location of battery
         m_throttle = MathUtil.applyDeadband(
-            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
-            DriveConstants.getSwerveDeadband()
+            TuskGeneralConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
+            TuskDriveConstants.kSwerveDeadband;
         );
 
         m_strafe = MathUtil.applyDeadband(
             DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
             DriveConstants.getSwerveDeadband()
         );
+        
         
         double desiredAngle = Math.atan2(
             DriveConstants.kHubPosition.getY() - m_driveBase.getPose().getTranslation().getY(),

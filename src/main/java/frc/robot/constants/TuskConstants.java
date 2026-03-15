@@ -18,25 +18,33 @@ import frc.robot.util.SwerveModuleConstants;
 
 public class TuskConstants {
     public class TuskGeneralConstants {
-        public static final double moi = 6.883d;
+        public static final double kMoi = 6.883d;
         //TODO: Get the actual Robot Weight
-        public static final double weight = 115;
+        public static final double kWeight = 115;
 
-        public static final boolean hasCanivore = true;
-        public static final boolean batteryBack = true;
+        public static final boolean kHasCanivore = true;
+        public static final boolean kBatteryBack = true;
+
+        public static int isBatteryInBack() {
+            if (kBatteryBack == true) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
     }
 
     public class TuskOperatorConstants {
-        public static final ControllerType driveControllerType = ControllerType.PS5;
-        public static final ControllerType operatorControllerType = ControllerType.PS5;
+        public static final ControllerType kDriveControllerType = ControllerType.PS5;
+        public static final ControllerType kOperatorControllerType = ControllerType.PS5;
 
-        public static final Axis driverAxis = new Axis(driveControllerType);
-        public static final int kThrottleAxis = driverAxis.getAxis("kLeftY");
-        public static final int kStrafeAxis = driverAxis.getAxis("kLeftX");
-        public static final int kSteerAxis = driverAxis.getAxis("kRightX");
+        public static final Axis kDriverAxis = new Axis(kDriveControllerType);
+        public static final int kThrottleAxis = kDriverAxis.getAxis("kLeftY");
+        public static final int kStrafeAxis = kDriverAxis.getAxis("kLeftX");
+        public static final int kSteerAxis = kDriverAxis.getAxis("kRightX");
     }
 
-    public class TuskMotorIds {
+    public class TuskDeviceIds {
         public static final int kLeftLauncherId = 14;
         public static final int kRightLauncherId = 15;
         public static final int kHoodId = 23;
@@ -49,7 +57,8 @@ public class TuskConstants {
     }
 
     public class TuskDriveConstants {
-        public static final boolean usesDriveKrakens = true;
+        public static final boolean kUsesDriveKrakens = true;
+        public static final double kSwerveDeadband = 0.75d;
 
         public static final double maxModuleSpeed = 4.8d;
         public static final double getMaxRotationsPerSecond = 1.5d;
@@ -93,8 +102,8 @@ public class TuskConstants {
         public static final double backRightOffset = -0.470947265625d;
 
         public static final double getAutoTargetKP = 2.0d;
-        public static final double getAutoTargetKi = 0.0d;
-        public static final double getAutoTargetKd = 0.2d;
+        public static final double getAutoTargetKI = 0.0d;
+        public static final double getAutoTargetKD = 0.2d;
 
         // Positions of all the swerve modules relative to the center of the drivebase
         public static final Translation2d[] kModuleTranslations = {
@@ -111,12 +120,12 @@ public class TuskConstants {
             new SwerveModuleState(0, Rotation2d.fromDegrees(-135))
         };
 
-        public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(TuskGeneralConstants.weight),
-            TuskGeneralConstants.moi,
+        public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(TuskGeneralConstants.kWeight),
+            TuskGeneralConstants.kMoi,
             new ModuleConfig(wheelDiameter / 2,
                 maxModuleSpeed,
                 wheelCof,
-                TuskDriveConstants.usesDriveKrakens ?
+                TuskDriveConstants.kUsesDriveKrakens ?
                     DCMotor.getKrakenX60(1).withReduction(driveGearRatio) :
                     DCMotor.getNEO(1).withReduction(driveGearRatio),
                 currentLimit,
@@ -156,6 +165,16 @@ public class TuskConstants {
     }
 
     public class LauncherConstants {
+        public static double[][] kAutoAimHoodPositions = {
+            {1.85, 0.0},
+            {4.45, .6315}
+        };
+
+        public static double[][] kAutoAimSpeeds = {
+            {1.85, 0.7},
+            {4.45, 1.0}
+        };
+
         public static final double kLauncherGearRatio = 4.0d/5.0d;
         public static final double kLauncherHoodGearRatio = 30.0d;
 

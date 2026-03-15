@@ -28,10 +28,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
-import frc.robot.Constants;
-import frc.robot.Constants.LauncherConstants;
+import frc.robot.constants.TuskConstants.LauncherConstants;
+import frc.robot.constants.TuskConstants.TuskDeviceIds;
+import frc.robot.constants.TuskConstants.TuskGeneralConstants;
 import frc.robot.util.Utils;
-import frc.robot.Constants.DeviceIds;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
@@ -43,25 +43,25 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private DCMotorSim m_rightMotorSim;
 
     public Launcher() {
-        m_leftMotor = new TalonFX(DeviceIds.getLeftLauncherID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-        m_rightMotor = new TalonFX(DeviceIds.getRightLauncherID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-        m_leftMotorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.getGearRatio()), DCMotor.getKrakenX60(1));
-        m_rightMotorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.getGearRatio()), DCMotor.getKrakenX60(1));
+        m_leftMotor = new TalonFX(TuskDeviceIds.kLeftLauncherId, new CANBus(TuskGeneralConstants.kHasCanivore ? "*" : "rio"));
+        m_rightMotor = new TalonFX(TuskDeviceIds.kRightLauncherId, new CANBus(TuskGeneralConstants.kHasCanivore ? "*" : "rio"));
+        m_leftMotorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.kLauncherGearRatio), DCMotor.getKrakenX60(1));
+        m_rightMotorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.kLauncherGearRatio), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration leftConfig = new TalonFXConfiguration();
-        leftConfig.Feedback.SensorToMechanismRatio = LauncherConstants.getGearRatio();
-        leftConfig.Slot0.kP = LauncherConstants.getKP();
-        leftConfig.Slot0.kI = LauncherConstants.getKI();
-        leftConfig.Slot0.kD = LauncherConstants.getKD();
+        leftConfig.Feedback.SensorToMechanismRatio = LauncherConstants.kLauncherGearRatio;
+        leftConfig.Slot0.kP = LauncherConstants.kLauncherKP;
+        leftConfig.Slot0.kI = LauncherConstants.kLauncherKI;
+        leftConfig.Slot0.kD = LauncherConstants.kHoodKD;
         leftConfig.MotionMagic.MotionMagicAcceleration = 1;
         leftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         m_leftMotor.getConfigurator().apply(leftConfig);
 
         TalonFXConfiguration rightConfig = new TalonFXConfiguration();
-        rightConfig.Feedback.SensorToMechanismRatio = LauncherConstants.getGearRatio();
-        rightConfig.Slot0.kP = LauncherConstants.getKP();
-        rightConfig.Slot0.kI = LauncherConstants.getKI();
-        rightConfig.Slot0.kD = LauncherConstants.getKD();
+        rightConfig.Feedback.SensorToMechanismRatio = LauncherConstants.kLauncherGearRatio;
+        rightConfig.Slot0.kP = LauncherConstants.kLauncherKP;
+        rightConfig.Slot0.kI = LauncherConstants.kLauncherKI;
+        rightConfig.Slot0.kD = LauncherConstants.kLauncherKD;
         rightConfig.MotionMagic.MotionMagicAcceleration = 1;
         rightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         m_rightMotor.getConfigurator().apply(rightConfig);
@@ -80,21 +80,21 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     }
 
     public boolean isAtVelocity() {
-        return Math.abs(m_leftMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance()
-            || Math.abs(m_rightMotor.getVelocity().getValueAsDouble() - (LauncherConstants.getLaunchVelocity() * m_speedModifier)) < LauncherConstants.getVelocityTolerance();
+        return Math.abs(m_leftMotor.getVelocity().getValueAsDouble() - (LauncherConstants.kLauncherLaunchVelocity * m_speedModifier)) < LauncherConstants.kLauncherVelocityTolerance
+            || Math.abs(m_rightMotor.getVelocity().getValueAsDouble() - (LauncherConstants.kLauncherLaunchVelocity * m_speedModifier)) < LauncherConstants.kLauncherVelocityTolerance;
     }
 
     public Command launch() {
         return new InstantCommand(() -> {
             m_state = LauncherState.LAUNCHING;
-            setVoltage(LauncherConstants.getLaunchVoltage() * m_speedModifier);
+            setVoltage(LauncherConstants.kLauncherLaunchVoltage * m_speedModifier);
         });
     }
 
     public Command off() {
         return new InstantCommand(() -> {
             m_state = LauncherState.OFF;
-            setVoltage(LauncherConstants.getOffVoltage() * m_speedModifier);
+            setVoltage(LauncherConstants.kLauncherOffVoltage * m_speedModifier);
         });
     }
 
@@ -154,10 +154,10 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         m_rightMotorSim.setInputVoltage(rightMotorVoltage.in(Volts));
         m_leftMotorSim.update(0.02);
         m_rightMotorSim.update(0.02);
-        leftMotorSim.setRawRotorPosition(m_leftMotorSim.getAngularPosition().in(Rotations) * LauncherConstants.getGearRatio());
-        leftMotorSim.setRotorVelocity(m_leftMotorSim.getAngularVelocity().in(RotationsPerSecond) * LauncherConstants.getGearRatio());
-        rightMotorSim.setRawRotorPosition(m_rightMotorSim.getAngularPosition().in(Rotations) * LauncherConstants.getGearRatio());
-        rightMotorSim.setRotorVelocity(m_rightMotorSim.getAngularVelocity().in(RotationsPerSecond) * LauncherConstants.getGearRatio());
+        leftMotorSim.setRawRotorPosition(m_leftMotorSim.getAngularPosition().in(Rotations) * LauncherConstants.kLauncherGearRatio);
+        leftMotorSim.setRotorVelocity(m_leftMotorSim.getAngularVelocity().in(RotationsPerSecond) * LauncherConstants.kLauncherGearRatio);
+        rightMotorSim.setRawRotorPosition(m_rightMotorSim.getAngularPosition().in(Rotations) * LauncherConstants.kLauncherGearRatio);
+        rightMotorSim.setRotorVelocity(m_rightMotorSim.getAngularVelocity().in(RotationsPerSecond) * LauncherConstants.kLauncherGearRatio);
     }
 
     public enum LauncherState {

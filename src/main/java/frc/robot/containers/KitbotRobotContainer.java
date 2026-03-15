@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class KitbotRobotContainer extends AbstractRobotContainer {
 
     protected final UniversalController m_driverController = new UniversalController(
-        GeneralOperatorConstants.kDriverControllerPort, KitbotOperatorConstants.driveControllerType);
+        GeneralOperatorConstants.kDriverControllerPort, KitbotOperatorConstants.kDriveControllerType);
 
     private KitbotIntake m_kitbotIntake;
     private KitbotLauncher m_kitbotLauncher;

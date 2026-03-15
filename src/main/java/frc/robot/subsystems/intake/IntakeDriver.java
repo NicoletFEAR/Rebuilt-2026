@@ -23,9 +23,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants;
-import frc.robot.Constants.DeviceIds;
+import frc.robot.constants.TuskConstants.IntakeConstants;
+import frc.robot.constants.TuskConstants.TuskDeviceIds;
+import frc.robot.constants.TuskConstants.TuskGeneralConstants;
 
 public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     private double m_desiredVoltage;
@@ -35,15 +35,15 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     private IntakeDriverState m_state = IntakeDriverState.OFF;
 
     public IntakeDriver() {
-        m_motor = new TalonFX(DeviceIds.getIntakeDriverID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.getDriverGearRatio()), DCMotor.getKrakenX60(1));
+        m_motor = new TalonFX(TuskDeviceIds.kIntakeDriverId, new CANBus(TuskGeneralConstants.kHasCanivore ? "*" : "rio"));
+        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.kIntakeDriverGearRatio), DCMotor.getKrakenX60(1));
         // m_beamBreak = new DigitalInput(DeviceIds.kIntakeBeamBreak);
 
         TalonFXConfiguration config = new TalonFXConfiguration();
-        config.Feedback.SensorToMechanismRatio = IntakeConstants.getDriverGearRatio();
-        config.Slot0.kP = IntakeConstants.getDriverKP();
-        config.Slot0.kI = IntakeConstants.getDriverKI();
-        config.Slot0.kD = IntakeConstants.getDriverKD();
+        config.Feedback.SensorToMechanismRatio = IntakeConstants.kIntakeDriverGearRatio;
+        config.Slot0.kP = IntakeConstants.kIntakeDriverKP;
+        config.Slot0.kI = IntakeConstants.kIntakeDriverKI;
+        config.Slot0.kD = IntakeConstants.kIntakeDriverKD;
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         m_motor.getConfigurator().apply(config);
     }
@@ -62,14 +62,14 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     public Command intake() {
         return new InstantCommand(() -> {
             m_state = IntakeDriverState.INTAKING;
-            setVoltage(IntakeConstants.getDriverIntakeVoltage());
+            setVoltage(IntakeConstants.kIntakeDriverIntakeVoltage);
         }, this);
     }
 
     public Command off() {
         return new InstantCommand(() -> {
             m_state = IntakeDriverState.OFF;
-            setVoltage(IntakeConstants.getDriverOffVoltage());
+            setVoltage(IntakeConstants.kIntakeDriverOffVoltage);
         }, this);
     }
     
@@ -89,8 +89,8 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
         Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
         m_motorSim.setInputVoltage(motorVoltage.in(Volts));
         m_motorSim.update(0.02);
-        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IntakeConstants.getDriverGearRatio());
-        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IntakeConstants.getDriverGearRatio());
+        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IntakeConstants.kIntakeDriverGearRatio);
+        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IntakeConstants.kIntakeDriverGearRatio);
     }
 
     public enum IntakeDriverState {

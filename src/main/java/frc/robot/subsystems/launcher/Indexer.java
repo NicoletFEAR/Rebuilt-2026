@@ -21,9 +21,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
-import frc.robot.Constants;
-import frc.robot.Constants.IndexerConstants;
-import frc.robot.Constants.DeviceIds;
+import frc.robot.constants.TuskConstants.IndexerConstants;
+import frc.robot.constants.TuskConstants.TuskDeviceIds;
+import frc.robot.constants.TuskConstants.TuskGeneralConstants;
 
 public class Indexer extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
@@ -32,15 +32,15 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     // private DigitalInput m_beamBreak;
 
     public Indexer () {
-        m_motor = new TalonFX(DeviceIds.getIndexerID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_motor = new TalonFX(TuskDeviceIds.kIndexerId, new CANBus(TuskGeneralConstants.kHasCanivore ? "*" : "rio"));
         // m_beamBreak = new DigitalInput(DeviceIds.kIndexerBeamBreak);
-        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IndexerConstants.getGearRatio()), DCMotor.getKrakenX60(1));
+        m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IndexerConstants.kIndexerGearRatio), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration leadConfig = new TalonFXConfiguration();
-        leadConfig.Feedback.SensorToMechanismRatio = IndexerConstants.getGearRatio();
-        leadConfig.Slot0.kP = IndexerConstants.getKP();
-        leadConfig.Slot0.kI = IndexerConstants.getKI();
-        leadConfig.Slot0.kD = IndexerConstants.getKD();
+        leadConfig.Feedback.SensorToMechanismRatio = IndexerConstants.kIndexerGearRatio;
+        leadConfig.Slot0.kP = IndexerConstants.kIndexerKP;
+        leadConfig.Slot0.kI = IndexerConstants.kIndexerKI;
+        leadConfig.Slot0.kD = IndexerConstants.kIndexerKD;
         m_motor.getConfigurator().apply(leadConfig);
     }
 
@@ -56,11 +56,11 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     }
 
     public Command index() {
-        return new InstantCommand(() -> setVoltage(IndexerConstants.getIndexVoltage()));
+        return new InstantCommand(() -> setVoltage(IndexerConstants.kIndexerIndexVoltage));
     }
 
     public Command off() {
-        return new InstantCommand(() -> setVoltage(IndexerConstants.getOffVoltage()), this);
+        return new InstantCommand(() -> setVoltage(IndexerConstants.kIndexerOffVoltage), this);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
         Voltage motorVoltage = motorSim.getMotorVoltageMeasure();
         m_motorSim.setInputVoltage(motorVoltage.in(Volts));
         m_motorSim.update(0.02);
-        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IndexerConstants.getGearRatio());
-        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IndexerConstants.getGearRatio());
+        motorSim.setRawRotorPosition(m_motorSim.getAngularPosition().in(Rotations) * IndexerConstants.kIndexerGearRatio);
+        motorSim.setRotorVelocity(m_motorSim.getAngularVelocity().in(RotationsPerSecond) * IndexerConstants.kIndexerGearRatio);
     }
 }

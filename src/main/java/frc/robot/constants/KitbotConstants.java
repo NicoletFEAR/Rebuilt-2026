@@ -21,20 +21,28 @@ import frc.robot.util.SwerveModuleConstants;
 
 public class KitbotConstants {
     public class KitbotGeneralConstants {
-        public static final double moi = 6.883d;
-        public static final double weight = 115;
+        public static final double kMoi = 6.883d;
+        public static final double kWeight = 115;
 
-        public static final boolean hasCanivore = false;
-        public static final boolean batteryBack = false;
+        public static final boolean kHasCanivore = false;
+        public static final boolean kBatteryBack = false;
+
+        public static int isBatteryInBack() {
+            if (kBatteryBack == true) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
     }
 
     public class KitbotOperatorConstants {
-        public static final ControllerType driveControllerType = ControllerType.PS5;
+        public static final ControllerType kDriveControllerType = ControllerType.PS5;
 
-        public static final Axis driverAxis = new Axis(driveControllerType);
-        public static final int kThrottleAxis = driverAxis.getAxis("kLeftY");
-        public static final int kStrafeAxis = driverAxis.getAxis("kLeftX");
-        public static final int kSteerAxis = driverAxis.getAxis("kRightX");
+        public static final Axis kDriverAxis = new Axis(kDriveControllerType);
+        public static final int kThrottleAxis = kDriverAxis.getAxis("kLeftY");
+        public static final int kStrafeAxis = kDriverAxis.getAxis("kLeftX");
+        public static final int kSteerAxis = kDriverAxis.getAxis("kRightX");
     }
 
     public class KitbotMotorIds {
@@ -43,7 +51,8 @@ public class KitbotConstants {
     }
 
     public class KitbotDriveConstants {
-        public static final boolean usesDriveKrakens = false;
+        public static final boolean kUsesDriveKrakens = false;
+        public static final double kSwerveDeadband = 0.75d;
 
         public static final double maxModuleSpeed = MetersPerSecond.convertFrom(15.5, FeetPerSecond);
         public static final double getMaxRotationsPerSecond = 1.5d;
@@ -105,12 +114,12 @@ public class KitbotConstants {
             new SwerveModuleState(0, Rotation2d.fromDegrees(-135))
         };
 
-        public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(KitbotGeneralConstants.weight),
-            KitbotGeneralConstants.moi,
+        public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(KitbotGeneralConstants.kWeight),
+            KitbotGeneralConstants.kMoi,
             new ModuleConfig(wheelDiameter / 2,
                 maxModuleSpeed,
                 wheelCof,
-                KitbotDriveConstants.usesDriveKrakens ?
+                KitbotDriveConstants.kUsesDriveKrakens ?
                     DCMotor.getKrakenX60(1).withReduction(driveGearRatio) :
                     DCMotor.getNEO(1).withReduction(driveGearRatio),
                 currentLimit,

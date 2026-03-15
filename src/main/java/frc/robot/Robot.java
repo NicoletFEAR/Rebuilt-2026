@@ -7,12 +7,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.net.PortForwarder;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.robots.RobotIdentity;
+
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -30,22 +31,16 @@ import com.pathplanner.lib.commands.FollowPathCommand;
  * project.
  */
 public class Robot extends LoggedRobot {
-    private RobotContainer m_robotContainer;
-    private double m_autoStart;
-    private boolean m_printedAutoTiming = false;
-    private Command m_autonomousCommand;
+    private final RobotIdentity m_identity = RobotIdentity.getIdentity();
 
     @Override
     public void robotInit() {
-        Constants.instantiateProperties();
-
-        // Various values that make managing the code version easier
         Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
         Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
         Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
         Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
         Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
-        Logger.recordMetadata("RobotName", Constants.kRobotName);
+        Logger.recordMetadata("RobotName", m_identity.toString());
 
         switch (BuildConstants.DIRTY) {
             case 0:
@@ -63,7 +58,7 @@ public class Robot extends LoggedRobot {
         }
 
         if (isReal()) {
-            // Log to a USB stick ("/U/logs")
+            // Log to a USB stick
             Logger.addDataReceiver(new WPILOGWriter());
             // Publish data to NetworkTables
             Logger.addDataReceiver(new NT4Publisher());
@@ -77,40 +72,28 @@ public class Robot extends LoggedRobot {
         } else {
             // We don't need to keep log files during simulation
             Logger.addDataReceiver(new NT4Publisher());
+            // When simulation starts, always be on Blue 1
+            DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
+            DriverStationSim.notifyNewData();
         }
 
         // Disables Hoot logging
         SignalLogger.enableAutoLogging(false);
 
-        // Start logging! No more data receivers, replay sources, or metadata values may be added.
+        // Start logging! No more data receivers, replay sources, or metadata values may be added
         Logger.start();
 
         // WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
         PortForwarder.add(5800, "10.47.86.11", 5800);
 
         RoboRioSim.setTeamNumber(4786);
-        m_robotContainer = new RobotContainer();
-
+        // INSTANTIATE ROBOT CONTAINER THING HERE
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     }
 
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        m_robotContainer.periodic();
-
-        if (m_autonomousCommand != null) {
-            if (!m_autonomousCommand.isScheduled() && !m_printedAutoTiming) {
-                if (DriverStation.isAutonomousEnabled()) {
-                    System.out.println("Auto finished in " + (Timer.getTimestamp() - m_autoStart) + " seconds");
-                } else {
-                    System.out.println("Auto cancelled in " + (Timer.getTimestamp() - m_autoStart) + " seconds");
-                }
-
-                CommandScheduler.getInstance().schedule(m_robotContainer.stopLedAnimation());
-                m_printedAutoTiming = true;
-            }
-        }
     }
 
     @Override
@@ -123,43 +106,22 @@ public class Robot extends LoggedRobot {
     public void disabledExit() {}
 
     @Override
-    public void autonomousInit() {
-        m_autoStart = Timer.getTimestamp();
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-        if (m_autonomousCommand != null) {
-            CommandScheduler.getInstance().schedule(m_robotContainer.runAutoLedAnimation().alongWith(m_autonomousCommand));
-        }
-
-        m_robotContainer.autonomousInit();
-    }
+    public void autonomousInit() {}
 
     @Override
     public void autonomousPeriodic() {}
 
     @Override
-    public void autonomousExit() {
-        m_robotContainer.autonomousExit();
-    }
+    public void autonomousExit() {}
 
     @Override
-    public void teleopInit() {
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.cancel();
-        }
-
-        m_robotContainer.teleopInit();
-    }
+    public void teleopInit() {}
 
     @Override
-    public void teleopPeriodic() {
-        m_robotContainer.teleopPeriodic();
-    }
+    public void teleopPeriodic() {}
 
     @Override
-    public void teleopExit() {
-        m_robotContainer.teleopExit();
-    }
+    public void teleopExit() {}
 
     @Override
     public void testInit() {

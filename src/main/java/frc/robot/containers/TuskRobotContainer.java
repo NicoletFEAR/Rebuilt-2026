@@ -12,10 +12,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.GameTimer;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
+import frc.robot.commands.TeleopSwerve;
+import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
+import frc.robot.constants.KitbotConstants.KitbotOperatorConstants;
+import frc.robot.constants.TuskConstants.TuskOperatorConstants;
+import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
 import frc.robot.subsystems.launcher.Hood;
@@ -29,6 +33,11 @@ import frc.robot.subsystems.led.Led;
  * to this class as it is the central point of all subsystems.
  */
 public class TuskRobotContainer extends AbstractRobotContainer {
+    
+    protected final UniversalController m_driverController = new UniversalController(
+        GeneralOperatorConstants.kDriverControllerPort, TuskOperatorConstants.driveControllerType);
+    protected final UniversalController m_operatorController = new UniversalController(
+        GeneralOperatorConstants.kOperatorControllerPort, TuskOperatorConstants.operatorControllerType);
     
     private Launcher m_launcher;
     private Indexer m_indexer;
@@ -45,6 +54,8 @@ public class TuskRobotContainer extends AbstractRobotContainer {
 
     public TuskRobotContainer(Alliance alliance) {
         super(BotEnum.TUSK, alliance);
+
+        configureSwerveBindings();
     }
 
     @Override
@@ -57,6 +68,47 @@ public class TuskRobotContainer extends AbstractRobotContainer {
         this.m_led = new Led(DeviceIds.getLedID());
     }
 
+    /**
+    * This method is used to set the default bindings for the swerve drive.  This should
+    * only be overridden in rare cases.  This is only called once per robot type.
+    */
+    private void configureSwerveBindings() {
+        // Driving -- joysticks of driver controller
+        m_driveBase.setDefaultCommand(
+            new TeleopSwerve(
+                m_driverController,
+                KitbotOperatorConstants.kThrottleAxis,
+                KitbotOperatorConstants.kStrafeAxis,
+                KitbotOperatorConstants.kSteerAxis,
+                GeneralOperatorConstants.kDefaultSpeed,
+                true,
+                true,
+                m_driveBase
+            )
+        );
+
+        // Slows speed -- left trigger of driver controller
+        m_driverController
+            .L2()
+            .whileTrue(
+                new TeleopSwerve(
+                    m_driverController,
+                    KitbotOperatorConstants.kThrottleAxis,
+                    KitbotOperatorConstants.kStrafeAxis,
+                    KitbotOperatorConstants.kSteerAxis,
+                    GeneralOperatorConstants.kSlowSpeed,
+                    true,
+                    true,
+                    m_driveBase
+                )
+            );
+        
+        // Make gyroscope think current position is zero -- create button of driver controller
+        m_driverController
+            .create()
+            .onTrue(new InstantCommand(m_driveBase::zeroGyro, m_driveBase));
+    }
+
     @Override
     protected void configureBindings() {
         
@@ -66,9 +118,9 @@ public class TuskRobotContainer extends AbstractRobotContainer {
             .whileTrue(
                 new LockRotationTowardsHub(
                     m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.getDefaultSpeed(),
+                    TuskOperatorConstants.kThrottleAxis,
+                    TuskOperatorConstants.kStrafeAxis,
+                    GeneralOperatorConstants.kDefaultSpeed,
                     true,
                     true,
                     m_driveBase

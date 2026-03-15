@@ -36,7 +36,6 @@ public class TuskConstants {
         public static final int kSteerAxis = driverAxis.getAxis("kRightX");
     }
 
-    //TODO: get the rest of these
     public class TuskMotorIds {
         public static final int kLeftLauncherId = 14;
         public static final int kRightLauncherId = 15;
@@ -126,30 +125,30 @@ public class TuskConstants {
         );
 
         public static final SwerveModuleConstants kFrontLeft = new SwerveModuleConstants(
-            DrivebaseMotorIds.frontLeftDriveMotorId,
-            DrivebaseMotorIds.frontLeftSteerEncoderId,
-            DrivebaseMotorIds.frontLeftSteerEncoderId,
+            DrivebaseMotorIds.kFrontLeftDriveMotorId,
+            DrivebaseMotorIds.kFrontLeftSteerEncoderId,
+            DrivebaseMotorIds.kFrontLeftSteerEncoderId,
             frontLeftOffset
         );
 
         public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
-            DrivebaseMotorIds.frontRightDriveMotorId,
-            DrivebaseMotorIds.frontRightSteerMotorId,
-            DrivebaseMotorIds.frontRightSteerEncoderId,
+            DrivebaseMotorIds.kFrontRightDriveMotorId,
+            DrivebaseMotorIds.kFrontRightSteerMotorId,
+            DrivebaseMotorIds.kFrontRightSteerEncoderId,
             frontRightOffset
         );
 
         public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
-            DrivebaseMotorIds.backLeftDriveMotorId,
-            DrivebaseMotorIds.backLeftSteerMotorId,
-            DrivebaseMotorIds.backLeftSteerEncoderId,
+            DrivebaseMotorIds.kBackLeftDriveMotorId,
+            DrivebaseMotorIds.kBackLeftSteerMotorId,
+            DrivebaseMotorIds.kBackLeftSteerEncoderId,
             backLeftOffset
         );
 
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
-            DrivebaseMotorIds.backRightDriveMotorId,
-            DrivebaseMotorIds.backRightSteerMotorId,
-            DrivebaseMotorIds.backRightSteerEncoderId,
+            DrivebaseMotorIds.kBackRightDriveMotorId,
+            DrivebaseMotorIds.kBackRightSteerMotorId,
+            DrivebaseMotorIds.kBackRightSteerEncoderId,
             backRightOffset
         );
 
@@ -171,6 +170,7 @@ public class TuskConstants {
         public static final double kHoodMinPosition = 0.0d;
         public static final double kHoodMaxPosition = 0.6315d;
 
+        //TODO: Tune PID
         public static final double kLauncherKP = 1.0d;
         public static final double kLauncherKI = 0.0d;
         public static final double kLauncherKD = 0.0d;
@@ -184,11 +184,54 @@ public class TuskConstants {
     public class IndexerConstants {
         public static final double kIndexerGearRatio = 1.0;
 
+        //TODO: Tune PID
         public static final double kIndexerKP = 1.0;
         public static final double kIndexerKI = 0.0;
         public static final double kIndexerKD = 0.0;
 
         public static final double kIndexerOffVoltage = 0.0;
         public static final double kIndexerIndexVoltage = 0.0;
+    }
+
+    public class IntakeConstants {
+        public static final double kIntakeDriverGearRatio = 3.0d/5.0d;
+        public static final double kIntakePivotGearRatio = 80.0d/3.0d;
+
+        //TODO: Tune PID
+        public static final double kIntakeDriverKP = 1.0d;
+        public static final double kIntakeDriverKI = 0.0d;
+        public static final double kIntakeDriverKD = 0.0d;
+
+        public static final double kIntakePivotKP = 25.0d;
+        public static final double kIntakePivotKI = 0.0d;
+        public static final double kIntakePivotKD = 0.0d;
+
+        public static final double kIntakeDriverOffVoltage = 0.0d;
+        public static final double kIntakeDriverIntakeVoltage = 12.0d;
+        public static final double kIsStuckOnBallThreshold = 23.0d;
+
+        public static final double kSetpointTolerance = 0.025d;
+        public static final double kManualModifier = 0.005d;
+        public static final double kMinPosition = 0.0d;
+        public static final double kMaxPosition = 0.099609d;
+        public static final double kHomePosition = 0.0d;
+        public static final double kJostlePosition = 0.0473635d;
+        public static final double kHoldPosition = 0.094727d;
+        public static final double kOutPosition = 0.099609d;
+    }
+
+    public class LEDConstants {
+        public static final int kSlotStart = 8;
+        public static final int kSlotEnd = 84;
+    }
+
+    public final class VisionConstants {
+        public static final double kTargetAmountConstant = 2.0;
+        public static final double kSpeedsConstant = 1.0;
+        public static final double kRotationsConstant = 1.5;
+        public static final double kDistanceConstant = 0.25;
+        public static final double kAreaConstant = 0.01;
+
+        public static final double kOffsetTolerance = 1000.0;
     }
 }

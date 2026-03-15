@@ -10,7 +10,7 @@ import frc.robot.controllers.UniversalController;
 public class HadesRobotContainer extends AbstractRobotContainer {
 
     protected final UniversalController m_driverController = new UniversalController(
-        GeneralOperatorConstants.driverControllerPort, HadesOperatorConstants.driveControllerType);
+        GeneralOperatorConstants.kDriverControllerPort, HadesOperatorConstants.driveControllerType);
 
     public HadesRobotContainer(Alliance alliance) {
         super(BotEnum.HADES, alliance);
@@ -69,7 +69,7 @@ public class HadesRobotContainer extends AbstractRobotContainer {
                 HadesOperatorConstants.kThrottleAxis,
                 HadesOperatorConstants.kStrafeAxis,
                 HadesOperatorConstants.kSteerAxis,
-                GeneralOperatorConstants.defaultSpeed,
+                GeneralOperatorConstants.kDefaultSpeed,
                 true,
                 true,
                 m_driveBase
@@ -85,7 +85,7 @@ public class HadesRobotContainer extends AbstractRobotContainer {
                     HadesOperatorConstants.kThrottleAxis,
                     HadesOperatorConstants.kStrafeAxis,
                     HadesOperatorConstants.kSteerAxis,
-                    GeneralOperatorConstants.slowSpeed,
+                    GeneralOperatorConstants.kSlowSpeed,
                     true,
                     true,
                     m_driveBase

@@ -2,7 +2,6 @@ package frc.robot.containers;
 
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
-import frc.robot.constants.HadesConstants.HadesOperatorConstants;
 import frc.robot.constants.KitbotConstants.KitbotOperatorConstants;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.kitbot.KitbotIntake;
@@ -13,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class KitbotRobotContainer extends AbstractRobotContainer {
 
     protected final UniversalController m_driverController = new UniversalController(
-        GeneralOperatorConstants.driverControllerPort, KitbotOperatorConstants.driveControllerType);
+        GeneralOperatorConstants.kDriverControllerPort, KitbotOperatorConstants.driveControllerType);
 
     private KitbotIntake m_kitbotIntake;
     private KitbotLauncher m_kitbotLauncher;
@@ -22,7 +21,6 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
        super(BotEnum.KITBOT, alliance);
 
         configureSwerveBindings();
-        configureBindings();
     }
 
     @Override
@@ -35,7 +33,7 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
     * This method is used to set the default bindings for the swerve drive.  This should
     * only be overridden in rare cases.  This is only called once per robot type.
     */
-    protected void configureSwerveBindings() {
+    private void configureSwerveBindings() {
         // Driving -- joysticks of driver controller
         m_driveBase.setDefaultCommand(
             new TeleopSwerve(
@@ -43,7 +41,7 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
                 KitbotOperatorConstants.kThrottleAxis,
                 KitbotOperatorConstants.kStrafeAxis,
                 KitbotOperatorConstants.kSteerAxis,
-                GeneralOperatorConstants.defaultSpeed,
+                GeneralOperatorConstants.kDefaultSpeed,
                 true,
                 true,
                 m_driveBase
@@ -59,7 +57,7 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
                     KitbotOperatorConstants.kThrottleAxis,
                     KitbotOperatorConstants.kStrafeAxis,
                     KitbotOperatorConstants.kSteerAxis,
-                    GeneralOperatorConstants.slowSpeed,
+                    GeneralOperatorConstants.kSlowSpeed,
                     true,
                     true,
                     m_driveBase

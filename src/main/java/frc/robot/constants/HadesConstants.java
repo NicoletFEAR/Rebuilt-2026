@@ -113,30 +113,30 @@ public class HadesConstants {
         );
 
         public static final SwerveModuleConstants kFrontLeft = new SwerveModuleConstants(
-            DrivebaseMotorIds.frontLeftDriveMotorId,
-            DrivebaseMotorIds.frontLeftSteerEncoderId,
-            DrivebaseMotorIds.frontLeftSteerEncoderId,
+            DrivebaseMotorIds.kFrontLeftDriveMotorId,
+            DrivebaseMotorIds.kFrontLeftSteerEncoderId,
+            DrivebaseMotorIds.kFrontLeftSteerEncoderId,
             frontLeftOffset
         );
 
         public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
-            DrivebaseMotorIds.frontRightDriveMotorId,
-            DrivebaseMotorIds.frontRightSteerMotorId,
-            DrivebaseMotorIds.frontRightSteerEncoderId,
+            DrivebaseMotorIds.kFrontRightDriveMotorId,
+            DrivebaseMotorIds.kFrontRightSteerMotorId,
+            DrivebaseMotorIds.kFrontRightSteerEncoderId,
             frontRightOffset
         );
 
         public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
-            DrivebaseMotorIds.backLeftDriveMotorId,
-            DrivebaseMotorIds.backLeftSteerMotorId,
-            DrivebaseMotorIds.backLeftSteerEncoderId,
+            DrivebaseMotorIds.kBackLeftDriveMotorId,
+            DrivebaseMotorIds.kBackLeftSteerMotorId,
+            DrivebaseMotorIds.kBackLeftSteerEncoderId,
             backLeftOffset
         );
 
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
-            DrivebaseMotorIds.backRightDriveMotorId,
-            DrivebaseMotorIds.backRightSteerMotorId,
-            DrivebaseMotorIds.backRightSteerEncoderId,
+            DrivebaseMotorIds.kBackRightDriveMotorId,
+            DrivebaseMotorIds.kBackRightSteerMotorId,
+            DrivebaseMotorIds.kBackRightSteerEncoderId,
             backRightOffset
         );
 

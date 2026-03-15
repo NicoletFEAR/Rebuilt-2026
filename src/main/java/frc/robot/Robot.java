@@ -9,10 +9,14 @@ package frc.robot;
 
 import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.robots.RobotIdentity;
+import frc.robot.robots.tusk.Tusk;
 
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -32,9 +36,19 @@ import com.pathplanner.lib.commands.FollowPathCommand;
  */
 public class Robot extends LoggedRobot {
     private final RobotIdentity m_identity = RobotIdentity.getIdentity();
+    private final Alert m_unrecognizedRobot = new Alert("", AlertType.kError);
+    private Tusk m_tusk;
 
     @Override
     public void robotInit() {
+        if (m_identity == RobotIdentity.UNRECOGNIZED) {
+            m_unrecognizedRobot.setText(String.format(
+                "Unrecognized robot (team number %d)",
+                RobotController.getTeamNumber()
+            ));
+            m_unrecognizedRobot.set(true);
+        }
+
         Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
         Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
         Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
@@ -87,13 +101,14 @@ public class Robot extends LoggedRobot {
         PortForwarder.add(5800, "10.47.86.11", 5800);
 
         RoboRioSim.setTeamNumber(4786);
-        // INSTANTIATE ROBOT CONTAINER THING HERE
+        m_tusk = new Tusk();
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     }
 
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        m_tusk.periodic();
     }
 
     @Override

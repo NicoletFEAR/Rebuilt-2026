@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.robots.RobotIdentity;
-import frc.robot.robots.tusk.Tusk;
+import frc.robot.robots.base.RobotContainer;
 
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -37,7 +37,7 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 public class Robot extends LoggedRobot {
     private final RobotIdentity m_identity = RobotIdentity.getIdentity();
     private final Alert m_unrecognizedRobot = new Alert("", AlertType.kError);
-    private Tusk m_tusk;
+    private RobotContainer m_robotContainer;
 
     @Override
     public void robotInit() {
@@ -101,14 +101,15 @@ public class Robot extends LoggedRobot {
         PortForwarder.add(5800, "10.47.86.11", 5800);
 
         RoboRioSim.setTeamNumber(4786);
-        m_tusk = new Tusk();
+        m_robotContainer = m_identity.getRobot();
+        
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     }
 
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        m_tusk.periodic();
+        m_robotContainer.periodic();
     }
 
     @Override

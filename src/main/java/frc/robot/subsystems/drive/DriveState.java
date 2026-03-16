@@ -6,6 +6,7 @@ import frc.robot.subsystems.base.State;
 
 @AutoLog
 public class DriveState extends State<DriveState> {
+    @Override
     public DriveState update(DriveState newState) {
         return this;
     }

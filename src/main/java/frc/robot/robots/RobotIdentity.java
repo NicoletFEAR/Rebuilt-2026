@@ -1,6 +1,11 @@
 package frc.robot.robots;
 
 import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.robots.base.RobotContainer;
+import frc.robot.robots.hades.Hades;
+import frc.robot.robots.kitbot.Kitbot;
+import frc.robot.robots.tusk.Tusk;
+import frc.robot.robots.unrecognized.Unrecognized;
 
 /**
  * Represents the robot running the code.
@@ -41,6 +46,21 @@ public enum RobotIdentity {
     @Override
     public String toString() {
         return m_name;
+    }
+
+    /**
+     * Gets the correct {@link frc.robot.robots.base.RobotContainer RobotContainer} for the
+     * robot running.
+     * 
+     * @return The {@code RobotContainer} for the robot.
+     */
+    public RobotContainer getRobot() {
+        return switch (this) {
+            case HADES -> new Hades();
+            case KITBOT -> new Kitbot();
+            case TUSK -> new Tusk();
+            case UNRECOGNIZED -> new Unrecognized();
+        };
     }
 
     /**

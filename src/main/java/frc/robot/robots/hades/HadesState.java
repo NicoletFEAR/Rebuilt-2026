@@ -1,4 +1,4 @@
-package frc.robot.robots.tusk;
+package frc.robot.robots.hades;
 
 import org.littletonrobotics.junction.AutoLog;
 
@@ -7,13 +7,13 @@ import frc.robot.subsystems.drive.DriveState;
 import frc.robot.subsystems.drive.DriveStateAutoLogged;
 
 @AutoLog
-public class TuskState extends RobotState<TuskState> {
+public class HadesState extends RobotState<HadesState> {
     protected DriveStateAutoLogged DriveState = new DriveStateAutoLogged();
 
-    public TuskState() {}
+    public HadesState() {}
 
     @Override
-    public TuskState update(TuskState newState) {
+    public HadesState update(HadesState newState) {
         DriveState.update(newState.getDriveState());
         return this;
     }
@@ -22,13 +22,13 @@ public class TuskState extends RobotState<TuskState> {
         return DriveState;
     }
 
-    public TuskState updateDriveState(DriveState newState) {
+    public HadesState updateDriveState(DriveState newState) {
         DriveState.update(newState);
         return this;
     }
 
-    public TuskStateAutoLogged toAutoLogged() {
-        TuskStateAutoLogged result = new TuskStateAutoLogged();
+    public HadesStateAutoLogged toAutoLogged() {
+        HadesStateAutoLogged result = new HadesStateAutoLogged();
         result.update(this);
         return result;
     }

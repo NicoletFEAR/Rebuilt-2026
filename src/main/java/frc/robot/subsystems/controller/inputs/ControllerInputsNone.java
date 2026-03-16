@@ -1,22 +1,30 @@
 package frc.robot.subsystems.controller.inputs;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.subsystems.base.Inputs;
 import frc.robot.subsystems.controller.ControllerName;
 import frc.robot.subsystems.controller.ControllerState;
 import frc.robot.subsystems.controller.ControllerIdentity;
 
-public class ControllerInputsNone extends Inputs<ControllerState> {
+public class ControllerInputsNone extends ControllerInputs {
     private ControllerName m_name;
 
     private int m_port;
 
     private ControllerState m_state = new ControllerState();
 
-    public ControllerInputsNone(int port, ControllerName name) {
+    public ControllerInputsNone(ControllerName name, int port) {
         m_port = port;
         m_name = name;
     }
+
+    @Override
+    public void leftRumble(double strength) {}
+
+    @Override
+    public void rightRumble(double strength) {}
+
+    @Override
+    public void rumble(double strength) {}
 
     @Override
     public ControllerState updateState() {

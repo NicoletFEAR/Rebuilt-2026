@@ -50,6 +50,8 @@ public class ControllerState extends State<ControllerState> {
         this.LeftY = newState.LeftY;
         this.Options = newState.Options;
         this.PlayStation = newState.PlayStation;
+        this.ProperType = newState.ProperType;
+        this.Name = newState.Name;
         this.RightBumper = newState.RightBumper;
         this.RightRumbleStrength = newState.RightRumbleStrength;
         this.RightStick = newState.RightStick;

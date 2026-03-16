@@ -1,13 +1,13 @@
 package frc.robot.subsystems.controller.inputs;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.base.Inputs;
 import frc.robot.subsystems.controller.ControllerName;
 import frc.robot.subsystems.controller.ControllerState;
 import frc.robot.subsystems.controller.ControllerIdentity;
 
-public class ControllerInputsXbox extends Inputs<ControllerState> {
+public class ControllerInputsXbox extends ControllerInputs {
     private XboxController m_controller;
     private double m_leftRumbleStrength = 0.0;
     private ControllerName m_name;
@@ -17,10 +17,25 @@ public class ControllerInputsXbox extends Inputs<ControllerState> {
 
     private ControllerState m_state = new ControllerState();
 
-    public ControllerInputsXbox(int port, ControllerName name) {
+    public ControllerInputsXbox(ControllerName name, int port) {
         m_port = port;
         m_controller = new XboxController(m_port);
         m_name = name;
+    }
+
+    @Override
+    public void leftRumble(double strength) {
+        m_controller.setRumble(RumbleType.kLeftRumble, strength);
+    }
+
+    @Override
+    public void rightRumble(double strength) {
+        m_controller.setRumble(RumbleType.kRightRumble, strength);
+    }
+
+    @Override
+    public void rumble(double strength) {
+        m_controller.setRumble(RumbleType.kBothRumble, strength);
     }
 
     @Override

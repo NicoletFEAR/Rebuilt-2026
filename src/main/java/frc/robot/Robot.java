@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
@@ -37,18 +38,23 @@ import com.pathplanner.lib.commands.FollowPathCommand;
  * project.
  */
 public class Robot extends LoggedRobot {
-    private final RobotIdentity m_identity = RobotIdentity.getIdentity();
+    private RobotIdentity m_identity;
     private final Alert m_unrecognizedRobot = new Alert("", AlertType.kError);
     private RobotContainer m_robotContainer;
 
     @Override
     public void robotInit() {
+        RoboRioSim.setTeamNumber(4786);
+        m_identity = RobotIdentity.getIdentity();
+
         if (m_identity == RobotIdentity.UNRECOGNIZED) {
             m_unrecognizedRobot.setText(String.format(
                 "Unrecognized robot (team number %d)",
                 RobotController.getTeamNumber()
             ));
             m_unrecognizedRobot.set(true);
+        } else {
+            m_unrecognizedRobot.set(false);
         }
 
         Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
@@ -102,7 +108,8 @@ public class Robot extends LoggedRobot {
         // WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
         PortForwarder.add(5800, "10.47.86.11", 5800);
 
-        RoboRioSim.setTeamNumber(4786);
+        DriverStation.silenceJoystickConnectionWarning(true);
+
         m_robotContainer = m_identity.getRobot();
         
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());

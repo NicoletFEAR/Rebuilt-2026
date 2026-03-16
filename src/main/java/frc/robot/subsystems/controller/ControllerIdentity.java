@@ -1,6 +1,6 @@
 package frc.robot.subsystems.controller;
 
-import frc.robot.subsystems.base.Inputs;
+import frc.robot.subsystems.controller.inputs.ControllerInputs;
 import frc.robot.subsystems.controller.inputs.ControllerInputsNone;
 import frc.robot.subsystems.controller.inputs.ControllerInputsPS4;
 import frc.robot.subsystems.controller.inputs.ControllerInputsPS5;
@@ -17,24 +17,25 @@ public enum ControllerIdentity {
     XBOX("Xbox"),
     ;
 
-    private String m_name;
+    private final String m_name;
 
     ControllerIdentity(String name) {
         m_name = name;
     }
 
+    @Override
     public String toString() {
         return m_name;
     }
 
-    public Inputs<ControllerState> getInputs(ControllerName name, int port) {
+    public ControllerInputs getInputs(ControllerName name, int port) {
         return switch (this) {
-            case NONE -> new ControllerInputsNone(port, name);
-            case PS4 -> new ControllerInputsPS4(port, name);
-            case PS5 -> new ControllerInputsPS5(port, name);
-            case UNRECOGNIZED -> new ControllerInputsNone(port, name);
-            case XBOX -> new ControllerInputsXbox(port, name);
-            default -> new ControllerInputsNone(port, name);
+            case NONE -> new ControllerInputsNone(name, port);
+            case PS4 -> new ControllerInputsPS4(name, port);
+            case PS5 -> new ControllerInputsPS5(name, port);
+            case UNRECOGNIZED -> new ControllerInputsNone(name, port);
+            case XBOX -> new ControllerInputsXbox(name, port);
+            default -> new ControllerInputsNone(name, port);
         };
     }
 

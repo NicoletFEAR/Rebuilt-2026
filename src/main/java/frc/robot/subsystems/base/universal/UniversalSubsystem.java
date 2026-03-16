@@ -8,8 +8,8 @@ import frc.robot.subsystems.base.Inputs;
 import frc.robot.subsystems.base.State;
 import frc.robot.util.Container;
 
-public abstract class UniversalSubsystem<T extends State<T>> {
-    protected Container<Inputs<T>> m_inputs;
+public abstract class UniversalSubsystem<T extends State<T>, U extends Inputs<T>> {
+    protected Container<U> m_inputs;
     protected UniversalRequestor<T> m_requestor;
     protected UniversalChoreographer<T> m_choreographer;
     protected T m_state;

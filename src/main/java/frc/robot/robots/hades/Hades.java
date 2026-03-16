@@ -16,7 +16,7 @@ public class Hades extends RobotContainer {
     private final HadesStateAutoLogged m_requestedState;
 
     public Hades() {
-        m_controller = new Controller(DeviceIds.kDriverController, ControllerName.DRIVER);
+        m_controller = new Controller(ControllerName.DRIVER, DeviceIds.kDriverController);
         m_drive = new Drive();
 
         m_state = new HadesStateAutoLogged();

@@ -1,8 +1,6 @@
 package frc.robot.subsystems.controller;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.PS5Controller;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -11,14 +9,17 @@ import frc.robot.robots.hades.HadesState;
 import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.universal.UniversalChoreographer;
+import frc.robot.subsystems.controller.inputs.ControllerInputs;
+import frc.robot.util.Container;
 
 public class ControllerChoreographer extends UniversalChoreographer<ControllerState> {
-    private PS5Controller m_controller;
     private ControllerName m_name;
 
-    public ControllerChoreographer(int port, ControllerName name) {
-        m_controller = new PS5Controller(port);
+    private Container<ControllerInputs> m_inputs;
+
+    public ControllerChoreographer(ControllerName name, Container<ControllerInputs> inputs) {
         m_name = name;
+        m_inputs = inputs;
     }
 
     @Override
@@ -51,7 +52,7 @@ public class ControllerChoreographer extends UniversalChoreographer<ControllerSt
                 Constants.kGeneralTolerance
         )) {
             return Commands.runOnce(
-                () -> m_controller.setRumble(RumbleType.kBothRumble, requestedState.LeftRumbleStrength)
+                () -> m_inputs.get().rumble(requestedState.LeftRumbleStrength)
             );
         } else {
             SequentialCommandGroup result = new SequentialCommandGroup();
@@ -62,7 +63,7 @@ public class ControllerChoreographer extends UniversalChoreographer<ControllerSt
                 Constants.kGeneralTolerance
             )) {
                 result.addCommands(Commands.runOnce(
-                    () -> m_controller.setRumble(RumbleType.kLeftRumble, requestedState.LeftRumbleStrength)
+                    () -> m_inputs.get().leftRumble(requestedState.LeftRumbleStrength)
                 ));
             }
 
@@ -72,7 +73,7 @@ public class ControllerChoreographer extends UniversalChoreographer<ControllerSt
                 Constants.kGeneralTolerance
             )) {
                 result.addCommands(Commands.runOnce(
-                    () -> m_controller.setRumble(RumbleType.kRightRumble, requestedState.RightRumbleStrength)
+                    () -> m_inputs.get().rightRumble(requestedState.RightRumbleStrength)
                 ));
             }
 

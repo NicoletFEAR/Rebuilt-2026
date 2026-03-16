@@ -6,9 +6,10 @@ import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.Inputs;
 import frc.robot.subsystems.base.State;
+import frc.robot.util.Container;
 
 public abstract class UniversalSubsystem<T extends State<T>> {
-    protected Inputs<T> m_inputs;
+    protected Container<Inputs<T>> m_inputs;
     protected UniversalRequestor<T> m_requestor;
     protected UniversalChoreographer<T> m_choreographer;
     protected T m_state;
@@ -19,7 +20,7 @@ public abstract class UniversalSubsystem<T extends State<T>> {
     }
 
     public T update() {
-        return m_state.update(m_inputs.updateState());
+        return m_state.update(m_inputs.get().updateState());
     }
 
     public T requestHades(HadesState fullState) {

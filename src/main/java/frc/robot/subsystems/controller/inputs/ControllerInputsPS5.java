@@ -1,18 +1,25 @@
-package frc.robot.subsystems.controller;
+package frc.robot.subsystems.controller.inputs;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PS5Controller;
 import frc.robot.subsystems.base.Inputs;
+import frc.robot.subsystems.controller.ControllerName;
+import frc.robot.subsystems.controller.ControllerState;
+import frc.robot.subsystems.controller.ControllerIdentity;
 
-public class ControllerInputs extends Inputs<ControllerState> {
+public class ControllerInputsPS5 extends Inputs<ControllerState> {
     private PS5Controller m_controller;
     private double m_leftRumbleStrength = 0.0;
     private ControllerName m_name;
     private double m_rightRumbleStrength = 0.0;
 
+    private int m_port;
+
     private ControllerState m_state = new ControllerState();
 
-    public ControllerInputs(int port, ControllerName name) {
-        m_controller = new PS5Controller(port);
+    public ControllerInputsPS5(int port, ControllerName name) {
+        m_port = port;
+        m_controller = new PS5Controller(m_port);
         m_name = name;
     }
 
@@ -23,6 +30,7 @@ public class ControllerInputs extends Inputs<ControllerState> {
         m_state.Circle = m_controller.getCircleButton();
         m_state.Create = m_controller.getCreateButton();
         m_state.Cross = m_controller.getCrossButton();
+        m_state.CurrentType = ControllerIdentity.PS5;
         m_state.Down = pov == 135 || pov == 180 || pov == 225;
         m_state.Left = pov == 225 || pov == 270 || pov == 315;
         m_state.LeftBumper = m_controller.getL1Button();
@@ -34,6 +42,7 @@ public class ControllerInputs extends Inputs<ControllerState> {
         m_state.Name = m_name;
         m_state.Options = m_controller.getOptionsButton();
         m_state.PlayStation = m_controller.getPSButton();
+        m_state.ProperType = ControllerIdentity.getIdentity(DriverStation.getJoystickName(m_port));
         m_state.Right = pov == 45 || pov == 90 || pov == 135;
         m_state.RightBumper = m_controller.getR1Button();
         m_state.RightRumbleStrength = m_rightRumbleStrength;

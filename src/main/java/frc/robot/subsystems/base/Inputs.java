@@ -1,13 +1,15 @@
 package frc.robot.subsystems.base;
 
-public abstract class Inputs<T extends State<T, U, V>, U extends Enum<U>, V extends Enum<V>> {
-    protected U m_name;
+public abstract class Inputs<T extends State<T, V, W>, U extends Inputs<T, U, V, W>, V extends Enum<V>, W extends Enum<W>> {
+    protected V m_name;
 
     protected T m_state;
 
-    public Inputs(U name) {
+    public Inputs(V name) {
         m_name = name;
     }
 
     public abstract T updateState();
+
+    public abstract U getInputs(W identity);
 }

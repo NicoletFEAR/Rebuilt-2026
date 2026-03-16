@@ -27,13 +27,13 @@ public enum ControllerIdentity {
         return m_name;
     }
 
-    public ControllerInputs getInputs(ControllerName name, int port) {
+    public ControllerInputs getInputs(ControllerName name) {
         return switch (this) {
-            case NONE -> new ControllerInputsNone(name, port);
-            case PS4 -> new ControllerInputsPS4(name, port);
-            case PS5 -> new ControllerInputsPS5(name, port);
-            case XBOX -> new ControllerInputsXbox(name, port);
-            default -> new ControllerInputsNone(name, port);
+            case NONE -> new ControllerInputsNone(name);
+            case PS4 -> new ControllerInputsPS4(name);
+            case PS5 -> new ControllerInputsPS5(name);
+            case XBOX -> new ControllerInputsXbox(name);
+            default -> new ControllerInputsNone(name);
         };
     }
 

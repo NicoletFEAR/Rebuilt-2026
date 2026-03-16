@@ -6,17 +6,17 @@ import frc.robot.subsystems.controller.ControllerIdentity;
 import frc.robot.subsystems.controller.ControllerName;
 import frc.robot.subsystems.controller.ControllerState;
 
-public abstract class ControllerInputs extends Inputs<ControllerState, ControllerName, ControllerIdentity> {
+public abstract class ControllerInputs extends Inputs<ControllerState, ControllerInputs, ControllerName, ControllerIdentity> {
     protected final int m_port;
+
+    public ControllerInputs(ControllerName name) {
+        super(name);
+        m_port = m_name.getPort();
+    }
 
     public void leftRumble(double strength) {};
     public void rightRumble(double strength) {};
     public void rumble(double strength) {};
-
-    public ControllerInputs(ControllerName name, int port) {
-        super(name);
-        m_port = port;
-    }
 
     @Override
     public ControllerState updateState() {
@@ -48,5 +48,16 @@ public abstract class ControllerInputs extends Inputs<ControllerState, Controlle
         m_state.Triangle = false;
         m_state.Up = false;
         return m_state;
+    }
+
+    @Override
+    public ControllerInputs getInputs(ControllerIdentity identity) {
+        return switch (identity) {
+            case NONE -> new ControllerInputsNone(m_name);
+            case PS4 -> new ControllerInputsPS4(m_name);
+            case PS5 -> new ControllerInputsPS5(m_name);
+            case XBOX -> new ControllerInputsXbox(m_name);
+            default -> new ControllerInputsNone(m_name);
+        };
     }
 }

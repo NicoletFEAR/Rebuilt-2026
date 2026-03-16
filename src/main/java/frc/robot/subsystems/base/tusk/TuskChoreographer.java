@@ -5,7 +5,7 @@ import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.Inputs;
 import frc.robot.subsystems.base.State;
 
-public abstract class TuskChoreographer<T extends State<T, V, W>, U extends Inputs<T, V, W>, V extends Enum<V>, W extends Enum<W>> {
+public abstract class TuskChoreographer<T extends State<T, V, W>, U extends Inputs<T, U, V, W>, V extends Enum<V>, W extends Enum<W>> {
     protected final V m_name;
 
     protected final U m_inputs;

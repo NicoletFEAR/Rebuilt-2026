@@ -5,7 +5,7 @@ import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.subsystems.base.Inputs;
 import frc.robot.subsystems.base.State;
 
-public abstract class KitbotChoreographer<T extends State<T, V, W>, U extends Inputs<T, V, W>, V extends Enum<V>, W extends Enum<W>> {
+public abstract class KitbotChoreographer<T extends State<T, V, W>, U extends Inputs<T, U, V, W>, V extends Enum<V>, W extends Enum<W>> {
     protected V m_name;
 
     protected U m_inputs;
@@ -14,6 +14,6 @@ public abstract class KitbotChoreographer<T extends State<T, V, W>, U extends In
         m_name = name;
         m_inputs = inputs;
     }
-    
+
     public abstract Command choreograph(KitbotState fullState, T requestedState);
 }

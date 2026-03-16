@@ -10,14 +10,13 @@ import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.universal.UniversalChoreographer;
 import frc.robot.subsystems.controller.inputs.ControllerInputs;
-import frc.robot.util.Container;
 
 public class ControllerChoreographer extends UniversalChoreographer<ControllerState> {
     private ControllerName m_name;
 
-    private Container<ControllerInputs> m_inputs;
+    private ControllerInputs m_inputs;
 
-    public ControllerChoreographer(ControllerName name, Container<ControllerInputs> inputs) {
+    public ControllerChoreographer(ControllerName name, ControllerInputs inputs) {
         m_name = name;
         m_inputs = inputs;
     }
@@ -52,7 +51,7 @@ public class ControllerChoreographer extends UniversalChoreographer<ControllerSt
                 Constants.kGeneralTolerance
         )) {
             return Commands.runOnce(
-                () -> m_inputs.get().rumble(requestedState.LeftRumbleStrength)
+                () -> m_inputs.rumble(requestedState.LeftRumbleStrength)
             );
         } else {
             SequentialCommandGroup result = new SequentialCommandGroup();
@@ -63,7 +62,7 @@ public class ControllerChoreographer extends UniversalChoreographer<ControllerSt
                 Constants.kGeneralTolerance
             )) {
                 result.addCommands(Commands.runOnce(
-                    () -> m_inputs.get().leftRumble(requestedState.LeftRumbleStrength)
+                    () -> m_inputs.leftRumble(requestedState.LeftRumbleStrength)
                 ));
             }
 
@@ -73,7 +72,7 @@ public class ControllerChoreographer extends UniversalChoreographer<ControllerSt
                 Constants.kGeneralTolerance
             )) {
                 result.addCommands(Commands.runOnce(
-                    () -> m_inputs.get().rightRumble(requestedState.RightRumbleStrength)
+                    () -> m_inputs.rightRumble(requestedState.RightRumbleStrength)
                 ));
             }
 

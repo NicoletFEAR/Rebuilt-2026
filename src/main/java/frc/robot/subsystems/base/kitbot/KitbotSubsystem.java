@@ -6,10 +6,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.subsystems.base.Inputs;
 import frc.robot.subsystems.base.State;
-import frc.robot.util.Container;
 
 public abstract class KitbotSubsystem<T extends State<T>, U extends Inputs<T>> {
-    protected Container<U> m_inputs;
+    protected U m_inputs;
     protected Alert m_missingInputs = new Alert("", AlertType.kError);
     protected KitbotRequestor<T> m_requestor;
     protected KitbotChoreographer<T> m_choreographer;
@@ -23,7 +22,7 @@ public abstract class KitbotSubsystem<T extends State<T>, U extends Inputs<T>> {
     }
 
     public T update() {
-        return m_state.update(m_inputs.get().updateState());
+        return m_state.update(m_inputs.updateState());
     }
 
     public T request(KitbotState fullState) {

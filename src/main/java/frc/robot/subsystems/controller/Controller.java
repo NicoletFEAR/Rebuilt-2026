@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.base.universal.UniversalSubsystem;
 import frc.robot.subsystems.controller.inputs.ControllerInputs;
 import frc.robot.subsystems.controller.inputs.ControllerInputsNone;
-import frc.robot.util.Container;
 
 public class Controller extends UniversalSubsystem<ControllerState, ControllerInputs> {
     private final ControllerName m_name;
@@ -17,7 +16,7 @@ public class Controller extends UniversalSubsystem<ControllerState, ControllerIn
         m_name = name;
         m_port = port;
         m_missingInputs.setText(String.format("%s Controller not detected! (port %d)", m_name.toString(), m_port));
-        m_inputs = new Container<ControllerInputs>(new ControllerInputsNone(m_name, m_port));
+        m_inputs = new ControllerInputsNone(m_name, m_port);
         m_requestor = new ControllerRequestor(m_name);
         m_choreographer = new ControllerChoreographer(m_name, m_inputs);
         m_state = new ControllerState();
@@ -29,14 +28,14 @@ public class Controller extends UniversalSubsystem<ControllerState, ControllerIn
         new Trigger(DriverStation::isDSAttached)
             .onTrue(
                 Commands
-                    .runOnce(() -> m_inputs.set(m_state.ProperIdentity.getInputs(m_name, m_port)))
+                    .runOnce(() -> m_inputs = m_state.ProperIdentity.getInputs(m_name, m_port))
                     .ignoringDisable(true)
             );
 
         new Trigger(() -> m_state.CurrentIdentity != m_state.ProperIdentity)
             .onTrue(
                 Commands
-                    .runOnce(() -> m_inputs.set(m_state.ProperIdentity.getInputs(m_name, m_port)))
+                    .runOnce(() -> m_inputs = m_state.ProperIdentity.getInputs(m_name, m_port))
                     .ignoringDisable(true)
             );
     }

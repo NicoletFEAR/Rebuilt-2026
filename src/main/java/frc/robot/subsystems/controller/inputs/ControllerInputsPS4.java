@@ -13,9 +13,9 @@ public class ControllerInputsPS4 extends ControllerInputs {
     private double m_rightRumbleStrength = 0.0;
 
     public ControllerInputsPS4(ControllerName name, int port) {
-        m_name = name;
-        m_port = port;
+        super(name, port);
         m_controller = new PS4Controller(m_port);
+        m_state = new ControllerState();
     }
 
     @Override

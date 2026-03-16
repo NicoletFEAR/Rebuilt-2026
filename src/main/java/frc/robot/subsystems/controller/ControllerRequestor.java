@@ -5,11 +5,9 @@ import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.universal.UniversalRequestor;
 
-public class ControllerRequestor extends UniversalRequestor<ControllerState> {
-    private ControllerName m_name;
-
+public class ControllerRequestor extends UniversalRequestor<ControllerState, ControllerName, ControllerIdentity> {
     public ControllerRequestor(ControllerName name) {
-        m_name = name;
+        super(name);
     }
 
     @Override

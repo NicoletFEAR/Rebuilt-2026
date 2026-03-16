@@ -11,14 +11,9 @@ import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.universal.UniversalChoreographer;
 import frc.robot.subsystems.controller.inputs.ControllerInputs;
 
-public class ControllerChoreographer extends UniversalChoreographer<ControllerState> {
-    private ControllerName m_name;
-
-    private ControllerInputs m_inputs;
-
+public class ControllerChoreographer extends UniversalChoreographer<ControllerState, ControllerInputs, ControllerName, ControllerIdentity> {
     public ControllerChoreographer(ControllerName name, ControllerInputs inputs) {
-        m_name = name;
-        m_inputs = inputs;
+        super(name, inputs);
     }
 
     @Override

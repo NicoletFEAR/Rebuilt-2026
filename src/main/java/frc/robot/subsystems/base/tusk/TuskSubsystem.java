@@ -7,11 +7,11 @@ import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.Inputs;
 import frc.robot.subsystems.base.State;
 
-public abstract class TuskSubsystem<T extends State<T>, U extends Inputs<T>> {
+public abstract class TuskSubsystem<T extends State<T, V, W>, U extends Inputs<T, V, W>, V extends Enum<V>, W extends Enum<W>> {
     protected U m_inputs;
     protected Alert m_missingInputs = new Alert("", AlertType.kError);
-    protected TuskRequestor<T> m_requestor;
-    protected TuskChoreographer<T> m_choreographer;
+    protected TuskRequestor<T, V, W> m_requestor;
+    protected TuskChoreographer<T, U, V, W> m_choreographer;
     protected T m_state;
     protected T m_requestedState;
 

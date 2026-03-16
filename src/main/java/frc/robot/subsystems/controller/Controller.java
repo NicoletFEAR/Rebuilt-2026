@@ -7,7 +7,7 @@ import frc.robot.subsystems.base.universal.UniversalSubsystem;
 import frc.robot.subsystems.controller.inputs.ControllerInputs;
 import frc.robot.subsystems.controller.inputs.ControllerInputsNone;
 
-public class Controller extends UniversalSubsystem<ControllerState, ControllerInputs> {
+public class Controller extends UniversalSubsystem<ControllerState, ControllerInputs, ControllerName, ControllerIdentity> {
     private final ControllerName m_name;
 
     private final int m_port;

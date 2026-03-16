@@ -64,20 +64,12 @@ public class Robot extends LoggedRobot {
         Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
         Logger.recordMetadata("RobotName", m_identity.toString());
 
-        switch (BuildConstants.DIRTY) {
-            case 0:
-                Logger.recordMetadata("GitDirty", "All changes committed");
-                break;
-            case 1:
-                Logger.recordMetadata("GitDirty", "Uncomitted changes");
-                break;
-            case -1:
-                Logger.recordMetadata("GitDirty", "Error");
-                break;
-            default:
-                Logger.recordMetadata("GitDirty", "Unknown");
-                break;
-        }
+        Logger.recordMetadata("GitDirty", switch(BuildConstants.DIRTY) {
+            case 0 -> "All changes committed";
+            case 1 -> "Uncommitted changes";
+            case -1 -> "Error";
+            default -> "Unknown";
+        });
 
         if (isReal()) {
             // Log to a USB stick

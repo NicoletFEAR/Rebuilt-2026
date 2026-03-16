@@ -6,16 +6,17 @@ import frc.robot.subsystems.controller.ControllerIdentity;
 import frc.robot.subsystems.controller.ControllerName;
 import frc.robot.subsystems.controller.ControllerState;
 
-public abstract class ControllerInputs extends Inputs<ControllerState> {
-    protected ControllerName m_name;
-
-    protected int m_port;
-
-    protected ControllerState m_state = new ControllerState();
+public abstract class ControllerInputs extends Inputs<ControllerState, ControllerName, ControllerIdentity> {
+    protected final int m_port;
 
     public void leftRumble(double strength) {};
     public void rightRumble(double strength) {};
     public void rumble(double strength) {};
+
+    public ControllerInputs(ControllerName name, int port) {
+        super(name);
+        m_port = port;
+    }
 
     @Override
     public ControllerState updateState() {

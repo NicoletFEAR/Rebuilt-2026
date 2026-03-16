@@ -17,7 +17,8 @@ public final class Main {
     /**
      * Main initialization function. Do not perform any initialization here. The only change that should
      * ever be made to this function is changing the parameter type of
-     * {@link edu.wpi.first.wpilibj.RobotBase#startRobot startRobot} if the main robot class is changed.
+     * {@link edu.wpi.first.wpilibj.RobotBase#startRobot RobotBase.startRobot} if the main robot class
+     * is changed.
      */
     public static void main(String... args) {
         RobotBase.startRobot(Robot::new);

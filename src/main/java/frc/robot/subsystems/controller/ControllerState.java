@@ -5,11 +5,10 @@ import org.littletonrobotics.junction.AutoLog;
 import frc.robot.subsystems.base.State;
 
 @AutoLog
-public class ControllerState extends State<ControllerState> {
+public class ControllerState extends State<ControllerState, ControllerName, ControllerIdentity> {
     public boolean Circle = false;
     public boolean Create = false;
     public boolean Cross = false;
-    public ControllerIdentity CurrentIdentity = ControllerIdentity.NONE;
     public boolean Down = false;
     public boolean Left = false;
     public boolean LeftBumper = false;
@@ -18,10 +17,8 @@ public class ControllerState extends State<ControllerState> {
     public double LeftTrigger = 0.0;
     public double LeftX = 0.0;
     public double LeftY = 0.0;
-    public ControllerName Name = ControllerName.DRIVER;
     public boolean Options = false;
     public boolean PlayStation = false;
-    public ControllerIdentity ProperIdentity = ControllerIdentity.NONE;
     public boolean Right = false;
     public boolean RightBumper = false;
     public double RightRumbleStrength = 0.0;
@@ -70,9 +67,5 @@ public class ControllerState extends State<ControllerState> {
         ControllerStateAutoLogged result = new ControllerStateAutoLogged();
         result.update(this);
         return result;
-    }
-
-    public boolean getCircle() {
-        return Circle;
     }
 }

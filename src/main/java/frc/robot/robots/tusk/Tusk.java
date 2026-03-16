@@ -13,19 +13,13 @@ public class Tusk extends RobotContainer {
     private final Controller m_driverController;
     private final Controller m_operatorController;
 
-    private final TuskStateAutoLogged m_state;
-    private final TuskStateAutoLogged m_requestedState;
+    private final TuskStateAutoLogged m_state = new TuskStateAutoLogged();
+    private final TuskStateAutoLogged m_requestedState = new TuskStateAutoLogged();
 
     public Tusk() {
         // m_drive = new Drive();
         m_driverController = new Controller(ControllerName.DRIVER, DeviceIds.kDriverController);
         m_operatorController = new Controller(ControllerName.OPERATOR, DeviceIds.kOperatorController);
-
-        m_state = new TuskStateAutoLogged();
-        // m_state.updateDriveState(m_drive.getState());
-        m_state.updateDriverControllerState(m_driverController.getState());
-        m_state.updateOperatorControllerState(m_operatorController.getState());
-        m_requestedState = new TuskState().update(m_state).toAutoLogged();
     }
 
     @Override

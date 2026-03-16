@@ -13,9 +13,9 @@ public class ControllerInputsXbox extends ControllerInputs {
     private double m_rightRumbleStrength = 0.0;
 
     public ControllerInputsXbox(ControllerName name, int port) {
-        m_name = name;
-        m_port = port;
+        super(name, port);
         m_controller = new XboxController(m_port);
+        m_state = new ControllerState();
     }
 
     @Override

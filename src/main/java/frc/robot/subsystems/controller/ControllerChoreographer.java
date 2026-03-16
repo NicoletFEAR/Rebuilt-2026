@@ -41,7 +41,7 @@ public class ControllerChoreographer extends UniversalChoreographer<ControllerSt
     }
 
     public Command choreograph(ControllerState currentState, ControllerState requestedState) {
-        if (requestedState.LeftRumbleStrength == requestedState.RightRumbleStrength 
+        if (requestedState.LeftRumbleStrength == requestedState.RightRumbleStrength
             && !MathUtil.isNear(
                 currentState.LeftRumbleStrength,
                 requestedState.LeftRumbleStrength,

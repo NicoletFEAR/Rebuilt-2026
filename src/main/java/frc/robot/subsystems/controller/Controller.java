@@ -16,15 +16,16 @@ public class Controller extends UniversalSubsystem<ControllerState, ControllerIn
     public Controller(ControllerName name, int port) {
         m_name = name;
         m_port = port;
+        m_missingInputs.setText(String.format("%s Controller not detected! (port %d)", m_name.toString(), m_port));
         m_inputs = new Container<ControllerInputs>(new ControllerInputsNone(m_name, m_port));
         m_requestor = new ControllerRequestor(m_name);
         m_choreographer = new ControllerChoreographer(m_name, m_inputs);
         m_state = new ControllerState();
         m_requestedState = new ControllerState();
-        createIdentityChangeTriggers();
+        createInputsChangeTriggers();
     }
 
-    public void createIdentityChangeTriggers() {
+    public void createInputsChangeTriggers() {
         new Trigger(DriverStation::isDSAttached)
             .onTrue(
                 Commands
@@ -38,5 +39,10 @@ public class Controller extends UniversalSubsystem<ControllerState, ControllerIn
                     .runOnce(() -> m_inputs.set(m_state.ProperIdentity.getInputs(m_name, m_port)))
                     .ignoringDisable(true)
             );
+    }
+
+    @Override
+    public void updateMissingInputs() {
+        m_missingInputs.set(m_state.CurrentIdentity == ControllerIdentity.NONE);
     }
 }

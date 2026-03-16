@@ -36,33 +36,33 @@ public class ControllerState extends State<ControllerState> {
 
     @Override
     public ControllerState update(ControllerState newState) {
-        this.Circle = newState.Circle;
-        this.Create = newState.Create;
-        this.Cross = newState.Cross;
-        this.CurrentIdentity = newState.CurrentIdentity;
-        this.Down = newState.Down;
-        this.Left = newState.Left;
-        this.LeftBumper = newState.LeftBumper;
-        this.LeftRumbleStrength = newState.LeftRumbleStrength;
-        this.LeftStick = newState.LeftStick;
-        this.LeftTrigger = newState.LeftTrigger;
-        this.LeftX = newState.LeftX;
-        this.LeftY = newState.LeftY;
-        this.Options = newState.Options;
-        this.PlayStation = newState.PlayStation;
-        this.ProperIdentity = newState.ProperIdentity;
-        this.Name = newState.Name;
-        this.RightBumper = newState.RightBumper;
-        this.RightRumbleStrength = newState.RightRumbleStrength;
-        this.RightStick = newState.RightStick;
-        this.RightTrigger = newState.RightTrigger;
-        this.Right = newState.Right;
-        this.RightX = newState.RightX;
-        this.RightY = newState.RightY;
-        this.Square = newState.Square;
-        this.Touchpad = newState.Touchpad;
-        this.Triangle = newState.Triangle;
-        this.Up = newState.Up;
+        Circle = newState.Circle;
+        Create = newState.Create;
+        Cross = newState.Cross;
+        CurrentIdentity = newState.CurrentIdentity;
+        Down = newState.Down;
+        Left = newState.Left;
+        LeftBumper = newState.LeftBumper;
+        LeftRumbleStrength = newState.LeftRumbleStrength;
+        LeftStick = newState.LeftStick;
+        LeftTrigger = newState.LeftTrigger;
+        LeftX = newState.LeftX;
+        LeftY = newState.LeftY;
+        Options = newState.Options;
+        PlayStation = newState.PlayStation;
+        ProperIdentity = newState.ProperIdentity;
+        Name = newState.Name;
+        RightBumper = newState.RightBumper;
+        RightRumbleStrength = newState.RightRumbleStrength;
+        RightStick = newState.RightStick;
+        RightTrigger = newState.RightTrigger;
+        Right = newState.Right;
+        RightX = newState.RightX;
+        RightY = newState.RightY;
+        Square = newState.Square;
+        Touchpad = newState.Touchpad;
+        Triangle = newState.Triangle;
+        Up = newState.Up;
         return this;
     }
 
@@ -70,5 +70,9 @@ public class ControllerState extends State<ControllerState> {
         ControllerStateAutoLogged result = new ControllerStateAutoLogged();
         result.update(this);
         return result;
+    }
+
+    public boolean getCircle() {
+        return Circle;
     }
 }

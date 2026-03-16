@@ -13,7 +13,6 @@ public enum ControllerIdentity {
     KEYBOARD_2("Keyboard 2"),
     PS4("PS4"),
     PS5("PS5"),
-    UNRECOGNIZED("Unrecognized"),
     XBOX("Xbox"),
     ;
 
@@ -33,7 +32,6 @@ public enum ControllerIdentity {
             case NONE -> new ControllerInputsNone(name, port);
             case PS4 -> new ControllerInputsPS4(name, port);
             case PS5 -> new ControllerInputsPS5(name, port);
-            case UNRECOGNIZED -> new ControllerInputsNone(name, port);
             case XBOX -> new ControllerInputsXbox(name, port);
             default -> new ControllerInputsNone(name, port);
         };
@@ -48,7 +46,7 @@ public enum ControllerIdentity {
             case "Wireless Controller" -> PS4;
             case "DualSense Wireless Controller" -> PS5;
             case "Controller (Gamepad F310)", "Xbox Controller" -> XBOX;
-            default -> UNRECOGNIZED;
+            default -> NONE;
         };
     }
 }

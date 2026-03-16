@@ -34,6 +34,9 @@ public class Tusk extends RobotContainer {
         m_state.updateDriverControllerState(m_driverController.update());
         m_state.updateOperatorControllerState(m_operatorController.update());
 
+        m_driverController.updateMissingInputs();
+        m_operatorController.updateMissingInputs();
+
         // m_requestedState.updateDriveState(m_drive.requestTusk(m_state));
         m_requestedState.updateDriverControllerState(m_driverController.requestTusk(m_state));
         m_requestedState.updateOperatorControllerState(m_operatorController.requestTusk(m_state));

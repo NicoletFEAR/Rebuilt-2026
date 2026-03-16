@@ -20,16 +20,20 @@ public class ControllerInputsXbox extends ControllerInputs {
 
     @Override
     public void leftRumble(double strength) {
+        m_leftRumbleStrength = strength;
         m_controller.setRumble(RumbleType.kLeftRumble, strength);
     }
 
     @Override
     public void rightRumble(double strength) {
+        m_rightRumbleStrength = strength;
         m_controller.setRumble(RumbleType.kRightRumble, strength);
     }
 
     @Override
     public void rumble(double strength) {
+        m_leftRumbleStrength = strength;
+        m_rightRumbleStrength = strength;
         m_controller.setRumble(RumbleType.kBothRumble, strength);
     }
 

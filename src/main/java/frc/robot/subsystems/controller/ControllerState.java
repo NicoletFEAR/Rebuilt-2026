@@ -9,7 +9,7 @@ public class ControllerState extends State<ControllerState> {
     public boolean Circle = false;
     public boolean Create = false;
     public boolean Cross = false;
-    public ControllerIdentity CurrentType = ControllerIdentity.NONE;
+    public ControllerIdentity CurrentIdentity = ControllerIdentity.NONE;
     public boolean Down = false;
     public boolean Left = false;
     public boolean LeftBumper = false;
@@ -21,7 +21,7 @@ public class ControllerState extends State<ControllerState> {
     public ControllerName Name = ControllerName.DRIVER;
     public boolean Options = false;
     public boolean PlayStation = false;
-    public ControllerIdentity ProperType = ControllerIdentity.NONE;
+    public ControllerIdentity ProperIdentity = ControllerIdentity.NONE;
     public boolean Right = false;
     public boolean RightBumper = false;
     public double RightRumbleStrength = 0.0;
@@ -39,7 +39,7 @@ public class ControllerState extends State<ControllerState> {
         this.Circle = newState.Circle;
         this.Create = newState.Create;
         this.Cross = newState.Cross;
-        this.CurrentType = newState.CurrentType;
+        this.CurrentIdentity = newState.CurrentIdentity;
         this.Down = newState.Down;
         this.Left = newState.Left;
         this.LeftBumper = newState.LeftBumper;
@@ -50,7 +50,7 @@ public class ControllerState extends State<ControllerState> {
         this.LeftY = newState.LeftY;
         this.Options = newState.Options;
         this.PlayStation = newState.PlayStation;
-        this.ProperType = newState.ProperType;
+        this.ProperIdentity = newState.ProperIdentity;
         this.Name = newState.Name;
         this.RightBumper = newState.RightBumper;
         this.RightRumbleStrength = newState.RightRumbleStrength;

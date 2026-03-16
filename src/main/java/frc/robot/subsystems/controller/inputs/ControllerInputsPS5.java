@@ -10,17 +10,12 @@ import frc.robot.subsystems.controller.ControllerIdentity;
 public class ControllerInputsPS5 extends ControllerInputs {
     private PS5Controller m_controller;
     private double m_leftRumbleStrength = 0.0;
-    private ControllerName m_name;
     private double m_rightRumbleStrength = 0.0;
-
-    private int m_port;
-
-    private ControllerState m_state = new ControllerState();
-
+    
     public ControllerInputsPS5(ControllerName name, int port) {
+        m_name = name;
         m_port = port;
         m_controller = new PS5Controller(m_port);
-        m_name = name;
     }
 
     @Override
@@ -45,7 +40,7 @@ public class ControllerInputsPS5 extends ControllerInputs {
         m_state.Circle = m_controller.getCircleButton();
         m_state.Create = m_controller.getCreateButton();
         m_state.Cross = m_controller.getCrossButton();
-        m_state.CurrentType = ControllerIdentity.PS5;
+        m_state.CurrentIdentity = ControllerIdentity.PS5;
         m_state.Down = pov == 135 || pov == 180 || pov == 225;
         m_state.Left = pov == 225 || pov == 270 || pov == 315;
         m_state.LeftBumper = m_controller.getL1Button();
@@ -57,7 +52,7 @@ public class ControllerInputsPS5 extends ControllerInputs {
         m_state.Name = m_name;
         m_state.Options = m_controller.getOptionsButton();
         m_state.PlayStation = m_controller.getPSButton();
-        m_state.ProperType = ControllerIdentity.getIdentity(DriverStation.getJoystickName(m_port));
+        m_state.ProperIdentity = ControllerIdentity.getIdentity(DriverStation.getJoystickName(m_port));
         m_state.Right = pov == 45 || pov == 90 || pov == 135;
         m_state.RightBumper = m_controller.getR1Button();
         m_state.RightRumbleStrength = m_rightRumbleStrength;

@@ -9,13 +9,14 @@ import frc.robot.subsystems.controller.inputs.ControllerInputsNone;
 import frc.robot.util.Container;
 
 public class Controller extends UniversalSubsystem<ControllerState, ControllerInputs> {
-    private ControllerName m_name;
+    private final ControllerName m_name;
 
-    private int m_port;
+    private final int m_port;
 
     public Controller(ControllerName name, int port) {
         m_name = name;
-        m_inputs = new Container<ControllerInputs>(new ControllerInputsNone(m_name, port));
+        m_port = port;
+        m_inputs = new Container<ControllerInputs>(new ControllerInputsNone(m_name, m_port));
         m_requestor = new ControllerRequestor(m_name);
         m_choreographer = new ControllerChoreographer(m_name, m_inputs);
         m_state = new ControllerState();
@@ -27,14 +28,14 @@ public class Controller extends UniversalSubsystem<ControllerState, ControllerIn
         new Trigger(DriverStation::isDSAttached)
             .onTrue(
                 Commands
-                    .runOnce(() -> m_inputs.set(m_state.ProperType.getInputs(m_name, m_port)))
+                    .runOnce(() -> m_inputs.set(m_state.ProperIdentity.getInputs(m_name, m_port)))
                     .ignoringDisable(true)
             );
 
-        new Trigger(() -> m_state.CurrentType != m_state.ProperType)
+        new Trigger(() -> m_state.CurrentIdentity != m_state.ProperIdentity)
             .onTrue(
                 Commands
-                    .runOnce(() -> m_inputs.set(m_state.ProperType.getInputs(m_name, m_port)))
+                    .runOnce(() -> m_inputs.set(m_state.ProperIdentity.getInputs(m_name, m_port)))
                     .ignoringDisable(true)
             );
     }

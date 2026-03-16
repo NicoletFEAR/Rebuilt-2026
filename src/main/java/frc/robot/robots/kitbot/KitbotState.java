@@ -3,23 +3,26 @@ package frc.robot.robots.kitbot;
 import org.littletonrobotics.junction.AutoLog;
 
 import frc.robot.robots.base.RobotState;
+import frc.robot.subsystems.controller.ControllerState;
+import frc.robot.subsystems.controller.ControllerStateAutoLogged;
 import frc.robot.subsystems.drive.DriveState;
 import frc.robot.subsystems.drive.DriveStateAutoLogged;
 
 @AutoLog
 public class KitbotState extends RobotState<KitbotState> {
-    protected DriveStateAutoLogged DriveState = new DriveStateAutoLogged();
-
-    public KitbotState() {}
+    public ControllerStateAutoLogged ControllerState = new ControllerStateAutoLogged();
+    public DriveStateAutoLogged DriveState = new DriveStateAutoLogged();
 
     @Override
     public KitbotState update(KitbotState newState) {
-        DriveState.update(newState.getDriveState());
+        ControllerState.update(newState.ControllerState);
+        DriveState.update(newState.DriveState);
         return this;
     }
 
-    public DriveState getDriveState() {
-        return DriveState;
+    public KitbotState updateControllerState(ControllerState newState) {
+        ControllerState.update(newState);
+        return this;
     }
 
     public KitbotState updateDriveState(DriveState newState) {

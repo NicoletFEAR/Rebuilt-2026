@@ -187,4 +187,4 @@ compile_commands.json
 .factorypath
 
 # BuildConstants file
-src/main/java/frc/robot/BuildConstants.java
+src/main/java/frc/robot/constants/BuildConstants.java

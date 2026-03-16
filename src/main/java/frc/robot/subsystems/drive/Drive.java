@@ -1,5 +1,5 @@
 package frc.robot.subsystems.drive;
 
-import frc.robot.subsystems.base.Subsystem;
+import frc.robot.subsystems.base.universal.UniversalSubsystem;
 
-public class Drive extends Subsystem<DriveState> {}
+public class Drive extends UniversalSubsystem<DriveState> {}

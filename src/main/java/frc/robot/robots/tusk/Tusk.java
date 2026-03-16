@@ -2,29 +2,47 @@ package frc.robot.robots.tusk;
 
 import org.littletonrobotics.junction.Logger;
 
+import frc.robot.constants.DeviceIds;
 import frc.robot.robots.base.RobotContainer;
+import frc.robot.subsystems.controller.Controller;
+import frc.robot.subsystems.controller.ControllerName;
 import frc.robot.subsystems.drive.Drive;
 
 public class Tusk extends RobotContainer {
     private final Drive m_drive;
+    private final Controller m_driverController;
+    private final Controller m_operatorController;
 
     private final TuskStateAutoLogged m_state;
     private final TuskStateAutoLogged m_requestedState;
 
     public Tusk() {
         m_drive = new Drive();
+        m_driverController = new Controller(DeviceIds.kDriverController, ControllerName.DRIVER);
+        m_operatorController = new Controller(DeviceIds.kOperatorController, ControllerName.OPERATOR);
 
         m_state = new TuskStateAutoLogged();
         m_state.updateDriveState(m_drive.getState());
+        m_state.updateDriverControllerState(m_driverController.getState());
+        m_state.updateOperatorControllerState(m_operatorController.getState());
         m_requestedState = new TuskState().update(m_state).toAutoLogged();
     }
 
     @Override
     public void periodic() {
         m_state.updateDriveState(m_drive.update());
+        m_state.updateDriverControllerState(m_driverController.update());
+        m_state.updateOperatorControllerState(m_operatorController.update());
+
         m_requestedState.updateDriveState(m_drive.requestTusk(m_state));
-        Logger.processInputs("State", m_state);
-        Logger.processInputs("RequestedState", m_requestedState);
+        m_requestedState.updateDriverControllerState(m_driverController.requestTusk(m_state));
+        m_requestedState.updateOperatorControllerState(m_operatorController.requestTusk(m_state));
+
+        Logger.processInputs("Tusk/State", m_state);
+        Logger.processInputs("Tusk/RequestedState", m_requestedState);
+
         m_drive.runTusk(m_state);
+        m_driverController.runTusk(m_state);
+        m_operatorController.runTusk(m_state);
     }
 }

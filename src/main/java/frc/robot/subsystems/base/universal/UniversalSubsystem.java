@@ -1,16 +1,18 @@
-package frc.robot.subsystems.base;
+package frc.robot.subsystems.base.universal;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.robots.hades.HadesState;
 import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
+import frc.robot.subsystems.base.Inputs;
+import frc.robot.subsystems.base.State;
 
-public abstract class Subsystem<T extends State<T>> {
-    private Inputs<T> m_inputs;
-    private Requestor<T> m_requestor;
-    private Choreographer<T> m_choreographer;
-    private T m_state;
-    private T m_requestedState;
+public abstract class UniversalSubsystem<T extends State<T>> {
+    protected Inputs<T> m_inputs;
+    protected UniversalRequestor<T> m_requestor;
+    protected UniversalChoreographer<T> m_choreographer;
+    protected T m_state;
+    protected T m_requestedState;
 
     public T getState() {
         return m_state;
@@ -21,7 +23,7 @@ public abstract class Subsystem<T extends State<T>> {
     }
 
     public T requestHades(HadesState fullState) {
-        return m_requestedState.update(m_requestor.requestHadesState(fullState));
+        return m_requestedState.update(m_requestor.requestHades(fullState));
     }
 
     public void runHades(HadesState fullState) {
@@ -29,7 +31,7 @@ public abstract class Subsystem<T extends State<T>> {
     }
 
     public T requestKitbot(KitbotState fullState) {
-        return m_requestedState.update(m_requestor.requestKitbotState(fullState));
+        return m_requestedState.update(m_requestor.requestKitbot(fullState));
     }
 
     public void runKitbot(KitbotState fullState) {
@@ -37,7 +39,7 @@ public abstract class Subsystem<T extends State<T>> {
     }
 
     public T requestTusk(TuskState fullState) {
-        return m_requestedState.update(m_requestor.requestTuskState(fullState));
+        return m_requestedState.update(m_requestor.requestTusk(fullState));
     }
 
     public void runTusk(TuskState fullState) {

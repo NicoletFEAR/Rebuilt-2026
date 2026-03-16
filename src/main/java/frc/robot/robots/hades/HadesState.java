@@ -3,23 +3,26 @@ package frc.robot.robots.hades;
 import org.littletonrobotics.junction.AutoLog;
 
 import frc.robot.robots.base.RobotState;
+import frc.robot.subsystems.controller.ControllerState;
+import frc.robot.subsystems.controller.ControllerStateAutoLogged;
 import frc.robot.subsystems.drive.DriveState;
 import frc.robot.subsystems.drive.DriveStateAutoLogged;
 
 @AutoLog
 public class HadesState extends RobotState<HadesState> {
-    protected DriveStateAutoLogged DriveState = new DriveStateAutoLogged();
-
-    public HadesState() {}
+    public ControllerStateAutoLogged ControllerState = new ControllerStateAutoLogged();
+    public DriveStateAutoLogged DriveState = new DriveStateAutoLogged();
 
     @Override
     public HadesState update(HadesState newState) {
-        DriveState.update(newState.getDriveState());
+        ControllerState.update(newState.ControllerState);
+        DriveState.update(newState.DriveState);
         return this;
     }
 
-    public DriveState getDriveState() {
-        return DriveState;
+    public HadesState updateControllerState(ControllerState newState) {
+        ControllerState.update(newState);
+        return this;
     }
 
     public HadesState updateDriveState(DriveState newState) {

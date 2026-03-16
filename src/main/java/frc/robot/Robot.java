@@ -111,7 +111,7 @@ public class Robot extends LoggedRobot {
         DriverStation.silenceJoystickConnectionWarning(true);
 
         m_robotContainer = m_identity.getRobot();
-        
+
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     }
 

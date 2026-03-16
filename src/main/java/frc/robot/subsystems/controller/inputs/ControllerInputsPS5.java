@@ -11,7 +11,7 @@ public class ControllerInputsPS5 extends ControllerInputs {
     private PS5Controller m_controller;
     private double m_leftRumbleStrength = 0.0;
     private double m_rightRumbleStrength = 0.0;
-    
+
     public ControllerInputsPS5(ControllerName name, int port) {
         m_name = name;
         m_port = port;

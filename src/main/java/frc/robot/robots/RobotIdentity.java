@@ -40,7 +40,7 @@ public enum RobotIdentity {
 
     /**
      * Returns the name of the robot as a {@link java.lang.String String}.
-     * 
+     *
      * @return The name of the robot, formatted with proper capitalization.
      */
     @Override
@@ -51,7 +51,7 @@ public enum RobotIdentity {
     /**
      * Gets the correct {@link frc.robot.robots.base.RobotContainer RobotContainer} for the
      * robot running.
-     * 
+     *
      * @return The {@code RobotContainer} for the robot.
      */
     public RobotContainer getRobot() {
@@ -65,7 +65,7 @@ public enum RobotIdentity {
 
     /**
      * Uses the team number of the connected roboRIO to determine which robot is running.
-     * 
+     *
      * @return The running robot's identity.
      */
     public static RobotIdentity getIdentity() {

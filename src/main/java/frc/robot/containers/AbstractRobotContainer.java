@@ -4,6 +4,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -148,6 +149,14 @@ public abstract class AbstractRobotContainer {
      */
     public Alliance getAlliance() {
         return m_alliance;
+    }
+
+    /**
+     * This method will return the team number of the bot
+     * @return
+     */
+    public int getTeamNumber() {
+        return RobotController.getTeamNumber();
     }
 
     /**

@@ -102,7 +102,7 @@ public class Robot extends LoggedRobot {
 
         createRobotContainer();
 
-        RoboRioSim.setTeamNumber(BotEnum.TUSK.getTeamNumber());
+        RoboRioSim.setTeamNumber(m_robotContainer.getTeamNumber());
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     }
 

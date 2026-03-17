@@ -5,26 +5,56 @@ import org.littletonrobotics.junction.AutoLog;
 import frc.robot.robots.base.RobotState;
 import frc.robot.subsystems.controller.ControllerState;
 import frc.robot.subsystems.controller.ControllerStateAutoLogged;
+import frc.robot.subsystems.turn.TurnState;
+import frc.robot.subsystems.turn.TurnStateAutoLogged;
 
 @AutoLog
 public class TuskState extends RobotState<TuskState> {
-    public ControllerStateAutoLogged DriverControllerState = new ControllerStateAutoLogged();
-    public ControllerStateAutoLogged OperatorControllerState = new ControllerStateAutoLogged();
+    public ControllerStateAutoLogged DriverController = new ControllerStateAutoLogged();
+    public TurnStateAutoLogged FrontLeftTurn = new TurnStateAutoLogged();
+    public TurnStateAutoLogged FrontRightTurn = new TurnStateAutoLogged();
+    public ControllerStateAutoLogged OperatorController = new ControllerStateAutoLogged();
+    public TurnStateAutoLogged RearLeftTurn = new TurnStateAutoLogged();
+    public TurnStateAutoLogged RearRightTurn = new TurnStateAutoLogged();
 
     @Override
     public TuskState update(TuskState newState) {
-        DriverControllerState.update(newState.DriverControllerState);
-        OperatorControllerState.update(newState.OperatorControllerState);
+        FrontLeftTurn.update(newState.FrontLeftTurn);
+        FrontRightTurn.update(newState.FrontRightTurn);
+        DriverController.update(newState.DriverController);
+        OperatorController.update(newState.OperatorController);
+        RearLeftTurn.update(newState.RearLeftTurn);
+        RearRightTurn.update(newState.RearRightTurn);
         return this;
     }
 
-    public TuskState updateDriverControllerState(ControllerState newState) {
-        DriverControllerState.update(newState);
+    public TuskState updateDriverController(ControllerState newState) {
+        DriverController.update(newState);
         return this;
     }
 
-    public TuskState updateOperatorControllerState(ControllerState newState) {
-        OperatorControllerState.update(newState);
+    public TuskState updateFrontLeftTurn(TurnState newState) {
+        FrontLeftTurn.update(newState);
+        return this;
+    }
+
+    public TuskState updateFrontRightTurn(TurnState newState) {
+        FrontRightTurn.update(newState);
+        return this;
+    }
+
+    public TuskState updateOperatorController(ControllerState newState) {
+        OperatorController.update(newState);
+        return this;
+    }
+
+    public TuskState updateRearLeftTurn(TurnState newState) {
+        RearLeftTurn.update(newState);
+        return this;
+    }
+
+    public TuskState updateRearRightTurn(TurnState newState) {
+        RearRightTurn.update(newState);
         return this;
     }
 

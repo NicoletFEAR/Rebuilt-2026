@@ -13,10 +13,20 @@ public final class Constants {
      * The distance from a point in the state space that is deemed close
      * enough for the two points to be considered equal. Taken as a
      * proportion of the range of the state space. For example, if the
-     * space ranges from 0 to 0.5 rotations, then a value of 0.0001
-     * here means that being off by 0.00005 rotations is acceptable.
+     * space ranges from 0 to 0.5 rotations, then a value of 0.000001
+     * here means that being off by 0.0000005 rotations is acceptable.
      */
-    public static final double kGeneralTolerance = 0.0001;
+    public static final double kGeneralTolerance = 0.000001;
+    /**
+     * The distance from a point in an unbounded state space that is
+     * deemed close enough for the two points to be considered equal.
+     * For example, this could be used for a motor that is allowed
+     * to turn infinitely. This is just a flat number and shouldn't
+     * be multiplied by anything.
+     */
+    public static final double kUnboundedTolerance = 0.0001;
+
+    public static final double kLoopPeriod = 0.02;
 
     private Constants() {}
 }

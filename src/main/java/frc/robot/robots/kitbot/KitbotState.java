@@ -5,19 +5,49 @@ import org.littletonrobotics.junction.AutoLog;
 import frc.robot.robots.base.RobotState;
 import frc.robot.subsystems.controller.ControllerState;
 import frc.robot.subsystems.controller.ControllerStateAutoLogged;
+import frc.robot.subsystems.turn.TurnState;
+import frc.robot.subsystems.turn.TurnStateAutoLogged;
 
 @AutoLog
 public class KitbotState extends RobotState<KitbotState> {
-    public ControllerStateAutoLogged ControllerState = new ControllerStateAutoLogged();
+    public ControllerStateAutoLogged Controller = new ControllerStateAutoLogged();
+    public TurnStateAutoLogged FrontLeftTurn = new TurnStateAutoLogged();
+    public TurnStateAutoLogged FrontRightTurn = new TurnStateAutoLogged();
+    public TurnStateAutoLogged RearLeftTurn = new TurnStateAutoLogged();
+    public TurnStateAutoLogged RearRightTurn = new TurnStateAutoLogged();
 
     @Override
     public KitbotState update(KitbotState newState) {
-        ControllerState.update(newState.ControllerState);
+        FrontLeftTurn.update(newState.FrontLeftTurn);
+        FrontRightTurn.update(newState.FrontRightTurn);
+        Controller.update(newState.Controller);
+        RearLeftTurn.update(newState.RearLeftTurn);
+        RearRightTurn.update(newState.RearRightTurn);
         return this;
     }
 
-    public KitbotState updateControllerState(ControllerState newState) {
-        ControllerState.update(newState);
+    public KitbotState updateController(ControllerState newState) {
+        Controller.update(newState);
+        return this;
+    }
+
+    public KitbotState updateFrontLeftTurn(TurnState newState) {
+        FrontLeftTurn.update(newState);
+        return this;
+    }
+
+    public KitbotState updateFrontRightTurn(TurnState newState) {
+        FrontRightTurn.update(newState);
+        return this;
+    }
+
+    public KitbotState updateRearLeftTurn(TurnState newState) {
+        RearLeftTurn.update(newState);
+        return this;
+    }
+
+    public KitbotState updateRearRightTurn(TurnState newState) {
+        RearRightTurn.update(newState);
         return this;
     }
 

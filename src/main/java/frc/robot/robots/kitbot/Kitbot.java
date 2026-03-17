@@ -18,11 +18,11 @@ public class Kitbot extends RobotContainer {
 
     @Override
     public void periodic() {
-        m_state.updateControllerState(m_controller.update());
+        m_state.updateController(m_controller.update());
 
         m_controller.updateMissingInputs();
 
-        m_requestedState.updateControllerState(m_controller.requestKitbot(m_state));
+        m_requestedState.updateController(m_controller.requestKitbot(m_state));
 
         Logger.processInputs("Kitbot/State", m_state);
         Logger.processInputs("Kitbot/RequestedState", m_requestedState);

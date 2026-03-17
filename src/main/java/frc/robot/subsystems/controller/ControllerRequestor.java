@@ -12,19 +12,19 @@ public class ControllerRequestor extends UniversalRequestor<ControllerState, Con
 
     @Override
     public ControllerState requestHades(HadesState fullState) {
-        return fullState.ControllerState;
+        return fullState.Controller;
     }
 
     @Override
     public ControllerState requestKitbot(KitbotState fullState) {
-        return fullState.ControllerState;
+        return fullState.Controller;
     }
 
     @Override
     public ControllerState requestTusk(TuskState fullState) {
         return switch (m_name) {
-            case DRIVER -> fullState.DriverControllerState;
-            case OPERATOR -> fullState.OperatorControllerState;
+            case DRIVER -> fullState.DriverController;
+            case OPERATOR -> fullState.OperatorController;
         };
     }
 }

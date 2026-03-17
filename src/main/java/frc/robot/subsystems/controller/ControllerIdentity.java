@@ -1,11 +1,5 @@
 package frc.robot.subsystems.controller;
 
-import frc.robot.subsystems.controller.inputs.ControllerInputs;
-import frc.robot.subsystems.controller.inputs.ControllerInputsNone;
-import frc.robot.subsystems.controller.inputs.ControllerInputsPS4;
-import frc.robot.subsystems.controller.inputs.ControllerInputsPS5;
-import frc.robot.subsystems.controller.inputs.ControllerInputsXbox;
-
 public enum ControllerIdentity {
     NONE("None"),
     KEYBOARD_0("Keyboard 0"),
@@ -25,16 +19,6 @@ public enum ControllerIdentity {
     @Override
     public String toString() {
         return m_name;
-    }
-
-    public ControllerInputs getInputs(ControllerName name) {
-        return switch (this) {
-            case NONE -> new ControllerInputsNone(name);
-            case PS4 -> new ControllerInputsPS4(name);
-            case PS5 -> new ControllerInputsPS5(name);
-            case XBOX -> new ControllerInputsXbox(name);
-            default -> new ControllerInputsNone(name);
-        };
     }
 
     public static ControllerIdentity getIdentity(String name) {

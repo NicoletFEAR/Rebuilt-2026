@@ -15,7 +15,6 @@ public class ControllerInputsXbox extends ControllerInputs {
     public ControllerInputsXbox(ControllerName name) {
         super(name);
         m_controller = new XboxController(m_port);
-        m_state = new ControllerState();
     }
 
     @Override

@@ -18,19 +18,19 @@ public class ControllerChoreographer extends UniversalChoreographer<ControllerSt
 
     @Override
     public Command choreographHades(HadesState fullState, ControllerState requestedState) {
-        return choreograph(fullState.ControllerState, requestedState);
+        return choreograph(fullState.Controller, requestedState);
     }
 
     @Override
     public Command choreographKitbot(KitbotState fullState, ControllerState requestedState) {
-        return choreograph(fullState.ControllerState, requestedState);
+        return choreograph(fullState.Controller, requestedState);
     }
 
     @Override
     public Command choreographTusk(TuskState fullState, ControllerState requestedState) {
         return choreograph(switch (m_name) {
-            case DRIVER -> fullState.DriverControllerState;
-            case OPERATOR -> fullState.OperatorControllerState;
+            case DRIVER -> fullState.DriverController;
+            case OPERATOR -> fullState.OperatorController;
         }, requestedState);
     }
 

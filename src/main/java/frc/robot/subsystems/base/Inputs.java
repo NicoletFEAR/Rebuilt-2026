@@ -11,5 +11,5 @@ public abstract class Inputs<T extends State<T, V, W>, U extends Inputs<T, U, V,
 
     public abstract T updateState();
 
-    public abstract U getInputs(W identity);
+    public abstract U getInputs();
 }

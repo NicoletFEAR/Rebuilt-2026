@@ -15,7 +15,6 @@ public class ControllerInputsPS5 extends ControllerInputs {
     public ControllerInputsPS5(ControllerName name) {
         super(name);
         m_controller = new PS5Controller(m_port);
-        m_state = new ControllerState();
     }
 
     @Override

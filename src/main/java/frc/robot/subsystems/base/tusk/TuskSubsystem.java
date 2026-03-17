@@ -26,19 +26,17 @@ public abstract class TuskSubsystem<T extends State<T, V, W>, U extends Inputs<T
     }
 
     public void createInputsChangeTriggers() {
-        new Trigger(DriverStation::isDSAttached)
-            .onTrue(
-                Commands
-                    .runOnce(() -> m_inputs = m_inputs.getInputs(m_state.ProperIdentity))
-                    .ignoringDisable(true)
-            );
+        new Trigger(DriverStation::isDSAttached).onTrue(
+            Commands
+                .runOnce(() -> m_inputs = m_inputs.getInputs())
+                .ignoringDisable(true)
+        );
 
-        new Trigger(() -> m_state.CurrentIdentity != m_state.ProperIdentity)
-            .onTrue(
-                Commands
-                    .runOnce(() -> m_inputs = m_inputs.getInputs(m_state.ProperIdentity))
-                    .ignoringDisable(true)
-            );
+        new Trigger(() -> m_state.CurrentIdentity != m_state.ProperIdentity).onTrue(
+            Commands
+                .runOnce(() -> m_inputs = m_inputs.getInputs())
+                .ignoringDisable(true)
+        );
     }
 
     public abstract void updateMissingInputs();

@@ -12,6 +12,7 @@ public abstract class ControllerInputs extends Inputs<ControllerState, Controlle
     public ControllerInputs(ControllerName name) {
         super(name);
         m_port = m_name.getPort();
+        m_state = new ControllerState();
     }
 
     public void leftRumble(double strength) {};
@@ -51,8 +52,8 @@ public abstract class ControllerInputs extends Inputs<ControllerState, Controlle
     }
 
     @Override
-    public ControllerInputs getInputs(ControllerIdentity identity) {
-        return switch (identity) {
+    public ControllerInputs getInputs() {
+        return switch (m_state.ProperIdentity) {
             case NONE -> new ControllerInputsNone(m_name);
             case PS4 -> new ControllerInputsPS4(m_name);
             case PS5 -> new ControllerInputsPS5(m_name);

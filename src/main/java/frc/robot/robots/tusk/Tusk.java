@@ -20,14 +20,14 @@ public class Tusk extends RobotContainer {
 
     @Override
     public void periodic() {
-        m_state.updateDriverControllerState(m_driverController.update());
-        m_state.updateOperatorControllerState(m_operatorController.update());
+        m_state.updateDriverController(m_driverController.update());
+        m_state.updateOperatorController(m_operatorController.update());
 
         m_driverController.updateMissingInputs();
         m_operatorController.updateMissingInputs();
 
-        m_requestedState.updateDriverControllerState(m_driverController.requestTusk(m_state));
-        m_requestedState.updateOperatorControllerState(m_operatorController.requestTusk(m_state));
+        m_requestedState.updateDriverController(m_driverController.requestTusk(m_state));
+        m_requestedState.updateOperatorController(m_operatorController.requestTusk(m_state));
 
         Logger.processInputs("Tusk/State", m_state);
         Logger.processInputs("Tusk/RequestedState", m_requestedState);

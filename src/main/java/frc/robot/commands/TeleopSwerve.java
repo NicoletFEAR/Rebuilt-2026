@@ -9,7 +9,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.constants.HadesConstants.HadesDriveConstants;
+import frc.robot.constants.HadesConstants.HadesGeneralConstants;
+import frc.robot.constants.KitbotConstants.KitbotDriveConstants;
+import frc.robot.constants.KitbotConstants.KitbotGeneralConstants;
+import frc.robot.constants.TuskConstants.TuskDriveConstants;
+import frc.robot.constants.TuskConstants.TuskGeneralConstants;
+import frc.robot.containers.AbstractRobotContainer;
+import frc.robot.containers.BotEnum;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
@@ -68,21 +75,55 @@ public class TeleopSwerve extends Command {
      */
     @Override
     public void execute() {
-        //isBatteryInBack gives value to change controls based on location of battery
-        m_throttle = MathUtil.applyDeadband(
-            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
-            DriveConstants.getSwerveDeadband()
-        );
+        if (AbstractRobotContainer.getBot() == BotEnum.TUSK) {
+            //isBatteryInBack gives value to change controls based on location of battery
+            m_throttle = MathUtil.applyDeadband(
+                TuskGeneralConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
+                TuskDriveConstants.kSwerveDeadband
+            );
 
-        m_strafe = MathUtil.applyDeadband(
-            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
-            DriveConstants.getSwerveDeadband()
-        );
+            m_strafe = MathUtil.applyDeadband(
+                TuskGeneralConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
+                TuskDriveConstants.kSwerveDeadband
+            );
 
-        m_steer = MathUtil.applyDeadband(
-            DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_steerAxis),
-            DriveConstants.getSwerveDeadband()
-        );
+            m_steer = MathUtil.applyDeadband(
+                TuskGeneralConstants.isBatteryInBack() * m_driverController.getRawAxis(m_steerAxis),
+                TuskDriveConstants.kSwerveDeadband
+            );
+        } else if (AbstractRobotContainer.getBot() == BotEnum.HADES) {
+            //isBatteryInBack gives value to change controls based on location of battery
+            m_throttle = MathUtil.applyDeadband(
+                HadesGeneralConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
+                HadesDriveConstants.kSwerveDeadband
+            );
+
+            m_strafe = MathUtil.applyDeadband(
+                HadesGeneralConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
+                HadesDriveConstants.kSwerveDeadband
+            );
+
+            m_steer = MathUtil.applyDeadband(
+                HadesGeneralConstants.isBatteryInBack() * m_driverController.getRawAxis(m_steerAxis),
+                HadesDriveConstants.kSwerveDeadband
+            );
+        } else {
+            //isBatteryInBack gives value to change controls based on location of battery
+            m_throttle = MathUtil.applyDeadband(
+                KitbotGeneralConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
+                KitbotDriveConstants.kSwerveDeadband
+            );
+
+            m_strafe = MathUtil.applyDeadband(
+                KitbotGeneralConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
+                KitbotDriveConstants.kSwerveDeadband
+            );
+
+            m_steer = MathUtil.applyDeadband(
+                KitbotGeneralConstants.isBatteryInBack() * m_driverController.getRawAxis(m_steerAxis),
+                KitbotDriveConstants.kSwerveDeadband
+            );
+        }
 
         m_throttle *= m_percentModifier;
         m_strafe *= m_percentModifier;

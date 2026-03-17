@@ -148,7 +148,5 @@ public class HadesConstants {
             DrivebaseMotorIds.kBackRightSteerEncoderId,
             backRightOffset
         );
-
-        public static final Translation2d kHubPosition = new Translation2d(4.619, 4.033);
     }
 }

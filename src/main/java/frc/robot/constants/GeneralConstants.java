@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import edu.wpi.first.math.geometry.Translation2d;
+
 public class GeneralConstants {
     // Set to true to enable replaying log files
     public static final boolean kIsReplay = false;
@@ -8,6 +10,8 @@ public class GeneralConstants {
     // Set to 0.02 to represent once every loop (20 ms)
     public static final double kdt = 0.02;
 
+    public static final Translation2d kHubPosition = new Translation2d(4.619, 4.033);
+    
     public class DrivebaseMotorIds {
         public static final int kFrontLeftSteerMotorId = 1;
         public static final int kFrontLeftDriveMotorId = 2;

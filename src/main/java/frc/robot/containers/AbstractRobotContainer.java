@@ -19,7 +19,7 @@ import frc.robot.subsystems.swerve.SwerveDrive;
 public abstract class AbstractRobotContainer {
 
     // Common items for a robot
-    protected final BotEnum m_botEnum;
+    private static BotEnum m_botEnum;
     protected final Alliance m_alliance;
     protected SendableChooser<Command> m_autoChooser;
     protected SwerveDrive m_driveBase;
@@ -31,7 +31,7 @@ public abstract class AbstractRobotContainer {
      * @param alliance The alliance that the robot is on
      */
     public AbstractRobotContainer(BotEnum botEnum, Alliance alliance) {
-        // Call the super's consturctor first
+        // Call the super's constructor first
         super();
 
         // Set the bot type
@@ -186,4 +186,8 @@ public abstract class AbstractRobotContainer {
      * any necessary cleanup for the test period
      */
     public abstract void testExit();
+
+    public static BotEnum getBot() {
+        return m_botEnum;
     }
+}

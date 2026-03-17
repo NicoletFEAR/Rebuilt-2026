@@ -21,9 +21,13 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.constants.GeneralConstants;
+import frc.robot.constants.HadesConstants.HadesDriveConstants;
+import frc.robot.constants.HadesConstants.HadesGeneralConstants;
+import frc.robot.constants.KitbotConstants.KitbotDriveConstants;
+import frc.robot.constants.KitbotConstants.KitbotGeneralConstants;
+import frc.robot.containers.AbstractRobotContainer;
+import frc.robot.containers.BotEnum;
 import frc.robot.util.DeviceConfigurator;
 import frc.robot.util.SwerveModuleConstants;
 import frc.robot.util.Utils;
@@ -62,7 +66,11 @@ public class SparkMaxSwerveModule implements SwerveModule {
 
         m_steerController = m_steerMotor.getClosedLoopController();
 
-        m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        if (AbstractRobotContainer.getBot() == BotEnum.HADES) {
+            m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, new CANBus(HadesGeneralConstants.kHasCanivore ? "*" : "rio"));
+        } else {
+            m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, new CANBus(KitbotGeneralConstants.kHasCanivore ? "*" : "rio"));
+        }
 
         m_modulePosition = new SwerveModulePosition();
         m_moduleState = new SwerveModuleState();
@@ -125,7 +133,11 @@ public class SparkMaxSwerveModule implements SwerveModule {
 
         if (moduleState.speedMetersPerSecond != m_lastSpeed) {
             if (isOpenLoop) {
-                m_driveMotor.set(moduleState.speedMetersPerSecond / DriveConstants.getMaxModuleSpeed());
+                if (AbstractRobotContainer.getBot() == BotEnum.HADES) {
+                    m_driveMotor.set(moduleState.speedMetersPerSecond / HadesDriveConstants.maxModuleSpeed);
+                } else {
+                    m_driveMotor.set(moduleState.speedMetersPerSecond / KitbotDriveConstants.maxModuleSpeed);
+                }
             } else {
                 m_driveController.setSetpoint(moduleState.speedMetersPerSecond, ControlType.kVelocity);
             }

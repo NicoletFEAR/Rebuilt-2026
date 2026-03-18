@@ -19,23 +19,17 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Bottom-North - NZT Top-North"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "EndIntake"
+            "pathName": "NZT Bottom North - NZB Bottom North"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Top-North - Launch 1"
+            "pathName": "NZB Bottom North - Launch BB"
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -62,42 +56,23 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Launch 1 - Depot Middle"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartIntake"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 5.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndIntake"
-                }
-              }
-            ]
+            "pathName": "Launch BB - NZB Bottom South"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot Middle - Launch D"
+            "pathName": "NZB Bottom South - NZT Bottom South"
           }
         },
         {
-          "type": "sequential",
+          "type": "path",
+          "data": {
+            "pathName": "NZT Bottom-South - Launch 3"
+          }
+        },
+        {
+          "type": "parallel",
           "data": {
             "commands": [
               {

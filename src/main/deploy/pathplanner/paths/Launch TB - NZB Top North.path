@@ -3,33 +3,47 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.989,
-        "y": 0.624
+        "x": 3.4,
+        "y": 5.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.966633333333334,
-        "y": 0.4685333333333336
+        "x": 5.0056111111111115,
+        "y": 5.350499999999999
       },
       "isLocked": false,
-      "linkedName": "Pre-Trench O"
+      "linkedName": "Launch TB"
     },
     {
       "anchor": {
-        "x": 7.73,
-        "y": 1.061
+        "x": 7.7,
+        "y": 4.65
       },
       "prevControl": {
-        "x": 6.662166666666667,
-        "y": 0.7998444444444444
+        "x": 5.872866666666668,
+        "y": 5.165355555555555
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NZT Bottom-North"
+      "linkedName": "NZB Top-North"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.4833746898263035,
+      "constraints": {
+        "maxVelocity": 3.7,
+        "maxAcceleration": 3.7,
+        "maxAngularVelocity": 270.0,
+        "maxAngularAcceleration": 360.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -48,7 +62,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -50.72270154361652
   },
   "useDefaultConstraints": true
 }

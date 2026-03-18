@@ -4,7 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
     "Climb Insertion",
-    "Lakeland",
+    "Comp",
     "Neutral Zone Trench Paths",
     "Start D and Depot Paths",
     "Start O and Outpost Paths",
@@ -32,7 +32,7 @@
     "025 ⚐",
     "031 ⚐",
     "032 ⚐",
-    "Lakeland",
+    "Comp Autos",
     "Spinning Death"
   ],
   "defaultMaxVel": 4.7,

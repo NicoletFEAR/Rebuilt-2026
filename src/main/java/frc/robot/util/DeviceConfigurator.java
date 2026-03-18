@@ -16,10 +16,12 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
+import frc.robot.constants.SwerveConstantsInterface;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import frc.robot.Constants.DriveConstants;
 
 public class DeviceConfigurator {
     /* Configure the `CANcoder` and offsets it by `offset` */
@@ -33,68 +35,68 @@ public class DeviceConfigurator {
         encoder.getConfigurator().apply(configuration); // Apply the configuration
     }
 
-    public static void configureSparkMaxSteerMotor(SparkMax motor) {
+    public static void configureSparkMaxSteerMotor(SparkMax motor, SwerveConstantsInterface constants) {
         SparkMaxConfig config = new SparkMaxConfig();
 
         config.inverted(true)
             .smartCurrentLimit(40)
             .idleMode(IdleMode.kBrake);
 
-        config.encoder.positionConversionFactor(DriveConstants.getTurnRotationsToDegrees());
+        config.encoder.positionConversionFactor(constants.getTurnRotationsToDegrees());
 
         config.closedLoop
-            .p(DriveConstants.getTurnKP())
-            .i(DriveConstants.getTurnKI())
-            .d(DriveConstants.getTurnKD())
+            .p(constants.getTurnKP())
+            .i(constants.getTurnKI())
+            .d(constants.getTurnKD())
             .feedForward
-            .kS(DriveConstants.getTurnKS())
-            .kV(DriveConstants.getTurnKV())
-            .kA(DriveConstants.getTurnKA());
+            .kS(constants.getTurnKS())
+            .kV(constants.getTurnKV())
+            .kA(constants.getTurnKA());
 
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         motor.getEncoder().setPosition(0);
     }
 
-    public static void configureTalonFXDriveMotor(TalonFX motor) {
+    public static void configureTalonFXDriveMotor(TalonFX motor, SwerveConstantsInterface constants) {
         TalonFXConfiguration config = new TalonFXConfiguration();
 
         config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         config.CurrentLimits.StatorCurrentLimitEnable = true;
         config.CurrentLimits.StatorCurrentLimit = 360;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = DriveConstants.getDriveRampRate();
-        config.Feedback.SensorToMechanismRatio = DriveConstants.getDriveRevToMeters();
+        config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = constants.getRampRate();
+        config.Feedback.SensorToMechanismRatio = constants.getDriveRevToMeters();
 
-        config.Slot0.kP = DriveConstants.getDriveKP();
-        config.Slot0.kI = DriveConstants.getDriveKI();
-        config.Slot0.kD = DriveConstants.getDriveKD();
-        config.Slot0.kV = DriveConstants.getDriveKV();
-        config.Slot0.kS = DriveConstants.getDriveKS();
-        config.Slot0.kA = DriveConstants.getDriveKA();
+        config.Slot0.kP = constants.getDriveKP();
+        config.Slot0.kI = constants.getDriveKI();
+        config.Slot0.kD = constants.getDriveKD();
+        config.Slot0.kV = constants.getDriveKV();
+        config.Slot0.kS = constants.getDriveKS();
+        config.Slot0.kA = constants.getDriveKA();
 
         motor.getConfigurator().apply(config);
         motor.setPosition(0);
     }
 
-    public static void configureSparkMaxDriveMotor(SparkMax motor) {
+    public static void configureSparkMaxDriveMotor(SparkMax motor, SwerveConstantsInterface constants) {
         SparkMaxConfig config = new SparkMaxConfig();
 
         config.inverted(false)
             .smartCurrentLimit(80)
             .idleMode(IdleMode.kBrake)
-            .openLoopRampRate(DriveConstants.getDriveRampRate());
+            .openLoopRampRate(constants.getRampRate());
 
-        config.encoder.positionConversionFactor(1 / DriveConstants.getDriveRevToMeters())
-            .velocityConversionFactor(60 / DriveConstants.getDriveRevToMeters());
+        config.encoder.positionConversionFactor(1 / constants.getDriveRevToMeters())
+            .velocityConversionFactor(60 / constants.getDriveRevToMeters());
 
         config.closedLoop
-            .p(DriveConstants.getDriveKP())
-            .i(DriveConstants.getDriveKI())
-            .d(DriveConstants.getDriveKD())
+            .p(constants.getDriveKP())
+            .i(constants.getDriveKI())
+            .d(constants.getDriveKD())
             .feedForward
-            .kS(DriveConstants.getDriveKS())
-            .kV(DriveConstants.getDriveKV())
-            .kA(DriveConstants.getDriveKA());
+            .kS(constants.getDriveKS())
+            .kV(constants.getDriveKV())
+            .kA(constants.getDriveKA());
 
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         motor.getEncoder().setPosition(0);

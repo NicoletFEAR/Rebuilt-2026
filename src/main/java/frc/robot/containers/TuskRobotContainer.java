@@ -16,7 +16,6 @@ import frc.robot.GameTimer;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
-import frc.robot.constants.KitbotConstants.KitbotOperatorConstants;
 import frc.robot.constants.TuskConstants.TuskDeviceIds;
 import frc.robot.constants.TuskConstants.TuskDriveConstants;
 import frc.robot.constants.TuskConstants.TuskOperatorConstants;
@@ -62,7 +61,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
 
     @Override
     protected void createDriveBase() {
-        m_driveBase = new SwerveDrive();
+        m_driveBase = new SwerveDrive(new TuskDriveConstants());
     }
 
     @Override
@@ -84,9 +83,9 @@ public class TuskRobotContainer extends AbstractRobotContainer {
         m_driveBase.setDefaultCommand(
             new TeleopSwerve(
                 m_driverController,
-                KitbotOperatorConstants.kThrottleAxis,
-                KitbotOperatorConstants.kStrafeAxis,
-                KitbotOperatorConstants.kSteerAxis,
+                TuskOperatorConstants.kThrottleAxis,
+                TuskOperatorConstants.kStrafeAxis,
+                TuskOperatorConstants.kSteerAxis,
                 GeneralOperatorConstants.kDefaultSpeed,
                 true,
                 true,
@@ -100,9 +99,9 @@ public class TuskRobotContainer extends AbstractRobotContainer {
             .whileTrue(
                 new TeleopSwerve(
                     m_driverController,
-                    KitbotOperatorConstants.kThrottleAxis,
-                    KitbotOperatorConstants.kStrafeAxis,
-                    KitbotOperatorConstants.kSteerAxis,
+                    TuskOperatorConstants.kThrottleAxis,
+                    TuskOperatorConstants.kStrafeAxis,
+                    TuskOperatorConstants.kSteerAxis,
                     GeneralOperatorConstants.kSlowSpeed,
                     true,
                     true,

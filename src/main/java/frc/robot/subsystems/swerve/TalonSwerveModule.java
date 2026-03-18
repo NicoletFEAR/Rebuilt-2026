@@ -25,15 +25,15 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.constants.GeneralConstants;
+import frc.robot.constants.SwerveConstantsInterface;
 import frc.robot.util.DeviceConfigurator;
 import frc.robot.util.SwerveModuleConstants;
 import frc.robot.util.Utils;
 
 public class TalonSwerveModule implements SwerveModule {
     SwerveModuleConstants m_constants;
+    SwerveConstantsInterface m_swerveConstants;
 
     private SparkMax m_steerMotor;
     private TalonFX m_driveMotor;
@@ -53,23 +53,24 @@ public class TalonSwerveModule implements SwerveModule {
     private double m_simDist;
     private double m_simVel;
 
-    public TalonSwerveModule(SwerveModuleConstants constants) {
-        m_constants = constants;
+    public TalonSwerveModule(SwerveModuleConstants constants, SwerveConstantsInterface swerveConstants) {
+        this.m_constants = constants;
+        this.m_swerveConstants = swerveConstants;
 
-        m_steerMotor = new SparkMax(constants.steerId, MotorType.kBrushless);
-        m_driveMotor = new TalonFX(constants.driveId, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        this.m_steerMotor = new SparkMax(constants.steerId, MotorType.kBrushless);
+        this.m_driveMotor = new TalonFX(constants.driveId, new CANBus(swerveConstants.getHasCanivore() ? "*" : "rio"));
 
-        m_steerEncoder = m_steerMotor.getEncoder();
+        this.m_steerEncoder = m_steerMotor.getEncoder();
 
-        m_steerController = m_steerMotor.getClosedLoopController();
+        this.m_steerController = m_steerMotor.getClosedLoopController();
 
-        m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        this.m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, new CANBus(swerveConstants.getHasCanivore() ? "*" : "rio"));
 
-        m_modulePosition = new SwerveModulePosition();
-        m_moduleState = new SwerveModuleState();
+        this.m_modulePosition = new SwerveModulePosition();
+        this.m_moduleState = new SwerveModuleState();
 
-        DeviceConfigurator.configureSparkMaxSteerMotor(m_steerMotor);
-        DeviceConfigurator.configureTalonFXDriveMotor(m_driveMotor);
+        DeviceConfigurator.configureSparkMaxSteerMotor(m_steerMotor, swerveConstants);
+        DeviceConfigurator.configureTalonFXDriveMotor(m_driveMotor, swerveConstants);
         DeviceConfigurator.configureCANcoder(m_steerAbsEncoder, m_constants.offset);
     }
 
@@ -138,7 +139,7 @@ public class TalonSwerveModule implements SwerveModule {
 
         if (moduleState.speedMetersPerSecond != m_lastSpeed) {
             if (isOpenLoop) {
-                m_driveMotor.set(moduleState.speedMetersPerSecond / DriveConstants.getMaxModuleSpeed());
+                m_driveMotor.set(moduleState.speedMetersPerSecond / m_swerveConstants.getMaxModuleSpeed());
             } else {
                 m_driveMotor.setControl(new VelocityVoltage(moduleState.speedMetersPerSecond));
             }

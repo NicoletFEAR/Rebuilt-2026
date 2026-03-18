@@ -12,7 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.constants.SwerveConstantsInterface;
 
 public class Utils {
     public static void copyModuleStates(SwerveModuleState[] copier, SwerveModuleState[] reciever) {
@@ -107,8 +107,13 @@ public class Utils {
         return newAngle;
     }
 
-    public static Translation2d getNudgedVector(Pose2d robotPose, Translation2d currentVector,
-            Translation2d pointOfInterest, double kp) {
+    public static Translation2d getNudgedVector(
+        Pose2d robotPose, 
+        Translation2d currentVector, 
+        Translation2d pointOfInterest, 
+        double kp, 
+        SwerveConstantsInterface constants) {
+
         if (currentVector.getX() == 0 && currentVector.getY() == 0) {
             return currentVector;
         }
@@ -125,8 +130,8 @@ public class Utils {
                 / currentVector.getNorm();
 
         // Compute the magnitude of the nudge
-        double nudgeMagnitude = MathUtil.clamp(perpDistance * kp, -DriveConstants.getMaxModuleSpeed(),
-                DriveConstants.getMaxModuleSpeed());
+        double nudgeMagnitude = MathUtil.clamp(perpDistance * kp, -constants.getMaxModuleSpeed(),
+                constants.getMaxModuleSpeed());
 
         // Compute the unit perpendicular vector to current velocity
         Translation2d perpDirection = new Translation2d(-currentVector.getY(), currentVector.getX())

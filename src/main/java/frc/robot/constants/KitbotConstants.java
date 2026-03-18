@@ -50,11 +50,27 @@ public class KitbotConstants {
         public static final int kIntakeID = 14;
     }
 
-    public class KitbotDriveConstants {
-        public static final boolean kUsesDriveKrakens = false;
-        public static final double kSwerveDeadband = 0.75d;
+    public class KitbotDriveConstants implements SwerveConstantsInterface{
+        public int getIsBatteryInBack() {
+            return KitbotGeneralConstants.isBatteryInBack();
+        }
 
-        public static final double maxModuleSpeed = MetersPerSecond.convertFrom(15.5, FeetPerSecond);
+        public boolean getHasCanivore() {
+            return KitbotGeneralConstants.kHasCanivore;
+        }
+        
+        public boolean getUsesDriveKrakens() {
+            return false;
+        }
+
+        public double getSwerveDeadband() {
+            return 0.75d;
+        }
+
+        public double getMaxModuleSpeed() {
+            return MetersPerSecond.convertFrom(15.5, FeetPerSecond);
+        }
+        
         public static final double getMaxRotationsPerSecond = 1.5d;
         // Distance between centers of right and left wheels on robot
         public static final double trackWidth = 20.75d;

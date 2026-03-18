@@ -82,17 +82,17 @@ public class SwerveDrive extends SubsystemBase {
 
         if (constants.getUsesDriveKrakens()) {
             m_modules = new SwerveModule[] {
-                new TalonSwerveModule(constants.getFrontLeft()),
-                new TalonSwerveModule(constants.getFrontRight()),
-                new TalonSwerveModule(constants.getBackLeft()),
-                new TalonSwerveModule(constants.getBackRight())
+                new TalonSwerveModule(constants.getFrontLeft(), constants),
+                new TalonSwerveModule(constants.getFrontRight(), constants),
+                new TalonSwerveModule(constants.getBackLeft(), constants),
+                new TalonSwerveModule(constants.getBackRight(), constants)
             };
         } else {
             m_modules = new SwerveModule[] {
-                new SparkMaxSwerveModule(constants.getFrontLeft()),
-                new SparkMaxSwerveModule(constants.getFrontRight()),
-                new SparkMaxSwerveModule(constants.getBackLeft()),
-                new SparkMaxSwerveModule(constants.getBackRight())
+                new SparkMaxSwerveModule(constants.getFrontLeft(), constants),
+                new SparkMaxSwerveModule(constants.getFrontRight(), constants),
+                new SparkMaxSwerveModule(constants.getBackLeft(), constants),
+                new SparkMaxSwerveModule(constants.getBackRight(), constants)
             };
         }
 

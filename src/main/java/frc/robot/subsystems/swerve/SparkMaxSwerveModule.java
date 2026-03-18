@@ -22,18 +22,14 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.constants.GeneralConstants;
-import frc.robot.constants.HadesConstants.HadesDriveConstants;
-import frc.robot.constants.HadesConstants.HadesGeneralConstants;
-import frc.robot.constants.KitbotConstants.KitbotDriveConstants;
-import frc.robot.constants.KitbotConstants.KitbotGeneralConstants;
-import frc.robot.containers.AbstractRobotContainer;
-import frc.robot.containers.BotEnum;
+import frc.robot.constants.SwerveConstantsInterface;
 import frc.robot.util.DeviceConfigurator;
 import frc.robot.util.SwerveModuleConstants;
 import frc.robot.util.Utils;
 
 public class SparkMaxSwerveModule implements SwerveModule {
     SwerveModuleConstants m_constants;
+    SwerveConstantsInterface m_swerveConstants;
 
     private SparkMax m_steerMotor;
     private SparkMax m_driveMotor;
@@ -55,28 +51,25 @@ public class SparkMaxSwerveModule implements SwerveModule {
     private double m_simDist;
     private double m_simVel;
 
-    public SparkMaxSwerveModule(SwerveModuleConstants constants) {
-        m_constants = constants;
+    public SparkMaxSwerveModule(SwerveModuleConstants constants, SwerveConstantsInterface swerveConstants) {
+        this.m_constants = constants;
+        this.m_swerveConstants = swerveConstants;
 
-        m_steerMotor = new SparkMax(constants.steerId, MotorType.kBrushless);
-        m_driveMotor = new SparkMax(constants.driveId, MotorType.kBrushless);
+        this.m_steerMotor = new SparkMax(constants.steerId, MotorType.kBrushless);
+        this.m_driveMotor = new SparkMax(constants.driveId, MotorType.kBrushless);
 
-        m_steerEncoder = m_steerMotor.getEncoder();
-        m_driveEncoder = m_driveMotor.getEncoder();
+        this.m_steerEncoder = m_steerMotor.getEncoder();
+        this.m_driveEncoder = m_driveMotor.getEncoder();
 
-        m_steerController = m_steerMotor.getClosedLoopController();
+        this.m_steerController = m_steerMotor.getClosedLoopController();
 
-        if (AbstractRobotContainer.getBot() == BotEnum.HADES) {
-            m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, new CANBus(HadesGeneralConstants.kHasCanivore ? "*" : "rio"));
-        } else {
-            m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, new CANBus(KitbotGeneralConstants.kHasCanivore ? "*" : "rio"));
-        }
+        this.m_steerAbsEncoder = new CANcoder(constants.steerEncoderId, new CANBus(swerveConstants.getHasCanivore() ? "*" : "rio"));
 
-        m_modulePosition = new SwerveModulePosition();
-        m_moduleState = new SwerveModuleState();
+        this.m_modulePosition = new SwerveModulePosition();
+        this.m_moduleState = new SwerveModuleState();
 
-        DeviceConfigurator.configureSparkMaxSteerMotor(m_steerMotor);
-        DeviceConfigurator.configureSparkMaxDriveMotor(m_driveMotor);
+        DeviceConfigurator.configureSparkMaxSteerMotor(m_steerMotor, swerveConstants);
+        DeviceConfigurator.configureSparkMaxDriveMotor(m_driveMotor, swerveConstants);
         DeviceConfigurator.configureCANcoder(m_steerAbsEncoder, m_constants.offset);
     }
 
@@ -133,11 +126,7 @@ public class SparkMaxSwerveModule implements SwerveModule {
 
         if (moduleState.speedMetersPerSecond != m_lastSpeed) {
             if (isOpenLoop) {
-                if (AbstractRobotContainer.getBot() == BotEnum.HADES) {
-                    m_driveMotor.set(moduleState.speedMetersPerSecond / HadesDriveConstants.maxModuleSpeed);
-                } else {
-                    m_driveMotor.set(moduleState.speedMetersPerSecond / KitbotDriveConstants.maxModuleSpeed);
-                }
+                m_driveMotor.set(moduleState.speedMetersPerSecond / m_swerveConstants.getMaxModuleSpeed());
             } else {
                 m_driveController.setSetpoint(moduleState.speedMetersPerSecond, ControlType.kVelocity);
             }

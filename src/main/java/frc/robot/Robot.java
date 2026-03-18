@@ -46,15 +46,13 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void robotInit() {
-        Constants.instantiateProperties();
-
         // Various values that make managing the code version easier
         Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
         Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
         Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
         Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
         Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
-        Logger.recordMetadata("RobotName", AbstractRobotContainer.getBot().getName());
+        
  
         switch (BuildConstants.DIRTY) {
             case 0:
@@ -145,6 +143,8 @@ public class Robot extends LoggedRobot {
                 this.m_robotContainer = new TuskRobotContainer(getAlliance());
                 break;
         }
+
+        Logger.recordMetadata("RobotName", m_robotContainer.getBot().getName());
     }
 
     @Override

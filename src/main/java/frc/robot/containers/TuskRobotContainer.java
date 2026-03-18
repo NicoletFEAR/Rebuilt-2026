@@ -26,6 +26,7 @@ import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Indexer;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.led.Led;
+import frc.robot.subsystems.swerve.SwerveDrive;
 
 /**
  * This class is used to encapsulate the robot code, including all hardware subsystems.  
@@ -56,6 +57,11 @@ public class TuskRobotContainer extends AbstractRobotContainer {
         super(BotEnum.TUSK, alliance);
 
         configureSwerveBindings();
+    }
+
+    @Override
+    protected void createDriveBase() {
+        m_driveBase = new SwerveDrive();
     }
 
     @Override

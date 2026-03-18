@@ -42,6 +42,7 @@ import frc.robot.Robot;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.constants.GeneralConstants;
+import frc.robot.constants.SwerveConstantsInterface;
 // import frc.robot.util.LimelightCamera;
 import frc.robot.util.Utils;
 
@@ -76,7 +77,7 @@ public class SwerveDrive extends SubsystemBase {
     // private LimelightCamera m_launcherCamera = new LimelightCamera("limelight-launch");
     // private LimelightCamera m_climbCamera = new LimelightCamera("limelight-climb");
 
-    public SwerveDrive() {
+    public SwerveDrive(SwerveConstantsInterface constants) {
         if (DriveConstants.usesDriveKrakens()) {
             m_modules = new SwerveModule[] {
                 new TalonSwerveModule(DriveConstants.kFrontLeft),

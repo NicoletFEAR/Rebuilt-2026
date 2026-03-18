@@ -58,9 +58,7 @@ public abstract class AbstractRobotContainer {
      * create the drive base for the robot.  This is only called once
      * per robot type.
      */
-    protected void createDriveBase() {
-        this.m_driveBase = new SwerveDrive();
-    }
+    protected abstract void createDriveBase();
     
 
     /**
@@ -187,7 +185,7 @@ public abstract class AbstractRobotContainer {
      */
     public abstract void testExit();
 
-    public static BotEnum getBot() {
+    public BotEnum getBot() {
         return m_botEnum;
     }
 }

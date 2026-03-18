@@ -8,6 +8,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.util.SwerveModuleConstants;
 
 public abstract interface SwerveConstantsInterface {
+    int getIsBatteryInBack();
+    boolean getHasCanivore();
     boolean getUsesDriveKrakens();
     double getSwerveDeadband();
 

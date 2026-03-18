@@ -6,9 +6,7 @@ import static edu.wpi.first.units.Units.Meters;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import frc.robot.constants.GeneralConstants.DrivebaseMotorIds;
@@ -57,6 +55,14 @@ public class TuskConstants {
     }
 
     public class TuskDriveConstants implements SwerveConstantsInterface{
+        public int getIsBatteryInBack() {
+            return TuskGeneralConstants.isBatteryInBack();
+        }
+
+        public boolean getHasCanivore() {
+            return TuskGeneralConstants.kHasCanivore;
+        }
+
         public boolean getUsesDriveKrakens() {
             return true;
         }
@@ -97,8 +103,12 @@ public class TuskConstants {
             return Meters.convertFrom(4, Inches);
         }
 
-        public double getTurnRotationsToDegrees() {
+        public double getDriveRevToMeters() {
             return getDriveGearRatio() / (Math.PI * getWheelDiameter());
+        }
+
+        public double getTurnRotationsToDegrees() {
+            return 360.0d / getTurnGearRatio();
         }
 
         public double getWheelCof() {
@@ -196,64 +206,60 @@ public class TuskConstants {
                 new Translation2d(-getWheelBase() / 2, getTrackWidth()  / 2),
                 new Translation2d(-getWheelBase() / 2, -getTrackWidth() / 2)
             };
+
             return moduleTranslations;
         }
 
-        // Positions of all the swerve modules relative to the center of the drivebase
-        public static final Translation2d[] kModuleTranslations = {
-            new Translation2d(wheelBase  / 2, trackWidth  / 2),
-            new Translation2d(wheelBase  / 2, -trackWidth / 2),
-            new Translation2d(-wheelBase / 2, trackWidth  / 2),
-            new Translation2d(-wheelBase / 2, -trackWidth / 2)
-        };
+        public RobotConfig getRobotConfig() {
+            return new RobotConfig(Units.lbsToKilograms(TuskGeneralConstants.kWeight),
+                TuskGeneralConstants.kMoi,
+                new ModuleConfig(getWheelDiameter() / 2,
+                    getMaxModuleSpeed(),
+                    getWheelCof(),
+                    getUsesDriveKrakens() ?
+                        DCMotor.getKrakenX60(1).withReduction(getDriveGearRatio()) :
+                        DCMotor.getNEO(1).withReduction(getDriveGearRatio()),
+                    getCurrentLimit(),
+                    1),
+                getModuleTranslations()
+            );
+        }
 
-        public static final SwerveModuleState[] kXWheels = {
-            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(135)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(-135))
-        };
+        public SwerveModuleConstants getFrontLeft() {
+            return new SwerveModuleConstants(
+                DrivebaseMotorIds.kFrontLeftDriveMotorId,
+                DrivebaseMotorIds.kFrontLeftSteerEncoderId,
+                DrivebaseMotorIds.kFrontLeftSteerEncoderId,
+                getFrontLeftOffset()
+            );
+        }
+        
+        public SwerveModuleConstants getFrontRight() {
+            return new SwerveModuleConstants(
+                DrivebaseMotorIds.kFrontRightDriveMotorId,
+                DrivebaseMotorIds.kFrontRightSteerMotorId,
+                DrivebaseMotorIds.kFrontRightSteerEncoderId,
+                getFrontRightOffset()
+            );
+        }
 
-        public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(TuskGeneralConstants.kWeight),
-            TuskGeneralConstants.kMoi,
-            new ModuleConfig(wheelDiameter / 2,
-                maxModuleSpeed,
-                wheelCof,
-                TuskDriveConstants.kUsesDriveKrakens ?
-                    DCMotor.getKrakenX60(1).withReduction(driveGearRatio) :
-                    DCMotor.getNEO(1).withReduction(driveGearRatio),
-                currentLimit,
-                1),
-            TuskDriveConstants.kModuleTranslations
-        );
+        public SwerveModuleConstants getBackLeft() {
+            return new SwerveModuleConstants(
+                DrivebaseMotorIds.kBackLeftDriveMotorId,
+                DrivebaseMotorIds.kBackLeftSteerMotorId,
+                DrivebaseMotorIds.kBackLeftSteerEncoderId,
+                getBackLeftOffset()
+            );
+        }
 
-        public static final SwerveModuleConstants kFrontLeft = new SwerveModuleConstants(
-            DrivebaseMotorIds.kFrontLeftDriveMotorId,
-            DrivebaseMotorIds.kFrontLeftSteerEncoderId,
-            DrivebaseMotorIds.kFrontLeftSteerEncoderId,
-            frontLeftOffset
-        );
-
-        public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
-            DrivebaseMotorIds.kFrontRightDriveMotorId,
-            DrivebaseMotorIds.kFrontRightSteerMotorId,
-            DrivebaseMotorIds.kFrontRightSteerEncoderId,
-            frontRightOffset
-        );
-
-        public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
-            DrivebaseMotorIds.kBackLeftDriveMotorId,
-            DrivebaseMotorIds.kBackLeftSteerMotorId,
-            DrivebaseMotorIds.kBackLeftSteerEncoderId,
-            backLeftOffset
-        );
-
-        public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
-            DrivebaseMotorIds.kBackRightDriveMotorId,
-            DrivebaseMotorIds.kBackRightSteerMotorId,
-            DrivebaseMotorIds.kBackRightSteerEncoderId,
-            backRightOffset
-        );
+        public SwerveModuleConstants getBackRight() {
+            return new SwerveModuleConstants(
+                DrivebaseMotorIds.kBackRightDriveMotorId,
+                DrivebaseMotorIds.kBackRightSteerMotorId,
+                DrivebaseMotorIds.kBackRightSteerEncoderId,
+                getBackRightOffset()
+            );
+        }
     }
 
     public class LauncherConstants {

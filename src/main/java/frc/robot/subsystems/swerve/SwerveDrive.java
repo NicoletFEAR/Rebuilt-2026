@@ -37,12 +37,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.Constants.DeviceIds;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.constants.GeneralConstants;
 import frc.robot.constants.SwerveConstantsInterface;
+import frc.robot.constants.GeneralConstants.DrivebaseMotorIds;
 // import frc.robot.util.LimelightCamera;
 import frc.robot.util.Utils;
 
@@ -55,6 +53,8 @@ import java.util.function.BooleanSupplier;
 import org.littletonrobotics.junction.Logger;
 
 public class SwerveDrive extends SubsystemBase {
+    private SwerveConstantsInterface m_constants;
+
     private SwerveModule[] m_modules;
 
     private Pigeon2 m_pigeon;
@@ -78,27 +78,29 @@ public class SwerveDrive extends SubsystemBase {
     // private LimelightCamera m_climbCamera = new LimelightCamera("limelight-climb");
 
     public SwerveDrive(SwerveConstantsInterface constants) {
-        if (DriveConstants.usesDriveKrakens()) {
+        this.m_constants = constants;
+
+        if (constants.getUsesDriveKrakens()) {
             m_modules = new SwerveModule[] {
-                new TalonSwerveModule(DriveConstants.kFrontLeft),
-                new TalonSwerveModule(DriveConstants.kFrontRight),
-                new TalonSwerveModule(DriveConstants.kBackLeft),
-                new TalonSwerveModule(DriveConstants.kBackRight)
+                new TalonSwerveModule(constants.getFrontLeft()),
+                new TalonSwerveModule(constants.getFrontRight()),
+                new TalonSwerveModule(constants.getBackLeft()),
+                new TalonSwerveModule(constants.getBackRight())
             };
         } else {
             m_modules = new SwerveModule[] {
-                new SparkMaxSwerveModule(DriveConstants.kFrontLeft),
-                new SparkMaxSwerveModule(DriveConstants.kFrontRight),
-                new SparkMaxSwerveModule(DriveConstants.kBackLeft),
-                new SparkMaxSwerveModule(DriveConstants.kBackRight)
+                new SparkMaxSwerveModule(constants.getFrontLeft()),
+                new SparkMaxSwerveModule(constants.getFrontRight()),
+                new SparkMaxSwerveModule(constants.getBackLeft()),
+                new SparkMaxSwerveModule(constants.getBackRight())
             };
         }
 
-        m_pigeon = new Pigeon2(DeviceIds.getPigeonId(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
+        m_pigeon = new Pigeon2(DrivebaseMotorIds.kPigeonId, new CANBus(constants.getHasCanivore() ? "*" : "rio"));
 
         m_pigeon.getConfigurator().apply(new Pigeon2Configuration().GyroTrim.withGyroScalarZ(1));
 
-        m_kinematics = new SwerveDriveKinematics(DriveConstants.kModuleTranslations);
+        m_kinematics = new SwerveDriveKinematics(constants.getModuleTranslations());
 
         m_desiredModuleStates = new SwerveModuleState[] {
                 new SwerveModuleState(),
@@ -150,10 +152,10 @@ public class SwerveDrive extends SubsystemBase {
             (speeds, feedforwards) -> driveRobotRelative(speeds),
 
             new PPHolonomicDriveController(
-                new PIDConstants(DriveConstants.getDriveKP(), DriveConstants.getDriveKI(), DriveConstants.getDriveKD()),
-                new PIDConstants(DriveConstants.getTurnKP(), DriveConstants.getTurnKI(), DriveConstants.getTurnKD())),
+                new PIDConstants(constants.getDriveKP(), constants.getDriveKI(), constants.getDriveKD()),
+                new PIDConstants(constants.getTurnKP(), constants.getTurnKI(), constants.getTurnKD())),
 
-            DriveConstants.kRobotConfig,
+            constants.getRobotConfig(),
 
             () -> {
                 var alliancenew = DriverStation.getAlliance();
@@ -223,7 +225,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setModuleStates(boolean isOpenLoop) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(m_desiredModuleStates, DriveConstants.getMaxModuleSpeed());
+        SwerveDriveKinematics.desaturateWheelSpeeds(m_desiredModuleStates, m_constants.getMaxModuleSpeed());
 
         for (int i = 0; i < m_modules.length; i++) {
             m_modules[i].setSwerveModuleState(m_desiredModuleStates[i], isOpenLoop);
@@ -289,9 +291,9 @@ public class SwerveDrive extends SubsystemBase {
 
         switch (m_state) {
             case TELEOP:
-                throttle *= DriveConstants.getMaxModuleSpeed();
-                strafe *= DriveConstants.getMaxModuleSpeed();
-                steer *= RotationsPerSecond.of(DriveConstants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
+                throttle *= m_constants.getMaxModuleSpeed();
+                strafe *= m_constants.getMaxModuleSpeed();
+                steer *= RotationsPerSecond.of(m_constants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
 
                 m_chassisSpeeds = isFieldRelative
                     ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())
@@ -314,7 +316,7 @@ public class SwerveDrive extends SubsystemBase {
                 break;
 
             case X_WHEELS:
-                Utils.copyModuleStates(DriveConstants.kXWheels, m_desiredModuleStates);
+                Utils.copyModuleStates(GeneralConstants.kXWheels, m_desiredModuleStates);
                 setModuleStates(isOpenLoop);
                 break;
         }
@@ -364,8 +366,8 @@ public class SwerveDrive extends SubsystemBase {
 
     public double distanceToHub() {
         return Math.hypot(
-            DriveConstants.kHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
-            DriveConstants.kHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
+            GeneralConstants.kHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
+            GeneralConstants.kHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
         );
     }
 

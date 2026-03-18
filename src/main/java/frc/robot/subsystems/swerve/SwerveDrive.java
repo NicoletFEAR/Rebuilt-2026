@@ -361,8 +361,8 @@ public class SwerveDrive extends SubsystemBase {
 
     public double distanceToHub() {
         return Math.hypot(
-            DriveConstants.kHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
-            DriveConstants.kHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
+            DriveConstants.kBlueHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
+            DriveConstants.kBlueHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
         );
     }
 

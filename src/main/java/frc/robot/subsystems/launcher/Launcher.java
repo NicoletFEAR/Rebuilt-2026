@@ -1,7 +1,9 @@
 package frc.robot.subsystems.launcher;
 
+import static edu.wpi.first.units.Units.Milliseconds;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.DoubleSupplier;
@@ -23,10 +25,12 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.LauncherConstants;
@@ -40,6 +44,20 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private TalonFX m_rightMotor;
     private DCMotorSim m_leftMotorSim;
     private DCMotorSim m_rightMotorSim;
+
+    private SysIdRoutine m_sysIdRoutine = new SysIdRoutine(
+        new SysIdRoutine.Config(
+            null,
+            null,
+            null,
+            (state) -> Logger.recordOutput("Launcher/SysIdState", state)
+        ),
+        new SysIdRoutine.Mechanism(
+            (voltage) -> setVoltage(voltage.in(Volts)), 
+            null,
+            this
+        )
+    );
 
     public Launcher() {
         m_leftMotor = new TalonFX(DeviceIds.getLeftLauncherID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
@@ -124,6 +142,15 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
             new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)).andThen(launch()),
             () -> m_state == LauncherState.OFF
         );
+    }
+
+    public Command sysId() {
+        return m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward)
+            .andThen(Commands.waitTime(Milliseconds.of(500)))
+            .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse))
+            .andThen(Commands.waitTime(Milliseconds.of(500)))
+            .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward))
+            .andThen(Commands.waitTime(Milliseconds.of(500)));
     }
 
     @Override

@@ -430,7 +430,8 @@ public final class Constants {
             getBackRightOffset()
         );
 
-        public static final Translation2d kHubPosition = new Translation2d(4.619, 4.033);
+        public static final Translation2d kBlueHubPosition = new Translation2d(4.619, 4.033);
+        public static final Translation2d kRedHubPosition = new Translation2d(11.936, 4.033);
     }
 
     public final class LauncherConstants {

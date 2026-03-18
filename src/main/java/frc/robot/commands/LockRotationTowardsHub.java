@@ -9,6 +9,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.controllers.UniversalController;
@@ -79,10 +82,14 @@ public class LockRotationTowardsHub extends Command {
             DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
             DriveConstants.getSwerveDeadband()
         );
+
+        Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
+            ? DriveConstants.kBlueHubPosition
+            : DriveConstants.kRedHubPosition;
         
         double desiredAngle = Math.atan2(
-            DriveConstants.kHubPosition.getY() - m_driveBase.getPose().getTranslation().getY(),
-            DriveConstants.kHubPosition.getX() - m_driveBase.getPose().getTranslation().getX()
+            target.getY() - m_driveBase.getPose().getTranslation().getY(),
+            target.getX() - m_driveBase.getPose().getTranslation().getX()
         );
 
         if (Math.abs(desiredAngle - m_driveBase.getYaw().getRadians()) < DriveConstants.getRotationTolerance()) {

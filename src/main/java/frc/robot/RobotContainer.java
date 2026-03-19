@@ -142,7 +142,8 @@ public class RobotContainer {
                     OperatorConstants.getDefaultSpeed(),
                     true,
                     true,
-                    m_driveBase
+                    m_driveBase,
+                    m_launcher::getVelocity
                 )
             );
         

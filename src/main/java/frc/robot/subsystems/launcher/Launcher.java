@@ -3,7 +3,6 @@ package frc.robot.subsystems.launcher;
 import static edu.wpi.first.units.Units.Milliseconds;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
-import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.DoubleSupplier;
@@ -12,6 +11,7 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -38,6 +38,7 @@ import frc.robot.Constants.DeviceIds;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
+    private double m_desiredVelocity;
     private double m_speedModifier = 1.0;
     private LauncherState m_state = LauncherState.OFF;
     private TalonFX m_leftMotor;
@@ -59,6 +60,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         )
     );
 
+    private MotionMagicVelocityVoltage m_velocityRequest = new MotionMagicVelocityVoltage(0.0).withSlot(0);
+
     public Launcher() {
         m_leftMotor = new TalonFX(DeviceIds.getLeftLauncherID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         m_rightMotor = new TalonFX(DeviceIds.getRightLauncherID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
@@ -70,7 +73,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         leftConfig.Slot0.kP = LauncherConstants.getKP();
         leftConfig.Slot0.kI = LauncherConstants.getKI();
         leftConfig.Slot0.kD = LauncherConstants.getKD();
-        leftConfig.MotionMagic.MotionMagicAcceleration = 1;
+        leftConfig.MotionMagic.MotionMagicAcceleration = 100.0;
         leftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         m_leftMotor.getConfigurator().apply(leftConfig);
 
@@ -79,7 +82,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         rightConfig.Slot0.kP = LauncherConstants.getKP();
         rightConfig.Slot0.kI = LauncherConstants.getKI();
         rightConfig.Slot0.kD = LauncherConstants.getKD();
-        rightConfig.MotionMagic.MotionMagicAcceleration = 1;
+        rightConfig.MotionMagic.MotionMagicAcceleration = 100.0;
         rightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         m_rightMotor.getConfigurator().apply(rightConfig);
     }
@@ -96,22 +99,31 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         m_rightMotor.setControl(new VoltageOut(m_desiredVoltage));
     }
 
+    public void setVelocity(double velocity) {
+        m_desiredVelocity = velocity;
+        m_leftMotor.setControl(m_velocityRequest.withVelocity(velocity));
+        m_rightMotor.setControl(m_velocityRequest.withVelocity(velocity));
+    }
+
     public boolean isAtVelocity() {
-        return MathUtil.isNear(m_leftMotor.getVelocity().getValueAsDouble(), LauncherConstants.getLaunchVelocity() * m_speedModifier, LauncherConstants.getVelocityTolerance())
-            || MathUtil.isNear(m_rightMotor.getVelocity().getValueAsDouble(), LauncherConstants.getLaunchVelocity() * m_speedModifier, LauncherConstants.getVelocityTolerance());
+        return MathUtil.isNear(getVelocity(), LauncherConstants.getLaunchVelocity() * m_speedModifier, LauncherConstants.getVelocityTolerance());
+    }
+
+    public double getVelocity() {
+        return Math.max(m_leftMotor.getVelocity().getValueAsDouble(), m_rightMotor.getVelocity().getValueAsDouble());
     }
 
     public Command launch() {
         return new InstantCommand(() -> {
             m_state = LauncherState.LAUNCHING;
-            setVoltage(LauncherConstants.getLaunchVoltage() * m_speedModifier);
+            setVelocity(LauncherConstants.getLaunchVelocity() * m_speedModifier);
         });
     }
 
     public Command off() {
         return new InstantCommand(() -> {
             m_state = LauncherState.OFF;
-            setVoltage(LauncherConstants.getOffVoltage() * m_speedModifier);
+            setVelocity(LauncherConstants.getOffVelocity() * m_speedModifier);
         });
     }
 
@@ -150,7 +162,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
             .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse))
             .andThen(Commands.waitTime(Milliseconds.of(500)))
             .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward))
-            .andThen(Commands.waitTime(Milliseconds.of(500)));
+            .andThen(Commands.waitTime(Milliseconds.of(500)))
+            .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse));
     }
 
     @Override
@@ -159,6 +172,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         SmartDashboard.putBoolean("Launching?", m_state == LauncherState.LAUNCHING);
         Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
         Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);
+        Logger.recordOutput("Launcher/Desired Velocity", m_desiredVelocity);
         Logger.recordOutput("Launcher/Left/Voltage", m_leftMotor.getMotorVoltage().getValueAsDouble());
         Logger.recordOutput("Launcher/Left/Current", m_leftMotor.getStatorCurrent().getValueAsDouble());
         Logger.recordOutput("Launcher/Left/Velocity", m_leftMotor.getVelocity().getValueAsDouble());

@@ -7,6 +7,11 @@
 
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -31,6 +36,7 @@ public class LockRotationTowardsHub extends Command {
     private double m_steer;
     private PIDController m_steerController = new PIDController(DriveConstants.getAutoTargetKP(), DriveConstants.getAutoTargetKI(), DriveConstants.getAutoTargetKD());
 
+    private DoubleSupplier m_launcherVelocity;
 
     private boolean m_isOpenLoop;
     private boolean m_isFieldRelative;
@@ -44,7 +50,8 @@ public class LockRotationTowardsHub extends Command {
         double percentModifier,
         boolean isOpenLoop,
         boolean isFieldRelative,
-        SwerveDrive driveBase) {
+        SwerveDrive driveBase,
+        DoubleSupplier launcherVelocity) {
         m_driverController = driverController;
 
         m_throttleAxis = throttleAxis;
@@ -57,6 +64,8 @@ public class LockRotationTowardsHub extends Command {
         m_isFieldRelative = isFieldRelative;
 
         m_driveBase = driveBase;
+
+        m_launcherVelocity = launcherVelocity;
         
         addRequirements(m_driveBase);
     }
@@ -86,6 +95,9 @@ public class LockRotationTowardsHub extends Command {
         Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
             ? DriveConstants.kBlueHubPosition
             : DriveConstants.kRedHubPosition;
+        
+        double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * m_launcherVelocity.getAsDouble() * Math.PI;
+        double timeToHub = 2.0 * estimatedFuelVelocity / 19.6;
         
         double desiredAngle = Math.atan2(
             target.getY() - m_driveBase.getPose().getTranslation().getY(),

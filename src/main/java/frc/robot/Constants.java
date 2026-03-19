@@ -510,6 +510,10 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("launcher.velocity-tolerance"));
         }
 
+        public static double getOffVelocity() {
+            return Double.parseDouble(m_properties.getProperty("launcher.off-velocity"));
+        }
+
         public static double getLaunchVelocity() {
             return Double.parseDouble(m_properties.getProperty("launcher.launch-velocity"));
         }

@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
+        "x": 2.989,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6,
+        "x": 2.989,
         "y": 5.0
       },
       "isLocked": false,
-      "linkedName": "Start T"
+      "linkedName": "Start T - Slight Back"
     },
     {
       "anchor": {
-        "x": 3.6,
+        "x": 2.989,
         "y": 7.416322222222221
       },
       "prevControl": {
-        "x": 3.6,
+        "x": 2.989,
         "y": 6.416322222222221
       },
       "nextControl": null,
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Lakeland",
+  "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

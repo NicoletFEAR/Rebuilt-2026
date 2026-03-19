@@ -7,62 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start O - NZT Bottom North"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartIntake"
+            "pathName": "Start T - Slight Back"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Bottom-North - NZT Top-North"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "EndIntake"
+            "pathName": "Start T - Pre-Trench D"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Top-North - Launch 1"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartLaunch"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndLaunch"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Launch 1 - NZT Top South"
+            "pathName": "Pre-Trench D - NZT Top South"
           }
         },
         {

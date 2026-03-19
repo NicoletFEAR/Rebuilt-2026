@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.5,
-        "y": 0.6
+        "x": 7.73,
+        "y": 3.4
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.222677814755792,
-        "y": 0.522413988095454
+        "x": 7.721876795485727,
+        "y": 2.2486502001908915
       },
       "isLocked": false,
-      "linkedName": "Start O"
+      "linkedName": "NZB Bottom-South"
     },
     {
       "anchor": {
-        "x": 3.202888888888889,
-        "y": 0.65
+        "x": 7.7,
+        "y": 0.6500000000000004
       },
       "prevControl": {
-        "x": 3.280595543059909,
-        "y": 0.8876166574496526
+        "x": 7.709358575724682,
+        "y": 1.5544094130855628
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Launch 3"
+      "linkedName": "NZT Bottom-South"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 66.78413838507123
+    "rotation": 66.78
   },
   "reversed": false,
-  "folder": "Start O and Outpost Paths",
+  "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -65.0
+    "rotation": 65.0
   },
   "useDefaultConstraints": true
 }

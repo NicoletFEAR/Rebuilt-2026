@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 1.4
+        "x": 4.5,
+        "y": 0.6
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1346777777777777,
-        "y": 0.2249222222222227
+        "x": 5.757033333333333,
+        "y": 0.6352111111111108
       },
       "isLocked": false,
       "linkedName": "Start O"
     },
     {
       "anchor": {
-        "x": 7.7,
-        "y": 0.65
+        "x": 7.73,
+        "y": 1.061
       },
       "prevControl": {
-        "x": 4.956888888888889,
-        "y": 0.7901
+        "x": 6.560666666666667,
+        "y": 0.7589222222222207
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -70.0
+    "rotation": -65.0
   },
   "reversed": false,
-  "folder": "Lakeland",
+  "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -65.0
   },
   "useDefaultConstraints": true
 }

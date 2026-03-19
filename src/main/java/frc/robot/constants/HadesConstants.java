@@ -8,9 +8,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import frc.robot.constants.GeneralConstants.DrivebaseMotorIds;
@@ -44,109 +42,217 @@ public class HadesConstants {
         public static final int kSteerAxis = kDriverAxis.getAxis("kRightX");
     }
 
-    public class HadesDriveConstants {
-        public static final boolean kUsesDriveKrakens = false;
-        public static final double kSwerveDeadband = 0.75d;
+    public class HadesDriveConstants implements SwerveConstantsInterface{
+        public int getIsBatteryInBack() {
+            return HadesGeneralConstants.isBatteryInBack();
+        }
 
-        public static final double maxModuleSpeed = MetersPerSecond.convertFrom(16.18, FeetPerSecond);
-        public static final double getMaxRotationsPerSecond = 1.5d;
+        public boolean getHasCanivore() {
+            return HadesGeneralConstants.kHasCanivore;
+        }
+
+        public boolean getUsesDriveKrakens() {
+            return false;
+        }
+
+        public double getSwerveDeadband() {
+            return 0.75d;
+        }
+
+        public double getMaxModuleSpeed() {
+            return MetersPerSecond.convertFrom(16.18, FeetPerSecond);
+        }
+
+        public double getMaxRotationsPerSecond() {
+            return 1.5d;
+        }
+
         // Distance between centers of right and left wheels on robot
-        public static final double trackWidth = 20.75d;
-        // Distance between centers of front and back wheels on robo
-        public static final double wheelBase = 20.75d;
+        public double getTrackWidth() {
+            return 20.75d;
+        }
+
+        // Distance between centers of front and back wheels on robot
+        public double getWheelBase() {
+            return 20.75d;
+        }
+
         // Defined as half the diagonal of the drivebase
-        public static final double getDrivebaseRadius = Math.hypot(trackWidth, wheelBase);
-        public static final double driveGearRatio = 6.75d;
-        public static final double turnGearRatio = 12.8;
+        public double getDrivebaseRadius() {
+            return Math.hypot(getTrackWidth(), getWheelBase());
+        }
+        
+        public double getDriveGearRatio() {
+            return 6.75d;
+        }
+
+        public double getTurnGearRatio() {
+            return 12.8d;
+        }
+        
         // TODO: Run the WheelCharacterization command to find the wheel diameter
-        public static final double wheelDiameter = Meters.convertFrom(3.95552051507874003, Inches);
-        public static final double driveRevToMeters = driveGearRatio / (Math.PI * wheelDiameter);
-        public static final double turnRotationsToDegrees = 360.0 / turnGearRatio;
-        public static final double wheelCof = 1.0d;
-        public static final double currentLimit = 103.0d;
+        public double getWheelDiameter() {
+            return Meters.convertFrom(3.95552051507874003, Inches);
+        }
+
+        public double getDriveRevToMeters() {
+            return getDriveGearRatio() / (Math.PI * getWheelDiameter());
+        }
+
+        public double getTurnRotationsToDegrees() {
+            return 360.0 / getTurnGearRatio();
+        }
+
+        public double getWheelCof() {
+            return 1.0d;
+        }
+
+        public double getCurrentLimit() {
+            return 103.0d;
+        }
 
         // TODO: Tune PID
-        public static final double driveKP = 2.7141d;
-        public static final double driveKI = 0.0d;
-        public static final double driveKD = 0.0d;
-        public static final double driveKS = 0.067703d;
-        public static final double driveKV = 2.4746d;
-        public static final double driveKA = 0.36888d;
+        public double getDriveKP() {
+            return 2.7141d;
+        }
 
-        public static final double rampRate = 0.1d;
+        public double getDriveKI() {
+            return 0.0d;
+        }
 
-        public static final double turnKP = 0.02d;
-        public static final double turnKI = 0.0d;
-        public static final double turnKD = 0.01d;
-        public static final double turnKS = 0.0d;
-        public static final double turnKV = 0.0d;
-        public static final double turnKA = 0.0d;
+        public double getDriveKD() {
+            return 0.0d;
+        }
 
-        public static final double rotationTolerance = 0.01d;
+        public double getDriveKS() {
+            return 0.067703d;
+        }
 
-        public static final double frontLeftOffset = -0.403076171875d;
-        public static final double frontRightOffset = -0.0966796875d;
-        public static final double backLeftOffset = -0.109375d;
-        public static final double backRightOffset = -0.310546875d;
+        public double getDriveKV() {
+            return 2.4746d;
+        }
 
-        public static final double getAutoTargetKP = 2.0d;
-        public static final double getAutoTargetKi = 0.0d;
-        public static final double getAutoTargetKd = 0.2d;
+        public double getDriveKA() {
+            return 0.36888d;
+        }
+        
+        public double getRampRate() {
+            return 1.0d;
+        }
+
+        public double getTurnKP() {
+            return 0.02d;
+        }
+
+        public double getTurnKI() {
+            return 0.0d;
+        }
+
+        public double getTurnKD() {
+            return 0.01d;
+        }
+
+        public double getTurnKS() {
+            return 0.0d;
+        }
+
+        public double getTurnKV() {
+            return 0.0d;
+        }
+
+        public double getTurnKA() {
+            return 0.0d;
+        }
+        
+        public double getFrontLeftOffset() {
+            return -0.403076171875d;
+        }
+
+        public double getFrontRightOffset() {
+            return -0.0966796875d;
+        }
+
+        public double getBackLeftOffset() {
+            return -0.109375d;
+        }
+
+        public double getBackRightOffset() {
+            return -0.310546875d;
+        }
+
+        public double getAutoTargetKP() {
+            return 2.0d;
+        }
+
+        public double getAutoTargetKI() {
+            return 0.0d;
+        }
+
+        public double getAutoTargetKD() {
+            return 0.2d;
+        }
 
         // Positions of all the swerve modules relative to the center of the drivebase
-        public static final Translation2d[] kModuleTranslations = {
-            new Translation2d(wheelBase  / 2, trackWidth  / 2),
-            new Translation2d(wheelBase  / 2, -trackWidth / 2),
-            new Translation2d(-wheelBase / 2, trackWidth  / 2),
-            new Translation2d(-wheelBase / 2, -trackWidth / 2)
-        };
+       public Translation2d[] getModuleTranslations() {
+            Translation2d[] moduleTranslations = { 
+                new Translation2d(getWheelBase()  / 2, getTrackWidth()  / 2),
+                new Translation2d(getWheelBase()  / 2, -getTrackWidth() / 2),
+                new Translation2d(-getWheelBase() / 2, getTrackWidth()  / 2),
+                new Translation2d(-getWheelBase() / 2, -getTrackWidth() / 2)
+            };
 
-        public static final SwerveModuleState[] kXWheels = {
-            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(135)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(-135))
-        };
+            return moduleTranslations;
+        }
 
-        public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(HadesGeneralConstants.kWeight),
-            HadesGeneralConstants.kMoi,
-            new ModuleConfig(wheelDiameter / 2,
-                maxModuleSpeed,
-                wheelCof,
-                HadesDriveConstants.kUsesDriveKrakens ?
-                    DCMotor.getKrakenX60(1).withReduction(driveGearRatio) :
-                    DCMotor.getNEO(1).withReduction(driveGearRatio),
-                currentLimit,
-                1),
-            HadesDriveConstants.kModuleTranslations
-        );
+        public RobotConfig getRobotConfig() {
+            return new RobotConfig(Units.lbsToKilograms(HadesGeneralConstants.kWeight),
+                HadesGeneralConstants.kMoi,
+                new ModuleConfig(getWheelDiameter() / 2,
+                    getMaxModuleSpeed(),
+                    getWheelCof(),
+                    getUsesDriveKrakens() ?
+                        DCMotor.getKrakenX60(1).withReduction(getDriveGearRatio()) :
+                        DCMotor.getNEO(1).withReduction(getDriveGearRatio()),
+                    getCurrentLimit(),
+                    1),
+                getModuleTranslations()
+            );
+        }
 
-        public static final SwerveModuleConstants kFrontLeft = new SwerveModuleConstants(
-            DrivebaseMotorIds.kFrontLeftDriveMotorId,
-            DrivebaseMotorIds.kFrontLeftSteerEncoderId,
-            DrivebaseMotorIds.kFrontLeftSteerEncoderId,
-            frontLeftOffset
-        );
+       public SwerveModuleConstants getFrontLeft() {
+            return new SwerveModuleConstants(
+                DrivebaseMotorIds.kFrontLeftDriveMotorId,
+                DrivebaseMotorIds.kFrontLeftSteerEncoderId,
+                DrivebaseMotorIds.kFrontLeftSteerEncoderId,
+                getFrontLeftOffset()
+            );
+        }
+        
+        public SwerveModuleConstants getFrontRight() {
+            return new SwerveModuleConstants(
+                DrivebaseMotorIds.kFrontRightDriveMotorId,
+                DrivebaseMotorIds.kFrontRightSteerMotorId,
+                DrivebaseMotorIds.kFrontRightSteerEncoderId,
+                getFrontRightOffset()
+            );
+        }
 
-        public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
-            DrivebaseMotorIds.kFrontRightDriveMotorId,
-            DrivebaseMotorIds.kFrontRightSteerMotorId,
-            DrivebaseMotorIds.kFrontRightSteerEncoderId,
-            frontRightOffset
-        );
+        public SwerveModuleConstants getBackLeft() {
+            return new SwerveModuleConstants(
+                DrivebaseMotorIds.kBackLeftDriveMotorId,
+                DrivebaseMotorIds.kBackLeftSteerMotorId,
+                DrivebaseMotorIds.kBackLeftSteerEncoderId,
+                getBackLeftOffset()
+            );
+        }
 
-        public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
-            DrivebaseMotorIds.kBackLeftDriveMotorId,
-            DrivebaseMotorIds.kBackLeftSteerMotorId,
-            DrivebaseMotorIds.kBackLeftSteerEncoderId,
-            backLeftOffset
-        );
-
-        public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
-            DrivebaseMotorIds.kBackRightDriveMotorId,
-            DrivebaseMotorIds.kBackRightSteerMotorId,
-            DrivebaseMotorIds.kBackRightSteerEncoderId,
-            backRightOffset
-        );
+        public SwerveModuleConstants getBackRight() {
+            return new SwerveModuleConstants(
+                DrivebaseMotorIds.kBackRightDriveMotorId,
+                DrivebaseMotorIds.kBackRightSteerMotorId,
+                DrivebaseMotorIds.kBackRightSteerEncoderId,
+                getBackRightOffset()
+            );
+        }
     }
 }

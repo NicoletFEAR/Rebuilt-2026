@@ -10,7 +10,7 @@ public class GeneralConstants {
 
     // How frequently the state of the robot updates during simulations
     // Set to 0.02 to represent once every loop (20 ms)
-    public static final double kdt = 0.02;
+    public static final double kdt = 0.02d;
 
     public static final double rotationTolerance = 0.01d;
     
@@ -23,7 +23,7 @@ public class GeneralConstants {
         new SwerveModuleState(0, Rotation2d.fromDegrees(-135))
     };
     
-    public class DrivebaseMotorIds {
+    public static class DrivebaseMotorIds {
         public static final int kFrontLeftSteerMotorId = 1;
         public static final int kFrontLeftDriveMotorId = 2;
         public static final int kFrontLeftSteerEncoderId = 3;
@@ -43,7 +43,7 @@ public class GeneralConstants {
         public static final int kPigeonId = 13;
     }
 
-    public class GeneralOperatorConstants {
+    public static class GeneralOperatorConstants {
         public static final int kDriverControllerPort = 0;
         public static final int kOperatorControllerPort = 1;
         public static final double kOperatorControllerDeadband = 0.1d;

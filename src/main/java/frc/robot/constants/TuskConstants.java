@@ -15,7 +15,7 @@ import frc.robot.controllers.ControllerType;
 import frc.robot.util.SwerveModuleConstants;
 
 public class TuskConstants {
-    public class TuskGeneralConstants {
+    public static class TuskGeneralConstants {
         public static final double kMoi = 6.883d;
         //TODO: Get the actual Robot Weight
         public static final double kWeight = 115;
@@ -32,7 +32,7 @@ public class TuskConstants {
         }
     }
 
-    public class TuskOperatorConstants {
+    public static class TuskOperatorConstants {
         public static final ControllerType kDriveControllerType = ControllerType.PS5;
         public static final ControllerType kOperatorControllerType = ControllerType.PS5;
 
@@ -42,7 +42,7 @@ public class TuskConstants {
         public static final int kSteerAxis = kDriverAxis.getAxis("kRightX");
     }
 
-    public class TuskDeviceIds {
+    public static class TuskDeviceIds {
         public static final int kLeftLauncherId = 14;
         public static final int kRightLauncherId = 15;
         public static final int kHoodId = 23;
@@ -264,13 +264,13 @@ public class TuskConstants {
 
     public class LauncherConstants {
         public static double[][] kAutoAimHoodPositions = {
-            {1.85, 0.0},
-            {4.45, .6315}
+            {1.85d, 0.0d},
+            {4.45d, 0.6315d}
         };
 
         public static double[][] kAutoAimSpeeds = {
-            {1.85, 0.7},
-            {4.45, 1.0}
+            {1.85d, 0.7d},
+            {4.45d, 1.0d}
         };
 
         public static final double kLauncherGearRatio = 4.0d/5.0d;
@@ -299,15 +299,15 @@ public class TuskConstants {
     }
 
     public class IndexerConstants {
-        public static final double kIndexerGearRatio = 1.0;
+        public static final double kIndexerGearRatio = 1.0d;
 
         //TODO: Tune PID
-        public static final double kIndexerKP = 1.0;
-        public static final double kIndexerKI = 0.0;
-        public static final double kIndexerKD = 0.0;
+        public static final double kIndexerKP = 1.0d;
+        public static final double kIndexerKI = 0.0d;
+        public static final double kIndexerKD = 0.0d;
 
-        public static final double kIndexerOffVoltage = 0.0;
-        public static final double kIndexerIndexVoltage = 0.0;
+        public static final double kIndexerOffVoltage = 0.0d;
+        public static final double kIndexerIndexVoltage = 0.0d;
     }
 
     public class IntakeConstants {
@@ -343,12 +343,12 @@ public class TuskConstants {
     }
 
     public final class VisionConstants {
-        public static final double kTargetAmountConstant = 2.0;
-        public static final double kSpeedsConstant = 1.0;
-        public static final double kRotationsConstant = 1.5;
-        public static final double kDistanceConstant = 0.25;
-        public static final double kAreaConstant = 0.01;
+        public static final double kTargetAmountConstant = 2.0d;
+        public static final double kSpeedsConstant = 1.0d;
+        public static final double kRotationsConstant = 1.5d;
+        public static final double kDistanceConstant = 0.25d;
+        public static final double kAreaConstant = 0.01d;
 
-        public static final double kOffsetTolerance = 1000.0;
+        public static final double kOffsetTolerance = 1000.0d;
     }
 }

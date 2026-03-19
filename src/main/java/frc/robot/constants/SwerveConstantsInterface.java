@@ -2,67 +2,66 @@ package frc.robot.constants;
 
 import com.pathplanner.lib.config.RobotConfig;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.util.SwerveModuleConstants;
 
-public abstract interface SwerveConstantsInterface {
-    int getIsBatteryInBack();
-    boolean getHasCanivore();
-    boolean getUsesDriveKrakens();
-    double getSwerveDeadband();
+public interface SwerveConstantsInterface {
 
-    double getMaxModuleSpeed();
-    double getMaxRotationsPerSecond();
+    public int getIsBatteryInBack();
+    public boolean getHasCanivore();
+    public boolean getUsesDriveKrakens();
+    public double getSwerveDeadband();
+
+    public double getMaxModuleSpeed();
+    public double getMaxRotationsPerSecond();
 
     // Distance between centers of right and left wheels on robot
-    double getTrackWidth();
+    public double getTrackWidth();
     // distance between centers of front and back wheels on robot
-    double getWheelBase();
+    public double getWheelBase();
     // Defined as half the diagonal of the drivebase
-    double getDrivebaseRadius();
-    double getDriveGearRatio();
-    double getTurnGearRatio();
+    public double getDrivebaseRadius();
+    public double getDriveGearRatio();
+    public double getTurnGearRatio();
     // TODO: Run the WheelCharacterization command to find the wheel diameter
-    double getWheelDiameter();
-    double getDriveRevToMeters();
-    double getTurnRotationsToDegrees();
-    double getWheelCof();
-    double getCurrentLimit();
+    public double getWheelDiameter();
+    public double getDriveRevToMeters();
+    public double getTurnRotationsToDegrees();
+    public double getWheelCof();
+    public double getCurrentLimit();
 
     // TODO: Tune PID
-    double getDriveKP();
-    double getDriveKI();
-    double getDriveKD();
-    double getDriveKS();
-    double getDriveKV();
-    double getDriveKA();
+    public double getDriveKP();
+    public double getDriveKI();
+    public double getDriveKD();
+    public double getDriveKS();
+    public double getDriveKV();
+    public double getDriveKA();
 
-    double getRampRate();
+    public double getRampRate();
 
-    double getTurnKP();
-    double getTurnKI();
-    double getTurnKD();
-    double getTurnKV();
-    double getTurnKS();
-    double getTurnKA();
+    public double getTurnKP();
+    public double getTurnKI();
+    public double getTurnKD();
+    public double getTurnKV();
+    public double getTurnKS();
+    public double getTurnKA();
 
-    double getFrontLeftOffset();
-    double getFrontRightOffset();
-    double getBackLeftOffset();
-    double getBackRightOffset();
+    public double getFrontLeftOffset();
+    public double getFrontRightOffset();
+    public double getBackLeftOffset();
+    public double getBackRightOffset();
 
-    double getAutoTargetKP();
-    double getAutoTargetKI();
-    double getAutoTargetKD();
+    public double getAutoTargetKP();
+    public double getAutoTargetKI();
+    public double getAutoTargetKD();
 
-    Translation2d[] getModuleTranslations();
+    public Translation2d[] getModuleTranslations();
 
-    RobotConfig getRobotConfig();
+    public RobotConfig getRobotConfig();
 
-    SwerveModuleConstants getFrontLeft();
-    SwerveModuleConstants getFrontRight();
-    SwerveModuleConstants getBackLeft();
-    SwerveModuleConstants getBackRight();
+    public SwerveModuleConstants getFrontLeft();
+    public SwerveModuleConstants getFrontRight();
+    public SwerveModuleConstants getBackLeft();
+    public SwerveModuleConstants getBackRight();
 }

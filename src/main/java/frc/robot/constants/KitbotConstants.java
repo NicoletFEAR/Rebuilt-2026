@@ -17,7 +17,7 @@ import frc.robot.controllers.ControllerType;
 import frc.robot.util.SwerveModuleConstants;
 
 public class KitbotConstants {
-    public class KitbotGeneralConstants {
+    public static class KitbotGeneralConstants {
         public static final double kMoi = 6.883d;
         public static final double kWeight = 115;
 
@@ -33,7 +33,7 @@ public class KitbotConstants {
         }
     }
 
-    public class KitbotOperatorConstants {
+    public static class KitbotOperatorConstants {
         public static final ControllerType kDriveControllerType = ControllerType.PS5;
 
         public static final Axis kDriverAxis = new Axis(kDriveControllerType);
@@ -42,7 +42,7 @@ public class KitbotConstants {
         public static final int kSteerAxis = kDriverAxis.getAxis("kRightX");
     }
 
-    public class KitbotMotorIds {
+    public static class KitbotMotorIds {
         public static final int kLauncherID = 15;
         public static final int kIntakeID = 14;
     }
@@ -254,5 +254,5 @@ public class KitbotConstants {
                 getBackRightOffset()
             );
         }
-}
+    }
 }

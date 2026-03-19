@@ -17,7 +17,7 @@ import frc.robot.controllers.ControllerType;
 import frc.robot.util.SwerveModuleConstants;
 
 public class HadesConstants {
-    public class HadesGeneralConstants {
+    public static class HadesGeneralConstants {
         public static final double kMoi = 6.883d;
         public static final double kWeight = 115;
 
@@ -33,7 +33,7 @@ public class HadesConstants {
         }
     }
 
-    public class HadesOperatorConstants {
+    public static class HadesOperatorConstants {
         public static final ControllerType kDriveControllerType = ControllerType.PS5;
 
         public static final Axis kDriverAxis = new Axis(kDriveControllerType);
@@ -42,7 +42,7 @@ public class HadesConstants {
         public static final int kSteerAxis = kDriverAxis.getAxis("kRightX");
     }
 
-    public class HadesDriveConstants implements SwerveConstantsInterface{
+    public static class HadesDriveConstants implements SwerveConstantsInterface {
         public int getIsBatteryInBack() {
             return HadesGeneralConstants.isBatteryInBack();
         }

@@ -61,7 +61,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
 
     @Override
     protected void createDriveBase() {
-        m_driveBase = new SwerveDrive(new TuskDriveConstants());
+        m_driveBase = new SwerveDrive(TuskDriveConstants());
     }
 
     @Override

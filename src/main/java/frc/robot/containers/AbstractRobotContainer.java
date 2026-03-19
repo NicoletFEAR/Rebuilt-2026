@@ -10,6 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
+import frc.robot.constants.HadesConstants.HadesOperatorConstants;
+import frc.robot.controllers.UniversalController;
 
 /**
  * This class is used to encapsulate the robot code, including all hardware subsystems.  
@@ -19,11 +22,12 @@ import frc.robot.subsystems.swerve.SwerveDrive;
 public abstract class AbstractRobotContainer {
 
     // Common items for a robot
-    private static BotEnum m_botEnum;
+    private BotEnum m_botEnum;
     protected final Alliance m_alliance;
     protected SendableChooser<Command> m_autoChooser;
     protected SwerveDrive m_driveBase;
-
+    protected UniversalController m_driverController;
+    protected UniversalController m_operatorController;
 
     /**
      * This constructor will create the robot container and the common setup needed for a robot
@@ -44,6 +48,7 @@ public abstract class AbstractRobotContainer {
             this.m_alliance = alliance;
 
         // Perform the setup of the bot
+        createContollers();
         createDriveBase();
         createRobotSubsystems();
         createNamedCommands();
@@ -53,13 +58,18 @@ public abstract class AbstractRobotContainer {
         Shuffleboard.getTab("Main").add("Auto Chooser", m_autoChooser).withPosition(5, 0).withSize(5, 2);
     }
 
-    /**P
+    /**
+     * This method is used to create controller for the robot.  This is only called once
+     * per robot type.
+     */
+    protected abstract void createContollers();
+
+    /**
      * This method is called when the robot container is created.  This is used to
      * create the drive base for the robot.  This is only called once
      * per robot type.
      */
     protected abstract void createDriveBase();
-    
 
     /**
      * This method is called when the robot container is created.  This is used to

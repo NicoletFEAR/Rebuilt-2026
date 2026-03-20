@@ -1,16 +1,17 @@
 package frc.robot.constants;
 
+import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Rotations;
 
 import edu.wpi.first.units.measure.Angle;
 
 public abstract class DriveConstants {
-    public Angle kFrontLeftOffset;
-    public Angle kFrontRightOffset;
-    public Angle kRearLeftOffset;
-    public Angle kRearRightOffset;
+    public Angle kFrontLeftOffset = Radians.of(0.0);
+    public Angle kFrontRightOffset = Radians.of(0.0);
+    public Angle kRearLeftOffset = Radians.of(0.0);
+    public Angle kRearRightOffset = Radians.of(0.0);
 
-    public double kTurnGearRatio;
+    public double kTurnGearRatio = 150.0 / 7.0;
 
     public class TuskDriveConstants extends DriveConstants {
         public TuskDriveConstants() {
@@ -18,8 +19,6 @@ public abstract class DriveConstants {
             kFrontRightOffset = Rotations.of(-0.101806640625);
             kRearLeftOffset = Rotations.of(-0.6767578125);
             kRearRightOffset = Rotations.of(-0.470947265625);
-
-            kTurnGearRatio = 150.0 / 7.0;
         }
     }
 
@@ -29,8 +28,6 @@ public abstract class DriveConstants {
             kFrontRightOffset = Rotations.of(-0.0966796875);
             kRearLeftOffset = Rotations.of(-0.109375);
             kRearRightOffset = Rotations.of(-0.310546875);
-
-            kTurnGearRatio = 150.0 / 7.0;
         }
     }
 
@@ -40,8 +37,6 @@ public abstract class DriveConstants {
             kFrontRightOffset = Rotations.of(-0.073974609375);
             kRearLeftOffset = Rotations.of(-0.82666015625);
             kRearRightOffset = Rotations.of(-0.55419921875);
-
-            kTurnGearRatio = 150.0 / 7.0;
         }
     }
 }

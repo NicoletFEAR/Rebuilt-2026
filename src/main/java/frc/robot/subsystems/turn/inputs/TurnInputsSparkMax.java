@@ -32,7 +32,7 @@ public class TurnInputsSparkMax extends TurnInputs {
             .inverted(true)
             .smartCurrentLimit(40)
             .idleMode(IdleMode.kBrake);
-        
+
         motorConfiguration.encoder.positionConversionFactor(1.0 / m_driveConstants.kTurnGearRatio);
 
         m_relativeEncoder = m_motor.getEncoder();

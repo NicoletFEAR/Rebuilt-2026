@@ -2,6 +2,7 @@ package frc.robot.subsystems.turn.inputs;
 
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -53,7 +54,7 @@ public class TurnInputsSparkMaxSimulated extends TurnInputs {
             .inverted(true)
             .smartCurrentLimit(40)
             .idleMode(IdleMode.kBrake);
-        
+
         motorConfiguration.encoder.positionConversionFactor(1.0 / m_driveConstants.kTurnGearRatio);
 
         m_motor.configure(motorConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -85,6 +86,10 @@ public class TurnInputsSparkMaxSimulated extends TurnInputs {
             RobotController.getBatteryVoltage(),
             Constants.kLoopPeriod
         );
+
+        m_absoluteEncoderSimulation.setSupplyVoltage(Volts.of(RobotController.getBatteryVoltage()));
+        m_absoluteEncoderSimulation.setRawPosition(m_motorModel.getAngularPosition());
+        m_absoluteEncoderSimulation.setVelocity(m_motorModel.getAngularVelocity());
 
         m_absolutePosition.refresh();
 

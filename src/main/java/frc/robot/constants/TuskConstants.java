@@ -54,7 +54,7 @@ public class TuskConstants {
         public static final int kLEDId = 21;
     }
 
-    public class TuskDriveConstants implements SwerveConstantsInterface{
+    public static class TuskDriveConstants implements SwerveConstantsInterface{
         public int getIsBatteryInBack() {
             return TuskGeneralConstants.isBatteryInBack();
         }

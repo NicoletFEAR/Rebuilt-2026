@@ -2,25 +2,34 @@ package frc.robot.containers;
 
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
+import frc.robot.constants.HadesConstants;
+import frc.robot.constants.HadesConstants.HadesDriveConstants;
+import frc.robot.constants.HadesConstants.HadesOperatorConstants;
 import frc.robot.constants.KitbotConstants.KitbotOperatorConstants;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.kitbot.KitbotIntake;
 import frc.robot.subsystems.kitbot.KitbotLauncher;
+import frc.robot.subsystems.swerve.SwerveDrive;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class KitbotRobotContainer extends AbstractRobotContainer {
 
-    protected final UniversalController m_driverController = new UniversalController(
-        GeneralOperatorConstants.kDriverControllerPort, KitbotOperatorConstants.kDriveControllerType);
-
     private KitbotIntake m_kitbotIntake;
     private KitbotLauncher m_kitbotLauncher;
 
-    public KitbotRobotContainer(Alliance alliance) {
-       super(BotEnum.KITBOT, alliance);
+    public KitbotRobotContainer(Alliance alliance, HadesDriveConstants constants) {
+       super(BotEnum.KITBOT, alliance, constants);
+    }
 
-        configureSwerveBindings();
+    @Override
+    protected void createDriveBase() {
+        m_driveBase = new SwerveDrive(m_constants);
+    }
+
+    @Override
+    protected void createContollers() {
+        this.m_driverController = new UniversalController(GeneralOperatorConstants.kDriverControllerPort, HadesOperatorConstants.kDriveControllerType);
     }
 
     @Override
@@ -33,7 +42,7 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
     * This method is used to set the default bindings for the swerve drive.  This should
     * only be overridden in rare cases.  This is only called once per robot type.
     */
-    private void configureSwerveBindings() {
+    protected void configureSwerveBindings() {
         // Driving -- joysticks of driver controller
         m_driveBase.setDefaultCommand(
             new TeleopSwerve(
@@ -44,7 +53,8 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
                 GeneralOperatorConstants.kDefaultSpeed,
                 true,
                 true,
-                m_driveBase
+                m_driveBase,
+                m_constants
             )
         );
 
@@ -60,7 +70,8 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
                     GeneralOperatorConstants.kSlowSpeed,
                     true,
                     true,
-                    m_driveBase
+                    m_driveBase,
+                    m_constants
                 )
             );
         

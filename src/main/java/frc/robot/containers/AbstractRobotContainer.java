@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.constants.SwerveConstantsInterface;
 import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
 import frc.robot.constants.HadesConstants.HadesOperatorConstants;
 import frc.robot.controllers.UniversalController;
@@ -28,18 +29,21 @@ public abstract class AbstractRobotContainer {
     protected SwerveDrive m_driveBase;
     protected UniversalController m_driverController;
     protected UniversalController m_operatorController;
+    protected SwerveConstantsInterface m_constants;
 
     /**
      * This constructor will create the robot container and the common setup needed for a robot
      * @param botEnum The Type of robot to create
      * @param alliance The alliance that the robot is on
      */
-    public AbstractRobotContainer(BotEnum botEnum, Alliance alliance) {
+    public AbstractRobotContainer(BotEnum botEnum, Alliance alliance, SwerveConstantsInterface constants) {
         // Call the super's constructor first
         super();
 
         // Set the bot type
         this.m_botEnum = botEnum;
+
+        this.m_constants = constants;
 
         // Set the alliance
         if (alliance == null)
@@ -85,6 +89,13 @@ public abstract class AbstractRobotContainer {
      */
     protected abstract void createNamedCommands();
     
+    /**
+     * This method is called when the robot container is created.  This is used to
+     * configure the swerve button bindings for the robot.  This is called every time
+     * the robot is enabled.
+     */
+    protected abstract void configureSwerveBindings();
+
     /**
      * This method is called when the robot container is created.  This is used to
      * configure the button bindings for the robot.  This is called every time

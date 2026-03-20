@@ -11,7 +11,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.constants.SwerveConstantsInterface;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 import org.littletonrobotics.junction.Logger;
@@ -24,6 +24,7 @@ public class WheelCharacterization extends Command {
 
   double m_wheelRadiusEstimation = 0.0;
   SwerveDrive m_drivebase;
+  SwerveConstantsInterface m_constants;
 
   private final SlewRateLimiter omegaLimiter = new SlewRateLimiter(0.01);
 
@@ -34,8 +35,9 @@ public class WheelCharacterization extends Command {
   private double currentEffectiveWheelRadius = 0.0;
 
   /** Creates a new WheelRadiusCharacterization. */
-  public WheelCharacterization(SwerveDrive drivebase) {
-    m_drivebase = drivebase;
+  public WheelCharacterization(SwerveDrive drivebase, SwerveConstantsInterface constants) {
+    this.m_drivebase = drivebase;
+    this.m_constants = constants;
 
     addRequirements(m_drivebase);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -72,7 +74,7 @@ public class WheelCharacterization extends Command {
     averageWheelPosition /= 4.0;
 
     currentEffectiveWheelRadius =
-        (accumGyroYawRads * DriveConstants.getDrivebaseRadius()) / averageWheelPosition;
+        (accumGyroYawRads * m_constants.getDrivebaseRadius()) / averageWheelPosition;
 
     Logger.recordOutput("Drive/RadiusCharacterization/DrivePosition", averageWheelPosition);
     Logger.recordOutput("Drive/RadiusCharacterization/AccumGyroYawRads", accumGyroYawRads);

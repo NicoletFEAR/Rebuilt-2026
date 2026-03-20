@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
 import frc.robot.constants.HadesConstants;
-import frc.robot.constants.HadesConstants.HadesDriveConstants;
 import frc.robot.constants.HadesConstants.HadesOperatorConstants;
+import frc.robot.constants.KitbotConstants.KitbotDriveConstants;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
@@ -14,15 +14,13 @@ public class HadesRobotContainer extends AbstractRobotContainer {
 
     private UniversalController m_driverController;
 
-    public HadesRobotContainer(Alliance alliance) {
-        super(BotEnum.HADES, alliance);
-
-        configureSwerveBindings();
+    public HadesRobotContainer(Alliance alliance, KitbotDriveConstants constants) {
+        super(BotEnum.HADES, alliance, constants);
     }
 
     @Override
     protected void createDriveBase() {
-        m_driveBase = new SwerveDrive(new HadesConstants.HadesDriveConstants());
+        m_driveBase = new SwerveDrive(m_constants);
     }
 
     @Override
@@ -84,7 +82,8 @@ public class HadesRobotContainer extends AbstractRobotContainer {
                 GeneralOperatorConstants.kDefaultSpeed,
                 true,
                 true,
-                m_driveBase
+                m_driveBase,
+                m_constants
             )
         );
 
@@ -100,7 +99,8 @@ public class HadesRobotContainer extends AbstractRobotContainer {
                     GeneralOperatorConstants.kSlowSpeed,
                     true,
                     true,
-                    m_driveBase
+                    m_driveBase,
+                    m_constants
                 )
             );
         

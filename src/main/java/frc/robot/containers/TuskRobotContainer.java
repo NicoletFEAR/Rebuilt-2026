@@ -16,6 +16,7 @@ import frc.robot.GameTimer;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
+import frc.robot.constants.HadesConstants.HadesOperatorConstants;
 import frc.robot.constants.TuskConstants.TuskDeviceIds;
 import frc.robot.constants.TuskConstants.TuskDriveConstants;
 import frc.robot.constants.TuskConstants.TuskOperatorConstants;
@@ -35,10 +36,8 @@ import frc.robot.subsystems.swerve.SwerveDrive;
  */
 public class TuskRobotContainer extends AbstractRobotContainer {
     
-    protected final UniversalController m_driverController = new UniversalController(
-        GeneralOperatorConstants.kDriverControllerPort, TuskOperatorConstants.kDriveControllerType);
-    protected final UniversalController m_operatorController = new UniversalController(
-        GeneralOperatorConstants.kOperatorControllerPort, TuskOperatorConstants.kOperatorControllerType);
+    protected UniversalController m_driverController;
+    protected UniversalController m_operatorController;
     
     private Launcher m_launcher;
     private Indexer m_indexer;
@@ -53,15 +52,19 @@ public class TuskRobotContainer extends AbstractRobotContainer {
 
     private final GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
 
-    public TuskRobotContainer(Alliance alliance) {
-        super(BotEnum.TUSK, alliance);
-
-        configureSwerveBindings();
+    public TuskRobotContainer(Alliance alliance, TuskDriveConstants constants) {
+        super(BotEnum.TUSK, alliance, constants);
     }
 
     @Override
     protected void createDriveBase() {
-        m_driveBase = new SwerveDrive(TuskDriveConstants());
+        m_driveBase = new SwerveDrive(m_constants);
+    }
+
+    @Override
+    protected void createContollers() {
+        this.m_driverController = new UniversalController(GeneralOperatorConstants.kDriverControllerPort, HadesOperatorConstants.kDriveControllerType);
+        this.m_operatorController =  new UniversalController(GeneralOperatorConstants.kOperatorControllerPort, TuskOperatorConstants.kOperatorControllerType);
     }
 
     @Override
@@ -78,7 +81,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
     * This method is used to set the default bindings for the swerve drive.  This should
     * only be overridden in rare cases.  This is only called once per robot type.
     */
-    private void configureSwerveBindings() {
+    protected void configureSwerveBindings() {
         // Driving -- joysticks of driver controller
         m_driveBase.setDefaultCommand(
             new TeleopSwerve(
@@ -89,7 +92,8 @@ public class TuskRobotContainer extends AbstractRobotContainer {
                 GeneralOperatorConstants.kDefaultSpeed,
                 true,
                 true,
-                m_driveBase
+                m_driveBase,
+                m_constants
             )
         );
 
@@ -105,7 +109,8 @@ public class TuskRobotContainer extends AbstractRobotContainer {
                     GeneralOperatorConstants.kSlowSpeed,
                     true,
                     true,
-                    m_driveBase
+                    m_driveBase,
+                    m_constants
                 )
             );
         
@@ -129,7 +134,8 @@ public class TuskRobotContainer extends AbstractRobotContainer {
                     GeneralOperatorConstants.kDefaultSpeed,
                     true,
                     true,
-                    m_driveBase
+                    m_driveBase,
+                    m_constants
                 )
             );
         

@@ -47,7 +47,7 @@ public class KitbotConstants {
         public static final int kIntakeID = 14;
     }
 
-    public class KitbotDriveConstants implements SwerveConstantsInterface{
+    public static class KitbotDriveConstants implements SwerveConstantsInterface{
         public int getIsBatteryInBack() {
             return KitbotGeneralConstants.isBatteryInBack();
         }

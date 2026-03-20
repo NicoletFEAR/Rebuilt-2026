@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.GeneralConstants;
+import frc.robot.constants.HadesConstants;
+import frc.robot.constants.KitbotConstants;
+import frc.robot.constants.TuskConstants;
 import frc.robot.containers.AbstractRobotContainer;
 import frc.robot.containers.KitbotRobotContainer;
 import frc.robot.containers.TuskRobotContainer;
@@ -133,14 +136,14 @@ public class Robot extends LoggedRobot {
     private void createRobotContainer() {
         switch (getBotEnum()) {
             case KITBOT:
-                this.m_robotContainer = new KitbotRobotContainer(getAlliance());
+                this.m_robotContainer = new KitbotRobotContainer(getAlliance(), new HadesConstants.HadesDriveConstants());
                 break;
             case HADES:
-                this.m_robotContainer = new HadesRobotContainer(getAlliance());
+                this.m_robotContainer = new HadesRobotContainer(getAlliance(), new KitbotConstants.KitbotDriveConstants());
                 break;
             case TUSK:
             default:
-                this.m_robotContainer = new TuskRobotContainer(getAlliance());
+                this.m_robotContainer = new TuskRobotContainer(getAlliance(), new TuskConstants.TuskDriveConstants());
                 break;
         }
 

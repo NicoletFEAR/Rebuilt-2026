@@ -7,6 +7,7 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import frc.robot.constants.GeneralConstants.DrivebaseMotorIds;
@@ -263,15 +264,17 @@ public class TuskConstants {
     }
 
     public class LauncherConstants {
-        public static double[][] kAutoAimHoodPositions = {
-            {1.85d, 0.0d},
-            {4.45d, 0.6315d}
-        };
+       public static InterpolatingDoubleTreeMap kAutoAimHoodPositions = new InterpolatingDoubleTreeMap();
+       static {
+            kAutoAimHoodPositions.put(1.85d, 0.0d);
+            kAutoAimHoodPositions.put(4.45d, 0.6315d);
+       }
 
-        public static double[][] kAutoAimSpeeds = {
-            {1.85d, 0.7d},
-            {4.45d, 1.0d}
-        };
+       public static InterpolatingDoubleTreeMap kAutoAimSpeeds = new InterpolatingDoubleTreeMap();
+       static {
+            kAutoAimSpeeds.put(1.85d, 0.7d);
+            kAutoAimSpeeds.put(4.45d, 1.0d);
+       }
 
         public static final double kLauncherGearRatio = 4.0d/5.0d;
         public static final double kLauncherHoodGearRatio = 30.0d;
@@ -294,6 +297,7 @@ public class TuskConstants {
 
         public static final double kLauncherVelocityTolerance = 5.0d;
         public static final double kOffVelocity = 0.0d;
+        public static final double kLauncherOffVelocity = 0.0d;
         public static final double kLauncherLaunchVelocity = 110.0d;
         public static final double kLauncherOffVoltage = 0.0d;
         public static final double kLauncherLaunchVoltage = 12.0d;

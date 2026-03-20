@@ -74,11 +74,12 @@ public class SwerveDrive extends SubsystemBase {
 
     private double m_simYaw;
 
-    private LimelightCamera m_launcherCamera = new LimelightCamera("limelight-launch");
+    private LimelightCamera m_launcherCamera;
     // private LimelightCamera m_climbCamera = new LimelightCamera("limelight-climb");
 
     public SwerveDrive(SwerveConstantsInterface constants) {
         this.m_constants = constants;
+        this.m_launcherCamera = new LimelightCamera("limelight-launch");
 
         if (constants.getUsesDriveKrakens()) {
             m_modules = new SwerveModule[] {

@@ -11,8 +11,6 @@ import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class HadesRobotContainer extends AbstractRobotContainer {
 
-    private UniversalController m_driverController;
-
     public HadesRobotContainer(Alliance alliance, KitbotDriveConstants constants) {
         super(BotEnum.HADES, alliance, constants);
     }

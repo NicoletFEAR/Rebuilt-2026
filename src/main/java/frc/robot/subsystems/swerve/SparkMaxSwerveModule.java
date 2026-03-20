@@ -47,13 +47,14 @@ public class SparkMaxSwerveModule implements SwerveModule {
     private double m_lastSpeed;
     private double m_lastAngle;
 
-    private Rotation2d m_simAngle = new Rotation2d();
+    private Rotation2d m_simAngle; 
     private double m_simDist;
     private double m_simVel;
 
     public SparkMaxSwerveModule(SwerveModuleConstants constants, SwerveConstantsInterface swerveConstants) {
         this.m_constants = constants;
         this.m_swerveConstants = swerveConstants;
+        this.m_simAngle = new Rotation2d();
 
         this.m_steerMotor = new SparkMax(constants.steerId, MotorType.kBrushless);
         this.m_driveMotor = new SparkMax(constants.driveId, MotorType.kBrushless);

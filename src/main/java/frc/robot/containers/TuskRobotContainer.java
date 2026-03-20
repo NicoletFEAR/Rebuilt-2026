@@ -37,9 +37,6 @@ import frc.robot.subsystems.swerve.SwerveDrive;
  */
 public class TuskRobotContainer extends AbstractRobotContainer {
     
-    protected UniversalController m_driverController;
-    protected UniversalController m_operatorController;
-    
     private Launcher m_launcher;
     private Indexer m_indexer;
     private Hood m_hood;
@@ -51,7 +48,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
     private boolean m_manualLaunching = false;
     private boolean m_manualIndexing = false;
 
-    private final GameTimer m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
+    private GameTimer m_gameTimer;
 
     public TuskRobotContainer(Alliance alliance, TuskDriveConstants constants) {
         super(BotEnum.TUSK, alliance, constants);
@@ -76,6 +73,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
         this.m_intakeDriver = new IntakeDriver();
         this.m_intakePivot = new IntakePivot();
         this.m_led = new Led(TuskDeviceIds.kLEDId);
+        this.m_gameTimer = new GameTimer(m_driverController, m_operatorController, m_led);
     }
 
     /**

@@ -41,7 +41,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.DriveConstants;
-// import frc.robot.util.LimelightCamera;
+import frc.robot.util.LimelightCamera;
 import frc.robot.util.Utils;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
@@ -72,7 +72,7 @@ public class SwerveDrive extends SubsystemBase {
 
     private double m_simYaw;
 
-    // private LimelightCamera m_launcherCamera = new LimelightCamera("limelight-launch");
+    private LimelightCamera m_launcherCamera = new LimelightCamera("limelight-launch");
     // private LimelightCamera m_climbCamera = new LimelightCamera("limelight-climb");
 
     public SwerveDrive() {
@@ -362,29 +362,29 @@ public class SwerveDrive extends SubsystemBase {
 
     public double distanceToHub() {
         return Math.hypot(
-            DriveConstants.kHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
-            DriveConstants.kHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
+            DriveConstants.kBlueHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
+            DriveConstants.kBlueHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
         );
     }
 
     @Override
     public void periodic() {
-        // m_launcherCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
+        m_launcherCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
         // m_climbCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
         m_poseEstimator.updateWithTime(Timer.getTimestamp(), getYaw(), getModulePositions());
         m_megaTag1PoseEstimator.updateWithTime(Timer.getTimestamp(), getPigeonYaw(), getModulePositions());
 
-        // if (m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {
-        //     m_launcherCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getYaw());
-        //     Logger.recordOutput("Vision/limelight-launch/MT2 Pose Estimate Blue",
-        //             m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2().pose);
-        // }
+        if (m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {
+            m_launcherCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getYaw());
+            Logger.recordOutput("Vision/limelight-launch/MT2 Pose Estimate Blue",
+                    m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2().pose);
+        }
 
-        // if (m_launcherCamera.getBotPoseEstimate_wpiBlue() != null) {
-        //     m_launcherCamera.addPoseEstimateMegatag1(m_megaTag1PoseEstimator, m_chassisSpeeds);
-        //     Logger.recordOutput("Vision/limelight-launch/MT1 Pose Estimate Blue",
-        //             m_launcherCamera.getBotPoseEstimate_wpiBlue().pose);
-        // }
+        if (m_launcherCamera.getBotPoseEstimate_wpiBlue() != null) {
+            m_launcherCamera.addPoseEstimateMegatag1(m_megaTag1PoseEstimator, m_chassisSpeeds);
+            Logger.recordOutput("Vision/limelight-launch/MT1 Pose Estimate Blue",
+                    m_launcherCamera.getBotPoseEstimate_wpiBlue().pose);
+        }
 
         // if (m_climbCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {
         //     m_climbCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getYaw());

@@ -18,6 +18,7 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
@@ -430,23 +431,25 @@ public final class Constants {
             getBackRightOffset()
         );
 
-        public static final Translation2d kHubPosition = new Translation2d(4.619, 4.033);
+        public static final Translation2d kBlueHubPosition = new Translation2d(4.619, 4.033);
+        public static final Translation2d kRedHubPosition = new Translation2d(11.936, 4.033);
     }
 
     public final class LauncherConstants {
         // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired hood position
         // Must be sorted from low to high distance from the hub
-        public static double[][] kAutoAimHoodPositions = {
-            {1.85, 0.0},
-            {4.45, 0.6315},
-        };
+        public static InterpolatingDoubleTreeMap kAutoAimHoodPositions = new InterpolatingDoubleTreeMap();
+        static {
+            kAutoAimHoodPositions.put(1.85, 0.0);
+            kAutoAimHoodPositions.put(4.45, 0.6315);
+        }
 
         // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired launcher speed modifier
-        // Must be sorted from low to high distance from the hub
-        public static double[][] kAutoAimSpeeds = {
-            {1.85, 0.7},
-            {4.45, 1.0},
-        };
+        public static InterpolatingDoubleTreeMap kAutoAimSpeeds = new InterpolatingDoubleTreeMap();
+        static {
+            kAutoAimSpeeds.put(1.85, 0.7);
+            kAutoAimSpeeds.put(4.45, 1.0);
+        }
 
         public static double getGearRatio() {
             return Double.parseDouble(m_properties.getProperty("launcher.gear-ratio"));
@@ -506,6 +509,10 @@ public final class Constants {
 
         public static double getVelocityTolerance() {
             return Double.parseDouble(m_properties.getProperty("launcher.velocity-tolerance"));
+        }
+
+        public static double getOffVelocity() {
+            return Double.parseDouble(m_properties.getProperty("launcher.off-velocity"));
         }
 
         public static double getLaunchVelocity() {

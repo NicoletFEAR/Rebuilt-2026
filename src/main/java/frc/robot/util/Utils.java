@@ -152,39 +152,4 @@ public class Utils {
 
         return new Rotation2d(Math.atan(distanceVector.getY() / distanceVector.getX())).getDegrees();
     }
-
-    // Linear interpolation
-    // {0.0, 0.0},
-    // {1.5, 0.5},
-    // {4.0, 1.0}
-    public static double interpolateBetweenPoints(double value, double[][] points) {
-        int higher_index = -1;
-
-        for (int i = 0; i < points.length; i++) {
-            if (points[i][0] > value) {
-                higher_index = i;
-                break;
-            }
-        }
-
-        // If the value is lower than the lowest value in points, extend the first interpolation further
-        if (higher_index == 0) {
-            return (points[1][1] - points[0][1])
-                / (points[1][0] - points[0][0])
-                * (value - points[0][0])
-                + points[0][1];
-        // If the value is higher than the highest value in points, extend the last interpolation further
-        } else if (higher_index == -1) {
-            return (points[points.length - 1][1] - points[points.length - 2][1])
-                / (points[points.length - 1][0] - points[points.length - 2][0])
-                * (value - points[points.length - 1][0])
-                + points[points.length - 1][1];
-        } else {
-        // Based off the equation that y = m(x - x1) + y1
-            return (points[higher_index][1] - points[higher_index - 1][1]) // 1 / 3
-                / (points[higher_index][0] - points[higher_index - 1][0])
-                * (value - points[higher_index - 1][0])
-                + points[higher_index - 1][1];
-        }
-    }
 }

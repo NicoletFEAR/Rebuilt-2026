@@ -72,7 +72,8 @@ public class TuskRobotContainer extends AbstractRobotContainer {
                     OperatorConstants.getDefaultSpeed(),
                     true,
                     true,
-                    m_driveBase
+                    m_driveBase,
+                    m_launcher::getVelocity
                 )
             );
         
@@ -172,15 +173,15 @@ public class TuskRobotContainer extends AbstractRobotContainer {
         }, m_limitOverrideMode), m_intakePivot));
 
         // Control the hood manually -- up and down arrows of operator controller
-        // m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
-        //     if (m_operatorController.povUp().getAsBoolean() == m_operatorController.povDown().getAsBoolean()) {
-        //         return 0.0;
-        //     } else if (m_operatorController.povUp().getAsBoolean()) {
-        //         return 1.0;
-        //     } else {
-        //         return -1.0;
-        //     }
-        // }, m_limitOverrideMode), m_hood));
+        m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
+            if (m_operatorController.povUp().getAsBoolean() == m_operatorController.povDown().getAsBoolean()) {
+                return 0.0;
+            } else if (m_operatorController.povUp().getAsBoolean()) {
+                return 1.0;
+            } else {
+                return -1.0;
+            }
+        }, m_limitOverrideMode), m_hood));
         
         // Intakes fuel -- left trigger on operator controller
         m_operatorController
@@ -222,6 +223,8 @@ public class TuskRobotContainer extends AbstractRobotContainer {
                 m_launcher.off(),
                 () -> m_automaticLaunching
             )));
+        
+        //TODO: Make Min and Max reset button - use niche buttons(multiple)
     }
 
     @Override

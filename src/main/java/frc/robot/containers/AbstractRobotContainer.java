@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.swerve.SwerveDrive;
 public abstract class AbstractRobotContainer {
 
     // Common items for a robot
+    public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
     protected final UniversalController m_driverController = new UniversalController(
         OperatorConstants.getDriverControllerPort(), DriveConstants.getControllerType());
     protected final UniversalController m_operatorController = new UniversalController(
@@ -33,7 +35,6 @@ public abstract class AbstractRobotContainer {
     protected final Alliance m_alliance;
     protected SendableChooser<Command> m_autoChooser;
     protected SwerveDrive m_driveBase;
-
 
     /**
      * This constructor will create the robot container and the common setup needed for a robot
@@ -59,9 +60,9 @@ public abstract class AbstractRobotContainer {
         createNamedCommands();
         configureSwerveBindings();
         configureBindings();
-        this.m_autoChooser = AutoBuilder.buildAutoChooser();
 
-        Shuffleboard.getTab("Main").add("Auto Chooser", m_autoChooser).withPosition(5, 0).withSize(5, 2);
+        this.m_autoChooser = AutoBuilder.buildAutoChooser();
+        m_mainTab.add("Auto Chooser", m_autoChooser).withPosition(5, 0).withSize(5, 2);
     }
 
     /**P
@@ -78,8 +79,7 @@ public abstract class AbstractRobotContainer {
      * only be overridden in rare cases.  This is only called once per robot type.
      */
     protected void configureSwerveBindings() {
-        // Driving -- joysticks of driver controller
-        m_driveBase.setDefaultCommand(
+         m_driveBase.setDefaultCommand(
             new TeleopSwerve(
                 m_driverController,
                 OperatorConstants.kThrottleAxis,
@@ -107,7 +107,7 @@ public abstract class AbstractRobotContainer {
                     m_driveBase
                 )
             );
-        
+
         // Make gyroscope think current position is zero -- create button of driver controller
         m_driverController
             .create()

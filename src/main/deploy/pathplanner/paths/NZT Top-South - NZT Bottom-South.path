@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.7,
-        "y": 7.35
+        "x": 7.734055555555555,
+        "y": 6.938844444444444
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.686185827715993,
-        "y": 6.3629691100861825
+        "x": 7.7202413832715475,
+        "y": 5.951813554530627
       },
       "isLocked": false,
       "linkedName": "NZT Top-South"
@@ -48,7 +48,7 @@
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 66.78
+    "rotation": 65.0
   },
   "useDefaultConstraints": false
 }

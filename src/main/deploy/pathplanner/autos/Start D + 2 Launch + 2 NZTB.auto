@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start O - NZT Bottom North"
+            "pathName": "Start D - NZT Top South"
           }
         },
         {
@@ -19,23 +19,17 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Bottom-North - NZT Top-North"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "EndIntake"
+            "pathName": "NZT Top South - NZB Top South"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Top-North - Launch 1"
+            "pathName": "NZB Top South - Launch TB"
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -62,42 +56,23 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Launch 1 - Depot Middle"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartIntake"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 5.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndIntake"
-                }
-              }
-            ]
+            "pathName": "Launch TB - NZB Top North"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot Middle - Launch D"
+            "pathName": "NZB Top North - NZT Top North"
           }
         },
         {
-          "type": "sequential",
+          "type": "path",
+          "data": {
+            "pathName": "NZT Top-North - Launch 1"
+          }
+        },
+        {
+          "type": "parallel",
           "data": {
             "commands": [
               {

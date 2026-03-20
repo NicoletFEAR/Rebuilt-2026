@@ -7,6 +7,12 @@
         {
           "type": "path",
           "data": {
+            "pathName": "Start T - Slight Back"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Start T - Pre-Trench D"
           }
         },
@@ -124,6 +130,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Lakeland",
+  "folder": "Comp Autos",
   "choreoAuto": false
 }

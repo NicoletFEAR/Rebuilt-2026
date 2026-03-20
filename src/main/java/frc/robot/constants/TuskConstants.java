@@ -293,6 +293,7 @@ public class TuskConstants {
         public static final double kLauncherKD = 0.0d;
 
         public static final double kLauncherVelocityTolerance = 5.0d;
+        public static final double kOffVelocity = 0.0d;
         public static final double kLauncherLaunchVelocity = 110.0d;
         public static final double kLauncherOffVoltage = 0.0d;
         public static final double kLauncherLaunchVoltage = 12.0d;

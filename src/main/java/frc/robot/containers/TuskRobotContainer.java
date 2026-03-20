@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.GameTimer;
 import frc.robot.commands.LockRotationTowardsHub;
@@ -135,6 +136,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
                     true,
                     true,
                     m_driveBase,
+                    m_launcher::getVelocity,
                     m_constants
                 )
             );
@@ -144,6 +146,8 @@ public class TuskRobotContainer extends AbstractRobotContainer {
             .alongWith(m_led.startScoringSwitchAnimation()))
             .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0.0))
             .alongWith(m_led.startSwerveAnimation()));
+
+        RobotModeTriggers.autonomous().onTrue(runAutoLedAnimation());
 
         
         // Adjusts hood and speed during auto-targeting -- right trigger of driver controller
@@ -233,15 +237,15 @@ public class TuskRobotContainer extends AbstractRobotContainer {
         }, m_limitOverrideMode), m_intakePivot));
 
         // Control the hood manually -- up and down arrows of operator controller
-        // m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
-        //     if (m_operatorController.povUp().getAsBoolean() == m_operatorController.povDown().getAsBoolean()) {
-        //         return 0.0;
-        //     } else if (m_operatorController.povUp().getAsBoolean()) {
-        //         return 1.0;
-        //     } else {
-        //         return -1.0;
-        //     }
-        // }, m_limitOverrideMode), m_hood));
+        m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
+            if (m_operatorController.povUp().getAsBoolean() == m_operatorController.povDown().getAsBoolean()) {
+                return 0.0;
+            } else if (m_operatorController.povUp().getAsBoolean()) {
+                return 1.0;
+            } else {
+                return -1.0;
+            }
+        }, m_limitOverrideMode), m_hood));
         
         // Intakes fuel -- left trigger on operator controller
         m_operatorController
@@ -283,6 +287,8 @@ public class TuskRobotContainer extends AbstractRobotContainer {
                 m_launcher.off(),
                 () -> m_automaticLaunching
             )));
+        
+        //TODO: Make Min and Max reset button - use niche buttons(multiple)
     }
 
     @Override
@@ -371,7 +377,6 @@ public class TuskRobotContainer extends AbstractRobotContainer {
      */
     @Override
     public void teleopInit() {
-        super.teleopInit();
         CommandScheduler.getInstance().schedule(m_led.startSwerveAnimation());
 
         // Start the game timer
@@ -389,12 +394,7 @@ public class TuskRobotContainer extends AbstractRobotContainer {
     }
 
     @Override
-    public void autonomousInit() {
-        Command autonomousCommand = getAutonomousCommand();
-        if (autonomousCommand != null) {
-            CommandScheduler.getInstance().schedule(runAutoLedAnimation().alongWith(autonomousCommand));
-        }
-    }
+    public void autonomousInit() {}
 
     @Override
     public void periodic() {

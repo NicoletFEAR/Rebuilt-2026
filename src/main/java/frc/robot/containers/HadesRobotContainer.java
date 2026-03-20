@@ -47,6 +47,9 @@ public class HadesRobotContainer extends AbstractRobotContainer {
     public void autonomousExit() {}
 
     @Override
+    public void teleopInit() {}
+
+    @Override
     public void teleopPeriodic() {}
 
     @Override

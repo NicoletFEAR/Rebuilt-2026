@@ -85,7 +85,7 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
     protected void configureBindings() {
         // Intakes fuel -- left bumper of driver controller
         m_driverController
-            .L2()
+            .L1()
             .onTrue(m_kitbotIntake.intake())
             .onTrue(m_kitbotLauncher.intake())
             .onFalse(m_kitbotIntake.off())
@@ -93,7 +93,7 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
             
         // launches fuel -- right bumper of driver controller
         m_driverController
-            .R2()
+            .R1()
             .onTrue(m_kitbotIntake.launch())
             .onTrue(m_kitbotLauncher.launch())
             .onFalse(m_kitbotIntake.off())
@@ -111,6 +111,9 @@ public class KitbotRobotContainer extends AbstractRobotContainer {
 
     @Override
     public void autonomousExit() {}
+
+    @Override
+    public void teleopInit() {}
 
     @Override
     public void teleopPeriodic() {}

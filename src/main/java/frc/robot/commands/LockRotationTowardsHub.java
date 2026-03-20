@@ -7,8 +7,16 @@
 
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.GeneralConstants;
 import frc.robot.constants.SwerveConstantsInterface;
@@ -30,6 +38,7 @@ public class LockRotationTowardsHub extends Command {
     private double m_steer;
     private PIDController m_steerController = new PIDController(m_constants.getAutoTargetKP(), m_constants.getAutoTargetKI(), m_constants.getAutoTargetKD());
 
+    private DoubleSupplier m_launcherVelocity;
 
     private boolean m_isOpenLoop;
     private boolean m_isFieldRelative;
@@ -44,8 +53,9 @@ public class LockRotationTowardsHub extends Command {
         boolean isOpenLoop,
         boolean isFieldRelative,
         SwerveDrive driveBase,
+        DoubleSupplier launcherVelocity,
         SwerveConstantsInterface constants) {
-        this.m_driverController = driverController;
+        m_driverController = driverController;
 
         this.m_throttleAxis = throttleAxis;
         this.m_strafeAxis = strafeAxis;
@@ -58,7 +68,11 @@ public class LockRotationTowardsHub extends Command {
 
         this.m_driveBase = driveBase;
 
+        this.m_launcherVelocity = launcherVelocity;
+
         this.m_constants = constants;
+
+
         
         addRequirements(m_driveBase);
     }
@@ -84,10 +98,17 @@ public class LockRotationTowardsHub extends Command {
             m_constants.getIsBatteryInBack() * m_driverController.getRawAxis(m_strafeAxis),
             m_constants.getSwerveDeadband()
         );
+
+        Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
+            ? GeneralConstants.kBlueHubPosition
+            : GeneralConstants.kRedHubPosition;
+        
+        double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * m_launcherVelocity.getAsDouble() * Math.PI;
+        double timeToHub = 2.0 * estimatedFuelVelocity / 19.6;
         
         double desiredAngle = Math.atan2(
-            GeneralConstants.kHubPosition.getY() - m_driveBase.getPose().getTranslation().getY(),
-            GeneralConstants.kHubPosition.getX() - m_driveBase.getPose().getTranslation().getX()
+            target.getY() - m_driveBase.getPose().getTranslation().getY(),
+            target.getX() - m_driveBase.getPose().getTranslation().getX()
         );
 
         if (Math.abs(desiredAngle - m_driveBase.getYaw().getRadians()) < GeneralConstants.rotationTolerance) {

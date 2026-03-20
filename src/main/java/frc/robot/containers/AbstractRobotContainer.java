@@ -4,7 +4,9 @@ import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,7 +25,8 @@ import frc.robot.controllers.UniversalController;
 public abstract class AbstractRobotContainer {
 
     // Common items for a robot
-    private BotEnum m_botEnum;
+    public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
+    protected final BotEnum m_botEnum;
     protected final Alliance m_alliance;
     protected SendableChooser<Command> m_autoChooser;
     protected SwerveDrive m_driveBase;
@@ -57,9 +60,9 @@ public abstract class AbstractRobotContainer {
         createRobotSubsystems();
         createNamedCommands();
         configureBindings();
-        this.m_autoChooser = AutoBuilder.buildAutoChooser();
 
-        Shuffleboard.getTab("Main").add("Auto Chooser", m_autoChooser).withPosition(5, 0).withSize(5, 2);
+        this.m_autoChooser = AutoBuilder.buildAutoChooser();
+        m_mainTab.add("Auto Chooser", m_autoChooser).withPosition(5, 0).withSize(5, 2);
     }
 
     /**
@@ -120,6 +123,14 @@ public abstract class AbstractRobotContainer {
     }
 
     /**
+     * This method will return the team number of the bot
+     * @return
+     */
+    public int getTeamNumber() {
+        return RobotController.getTeamNumber();
+    }
+
+    /**
      * This method will be called on a periodic basis and used to 
      * update dashboards and other periodic tasks.  This implementation includes
      * setting the alliance and displaying the Match Time on the dashboard.
@@ -151,12 +162,7 @@ public abstract class AbstractRobotContainer {
      * any necessary setup and processing for the period.  This includes determining 
      * who won autos, starting times, and sending alerts based on game shifts.
      */
-    public void teleopInit() {
-        Command command = getAutonomousCommand();
-        if (command != null)
-            command.cancel();
-    }
-
+    public abstract void teleopInit();
     /**
      * This methid should be called at internvals in the teleop period.  This 
      * should not be used for robot functionality, but instead used to update

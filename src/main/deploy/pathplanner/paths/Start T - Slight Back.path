@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.6,
-        "y": 4.0
+        "x": 3.1958545873544093,
+        "y": 4.01710737743154
       },
       "isLocked": false,
       "linkedName": "Start T"
@@ -20,8 +20,8 @@
         "y": 4.0
       },
       "prevControl": {
-        "x": 1.988511111111111,
-        "y": 4.0
+        "x": 3.312772155480126,
+        "y": 3.968100361941183
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Lakeland",
+  "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

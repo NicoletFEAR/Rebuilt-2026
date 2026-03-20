@@ -14,7 +14,8 @@ public class GeneralConstants {
 
     public static final double rotationTolerance = 0.01d;
     
-    public static final Translation2d kHubPosition = new Translation2d(4.619, 4.033);
+    public static final Translation2d kBlueHubPosition = new Translation2d(4.619, 4.033);
+    public static final Translation2d kRedHubPosition = new Translation2d(4.619, 4.033);
     
     public static final SwerveModuleState[] kXWheels = {
         new SwerveModuleState(0, Rotation2d.fromDegrees(45)),

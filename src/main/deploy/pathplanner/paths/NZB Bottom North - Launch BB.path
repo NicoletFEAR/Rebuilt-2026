@@ -1,0 +1,73 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.73,
+        "y": 3.45
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.804655555555557,
+        "y": 2.826688888888888
+      },
+      "isLocked": false,
+      "linkedName": "NZB Bottom-North"
+    },
+    {
+      "anchor": {
+        "x": 3.4,
+        "y": 2.5
+      },
+      "prevControl": {
+        "x": 5.181011111111111,
+        "y": 2.768222222222222
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Launch BB"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5269709543568453,
+      "rotationDegrees": 51.04
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.4337468982630254,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 4.0,
+        "maxAcceleration": 4.0,
+        "maxAngularVelocity": 270.0,
+        "maxAngularAcceleration": 360.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.7,
+    "maxAcceleration": 4.7,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 51.03789895170877
+  },
+  "reversed": false,
+  "folder": "Comp",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -65.0
+  },
+  "useDefaultConstraints": true
+}

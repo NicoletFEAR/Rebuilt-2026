@@ -1,5 +1,6 @@
 package frc.robot.subsystems.launcher;
 
+import static edu.wpi.first.units.Units.Milliseconds;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
@@ -10,6 +11,7 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -23,10 +25,12 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.constants.TuskConstants.LauncherConstants;
 import frc.robot.constants.TuskConstants.TuskDeviceIds;
@@ -35,12 +39,29 @@ import frc.robot.util.Utils;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
+    private double m_desiredVelocity;
     private double m_speedModifier = 1.0;
     private LauncherState m_state = LauncherState.OFF;
     private TalonFX m_leftMotor;
     private TalonFX m_rightMotor;
     private DCMotorSim m_leftMotorSim;
     private DCMotorSim m_rightMotorSim;
+
+    private SysIdRoutine m_sysIdRoutine = new SysIdRoutine(
+        new SysIdRoutine.Config(
+            null,
+            null,
+            null,
+            (state) -> Logger.recordOutput("Launcher/SysIdState", state)
+        ),
+        new SysIdRoutine.Mechanism(
+            (voltage) -> setVoltage(voltage.in(Volts)), 
+            null,
+            this
+        )
+    );
+
+    private MotionMagicVelocityVoltage m_velocityRequest = new MotionMagicVelocityVoltage(0.0).withSlot(0);
 
     public Launcher() {
         m_leftMotor = new TalonFX(TuskDeviceIds.kLeftLauncherId, new CANBus(TuskGeneralConstants.kHasCanivore ? "*" : "rio"));
@@ -52,8 +73,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         leftConfig.Feedback.SensorToMechanismRatio = LauncherConstants.kLauncherGearRatio;
         leftConfig.Slot0.kP = LauncherConstants.kLauncherKP;
         leftConfig.Slot0.kI = LauncherConstants.kLauncherKI;
-        leftConfig.Slot0.kD = LauncherConstants.kHoodKD;
-        leftConfig.MotionMagic.MotionMagicAcceleration = 1;
+        leftConfig.Slot0.kD = LauncherConstants.kLauncherKD;
+        leftConfig.MotionMagic.MotionMagicAcceleration = 100.0;
         leftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         m_leftMotor.getConfigurator().apply(leftConfig);
 
@@ -62,7 +83,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         rightConfig.Slot0.kP = LauncherConstants.kLauncherKP;
         rightConfig.Slot0.kI = LauncherConstants.kLauncherKI;
         rightConfig.Slot0.kD = LauncherConstants.kLauncherKD;
-        rightConfig.MotionMagic.MotionMagicAcceleration = 1;
+        rightConfig.MotionMagic.MotionMagicAcceleration = 100.0;
         rightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         m_rightMotor.getConfigurator().apply(rightConfig);
     }
@@ -79,22 +100,31 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         m_rightMotor.setControl(new VoltageOut(m_desiredVoltage));
     }
 
+    public void setVelocity(double velocity) {
+        m_desiredVelocity = velocity;
+        m_leftMotor.setControl(m_velocityRequest.withVelocity(velocity));
+        m_rightMotor.setControl(m_velocityRequest.withVelocity(velocity));
+    }
+
     public boolean isAtVelocity() {
-        return Math.abs(m_leftMotor.getVelocity().getValueAsDouble() - (LauncherConstants.kLauncherLaunchVelocity * m_speedModifier)) < LauncherConstants.kLauncherVelocityTolerance
-            || Math.abs(m_rightMotor.getVelocity().getValueAsDouble() - (LauncherConstants.kLauncherLaunchVelocity * m_speedModifier)) < LauncherConstants.kLauncherVelocityTolerance;
+        return MathUtil.isNear(getVelocity(), LauncherConstants.kLauncherLaunchVelocity * m_speedModifier, LauncherConstants.kLauncherVelocityTolerance);
+    }
+
+    public double getVelocity() {
+        return Math.max(m_leftMotor.getVelocity().getValueAsDouble(), m_rightMotor.getVelocity().getValueAsDouble());
     }
 
     public Command launch() {
         return new InstantCommand(() -> {
             m_state = LauncherState.LAUNCHING;
-            setVoltage(LauncherConstants.kLauncherLaunchVoltage * m_speedModifier);
+            setVelocity(LauncherConstants.kLauncherLaunchVelocity * m_speedModifier);
         });
     }
 
     public Command off() {
         return new InstantCommand(() -> {
             m_state = LauncherState.OFF;
-            setVoltage(LauncherConstants.kLauncherOffVoltage * m_speedModifier);
+            setVelocity(LauncherConstants.kLauncherOffVelocity * m_speedModifier);
         });
     }
 
@@ -121,19 +151,29 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public Command adjustSpeedToHubDistance(DoubleSupplier distance) {
         return new ConditionalCommand(
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimSpeeds), 0.0, 1.0)),
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(Utils.interpolateBetweenPoints(distance.getAsDouble(), LauncherConstants.kAutoAimSpeeds), 0.0, 1.0)).andThen(launch()),
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)),
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)).andThen(launch()),
             () -> m_state == LauncherState.OFF
         );
     }
 
+    public Command sysId() {
+        return m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward)
+            .andThen(Commands.waitTime(Milliseconds.of(500)))
+            .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse))
+            .andThen(Commands.waitTime(Milliseconds.of(500)))
+            .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward))
+            .andThen(Commands.waitTime(Milliseconds.of(500)))
+            .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse));
+    }
+
     @Override
     public void periodic() {
-        // TODO: Replace the rounding thing with String.format
-        SmartDashboard.putString("Launcher Speed", Math.round(1000.0 * m_speedModifier) / 10.0 + "%");
+        SmartDashboard.putString("Launcher Speed", String.format("%.2f%%", m_speedModifier * 100));
         SmartDashboard.putBoolean("Launching?", m_state == LauncherState.LAUNCHING);
         Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
         Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);
+        Logger.recordOutput("Launcher/Desired Velocity", m_desiredVelocity);
         Logger.recordOutput("Launcher/Left/Voltage", m_leftMotor.getMotorVoltage().getValueAsDouble());
         Logger.recordOutput("Launcher/Left/Current", m_leftMotor.getStatorCurrent().getValueAsDouble());
         Logger.recordOutput("Launcher/Left/Velocity", m_leftMotor.getVelocity().getValueAsDouble());

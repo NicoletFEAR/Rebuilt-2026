@@ -24,22 +24,17 @@ import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class LockRotationTowardsHub extends Command {
+    
     private SwerveConstantsInterface m_constants;
-    /** Creates a new TeleopSwerve. */
     private SwerveDrive m_driveBase;
-
     private UniversalController m_driverController;
-
     private int m_throttleAxis;
     private int m_strafeAxis;
-
     private double m_throttle;
     private double m_strafe;
     private double m_steer;
-    private PIDController m_steerController = new PIDController(m_constants.getAutoTargetKP(), m_constants.getAutoTargetKI(), m_constants.getAutoTargetKD());
-
+    private PIDController m_steerController;
     private DoubleSupplier m_launcherVelocity;
-
     private boolean m_isOpenLoop;
     private boolean m_isFieldRelative;
 
@@ -55,25 +50,19 @@ public class LockRotationTowardsHub extends Command {
         SwerveDrive driveBase,
         DoubleSupplier launcherVelocity,
         SwerveConstantsInterface constants) {
-        m_driverController = driverController;
-
+        
+        this.m_driverController = driverController;
         this.m_throttleAxis = throttleAxis;
         this.m_strafeAxis = strafeAxis;
         this.m_percentModifier = percentModifier;
         this.m_isOpenLoop = isOpenLoop;
-
-        this.m_steerController.enableContinuousInput(-180, 180);
-
-        this.m_isFieldRelative = isFieldRelative;
-
-        this.m_driveBase = driveBase;
-
-        this.m_launcherVelocity = launcherVelocity;
-
         this.m_constants = constants;
+        this.m_isFieldRelative = isFieldRelative;
+        this.m_driveBase = driveBase;
+        this.m_launcherVelocity = launcherVelocity;
+        this.m_steerController = new PIDController(m_constants.getAutoTargetKP(), m_constants.getAutoTargetKI(), m_constants.getAutoTargetKD());
+        m_steerController.enableContinuousInput(-180, 180);
 
-
-        
         addRequirements(m_driveBase);
     }
 

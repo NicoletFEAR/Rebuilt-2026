@@ -2,7 +2,6 @@ package frc.robot.containers;
 
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
-import frc.robot.constants.HadesConstants;
 import frc.robot.constants.HadesConstants.HadesDriveConstants;
 import frc.robot.constants.HadesConstants.HadesOperatorConstants;
 import frc.robot.constants.KitbotConstants.KitbotOperatorConstants;

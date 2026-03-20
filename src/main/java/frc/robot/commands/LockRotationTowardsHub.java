@@ -7,8 +7,8 @@
 
 package frc.robot.commands;
 
-import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.Meters;
+// import static edu.wpi.first.units.Units.Inches;
+// import static edu.wpi.first.units.Units.Meters;
 
 import java.util.function.DoubleSupplier;
 
@@ -103,8 +103,8 @@ public class LockRotationTowardsHub extends Command {
             ? GeneralConstants.kBlueHubPosition
             : GeneralConstants.kRedHubPosition;
         
-        double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * m_launcherVelocity.getAsDouble() * Math.PI;
-        double timeToHub = 2.0 * estimatedFuelVelocity / 19.6;
+        // double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * m_launcherVelocity.getAsDouble() * Math.PI;
+        // double timeToHub = 2.0 * estimatedFuelVelocity / 19.6;
         
         double desiredAngle = Math.atan2(
             target.getY() - m_driveBase.getPose().getTranslation().getY(),

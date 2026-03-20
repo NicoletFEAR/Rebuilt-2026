@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.swerve.SwerveDrive;
 import frc.robot.constants.SwerveConstantsInterface;
-import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
-import frc.robot.constants.HadesConstants.HadesOperatorConstants;
 import frc.robot.controllers.UniversalController;
 
 /**

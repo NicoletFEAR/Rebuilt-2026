@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.constants.GeneralConstants.GeneralOperatorConstants;
-import frc.robot.constants.HadesConstants;
 import frc.robot.constants.HadesConstants.HadesOperatorConstants;
 import frc.robot.constants.KitbotConstants.KitbotDriveConstants;
 import frc.robot.controllers.UniversalController;

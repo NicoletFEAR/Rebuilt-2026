@@ -135,7 +135,7 @@ public class LimelightCamera {
 
         double trust = Math.max(speedTrust + rotationTrust - tagAmountTrust + distanceTrust - areaTrust, 0.5);
 
-        Matrix<N3, N1> poseMatrix = VecBuilder.fill(trust, trust, trust);
+        // Matrix<N3, N1> poseMatrix = VecBuilder.fill(trust, trust, trust);
 
         if (isPoseInField) {
             poseEstimator.addVisionMeasurement(pose, poseEstimate.timestampSeconds);

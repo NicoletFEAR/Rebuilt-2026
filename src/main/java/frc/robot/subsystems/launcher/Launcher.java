@@ -35,7 +35,6 @@ import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.constants.TuskConstants.LauncherConstants;
 import frc.robot.constants.TuskConstants.TuskDeviceIds;
 import frc.robot.constants.TuskConstants.TuskGeneralConstants;
-import frc.robot.util.Utils;
 
 public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;

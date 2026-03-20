@@ -7,18 +7,27 @@
 
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.Feet;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
+import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LauncherConstants;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
@@ -36,7 +45,8 @@ public class LockRotationTowardsHub extends Command {
     private double m_steer;
     private PIDController m_steerController = new PIDController(DriveConstants.getAutoTargetKP(), DriveConstants.getAutoTargetKI(), DriveConstants.getAutoTargetKD());
 
-    private DoubleSupplier m_launcherVelocity;
+    private Supplier<ChassisSpeeds> m_driveBaseSpeeds;
+    private DoubleSupplier m_distanceToHub;
 
     private boolean m_isOpenLoop;
     private boolean m_isFieldRelative;
@@ -51,7 +61,8 @@ public class LockRotationTowardsHub extends Command {
         boolean isOpenLoop,
         boolean isFieldRelative,
         SwerveDrive driveBase,
-        DoubleSupplier launcherVelocity) {
+        Supplier<ChassisSpeeds> driveBaseSpeeds,
+        DoubleSupplier distanceToHub) {
         m_driverController = driverController;
 
         m_throttleAxis = throttleAxis;
@@ -65,7 +76,8 @@ public class LockRotationTowardsHub extends Command {
 
         m_driveBase = driveBase;
 
-        m_launcherVelocity = launcherVelocity;
+        m_driveBaseSpeeds = driveBaseSpeeds;
+        m_distanceToHub = distanceToHub;
         
         addRequirements(m_driveBase);
     }
@@ -96,17 +108,26 @@ public class LockRotationTowardsHub extends Command {
             ? DriveConstants.kBlueHubPosition
             : DriveConstants.kRedHubPosition;
         
-        double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * m_launcherVelocity.getAsDouble() * Math.PI;
-        double timeToHub = 2.0 * estimatedFuelVelocity / 19.6;
-        
+        double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * LauncherConstants.getLaunchVelocity() * Math.PI;
+        double fuelVerticalVelocity = estimatedFuelVelocity * Math.sin(5.0 * Math.PI / 24.0);
+        double fuelHorizontalVelocity = estimatedFuelVelocity * Math.cos(5.0 * Math.PI / 24.0);
+        double timeToHub = (fuelVerticalVelocity + Math.sqrt(Math.pow(fuelVerticalVelocity, 2) + 19.62 * Meters.convertFrom(5.0, Feet))) / 9.81;
+        ChassisSpeeds driveBaseSpeeds = m_driveBaseSpeeds.get();
+        Logger.recordOutput("Time to hub", timeToHub);
+        Logger.recordOutput("Fuel vertical velocity", fuelVerticalVelocity);
+        // target = target.minus(new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond).times(timeToHub));
+        Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
+        Pose2d drivePose = m_driveBase.getPose();
+        double distanceToHub = m_driveBase.distanceToHub();
+        Logger.recordOutput("Ball landing", new Pose2d(drivePose.getTranslation().plus(new Translation2d(distanceToHub * drivePose.getRotation().getCos() + driveBaseSpeeds.vxMetersPerSecond * timeToHub, distanceToHub * drivePose.getRotation().getSin() + driveBaseSpeeds.vyMetersPerSecond * timeToHub)), new Rotation2d()));
         double desiredAngle = Math.atan2(
             target.getY() - m_driveBase.getPose().getTranslation().getY(),
             target.getX() - m_driveBase.getPose().getTranslation().getX()
         );
+        Logger.recordOutput("Ideal robot", new Pose2d(drivePose.getTranslation(), new Rotation2d(desiredAngle)));
 
         if (Math.abs(desiredAngle - m_driveBase.getYaw().getRadians()) < DriveConstants.getRotationTolerance()) {
             m_steer = 0;    
-
         } else {
             m_steer = m_steerController.calculate(m_driveBase.getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180;
         }

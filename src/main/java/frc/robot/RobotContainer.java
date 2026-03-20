@@ -143,7 +143,8 @@ public class RobotContainer {
                     true,
                     true,
                     m_driveBase,
-                    m_launcher::getVelocity
+                    m_driveBase::getFieldRelativeSpeeds,
+                    m_driveBase::distanceToHub
                 )
             );
         

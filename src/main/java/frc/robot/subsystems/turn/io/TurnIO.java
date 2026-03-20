@@ -1,4 +1,4 @@
-package frc.robot.subsystems.turn.inputs;
+package frc.robot.subsystems.turn.io;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
@@ -10,18 +10,18 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.Robot;
 import frc.robot.constants.DriveConstants;
-import frc.robot.subsystems.base.Inputs;
+import frc.robot.subsystems.base.IO;
 import frc.robot.subsystems.turn.TurnIdentity;
 import frc.robot.subsystems.turn.TurnName;
 import frc.robot.subsystems.turn.TurnState;
 import frc.robot.util.CANId;
 
-public abstract class TurnInputs extends Inputs<TurnState, TurnInputs, TurnName, TurnIdentity> {
+public abstract class TurnIO extends IO<TurnState, TurnIO, TurnName, TurnIdentity> {
     protected final DriveConstants m_driveConstants;
     protected final SparkMax m_motor;
     protected final CANcoder m_absoluteEncoder;
 
-    public TurnInputs(TurnName name, DriveConstants driveConstants) {
+    public TurnIO(TurnName name, DriveConstants driveConstants) {
         super(name);
         m_driveConstants = driveConstants;
         m_motor = new SparkMax(m_name.getMotorId().getDevice(), MotorType.kBrushless);
@@ -45,11 +45,11 @@ public abstract class TurnInputs extends Inputs<TurnState, TurnInputs, TurnName,
     }
 
     @Override
-    public TurnInputs getInputs() {
+    public TurnIO getProperIO() {
         return switch (m_state.ProperIdentity) {
-            case NONE -> new TurnInputsNone(m_name, m_driveConstants);
-            case SPARK_MAX -> new TurnInputsSparkMax(m_name, m_driveConstants);
-            case SPARK_MAX_SIMULATED -> new TurnInputsSparkMaxSimulated(m_name, m_driveConstants);
+            case NONE -> new TurnIONone(m_name, m_driveConstants);
+            case SPARK_MAX -> new TurnIOSparkMax(m_name, m_driveConstants);
+            case SPARK_MAX_SIMULATED -> new TurnIOSparkMaxSimulated(m_name, m_driveConstants);
         };
     }
 }

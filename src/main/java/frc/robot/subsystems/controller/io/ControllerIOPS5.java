@@ -1,39 +1,47 @@
-package frc.robot.subsystems.controller.inputs;
+package frc.robot.subsystems.controller.io;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.PS5Controller;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.controller.ControllerName;
 import frc.robot.subsystems.controller.ControllerState;
 import frc.robot.subsystems.controller.ControllerIdentity;
 
-public class ControllerInputsPS4 extends ControllerInputs {
-    private PS4Controller m_controller;
+public class ControllerIOPS5 extends ControllerIO {
+    private PS5Controller m_controller;
     private double m_leftRumbleStrength = 0.0;
     private double m_rightRumbleStrength = 0.0;
 
-    public ControllerInputsPS4(ControllerName name) {
+    public ControllerIOPS5(ControllerName name) {
         super(name);
-        m_controller = new PS4Controller(m_port);
+        m_controller = new PS5Controller(m_port);
     }
 
     @Override
-    public void leftRumble(double strength) {
-        m_leftRumbleStrength = strength;
-        m_controller.setRumble(RumbleType.kLeftRumble, strength);
+    public Command leftRumble(double strength) {
+        return Commands.runOnce(() -> {
+            m_leftRumbleStrength = strength;
+            m_controller.setRumble(RumbleType.kLeftRumble, strength);
+        });
     }
 
     @Override
-    public void rightRumble(double strength) {
-        m_rightRumbleStrength = strength;
-        m_controller.setRumble(RumbleType.kRightRumble, strength);
+    public Command rightRumble(double strength) {
+        return Commands.runOnce(() -> {
+            m_rightRumbleStrength = strength;
+            m_controller.setRumble(RumbleType.kRightRumble, strength);
+        });
     }
 
     @Override
-    public void rumble(double strength) {
-        m_leftRumbleStrength = strength;
-        m_rightRumbleStrength = strength;
-        m_controller.setRumble(RumbleType.kBothRumble, strength);
+    public Command rumble(double strength) {
+        return Commands.runOnce(() -> {
+            m_leftRumbleStrength = strength;
+            m_rightRumbleStrength = strength;
+            m_controller.setRumble(RumbleType.kBothRumble, strength);
+        });
     }
 
     @Override
@@ -41,9 +49,9 @@ public class ControllerInputsPS4 extends ControllerInputs {
         int pov = m_controller.getPOV();
 
         m_state.Circle = m_controller.getCircleButton();
-        m_state.Create = m_controller.getShareButton();
+        m_state.Create = m_controller.getCreateButton();
         m_state.Cross = m_controller.getCrossButton();
-        m_state.CurrentIdentity = ControllerIdentity.PS4;
+        m_state.CurrentIdentity = ControllerIdentity.PS5;
         m_state.Down = pov == 135 || pov == 180 || pov == 225;
         m_state.Left = pov == 225 || pov == 270 || pov == 315;
         m_state.LeftBumper = m_controller.getL1Button();

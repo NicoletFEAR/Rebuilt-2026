@@ -19,9 +19,9 @@ public class TuskState extends RobotState<TuskState> {
 
     @Override
     public TuskState update(TuskState newState) {
+        DriverController.update(newState.DriverController);
         FrontLeftTurn.update(newState.FrontLeftTurn);
         FrontRightTurn.update(newState.FrontRightTurn);
-        DriverController.update(newState.DriverController);
         OperatorController.update(newState.OperatorController);
         RearLeftTurn.update(newState.RearLeftTurn);
         RearRightTurn.update(newState.RearRightTurn);

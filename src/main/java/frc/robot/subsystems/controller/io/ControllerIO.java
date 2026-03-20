@@ -1,23 +1,33 @@
-package frc.robot.subsystems.controller.inputs;
+package frc.robot.subsystems.controller.io;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.subsystems.base.Inputs;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.base.IO;
 import frc.robot.subsystems.controller.ControllerIdentity;
 import frc.robot.subsystems.controller.ControllerName;
 import frc.robot.subsystems.controller.ControllerState;
 
-public abstract class ControllerInputs extends Inputs<ControllerState, ControllerInputs, ControllerName, ControllerIdentity> {
+public abstract class ControllerIO extends IO<ControllerState, ControllerIO, ControllerName, ControllerIdentity> {
     protected final int m_port;
 
-    public ControllerInputs(ControllerName name) {
+    public ControllerIO(ControllerName name) {
         super(name);
         m_port = m_name.getPort();
         m_state = new ControllerState();
     }
 
-    public void leftRumble(double strength) {};
-    public void rightRumble(double strength) {};
-    public void rumble(double strength) {};
+    public Command leftRumble(double strength) {
+        return Commands.none();
+    };
+
+    public Command rightRumble(double strength) {
+        return Commands.none();
+    };
+
+    public Command rumble(double strength) {
+        return Commands.none();
+    };
 
     @Override
     public ControllerState updateState() {
@@ -52,13 +62,15 @@ public abstract class ControllerInputs extends Inputs<ControllerState, Controlle
     }
 
     @Override
-    public ControllerInputs getInputs() {
+    public ControllerIO getProperIO() {
         return switch (m_state.ProperIdentity) {
-            case NONE -> new ControllerInputsNone(m_name);
-            case PS4 -> new ControllerInputsPS4(m_name);
-            case PS5 -> new ControllerInputsPS5(m_name);
-            case XBOX -> new ControllerInputsXbox(m_name);
-            default -> new ControllerInputsNone(m_name);
+            case NONE -> new ControllerIONone(m_name);
+            case KEYBOARD_0 -> new ControllerIONone(m_name);
+            case KEYBOARD_1 -> new ControllerIONone(m_name);
+            case KEYBOARD_2 -> new ControllerIONone(m_name);
+            case PS4 -> new ControllerIOPS4(m_name);
+            case PS5 -> new ControllerIOPS5(m_name);
+            case XBOX -> new ControllerIOXbox(m_name);
         };
     }
 }

@@ -10,7 +10,7 @@ public class Kitbot extends RobotContainer {
     private final Controller m_controller;
 
     private final KitbotStateAutoLogged m_state = new KitbotStateAutoLogged();
-    private final KitbotStateAutoLogged m_requestedState = new KitbotStateAutoLogged();
+    private final KitbotRequestAutoLogged m_request = new KitbotRequestAutoLogged();
 
     public Kitbot() {
         m_controller = new Controller(ControllerName.DRIVER);
@@ -20,12 +20,12 @@ public class Kitbot extends RobotContainer {
     public void periodic() {
         m_state.updateController(m_controller.update());
 
-        m_controller.updateMissingInputs();
+        m_controller.updateMissingIO();
 
-        m_requestedState.updateController(m_controller.requestKitbot(m_state));
+        m_request.updateController(m_controller.requestKitbot(m_state));
 
         Logger.processInputs("Kitbot/State", m_state);
-        Logger.processInputs("Kitbot/RequestedState", m_requestedState);
+        Logger.processInputs("Kitbot/Request", m_request);
 
         m_controller.runKitbot(m_state);
     }

@@ -5,26 +5,27 @@ import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.universal.UniversalRequestor;
 
-public class ControllerRequestor extends UniversalRequestor<ControllerState, ControllerName, ControllerIdentity> {
+public class ControllerRequestor extends UniversalRequestor<ControllerState, ControllerRequest, ControllerName, ControllerIdentity> {
     public ControllerRequestor(ControllerName name) {
         super(name);
+        m_request = new ControllerRequest();
     }
 
     @Override
-    public ControllerState requestHades(HadesState fullState) {
-        return fullState.Controller;
+    public ControllerRequest requestHades(HadesState fullState) {
+        return m_request.update(fullState.Controller);
     }
 
     @Override
-    public ControllerState requestKitbot(KitbotState fullState) {
-        return fullState.Controller;
+    public ControllerRequest requestKitbot(KitbotState fullState) {
+        return m_request.update(fullState.Controller);
     }
 
     @Override
-    public ControllerState requestTusk(TuskState fullState) {
+    public ControllerRequest requestTusk(TuskState fullState) {
         return switch (m_name) {
-            case DRIVER -> fullState.DriverController;
-            case OPERATOR -> fullState.OperatorController;
+            case DRIVER -> m_request.update(fullState.DriverController);
+            case OPERATOR -> m_request.update(fullState.OperatorController);
         };
     }
 }

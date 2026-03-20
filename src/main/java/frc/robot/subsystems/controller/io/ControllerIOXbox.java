@@ -1,39 +1,47 @@
-package frc.robot.subsystems.controller.inputs;
+package frc.robot.subsystems.controller.io;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.controller.ControllerName;
 import frc.robot.subsystems.controller.ControllerState;
 import frc.robot.subsystems.controller.ControllerIdentity;
 
-public class ControllerInputsXbox extends ControllerInputs {
+public class ControllerIOXbox extends ControllerIO {
     private XboxController m_controller;
     private double m_leftRumbleStrength = 0.0;
     private double m_rightRumbleStrength = 0.0;
 
-    public ControllerInputsXbox(ControllerName name) {
+    public ControllerIOXbox(ControllerName name) {
         super(name);
         m_controller = new XboxController(m_port);
     }
 
     @Override
-    public void leftRumble(double strength) {
-        m_leftRumbleStrength = strength;
-        m_controller.setRumble(RumbleType.kLeftRumble, strength);
+    public Command leftRumble(double strength) {
+        return Commands.runOnce(() -> {
+            m_leftRumbleStrength = strength;
+            m_controller.setRumble(RumbleType.kLeftRumble, strength);
+        });
     }
 
     @Override
-    public void rightRumble(double strength) {
-        m_rightRumbleStrength = strength;
-        m_controller.setRumble(RumbleType.kRightRumble, strength);
+    public Command rightRumble(double strength) {
+        return Commands.runOnce(() -> {
+            m_rightRumbleStrength = strength;
+            m_controller.setRumble(RumbleType.kRightRumble, strength);
+        });
     }
 
     @Override
-    public void rumble(double strength) {
-        m_leftRumbleStrength = strength;
-        m_rightRumbleStrength = strength;
-        m_controller.setRumble(RumbleType.kBothRumble, strength);
+    public Command rumble(double strength) {
+        return Commands.runOnce(() -> {
+            m_leftRumbleStrength = strength;
+            m_rightRumbleStrength = strength;
+            m_controller.setRumble(RumbleType.kBothRumble, strength);
+        });
     }
 
     @Override

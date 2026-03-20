@@ -18,9 +18,9 @@ public class KitbotState extends RobotState<KitbotState> {
 
     @Override
     public KitbotState update(KitbotState newState) {
+        Controller.update(newState.Controller);
         FrontLeftTurn.update(newState.FrontLeftTurn);
         FrontRightTurn.update(newState.FrontRightTurn);
-        Controller.update(newState.Controller);
         RearLeftTurn.update(newState.RearLeftTurn);
         RearRightTurn.update(newState.RearRightTurn);
         return this;

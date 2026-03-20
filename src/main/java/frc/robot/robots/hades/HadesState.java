@@ -18,15 +18,15 @@ public class HadesState extends RobotState<HadesState> {
 
     @Override
     public HadesState update(HadesState newState) {
+        Controller.update(newState.Controller);
         FrontLeftTurn.update(newState.FrontLeftTurn);
         FrontRightTurn.update(newState.FrontRightTurn);
-        Controller.update(newState.Controller);
         RearLeftTurn.update(newState.RearLeftTurn);
         RearRightTurn.update(newState.RearRightTurn);
         return this;
     }
 
-    public HadesState updateControllerState(ControllerState newState) {
+    public HadesState updateController(ControllerState newState) {
         Controller.update(newState);
         return this;
     }

@@ -1,52 +1,30 @@
-package frc.robot.subsystems.turn.inputs;
+package frc.robot.subsystems.turn.io;
 
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
-import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-import com.ctre.phoenix6.sim.CANcoderSimState;
-import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.ResetMode;
-import com.revrobotics.sim.SparkMaxSim;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Robot;
-import frc.robot.constants.Constants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.turn.TurnIdentity;
 import frc.robot.subsystems.turn.TurnName;
 import frc.robot.subsystems.turn.TurnState;
 import frc.robot.util.Configurator;
 
-public class TurnInputsSparkMaxSimulated extends TurnInputs {
-    private final SparkMaxSim m_motorSimulation;
-    private final DCMotorSim m_motorModel;
-    private CANcoderSimState m_absoluteEncoderSimulation;
+public class TurnIOSparkMax extends TurnIO {
     private final RelativeEncoder m_relativeEncoder;
     private final StatusSignal<Angle> m_absolutePosition;
 
-    public TurnInputsSparkMaxSimulated(TurnName name, DriveConstants driveConstants) {
+    public TurnIOSparkMax(TurnName name, DriveConstants driveConstants) {
         super(name, driveConstants);
-
-        m_motorModel = new DCMotorSim(
-            LinearSystemId.createDCMotorSystem(
-                DCMotor.getNeo550(1),
-                0.001,
-                m_driveConstants.kTurnGearRatio
-            ),
-            DCMotor.getNeo550(1)
-        );
 
         SparkMaxConfig motorConfiguration = new SparkMaxConfig();
 
@@ -57,8 +35,6 @@ public class TurnInputsSparkMaxSimulated extends TurnInputs {
 
         motorConfiguration.encoder.positionConversionFactor(1.0 / m_driveConstants.kTurnGearRatio);
 
-        m_motor.configure(motorConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        m_motorSimulation = new SparkMaxSim(m_motor, DCMotor.getNeo550(1));
         m_relativeEncoder = m_motor.getEncoder();
 
         CANcoderConfiguration absoluteEncoderConfiguration = new CANcoderConfiguration();
@@ -78,19 +54,6 @@ public class TurnInputsSparkMaxSimulated extends TurnInputs {
 
     @Override
     public TurnState updateState() {
-        m_motorModel.setInput(m_motorSimulation.getAppliedOutput() * RobotController.getBatteryVoltage());
-        m_motorModel.update(Constants.kLoopPeriod);
-
-        m_motorSimulation.iterate(
-            m_motorModel.getAngularVelocity().in(RotationsPerSecond) * 60.0,
-            RobotController.getBatteryVoltage(),
-            Constants.kLoopPeriod
-        );
-
-        m_absoluteEncoderSimulation.setSupplyVoltage(Volts.of(RobotController.getBatteryVoltage()));
-        m_absoluteEncoderSimulation.setRawPosition(m_motorModel.getAngularPosition());
-        m_absoluteEncoderSimulation.setVelocity(m_motorModel.getAngularVelocity());
-
         m_absolutePosition.refresh();
 
         m_state.CurrentIdentity = TurnIdentity.SPARK_MAX;

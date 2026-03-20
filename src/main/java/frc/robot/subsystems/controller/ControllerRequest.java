@@ -2,12 +2,12 @@ package frc.robot.subsystems.controller;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import frc.robot.subsystems.base.State;
+import frc.robot.subsystems.base.Request;
 import frc.robot.util.constraint.BooleanConstraintAutoLogged;
 import frc.robot.util.constraint.DoubleConstraintAutoLogged;
 
 @AutoLog
-public class ControllerRequest extends State<ControllerRequest, ControllerName, ControllerIdentity> {
+public class ControllerRequest extends Request<ControllerState, ControllerRequest, ControllerName, ControllerIdentity> {
     public BooleanConstraintAutoLogged Circle = new BooleanConstraintAutoLogged();
     public BooleanConstraintAutoLogged Create = new BooleanConstraintAutoLogged();
     public BooleanConstraintAutoLogged Cross = new BooleanConstraintAutoLogged();
@@ -33,62 +33,57 @@ public class ControllerRequest extends State<ControllerRequest, ControllerName, 
     public BooleanConstraintAutoLogged Triangle = new BooleanConstraintAutoLogged();
     public BooleanConstraintAutoLogged Up = new BooleanConstraintAutoLogged();
 
-    public ControllerRequest update(ControllerState state) {
-        Circle.set(state.Circle);
-        Create.set(state.Create);
-        Cross.set(state.Cross);
-        CurrentIdentity = state.CurrentIdentity;
-        Down.set(state.Down);
-        Left.set(state.Left);
-        LeftBumper.set(state.LeftBumper);
-        LeftRumbleStrength.set(state.LeftRumbleStrength);
-        LeftStick.set(state.LeftStick);
-        LeftTrigger.set(state.LeftTrigger);
-        LeftX.set(state.LeftX);
-        LeftY.set(state.LeftY);
-        Name = state.Name;
-        Options.set(state.Options);
-        PlayStation.set(state.PlayStation);
-        ProperIdentity = state.ProperIdentity;
-        Right.set(state.Right);
-        RightBumper.set(state.RightBumper);
-        RightRumbleStrength.set(state.RightRumbleStrength);
-        RightStick.set(state.RightStick);
-        RightTrigger.set(state.RightTrigger);
-        RightX.set(state.RightX);
-        RightY.set(state.RightY);
+    @Override
+    public ControllerRequest update(ControllerState newState) {
+        Circle.set(newState.Circle);
+        Create.set(newState.Create);
+        Cross.set(newState.Cross);
+        Down.set(newState.Down);
+        Left.set(newState.Left);
+        LeftBumper.set(newState.LeftBumper);
+        LeftRumbleStrength.set(newState.LeftRumbleStrength);
+        LeftStick.set(newState.LeftStick);
+        LeftTrigger.set(newState.LeftTrigger);
+        LeftX.set(newState.LeftX);
+        LeftY.set(newState.LeftY);
+        Options.set(newState.Options);
+        PlayStation.set(newState.PlayStation);
+        Right.set(newState.Right);
+        RightBumper.set(newState.RightBumper);
+        RightRumbleStrength.set(newState.RightRumbleStrength);
+        RightStick.set(newState.RightStick);
+        RightTrigger.set(newState.RightTrigger);
+        RightX.set(newState.RightX);
+        RightY.set(newState.RightY);
         return this;
     }
 
     @Override
-    public ControllerRequest update(ControllerRequest newState) {
-        Circle = newState.Circle;
-        Create = newState.Create;
-        Cross = newState.Cross;
-        CurrentIdentity = newState.CurrentIdentity;
-        Down = newState.Down;
-        Left = newState.Left;
-        LeftBumper = newState.LeftBumper;
-        LeftRumbleStrength = newState.LeftRumbleStrength;
-        LeftStick = newState.LeftStick;
-        LeftTrigger = newState.LeftTrigger;
-        LeftX = newState.LeftX;
-        LeftY = newState.LeftY;
-        Options = newState.Options;
-        PlayStation = newState.PlayStation;
-        ProperIdentity = newState.ProperIdentity;
-        Name = newState.Name;
-        RightBumper = newState.RightBumper;
-        RightRumbleStrength = newState.RightRumbleStrength;
-        RightStick = newState.RightStick;
-        RightTrigger = newState.RightTrigger;
-        Right = newState.Right;
-        RightX = newState.RightX;
-        RightY = newState.RightY;
-        Square = newState.Square;
-        Touchpad = newState.Touchpad;
-        Triangle = newState.Triangle;
-        Up = newState.Up;
+    public ControllerRequest update(ControllerRequest newRequest) {
+        Circle = newRequest.Circle;
+        Create = newRequest.Create;
+        Cross = newRequest.Cross;
+        Down = newRequest.Down;
+        Left = newRequest.Left;
+        LeftBumper = newRequest.LeftBumper;
+        LeftRumbleStrength = newRequest.LeftRumbleStrength;
+        LeftStick = newRequest.LeftStick;
+        LeftTrigger = newRequest.LeftTrigger;
+        LeftX = newRequest.LeftX;
+        LeftY = newRequest.LeftY;
+        Options = newRequest.Options;
+        PlayStation = newRequest.PlayStation;
+        RightBumper = newRequest.RightBumper;
+        RightRumbleStrength = newRequest.RightRumbleStrength;
+        RightStick = newRequest.RightStick;
+        RightTrigger = newRequest.RightTrigger;
+        Right = newRequest.Right;
+        RightX = newRequest.RightX;
+        RightY = newRequest.RightY;
+        Square = newRequest.Square;
+        Touchpad = newRequest.Touchpad;
+        Triangle = newRequest.Triangle;
+        Up = newRequest.Up;
         return this;
     }
 

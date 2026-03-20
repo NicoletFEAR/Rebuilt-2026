@@ -11,7 +11,7 @@ public class Tusk extends RobotContainer {
     private final Controller m_operatorController;
 
     private final TuskStateAutoLogged m_state = new TuskStateAutoLogged();
-    private final TuskStateAutoLogged m_requestedState = new TuskStateAutoLogged();
+    private final TuskRequestAutoLogged m_request = new TuskRequestAutoLogged();
 
     public Tusk() {
         m_driverController = new Controller(ControllerName.DRIVER);
@@ -23,14 +23,14 @@ public class Tusk extends RobotContainer {
         m_state.updateDriverController(m_driverController.update());
         m_state.updateOperatorController(m_operatorController.update());
 
-        m_driverController.updateMissingInputs();
-        m_operatorController.updateMissingInputs();
+        m_driverController.updateMissingIO();
+        m_operatorController.updateMissingIO();
 
-        m_requestedState.updateDriverController(m_driverController.requestTusk(m_state));
-        m_requestedState.updateOperatorController(m_operatorController.requestTusk(m_state));
+        m_request.updateDriverController(m_driverController.requestTusk(m_state));
+        m_request.updateOperatorController(m_operatorController.requestTusk(m_state));
 
         Logger.processInputs("Tusk/State", m_state);
-        Logger.processInputs("Tusk/RequestedState", m_requestedState);
+        Logger.processInputs("Tusk/Request", m_request);
 
         m_driverController.runTusk(m_state);
         m_operatorController.runTusk(m_state);

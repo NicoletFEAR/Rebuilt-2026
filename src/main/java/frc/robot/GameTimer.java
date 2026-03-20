@@ -1,10 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.subsystems.led.Led;
 import frc.robot.controllers.UniversalController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is used to report out shifts in the game so that the driver 

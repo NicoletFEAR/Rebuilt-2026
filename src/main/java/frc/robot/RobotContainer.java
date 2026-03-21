@@ -189,7 +189,7 @@ public class RobotContainer {
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(m_driveBase.xWheels()
                         .alongWith(m_indexer.index())
-                        .alongWith(m_intakePivot.hold().andThen(m_intakePivot.in())).repeatedly()
+                        .alongWith(m_intakePivot.in()).repeatedly()
                     )
                 ).onFalse(m_led.startSwerveAnimation()
                     .alongWith(new ConditionalCommand(

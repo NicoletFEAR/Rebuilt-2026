@@ -101,8 +101,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public void setVelocity(double velocity) {
         m_desiredVelocity = velocity;
-        m_leftMotor.setControl(m_velocityRequest.withVelocity(velocity));
-        m_rightMotor.setControl(m_velocityRequest.withVelocity(velocity));
+        m_leftMotor.setControl(m_velocityRequest.withVelocity(m_desiredVelocity));
+        m_rightMotor.setControl(m_velocityRequest.withVelocity(m_desiredVelocity));
     }
 
     public boolean isAtVelocity() {
@@ -142,8 +142,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public Command lowerSpeed() {
         return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, LauncherConstants.getLaunchVelocity() / LauncherConstants.getIdleVelocity())), 
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, LauncherConstants.getLaunchVelocity() / LauncherConstants.getIdleVelocity())).andThen(launch()),
+            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, LauncherConstants.getIdleVelocity() / LauncherConstants.getLaunchVelocity())), 
+            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, LauncherConstants.getIdleVelocity() / LauncherConstants.getLaunchVelocity())).andThen(launch()),
             () -> m_state == LauncherState.IDLE
         );
     }

@@ -280,6 +280,10 @@ public class RobotContainer {
                         .until(m_intakePivot::isStuckOnBall)
                         .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition)))
                         .alongWith(m_intakeDriver.off()));
+            
+            // m_operatorController
+            //     .leftStick()
+            //     .whileTrue(m_launcher.rampVoltage());
 
             // Disables limits for manual mechanism control -- create button on operator control
             m_operatorController

@@ -56,14 +56,12 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
             LauncherConstants.getHoodKD()
         );
 
-        m_pidController.enableContinuousInput(0.0, 1.0);
+        DeviceConfigurator.configureCANcoder(m_encoder, LauncherConstants.getHoodOffset());
 
-        m_desiredPosition = LauncherConstants.getHoodHomePosition();
+        m_desiredPosition = LauncherConstants.getHoodMinPosition();
         m_returnPosition = -1.0;
         m_minPosition = LauncherConstants.getHoodMinPosition();
         m_maxPosition = LauncherConstants.getHoodMaxPosition();
-
-        DeviceConfigurator.configureCANcoder(m_encoder, LauncherConstants.getHoodOffset());
 
         m_motor.getEncoder().setPosition(getPosition());
 
@@ -127,7 +125,12 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         }
 
         m_desiredPosition = newDesiredPosition;
-        runToPosition(m_desiredPosition);
+
+        if (adjustedThrottle == 0.0 && getIsAtSetpoint()) {
+            m_motor.set(0.0);
+        } else {
+            runToPosition(m_desiredPosition);
+        }
     }
 
     @Override

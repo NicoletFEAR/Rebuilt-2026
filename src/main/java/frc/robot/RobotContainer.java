@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
-// import frc.robot.Constants.LauncherConstants;
+import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
@@ -395,7 +395,6 @@ public class RobotContainer {
                 .alongWith(m_intakeDriver.off())
                 .alongWith(m_intakePivot.in())
                 .alongWith(m_launcher.setSpeedModifier(1.0))
-                // .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition() * 0.80))
         );
     }
 

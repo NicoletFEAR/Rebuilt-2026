@@ -360,10 +360,16 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public double distanceToHub() {
-        return Math.hypot(
-            DriveConstants.kBlueHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
-            DriveConstants.kBlueHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
-        );
+        return switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
+            case Blue -> Math.hypot(
+                DriveConstants.kBlueHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
+                DriveConstants.kBlueHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
+            );
+            case Red -> Math.hypot(
+                DriveConstants.kRedHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
+                DriveConstants.kRedHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
+            );
+        };
     }
 
     @Override

@@ -39,19 +39,46 @@ public interface SwerveConstantsInterface {
      * <p>
      * Prop the drivebase up so the wheels aren't touching the ground
      * and run the drive motors at 12 volts and measure the max speed
-     * of the modules in 
-     * @return
+     * of the modules in m/s
+     * @return the max module speed in m/s as a double
      */
     public double getMaxModuleSpeed();
+
+    /**
+     * Gets the max rotations of the module wheels per second
+     * @return the max rotations of the wheel per second as a double
+     */
     public double getMaxRotationsPerSecond();
 
-    // Distance between centers of right and left wheels on robot
+    /**
+     * Gets the distance between the centers of the right and
+     * left wheels on the robot
+     * @return gets the track width in inches as a double
+     */
     public double getTrackWidth();
-    // distance between centers of front and back wheels on robot
+
+    /**
+     * Gets the distance between the front and back wheels
+     * @return gets the wheel base in inches as a double
+     */
     public double getWheelBase();
-    // Defined as half the diagonal of the drivebase
+
+    /**
+     * Gets the half of the diagonal distance of the drivebase
+     * @return gets the hypotenuse of the Track Width and Wheel Base
+     */
     public double getDrivebaseRadius();
+
+    /**
+     * Gets the gear ratio of the drive motor
+     * @return the gear ratio as a double(can use a fraction for easier calculation)
+     */
     public double getDriveGearRatio();
+
+    /**
+     * Gets the gear ratio of the turning/steering motor
+     * @return the gear ratio as a double(can use a fraction for easier calculation)
+     */
     public double getTurnGearRatio();
     // TODO: Run the WheelCharacterization command to find the wheel diameter
     public double getWheelDiameter();

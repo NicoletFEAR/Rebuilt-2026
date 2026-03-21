@@ -1,6 +1,5 @@
 package frc.robot.subsystems.launcher;
 
-import static edu.wpi.first.units.Units.Milliseconds;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
@@ -25,12 +24,10 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.LauncherConstants;
@@ -46,20 +43,6 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private DCMotorSim m_leftMotorSim;
     private DCMotorSim m_rightMotorSim;
 
-    private SysIdRoutine m_sysIdRoutine = new SysIdRoutine(
-        new SysIdRoutine.Config(
-            null,
-            null,
-            null,
-            (state) -> Logger.recordOutput("Launcher/SysIdState", state)
-        ),
-        new SysIdRoutine.Mechanism(
-            (voltage) -> setVoltage(voltage.in(Volts)), 
-            null,
-            this
-        )
-    );
-
     private MotionMagicVelocityVoltage m_velocityRequest = new MotionMagicVelocityVoltage(0.0).withSlot(0);
 
     public Launcher() {
@@ -68,23 +51,18 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         m_leftMotorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.getGearRatio()), DCMotor.getKrakenX60(1));
         m_rightMotorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, LauncherConstants.getGearRatio()), DCMotor.getKrakenX60(1));
 
-        TalonFXConfiguration leftConfig = new TalonFXConfiguration();
-        leftConfig.Feedback.SensorToMechanismRatio = LauncherConstants.getGearRatio();
-        leftConfig.Slot0.kP = LauncherConstants.getKP();
-        leftConfig.Slot0.kI = LauncherConstants.getKI();
-        leftConfig.Slot0.kD = LauncherConstants.getKD();
-        leftConfig.MotionMagic.MotionMagicAcceleration = 100.0;
-        leftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-        m_leftMotor.getConfigurator().apply(leftConfig);
+        TalonFXConfiguration config = new TalonFXConfiguration();
+        config.Feedback.SensorToMechanismRatio = LauncherConstants.getGearRatio();
+        config.Slot0.kP = LauncherConstants.getKP();
+        config.Slot0.kI = LauncherConstants.getKI();
+        config.Slot0.kD = LauncherConstants.getKD();
+        config.MotionMagic.MotionMagicAcceleration = 100.0;
+        config.Slot0.kV = 0.1;
+        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        m_leftMotor.getConfigurator().apply(config);
 
-        TalonFXConfiguration rightConfig = new TalonFXConfiguration();
-        rightConfig.Feedback.SensorToMechanismRatio = LauncherConstants.getGearRatio();
-        rightConfig.Slot0.kP = LauncherConstants.getKP();
-        rightConfig.Slot0.kI = LauncherConstants.getKI();
-        rightConfig.Slot0.kD = LauncherConstants.getKD();
-        rightConfig.MotionMagic.MotionMagicAcceleration = 100.0;
-        rightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-        m_rightMotor.getConfigurator().apply(rightConfig);
+        config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        m_rightMotor.getConfigurator().apply(config);
     }
 
     @Override
@@ -117,14 +95,21 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         return new InstantCommand(() -> {
             m_state = LauncherState.LAUNCHING;
             setVelocity(LauncherConstants.getLaunchVelocity() * m_speedModifier);
-        });
+        }, this);
     }
 
     public Command idle() {
         return new InstantCommand(() -> {
             m_state = LauncherState.IDLE;
             setVelocity(LauncherConstants.getIdleVelocity());
-        });
+        }, this);
+    }
+
+    public Command rampVoltage() {
+        return new RunCommand(() -> {
+            m_state = LauncherState.LAUNCHING;
+            setVelocity(Math.min(12.0, m_desiredVoltage + 0.01));
+        }, this);
     }
 
     public Command setSpeedModifier(double newSpeedModifier) {
@@ -154,16 +139,6 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
             new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)).andThen(launch()),
             () -> m_state == LauncherState.IDLE
         );
-    }
-
-    public Command sysId() {
-        return m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward)
-            .andThen(Commands.waitTime(Milliseconds.of(500)))
-            .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse))
-            .andThen(Commands.waitTime(Milliseconds.of(500)))
-            .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward))
-            .andThen(Commands.waitTime(Milliseconds.of(500)))
-            .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse));
     }
 
     @Override

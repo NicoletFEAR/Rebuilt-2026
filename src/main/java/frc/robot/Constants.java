@@ -389,6 +389,13 @@ public final class Constants {
             new SwerveModuleState(0, Rotation2d.fromDegrees(-135))
         };
 
+        // public static final SwerveModuleState[] kXWheels = {
+        //     new SwerveModuleState(0, Rotation2d.fromDegrees(135)),
+        //     new SwerveModuleState(0, Rotation2d.fromDegrees(-135)),
+        //     new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+        //     new SwerveModuleState(0, Rotation2d.fromDegrees(-45))
+        // };
+
         public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(getWeight()),
             getMOI(),
             new ModuleConfig(getWheelDiameter() / 2,

@@ -190,7 +190,7 @@ public class RobotContainer {
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(m_driveBase.xWheels()
                         .alongWith(m_indexer.index())
-                        .alongWith(m_intakePivot.hold().andThen(m_intakePivot.in()).repeatedly())
+                        .alongWith(m_intakePivot.hold().andThen(m_intakePivot.in())).repeatedly()
                     )
                 ).onFalse(m_led.startSwerveAnimation()
                     .alongWith(new ConditionalCommand(
@@ -201,7 +201,7 @@ public class RobotContainer {
                     // .alongWith(m_indexer.off())
                     .alongWith(new ConditionalCommand(
                         new InstantCommand(),
-                        m_launcher.off(),
+                        m_launcher.idle(),
                         () -> m_manualLaunching
                     ))
                     // .alongWith(m_launcher.off())
@@ -306,7 +306,7 @@ public class RobotContainer {
                 // .onFalse(m_launcher.off());
                 .onFalse(new InstantCommand(() -> m_manualLaunching = false).andThen(new ConditionalCommand(
                     new InstantCommand(),
-                    m_launcher.off(),
+                    m_launcher.idle(),
                     () -> m_automaticLaunching
                 )));
             
@@ -390,7 +390,7 @@ public class RobotContainer {
 
         CommandScheduler.getInstance().schedule(
             m_led.startSwerveAnimation()
-                .alongWith(m_launcher.off())
+                .alongWith(m_launcher.idle())
                 .alongWith(m_indexer.off())
                 .alongWith(m_intakeDriver.off())
                 .alongWith(m_intakePivot.in())
@@ -442,7 +442,7 @@ public class RobotContainer {
                 "EndLaunch",
                 m_indexer
                     .off()
-                    .alongWith(m_launcher.off())
+                    .alongWith(m_launcher.idle())
                     .alongWith(m_launcher.setSpeedModifier(1.0))
             );
         }

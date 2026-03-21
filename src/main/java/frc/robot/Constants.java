@@ -389,6 +389,13 @@ public final class Constants {
             new SwerveModuleState(0, Rotation2d.fromDegrees(-135))
         };
 
+        // public static final SwerveModuleState[] kXWheels = {
+        //     new SwerveModuleState(0, Rotation2d.fromDegrees(135)),
+        //     new SwerveModuleState(0, Rotation2d.fromDegrees(-135)),
+        //     new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+        //     new SwerveModuleState(0, Rotation2d.fromDegrees(-45))
+        // };
+
         public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(getWeight()),
             getMOI(),
             new ModuleConfig(getWheelDiameter() / 2,
@@ -510,20 +517,12 @@ public final class Constants {
             return Double.parseDouble(m_properties.getProperty("launcher.velocity-tolerance"));
         }
 
-        public static double getOffVelocity() {
-            return Double.parseDouble(m_properties.getProperty("launcher.off-velocity"));
+        public static double getIdleVelocity() {
+            return Double.parseDouble(m_properties.getProperty("launcher.idle-velocity"));
         }
 
         public static double getLaunchVelocity() {
             return Double.parseDouble(m_properties.getProperty("launcher.launch-velocity"));
-        }
-
-        public static double getOffVoltage() {
-            return Double.parseDouble(m_properties.getProperty("launcher.off-voltage"));
-        }
-
-        public static double getLaunchVoltage() {
-            return Double.parseDouble(m_properties.getProperty("launcher.launch-voltage"));
         }
     }
 

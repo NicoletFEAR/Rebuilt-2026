@@ -40,7 +40,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
     private double m_desiredVelocity;
     private double m_speedModifier = 1.0;
-    private LauncherState m_state = LauncherState.OFF;
+    private LauncherState m_state = LauncherState.IDLE;
     private TalonFX m_leftMotor;
     private TalonFX m_rightMotor;
     private DCMotorSim m_leftMotorSim;
@@ -120,10 +120,10 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         });
     }
 
-    public Command off() {
+    public Command idle() {
         return new InstantCommand(() -> {
-            m_state = LauncherState.OFF;
-            setVelocity(LauncherConstants.getOffVelocity() * m_speedModifier);
+            m_state = LauncherState.IDLE;
+            setVelocity(LauncherConstants.getIdleVelocity());
         });
     }
 
@@ -136,15 +136,15 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         return new ConditionalCommand(
             new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)), 
             new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)).andThen(launch()),
-            () -> m_state == LauncherState.OFF
+            () -> m_state == LauncherState.IDLE
         );
     }
 
     public Command lowerSpeed() {
         return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, 0.05)), 
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, 0.05)).andThen(launch()),
-            () -> m_state == LauncherState.OFF
+            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, LauncherConstants.getLaunchVelocity() / LauncherConstants.getIdleVelocity())), 
+            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, LauncherConstants.getLaunchVelocity() / LauncherConstants.getIdleVelocity())).andThen(launch()),
+            () -> m_state == LauncherState.IDLE
         );
     }
 
@@ -152,7 +152,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         return new ConditionalCommand(
             new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)),
             new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)).andThen(launch()),
-            () -> m_state == LauncherState.OFF
+            () -> m_state == LauncherState.IDLE
         );
     }
 
@@ -201,6 +201,6 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public enum LauncherState {
         LAUNCHING,
-        OFF,
+        IDLE,
     }
 }

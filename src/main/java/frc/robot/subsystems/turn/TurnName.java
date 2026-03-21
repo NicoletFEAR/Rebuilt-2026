@@ -8,8 +8,8 @@ import frc.robot.util.CANId;
 public enum TurnName {
     FRONT_LEFT("Front Left"),
     FRONT_RIGHT("Front Right"),
-    REAR_LEFT("Back Left"),
-    REAR_RIGHT("Back Right"),
+    REAR_LEFT("Rear Left"),
+    REAR_RIGHT("Rear Right"),
     ;
 
     private final String m_name;

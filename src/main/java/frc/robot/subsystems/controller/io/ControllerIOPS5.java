@@ -58,8 +58,8 @@ public class ControllerIOPS5 extends ControllerIO {
         m_state.LeftRumbleStrength = m_leftRumbleStrength;
         m_state.LeftStick = m_controller.getL3Button();
         m_state.LeftTrigger = m_controller.getL2Axis();
-        m_state.LeftX = m_controller.getLeftX();
-        m_state.LeftY = m_controller.getLeftY();
+        m_state.LeftX = -m_controller.getLeftX();
+        m_state.LeftY = -m_controller.getLeftY();
         m_state.Name = m_name;
         m_state.Options = m_controller.getOptionsButton();
         m_state.PlayStation = m_controller.getPSButton();
@@ -69,8 +69,8 @@ public class ControllerIOPS5 extends ControllerIO {
         m_state.RightRumbleStrength = m_rightRumbleStrength;
         m_state.RightStick = m_controller.getR3Button();
         m_state.RightTrigger = m_controller.getR2Axis();
-        m_state.RightX = m_controller.getRightX();
-        m_state.RightY = m_controller.getRightY();
+        m_state.RightX = -m_controller.getRightX();
+        m_state.RightY = -m_controller.getRightY();
         m_state.Square = m_controller.getSquareButton();
         m_state.Touchpad = m_controller.getTouchpadButton();
         m_state.Triangle = m_controller.getTriangleButton();

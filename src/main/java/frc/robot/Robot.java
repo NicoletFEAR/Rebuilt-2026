@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.hal.AllianceStationID;
-import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
@@ -29,7 +28,6 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import com.ctre.phoenix6.SignalLogger;
-import com.pathplanner.lib.commands.FollowPathCommand;
 
 /**
  * The system is configured to automatically run this class, and to call the functions corresponding to
@@ -41,6 +39,9 @@ public class Robot extends LoggedRobot {
     private RobotIdentity m_identity;
     private final Alert m_unrecognizedRobot = new Alert("", AlertType.kError);
     private RobotContainer m_robotContainer;
+
+    @Override
+    public void disabledPeriodic() {}
 
     @Override
     public void robotInit() {
@@ -72,39 +73,25 @@ public class Robot extends LoggedRobot {
         });
 
         if (isReal()) {
-            // Log to a USB stick
             Logger.addDataReceiver(new WPILOGWriter());
-            // Publish data to NetworkTables
             Logger.addDataReceiver(new NT4Publisher());
         } else if (Constants.kIsReplay) {
-            // When replaying on a laptop, run unconstrained by RoboRIO hardware limitations
             setUseTiming(false);
-            // Gets the path to the log file open in AdvantageScope
             String logPath = LogFileUtil.findReplayLog();
             Logger.setReplaySource(new WPILOGReader(logPath));
             Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
         } else {
-            // We don't need to keep log files during simulation
             Logger.addDataReceiver(new NT4Publisher());
-            // When simulation starts, always be on Blue 1
             DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
             DriverStationSim.notifyNewData();
         }
 
-        // Disables Hoot logging
         SignalLogger.enableAutoLogging(false);
-
-        // Start logging! No more data receivers, replay sources, or metadata values may be added
         Logger.start();
-
-        // WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
-        PortForwarder.add(5800, "10.47.86.11", 5800);
 
         DriverStation.silenceJoystickConnectionWarning(true);
 
         m_robotContainer = m_identity.getRobot();
-
-        CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     }
 
     @Override
@@ -114,40 +101,13 @@ public class Robot extends LoggedRobot {
     }
 
     @Override
-    public void disabledInit() {}
-
-    @Override
-    public void disabledPeriodic() {}
-
-    @Override
-    public void disabledExit() {}
-
-    @Override
-    public void autonomousInit() {}
-
-    @Override
-    public void autonomousPeriodic() {}
-
-    @Override
-    public void autonomousExit() {}
-
-    @Override
-    public void teleopInit() {}
+    public void simulationPeriodic() {}
 
     @Override
     public void teleopPeriodic() {}
 
     @Override
-    public void teleopExit() {}
-
-    @Override
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
     }
-
-    @Override
-    public void testPeriodic() {}
-
-    @Override
-    public void testExit() {}
 }

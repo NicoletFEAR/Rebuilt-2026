@@ -11,6 +11,11 @@ public class CANId {
         m_device = device;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%d on bus %s", m_device, m_bus.getName());
+    }
+
     public CANBus getBus() {
         return m_bus;
     }

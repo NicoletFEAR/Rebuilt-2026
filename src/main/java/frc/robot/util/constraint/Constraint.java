@@ -1,6 +1,6 @@
 package frc.robot.util.constraint;
 
-public class Constraint<T> {
+public abstract class Constraint<T> {
     protected ConstraintType Type;
     protected T Value;
 
@@ -18,6 +18,10 @@ public class Constraint<T> {
 
     public void set(T newValue) {
         Value = newValue;
+    }
+
+    public void setType(ConstraintType newType) {
+        Type = newType;
     }
 
     public void update(Constraint<T> newConstraint) {

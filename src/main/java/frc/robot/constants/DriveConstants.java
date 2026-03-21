@@ -13,7 +13,7 @@ public abstract class DriveConstants {
 
     public double kTurnGearRatio = 150.0 / 7.0;
 
-    public class TuskDriveConstants extends DriveConstants {
+    public static class TuskDriveConstants extends DriveConstants {
         public TuskDriveConstants() {
             kFrontLeftOffset = Rotations.of(-0.893798828125);
             kFrontRightOffset = Rotations.of(-0.101806640625);
@@ -22,7 +22,7 @@ public abstract class DriveConstants {
         }
     }
 
-    public class HadesDriveConstants extends DriveConstants {
+    public static class HadesDriveConstants extends DriveConstants {
         public HadesDriveConstants() {
             kFrontLeftOffset = Rotations.of(-0.403076171875);
             kFrontRightOffset = Rotations.of(-0.0966796875);
@@ -31,7 +31,7 @@ public abstract class DriveConstants {
         }
     }
 
-    public class KitbotDriveConstants extends DriveConstants {
+    public static class KitbotDriveConstants extends DriveConstants {
         public KitbotDriveConstants() {
             kFrontLeftOffset = Rotations.of(-0.65380859375);
             kFrontRightOffset = Rotations.of(-0.073974609375);

@@ -58,8 +58,8 @@ public class ControllerIOXbox extends ControllerIO {
         m_state.LeftRumbleStrength = m_leftRumbleStrength;
         m_state.LeftStick = m_controller.getLeftStickButton();
         m_state.LeftTrigger = m_controller.getLeftTriggerAxis();
-        m_state.LeftX = m_controller.getLeftX();
-        m_state.LeftY = m_controller.getLeftY();
+        m_state.LeftX = -m_controller.getLeftX();
+        m_state.LeftY = -m_controller.getLeftY();
         m_state.Name = m_name;
         m_state.Options = m_controller.getStartButton();
         m_state.PlayStation = false;
@@ -69,8 +69,8 @@ public class ControllerIOXbox extends ControllerIO {
         m_state.RightRumbleStrength = m_rightRumbleStrength;
         m_state.RightStick = m_controller.getRightStickButton();
         m_state.RightTrigger = m_controller.getRightTriggerAxis();
-        m_state.RightX = m_controller.getRightX();
-        m_state.RightY = m_controller.getRightY();
+        m_state.RightX = -m_controller.getRightX();
+        m_state.RightY = -m_controller.getRightY();
         m_state.Square = m_controller.getXButton();
         m_state.Touchpad = false;
         m_state.Triangle = m_controller.getYButton();

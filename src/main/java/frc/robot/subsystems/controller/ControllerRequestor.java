@@ -3,9 +3,9 @@ package frc.robot.subsystems.controller;
 import frc.robot.robots.hades.HadesState;
 import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
-import frc.robot.subsystems.base.universal.UniversalRequestor;
+import frc.robot.subsystems.base.Requestor;
 
-public class ControllerRequestor extends UniversalRequestor<ControllerState, ControllerRequest, ControllerName, ControllerIdentity> {
+public class ControllerRequestor extends Requestor<ControllerState, ControllerRequest, ControllerName, ControllerIdentity> {
     public ControllerRequestor(ControllerName name) {
         super(name);
         m_request = new ControllerRequest();

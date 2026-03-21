@@ -1,4 +1,4 @@
-package frc.robot.subsystems.base.universal;
+package frc.robot.subsystems.base;
 
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -9,47 +9,44 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.robots.hades.HadesState;
 import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
-import frc.robot.subsystems.base.IO;
-import frc.robot.subsystems.base.Request;
-import frc.robot.subsystems.base.State;
+import frc.robot.util.Container;
 
-public abstract class UniversalSubsystem<T extends State<T, W, X>, U extends Request<T, U, W, X>, V extends IO<T, V, W, X>, W extends Enum<W>, X extends Enum<X>> {
+public abstract class Subsystem<T extends State<T, W, X>, U extends Request<T, U, W, X>, V extends IO<T, V, W, X>, W extends Enum<W>, X extends Enum<X>> {
     protected final W m_name;
 
-    protected V m_io;
+    protected Container<V> m_io;
     protected Alert m_missingIO = new Alert("", AlertType.kError);
-    protected UniversalRequestor<T, U, W, X> m_requestor;
-    protected UniversalChoreographer<T, U, V, W, X> m_choreographer;
+    protected Requestor<T, U, W, X> m_requestor;
+    protected Choreographer<T, U, V, W, X> m_choreographer;
     protected T m_state;
     protected U m_request;
 
-    public UniversalSubsystem(W name) {
+    public Subsystem(W name) {
         m_name = name;
-        createIOChangeTriggers();
     }
 
     public void createIOChangeTriggers() {
         new Trigger(DriverStation::isDSAttached).onTrue(
             Commands
-                .runOnce(() -> m_io = m_io.getProperIO())
+                .runOnce(() -> m_io.set(m_io.get().getProperIO()))
                 .ignoringDisable(true)
         );
 
         new Trigger(() -> m_state.CurrentIdentity != m_state.ProperIdentity).onTrue(
             Commands
-                .runOnce(() -> m_io = m_io.getProperIO())
+                .runOnce(() -> m_io.set(m_io.get().getProperIO()))
                 .ignoringDisable(true)
         );
     }
 
-    public abstract void updateMissingIO();
+    public void updateMissingIO() {}
 
     public T getState() {
         return m_state;
     }
 
     public T update() {
-        return m_state.update(m_io.updateState());
+        return m_state.update(m_io.get().updateState());
     }
 
     public U requestHades(HadesState fullState) {

@@ -13,6 +13,8 @@ import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+
+import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -128,7 +130,16 @@ public class TalonSwerveModule implements SwerveModule {
     public void setSwerveModuleState(SwerveModuleState moduleState, boolean isOpenLoop) {
         moduleState = Utils.optimize(moduleState, getModuleHeading());
 
+        double preCosinSpeed = moduleState.speedMetersPerSecond;
         moduleState.speedMetersPerSecond *= moduleState.angle.minus(getModuleHeading()).getCos();
+
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/DesiredAngle", moduleState.angle.getDegrees());
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/CurrentAngle", getModuleHeading().getDegrees());
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/PreCosineSpeed", preCosinSpeed);
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/PostCosineSpeed", moduleState.speedMetersPerSecond);
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/IsOpenLoop", isOpenLoop);
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/LastSpeed", m_lastSpeed);
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/SpeedCommandSent", moduleState.speedMetersPerSecond != m_lastSpeed);
 
         if (moduleState.angle.getDegrees() != m_lastAngle) {
             m_steerController.setSetpoint(moduleState.angle.getDegrees(), ControlType.kPosition);
@@ -144,6 +155,9 @@ public class TalonSwerveModule implements SwerveModule {
 
             m_lastSpeed = moduleState.speedMetersPerSecond;
         }
+
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/ActualVelocity", getDriveMetersPerSecond());
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/MotorVoltage", m_driveMotor.getMotorVoltage().getValueAsDouble());
 
         if (RobotBase.isSimulation()) {
             m_simAngle = moduleState.angle;

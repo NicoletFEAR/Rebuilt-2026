@@ -199,7 +199,14 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void driveRobotRelative(ChassisSpeeds speeds) {
-        setModuleStates(m_kinematics.toSwerveModuleStates(speeds), false);
+        SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(speeds);
+
+        Logger.recordOutput("Auto/DriveRobotRelative/InputVx", speeds.vxMetersPerSecond);
+        Logger.recordOutput("Auto/DriveRobotRelative/InputVy", speeds.vyMetersPerSecond);
+        Logger.recordOutput("Auto/DriveRobotRelative/InputOmega", speeds.omegaRadiansPerSecond);
+        Logger.recordOutput("Auto/DriveRobotRelative/ModuleStates", states);
+
+        setModuleStates(states, false);
         m_chassisSpeeds = speeds;
 
         m_simYaw += Units.radiansToDegrees(speeds.omegaRadiansPerSecond * Constants.kdt);
@@ -399,6 +406,14 @@ public class SwerveDrive extends SubsystemBase {
         Logger.recordOutput("Swerve/Robot Relative Chassis Speeds", getRobotRelativeSpeeds());
 
         Logger.recordOutput("Swerve/Distance To Hub", distanceToHub());
+
+        // Auto diagnostics
+        Logger.recordOutput("Auto/IsAutonomous", DriverStation.isAutonomous());
+        Logger.recordOutput("Auto/SwerveState", m_state.toString());
+        Logger.recordOutput("Auto/Pose", getPose());
+        Logger.recordOutput("Auto/PigeonYaw", getPigeonYaw().getDegrees());
+        Logger.recordOutput("Auto/GetYaw", getYaw().getDegrees());
+        Logger.recordOutput("Auto/MaxModuleSpeed", DriveConstants.getMaxModuleSpeed());
     }
 
     public enum SwerveState {

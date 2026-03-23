@@ -230,7 +230,7 @@ public final class Constants {
         }
 
         public static double getMaxModuleSpeed() {
-            return Units.feetToMeters(Double.parseDouble(m_properties.getProperty("drive.max-module-speed")));
+            return Double.parseDouble(m_properties.getProperty("drive.max-module-speed"));
         }
 
         public static double getMaxRotationsPerSecond() {

@@ -85,7 +85,6 @@ public class LockRotationTowardsHub extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_steerController.reset();
     }
 
     /**
@@ -127,8 +126,11 @@ public class LockRotationTowardsHub extends Command {
         );
         Logger.recordOutput("Ideal robot", new Pose2d(drivePose.getTranslation(), new Rotation2d(desiredAngle)));
 
-        // Always run the PID — no dead zone cutoff that causes oscillation
-        m_steer = m_steerController.calculate(m_driveBase.getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180;
+        if (Math.abs(desiredAngle - m_driveBase.getYaw().getRadians()) < DriveConstants.getRotationTolerance()) {
+            m_steer = 0;    
+        } else {
+            m_steer = m_steerController.calculate(m_driveBase.getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180;
+        }
 
         m_throttle *= m_percentModifier;
         m_strafe *= m_percentModifier;

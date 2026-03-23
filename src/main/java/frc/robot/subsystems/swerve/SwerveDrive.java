@@ -253,11 +253,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public Rotation2d getYaw() {
-        if (DriverStation.isAutonomous()) {
-            return getPigeonYaw();
-        } else {
-            return m_megaTag1PoseEstimator.getEstimatedPosition().getRotation();
-        }
+        return getPigeonYaw();
     }
 
     public Command xWheels() {
@@ -373,12 +369,12 @@ public class SwerveDrive extends SubsystemBase {
 
     @Override
     public void periodic() {
-        m_launcherCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
+        m_launcherCamera.SetRobotOrientation(getPigeonYaw().getDegrees(), 0, 0, 0, 0, 0);
         m_poseEstimator.updateWithTime(Timer.getTimestamp(), getYaw(), getModulePositions());
         m_megaTag1PoseEstimator.updateWithTime(Timer.getTimestamp(), getPigeonYaw(), getModulePositions());
 
         if (m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {
-            m_launcherCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getYaw());
+            m_launcherCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getPigeonYaw());
             Logger.recordOutput("Vision/limelight-launch/MT2 Pose Estimate Blue",
                     m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2().pose);
         }

@@ -189,6 +189,18 @@ public class SwerveDrive extends SubsystemBase {
         m_poseEstimator.resetPosition(getYaw(), getModulePositions(), pose);
     }
 
+    public void reinitializePoseEstimators() {
+        Rotation2d initialYaw = RobotContainer.getAlliance() == Alliance.Blue
+            ? Rotation2d.fromDegrees(0)
+            : Rotation2d.fromDegrees(180);
+
+        m_poseEstimator.resetPosition(initialYaw, getModulePositions(),
+            new Pose2d(m_poseEstimator.getEstimatedPosition().getTranslation(), initialYaw));
+
+        m_megaTag1PoseEstimator.resetPosition(initialYaw, getModulePositions(),
+            new Pose2d(m_megaTag1PoseEstimator.getEstimatedPosition().getTranslation(), initialYaw));
+    }
+
     public ChassisSpeeds getRobotRelativeSpeeds() {
         // return m_chassisSpeeds;
         return m_kinematics.toChassisSpeeds(getModuleStates());
@@ -260,11 +272,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public Rotation2d getYaw() {
-        if (DriverStation.isAutonomous()) {
-            return getPigeonYaw();
-        } else {
-            return m_megaTag1PoseEstimator.getEstimatedPosition().getRotation();
-        }
+        return m_megaTag1PoseEstimator.getEstimatedPosition().getRotation();
     }
 
     public Command xWheels() {
@@ -381,7 +389,7 @@ public class SwerveDrive extends SubsystemBase {
     @Override
     public void periodic() {
         m_launcherCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
-        m_poseEstimator.updateWithTime(Timer.getTimestamp(), getYaw(), getModulePositions());
+        m_poseEstimator.updateWithTime(Timer.getTimestamp(), getPigeonYaw(), getModulePositions());
         m_megaTag1PoseEstimator.updateWithTime(Timer.getTimestamp(), getPigeonYaw(), getModulePositions());
 
         if (m_launcherCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {

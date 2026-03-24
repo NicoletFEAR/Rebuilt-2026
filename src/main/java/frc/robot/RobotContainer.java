@@ -107,9 +107,10 @@ public class RobotContainer {
             )
         );
 
-        // Slows speed -- left trigger of driver controller
+        // Slows speed -- left trigger of driver controller (only when not locking to hub)
         m_driverController
             .L2()
+            .and(m_driverController.R2().negate())
             .whileTrue(
                 new TeleopSwerve(
                     m_driverController,
@@ -397,7 +398,10 @@ public class RobotContainer {
      * This method should be called at the start of autonomous and perform 
      * any necessary setup and processing for the autonomous period
      */
-    public void autonomousInit() {}
+    public void autonomousInit() {
+        m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+        m_driveBase.reinitializePoseEstimators();
+    }
 
     /**
      * This method should be called at the end of autonomous and perform
@@ -411,6 +415,8 @@ public class RobotContainer {
      * who won autos, starting times, and sending alerts based on game shifts.
      */
     public void teleopInit() {
+        m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+
         // Start the game timer
         m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
 

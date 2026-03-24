@@ -131,12 +131,33 @@ public class RobotContainer {
         // Enables Palantir-Class Target Lock on the hub
         m_driverController
             .R2()
+            .and(m_driverController.L1().negate())
             .whileTrue(
                 new LockRotationTowardsHub(
                     m_driverController,
                     OperatorConstants.kThrottleAxis,
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.getDefaultSpeed(),
+                    true,
+                    true,
+                    m_driveBase,
+                    m_driveBase::getFieldRelativeSpeeds,
+                    m_driveBase::distanceToHub,
+                    m_hood,
+                    m_launcher
+                )
+            );
+
+        // Slow hub lock -- L1 + R2 on driver controller
+        m_driverController
+            .R2()
+            .and(m_driverController.L1())
+            .whileTrue(
+                new LockRotationTowardsHub(
+                    m_driverController,
+                    OperatorConstants.kThrottleAxis,
+                    OperatorConstants.kStrafeAxis,
+                    OperatorConstants.getSlowSpeed(),
                     true,
                     true,
                     m_driveBase,

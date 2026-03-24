@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.controllers.UniversalController;
+import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
 public class LockRotationTowardsHub extends Command {
@@ -47,6 +48,7 @@ public class LockRotationTowardsHub extends Command {
 
     private Supplier<ChassisSpeeds> m_driveBaseSpeeds;
     private DoubleSupplier m_distanceToHub;
+    private Hood m_hood;
 
     private boolean m_isOpenLoop;
     private boolean m_isFieldRelative;
@@ -62,7 +64,8 @@ public class LockRotationTowardsHub extends Command {
         boolean isFieldRelative,
         SwerveDrive driveBase,
         Supplier<ChassisSpeeds> driveBaseSpeeds,
-        DoubleSupplier distanceToHub) {
+        DoubleSupplier distanceToHub,
+        Hood hood) {
         m_driverController = driverController;
 
         m_throttleAxis = throttleAxis;
@@ -78,6 +81,7 @@ public class LockRotationTowardsHub extends Command {
 
         m_driveBaseSpeeds = driveBaseSpeeds;
         m_distanceToHub = distanceToHub;
+        m_hood = hood;
         
         addRequirements(m_driveBase);
     }
@@ -137,6 +141,13 @@ public class LockRotationTowardsHub extends Command {
         m_steer *= m_percentModifier;
 
         m_driveBase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
+
+        // Adjust hood angle based on distance to hub
+        m_hood.runToPosition(MathUtil.clamp(
+            LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
+            LauncherConstants.getHoodMinPosition(),
+            LauncherConstants.getHoodMaxPosition()
+        ));
     }
 
     // Called once the command ends or is interrupted.

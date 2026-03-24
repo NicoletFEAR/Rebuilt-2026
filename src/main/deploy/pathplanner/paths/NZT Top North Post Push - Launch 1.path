@@ -3,47 +3,33 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.734,
-        "y": 6.938844444444444
+        "x": 6.4,
+        "y": 7.45
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.7230479752980195,
-        "y": 5.917532506197789
+        "x": 5.374020227693899,
+        "y": 7.4523106630103895
       },
       "isLocked": false,
-      "linkedName": "NZT Top-South"
+      "linkedName": "NZT Top-North Post-Push"
     },
     {
       "anchor": {
-        "x": 7.734,
-        "y": 4.65
+        "x": 3.205,
+        "y": 7.45
       },
       "prevControl": {
-        "x": 7.7481961645209445,
-        "y": 5.629131640630149
+        "x": 4.2178671124693174,
+        "y": 7.4309728099332455
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NZB Top-South"
+      "linkedName": "Launch 1"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 2.5,
-        "maxAcceleration": 4.0,
-        "maxAngularVelocity": 270.0,
-        "maxAngularAcceleration": 360.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -56,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 65.0
+    "rotation": -62.93424938861828
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 65.0
+    "rotation": -70.0
   },
   "useDefaultConstraints": true
 }

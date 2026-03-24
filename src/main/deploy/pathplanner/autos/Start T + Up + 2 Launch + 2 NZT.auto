@@ -59,7 +59,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.25
+                  "waitTime": 2.5
                 }
               },
               {
@@ -74,7 +74,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Launch 3 - NZT Bottom North"
+            "pathName": "Launch 3 - NZT Bottom North Post Push"
           }
         },
         {
@@ -86,7 +86,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Bottom-North - NZT Top-North"
+            "pathName": "NZT Bottom-North - NZT Top-North Post-Push"
           }
         },
         {
@@ -98,7 +98,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Top-North - Launch 1"
+            "pathName": "NZT Top North Post Push - Launch 1"
           }
         },
         {
@@ -114,7 +114,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.25
+                  "waitTime": 2.5
                 }
               },
               {

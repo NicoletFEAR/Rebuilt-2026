@@ -29,7 +29,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -41,7 +41,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.25
+                  "waitTime": 2.5
                 }
               },
               {
@@ -68,11 +68,11 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Top-North - Launch 1"
+            "pathName": "NZT Top North Post Push - Launch 1"
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -84,7 +84,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.25
+                  "waitTime": 2.5
                 }
               },
               {

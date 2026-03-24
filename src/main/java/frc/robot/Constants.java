@@ -446,6 +446,7 @@ public final class Constants {
         // Must be sorted from low to high distance from the hub
         public static InterpolatingDoubleTreeMap kAutoAimHoodPositions = new InterpolatingDoubleTreeMap();
         static {
+            kAutoAimHoodPositions.put(0.1, 0.0);
             kAutoAimHoodPositions.put(1.85, 0.0);
             kAutoAimHoodPositions.put(4.45, 0.6315);
         }
@@ -453,6 +454,7 @@ public final class Constants {
         // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired launcher speed modifier
         public static InterpolatingDoubleTreeMap kAutoAimSpeeds = new InterpolatingDoubleTreeMap();
         static {
+            kAutoAimSpeeds.put(0.1, 0.7);
             kAutoAimSpeeds.put(1.85, 0.7);
             kAutoAimSpeeds.put(4.45, 1.0);
         }

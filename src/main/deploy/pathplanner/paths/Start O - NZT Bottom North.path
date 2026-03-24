@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.5,
+        "x": 4.35,
         "y": 0.6
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.757033333333333,
+        "x": 5.607033333333333,
         "y": 0.6352111111111108
       },
       "isLocked": false,
-      "linkedName": "Start O"
+      "linkedName": "Start O NZT"
     },
     {
       "anchor": {
@@ -48,7 +48,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -65.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

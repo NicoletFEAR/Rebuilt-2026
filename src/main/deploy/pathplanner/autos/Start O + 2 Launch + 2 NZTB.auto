@@ -41,7 +41,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.25
+                  "waitTime": 2.5
                 }
               },
               {
@@ -68,7 +68,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Bottom-South - Launch 3"
+            "pathName": "NZT Bottom South Post Push - Launch 3"
           }
         },
         {
@@ -84,7 +84,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.25
+                  "waitTime": 2.5
                 }
               },
               {

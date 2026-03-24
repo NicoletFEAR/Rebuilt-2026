@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.5,
+        "x": 4.35,
         "y": 7.44
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.5370627980079035,
-        "y": 7.170274315239294
+        "x": 2.8618333333333332,
+        "y": 7.231177777777777
       },
       "isLocked": false,
       "linkedName": "Start D"
@@ -20,8 +20,8 @@
         "y": 5.95
       },
       "prevControl": {
-        "x": 2.0640783830256986,
-        "y": 6.215617904860638
+        "x": 2.189466666666667,
+        "y": 6.802422222222222
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 65.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

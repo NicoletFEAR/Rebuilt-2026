@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.5,
+        "x": 4.35,
         "y": 0.6
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.222677814755792,
-        "y": 0.522413988095454
+        "x": 3.744383300345364,
+        "y": 0.585148286016149
       },
       "isLocked": false,
       "linkedName": "Start O"
@@ -20,8 +20,8 @@
         "y": 0.65
       },
       "prevControl": {
-        "x": 3.280595543059909,
-        "y": 0.8876166574496526
+        "x": 3.448052504314594,
+        "y": 0.6989367108763641
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Start O and Outpost Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -65.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

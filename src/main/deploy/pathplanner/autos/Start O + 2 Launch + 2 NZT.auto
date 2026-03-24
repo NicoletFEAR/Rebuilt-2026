@@ -62,7 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Launch 1 - NZT Top South"
+            "pathName": "Launch 1 - NZT Top South Post Push"
           }
         },
         {
@@ -74,7 +74,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Top-South - NZT Bottom-South"
+            "pathName": "NZT Top-South - NZT Bottom-South Post-Push"
           }
         },
         {
@@ -86,7 +86,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Bottom-South - Launch 3"
+            "pathName": "NZT Bottom South Post Push - Launch 3"
           }
         },
         {

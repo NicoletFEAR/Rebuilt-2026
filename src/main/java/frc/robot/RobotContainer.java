@@ -131,7 +131,7 @@ public class RobotContainer {
         // Enables Palantir-Class Target Lock on the hub
         m_driverController
             .R2()
-            .and(m_driverController.L1().negate())
+            .and(m_driverController.L2().negate())
             .whileTrue(
                 new LockRotationTowardsHub(
                     m_driverController,
@@ -148,10 +148,10 @@ public class RobotContainer {
                 )
             );
 
-        // Slow hub lock -- L1 + R2 on driver controller
+        // Slow hub lock -- L2 + R2 on driver controller
         m_driverController
             .R2()
-            .and(m_driverController.L1())
+            .and(m_driverController.L2())
             .whileTrue(
                 new LockRotationTowardsHub(
                     m_driverController,
@@ -170,8 +170,10 @@ public class RobotContainer {
         
         new Trigger(this::aboutToSwitch)
             .onTrue(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 1.0))
+            .alongWith(new InstantCommand(() -> m_operatorController.setRumble(RumbleType.kBothRumble, 1.0)))
             .alongWith(m_led.startScoringSwitchAnimation()))
             .onFalse(new InstantCommand(() -> m_driverController.setRumble(RumbleType.kBothRumble, 0.0))
+            .alongWith(new InstantCommand(() -> m_operatorController.setRumble(RumbleType.kBothRumble, 0.0)))
             .alongWith(m_led.startSwerveAnimation()));
 
         // These are the controls for the kitbot subsystems

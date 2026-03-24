@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 7.7,
-        "y": 0.6500000000000004
+        "y": 1.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.103117703146366,
-        "y": 0.6640264441718888
+        "x": 6.0535698198198205,
+        "y": 0.5724662162162165
       },
       "isLocked": false,
       "linkedName": "NZT Bottom-South"
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 5.001736334049636,
-        "y": 0.671697517673415
+        "y": 0.6716975176732376
       },
       "nextControl": null,
       "isLocked": false,

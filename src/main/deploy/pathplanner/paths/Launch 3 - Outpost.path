@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.202888888888889,
+        "x": 3.203,
         "y": 0.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.110079354030333,
-        "y": 0.4564235008163333
+        "x": 2.110190465141444,
+        "y": 0.45642350081561744
       },
       "isLocked": false,
       "linkedName": "Launch 3"

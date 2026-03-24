@@ -111,13 +111,18 @@ public class LockRotationTowardsHub extends Command {
             DriveConstants.getSwerveDeadband()
         );
 
-        Translation2d target;
+        // Translation2d target;
 
-        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
-            target = DriveConstants.kBlueHubPosition;
-        } else {
-            target = DriveConstants.kRedHubPosition;
-        }
+        // if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            
+        //     target = DriveConstants.kBlueHubPosition;
+        // } else {
+        //     target = DriveConstants.kRedHubPosition;
+        // }
+
+        Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
+            ? DriveConstants.kBlueHubPosition
+            : DriveConstants.kRedHubPosition;
         
         double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * LauncherConstants.getLaunchVelocity() * Math.PI;
         double fuelVerticalVelocity = estimatedFuelVelocity * Math.sin(5.0 * Math.PI / 24.0);

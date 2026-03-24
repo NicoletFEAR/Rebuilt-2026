@@ -249,7 +249,7 @@ public final class Constants {
 
         // Defined as half the diagonal of the drivebase
         public static double getDrivebaseRadius() {
-            return Math.hypot(getTrackWidth(), getWheelBase());
+            return Math.hypot(getTrackWidth(), getWheelBase()) / 2.0;
         }
 
         public static double getDriveGearRatio() {
@@ -372,6 +372,30 @@ public final class Constants {
 
         public static double getAutoTargetKD() {
             return Double.parseDouble(m_properties.getProperty("drive.auto-target.kd"));
+        }
+
+        public static double getPathTranslationKP() {
+            return Double.parseDouble(m_properties.getProperty("drive.path-translation-kp"));
+        }
+
+        public static double getPathTranslationKI() {
+            return Double.parseDouble(m_properties.getProperty("drive.path-translation-ki"));
+        }
+
+        public static double getPathTranslationKD() {
+            return Double.parseDouble(m_properties.getProperty("drive.path-translation-kd"));
+        }
+
+        public static double getPathRotationKP() {
+            return Double.parseDouble(m_properties.getProperty("drive.path-rotation-kp"));
+        }
+
+        public static double getPathRotationKI() {
+            return Double.parseDouble(m_properties.getProperty("drive.path-rotation-ki"));
+        }
+
+        public static double getPathRotationKD() {
+            return Double.parseDouble(m_properties.getProperty("drive.path-rotation-kd"));
         }
 
         // Positions of all the swerve modules relative to the center of the drivebase

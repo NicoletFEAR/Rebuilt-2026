@@ -23,8 +23,6 @@ import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.controllers.UniversalController;
-// import frc.robot.subsystems.climb.Climb;
-// import frc.robot.subsystems.climb.Climb.ClimbState;
 import frc.robot.subsystems.intake.IntakeDriver;
 import frc.robot.subsystems.intake.IntakePivot;
 import frc.robot.subsystems.kitbot.KitbotIntake;
@@ -133,6 +131,7 @@ public class RobotContainer {
         // Enables Palantir-Class Target Lock on the hub
         m_driverController
             .R2()
+            .and(m_driverController.L1().negate())
             .whileTrue(
                 new LockRotationTowardsHub(
                     m_driverController,
@@ -143,7 +142,29 @@ public class RobotContainer {
                     true,
                     m_driveBase,
                     m_driveBase::getFieldRelativeSpeeds,
-                    m_driveBase::distanceToHub
+                    m_driveBase::distanceToHub,
+                    m_hood,
+                    m_launcher
+                )
+            );
+
+        // Slow hub lock -- L1 + R2 on driver controller
+        m_driverController
+            .R2()
+            .and(m_driverController.L1())
+            .whileTrue(
+                new LockRotationTowardsHub(
+                    m_driverController,
+                    OperatorConstants.kThrottleAxis,
+                    OperatorConstants.kStrafeAxis,
+                    OperatorConstants.getSlowSpeed(),
+                    true,
+                    true,
+                    m_driveBase,
+                    m_driveBase::getFieldRelativeSpeeds,
+                    m_driveBase::distanceToHub,
+                    m_hood,
+                    m_launcher
                 )
             );
         

@@ -88,6 +88,10 @@ public class Robot extends LoggedRobot {
         // WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
         PortForwarder.add(5800, "10.47.86.11", 5800);
 
+        // It's obvious if a joystick is disconnected and I'm tired of these warnings
+        // clogging up the driver station
+        DriverStation.silenceJoystickConnectionWarning(true);
+
         RoboRioSim.setTeamNumber(4786);
         m_robotContainer = new RobotContainer();
 

@@ -95,14 +95,14 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         return new InstantCommand(() -> {
             m_state = LauncherState.LAUNCHING;
             setVelocity(LauncherConstants.getLaunchVelocity() * m_speedModifier);
-        });
+        }, this);
     }
 
     public Command idle() {
         return new InstantCommand(() -> {
             m_state = LauncherState.IDLE;
             setVelocity(LauncherConstants.getIdleVelocity());
-        });
+        }, this);
     }
 
     public Command rampVoltage() {
@@ -116,6 +116,14 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         return new InstantCommand(() -> m_speedModifier = newSpeedModifier);
     }
 
+    public void setSpeedModifierDirect(double newSpeedModifier) {
+        m_speedModifier = newSpeedModifier;
+    }
+
+    public double getMinSpeedModifier() {
+        return LauncherConstants.getIdleVelocity() / LauncherConstants.getLaunchVelocity();
+    }
+
     // TODO: Replace 0.05 with 0.1 once tuning the launcher speeds is complete
     public Command raiseSpeed() {
         return new ConditionalCommand(
@@ -127,8 +135,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public Command lowerSpeed() {
         return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, LauncherConstants.getIdleVelocity() / LauncherConstants.getLaunchVelocity())), 
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, LauncherConstants.getIdleVelocity() / LauncherConstants.getLaunchVelocity())).andThen(launch()),
+            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, getMinSpeedModifier())), 
+            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, getMinSpeedModifier())).andThen(launch()),
             () -> m_state == LauncherState.IDLE
         );
     }

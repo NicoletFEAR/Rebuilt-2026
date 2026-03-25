@@ -195,13 +195,6 @@ public class RobotContainer {
                 .onFalse(m_kitbotIntake.off())
                 .onFalse(m_kitbotLauncher.off());
         } else if (Constants.kRobotName.equals("tusk")) {
-            // Adjusts hood and speed during auto-targeting -- right trigger of driver controller
-            // m_driverController
-            //     .R2()
-            //     .whileTrue(m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub)
-            //         .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub)))
-            //     .onFalse(m_hood.endAutoTarget());
-
             // TODO: Fix jostle distance in case the intake is stuck on a ball
             // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
             m_operatorController
@@ -224,7 +217,8 @@ public class RobotContainer {
                     // .alongWith(m_indexer.off())
                     .alongWith(new ConditionalCommand(
                         new InstantCommand(),
-                        m_launcher.idle(),
+                        m_launcher.idle()
+                            .alongWith(m_hood.runProfileToPosition(0.0)),
                         () -> m_manualLaunching
                     ))
                     // .alongWith(m_launcher.off())
@@ -333,7 +327,8 @@ public class RobotContainer {
                 // .onFalse(m_launcher.off());
                 .onFalse(new InstantCommand(() -> m_manualLaunching = false).andThen(new ConditionalCommand(
                     new InstantCommand(),
-                    m_launcher.idle(),
+                    m_launcher.idle()
+                        .alongWith(m_hood.runProfileToPosition(0.0)),
                     () -> m_automaticLaunching
                 )));
             
@@ -401,13 +396,16 @@ public class RobotContainer {
     public void autonomousInit() {
         m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
         m_driveBase.reinitializePoseEstimators();
+        CommandScheduler.getInstance().schedule(m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub));
     }
 
     /**
      * This method should be called at the end of autonomous and perform
      * any necessary cleanup for the autonomous period
      */
-    public void autonomousExit() {}
+    public void autonomousExit() {
+        CommandScheduler.getInstance().schedule(m_launcher.stopAutoAim());
+    }
 
     /**
      * Ths mehtod should be called at the start of teleop and performs 
@@ -460,6 +458,7 @@ public class RobotContainer {
                 "StartLaunch",
                 m_launcher
                     .launch()
+                    .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub))
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(m_indexer.index())
             );
@@ -469,6 +468,7 @@ public class RobotContainer {
                 m_launcher
                     .setSpeedModifier(0.7)
                     .andThen(m_launcher.launch())
+                    .alongWith(m_hood.endAutoTarget())
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(m_indexer.index())
             );
@@ -479,6 +479,7 @@ public class RobotContainer {
                     .off()
                     .alongWith(m_launcher.idle())
                     .alongWith(m_launcher.setSpeedModifier(1.0))
+                    .alongWith(m_hood.runProfileToPosition(0.0))
             );
         }
     }

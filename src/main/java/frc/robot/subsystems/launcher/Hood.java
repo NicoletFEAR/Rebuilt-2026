@@ -17,6 +17,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -34,9 +35,10 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     private PIDController m_pidController;
 
     private double m_desiredPosition;
-    private double m_returnPosition;
     private double m_minPosition;
     private double m_maxPosition;
+
+    private boolean m_endAutoTarget;
 
     public Hood() {
         m_motor = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
@@ -59,7 +61,6 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         DeviceConfigurator.configureCANcoder(m_encoder, LauncherConstants.getHoodOffset());
 
         m_desiredPosition = LauncherConstants.getHoodMinPosition();
-        m_returnPosition = -1.0;
         m_minPosition = LauncherConstants.getHoodMinPosition();
         m_maxPosition = LauncherConstants.getHoodMaxPosition();
 
@@ -101,17 +102,13 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     }
 
     public Command endAutoTarget() {
-        return runProfileToPosition(m_returnPosition).andThen(new InstantCommand(() -> m_returnPosition = -1.0));
+        return Commands.runOnce(() -> m_endAutoTarget = true).andThen(runProfileToPosition(0.0));
     }
 
     public Command adjustToHubDistance(DoubleSupplier distance) {
         return new RunCommand(() -> {
-            if (m_returnPosition < 0) {
-                m_returnPosition = m_desiredPosition;
-            }
-
             runToPosition(MathUtil.clamp(LauncherConstants.kAutoAimHoodPositions.get(distance.getAsDouble()), m_minPosition, m_maxPosition));
-        });
+        }).until(() -> m_endAutoTarget);
     }
 
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {

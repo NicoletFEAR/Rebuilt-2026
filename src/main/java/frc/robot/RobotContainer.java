@@ -421,6 +421,7 @@ public class RobotContainer {
                 .alongWith(m_intakeDriver.off())
                 .alongWith(m_intakePivot.in())
                 .alongWith(m_launcher.setSpeedModifier(1.0))
+                .alongWith(m_hood.runProfileToPosition(0.0))
         );
     }
 
@@ -432,7 +433,9 @@ public class RobotContainer {
      * This method should be called at the end of teleop and perform
      * any necessary cleanup for the teleop period
      */
-    public void teleopExit() {}
+    public void teleopExit() {
+        m_hood.runProfileToPosition(0.0d);
+    }
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {

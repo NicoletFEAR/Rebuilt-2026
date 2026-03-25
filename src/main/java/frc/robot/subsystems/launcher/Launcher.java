@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -42,6 +43,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private TalonFX m_rightMotor;
     private DCMotorSim m_leftMotorSim;
     private DCMotorSim m_rightMotorSim;
+    private boolean m_stopAutoTargeting;
 
     private MotionMagicVelocityVoltage m_velocityRequest = new MotionMagicVelocityVoltage(0.0).withSlot(0);
 
@@ -143,10 +145,19 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public Command adjustSpeedToHubDistance(DoubleSupplier distance) {
         return new ConditionalCommand(
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)),
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0)).andThen(launch()),
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0))
+                .until(() -> m_stopAutoTargeting)
+                .andThen(() -> m_stopAutoTargeting = false),
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0))
+                .until(() -> m_stopAutoTargeting)
+                .andThen(() -> m_stopAutoTargeting = false)
+                .alongWith(launch()),
             () -> m_state == LauncherState.IDLE
         );
+    }
+
+    public Command stopAutoAim() {
+        return Commands.runOnce(() -> m_stopAutoTargeting = true);
     }
 
     @Override

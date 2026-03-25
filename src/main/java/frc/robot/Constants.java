@@ -471,11 +471,14 @@ public final class Constants {
         static {
             kAutoAimHoodPositions.put(0.0d, 0.0d);
             kAutoAimHoodPositions.put(1.616208d, 0.024414d);
+            kAutoAimHoodPositions.put(2.164127d, 0.174316d);
             kAutoAimHoodPositions.put(2.90789d, 0.419922d);
             kAutoAimHoodPositions.put(3.045959d, 0.420654d);
+            kAutoAimHoodPositions.put(3.225971d, 0.612549d);
             kAutoAimHoodPositions.put(3.564832d, 0.555908d);
+            kAutoAimHoodPositions.put(4.008246d, 0.613037d);
             kAutoAimHoodPositions.put(4.648431d, 0.687256d);
-            kAutoAimHoodPositions.put(5.17747d, 0.261719d);
+            kAutoAimHoodPositions.put(5.204873d, 0.836426d);
         }
 
         // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired launcher speed modifier
@@ -483,11 +486,14 @@ public final class Constants {
         static {
             kAutoAimSpeeds.put(0.0d, 0.7d);
             kAutoAimSpeeds.put(1.616208d, 0.8d);
+            kAutoAimSpeeds.put(2.164127d, 0.837796d);
             kAutoAimSpeeds.put(2.90789d, 0.8891098d);
             kAutoAimSpeeds.put(3.045959d, 0.8891098d);
+            kAutoAimSpeeds.put(3.225971d, 0.837796d);
             kAutoAimSpeeds.put(3.564832d, 0.930613d);
+            kAutoAimSpeeds.put(4.008246d, 1.0d);
             kAutoAimSpeeds.put(4.648431d, 1.0d);
-            kAutoAimSpeeds.put(5.17747d, 1.0d);
+            kAutoAimSpeeds.put(5.204873d, 1.0d);
         }
 
         public static double getGearRatio() {

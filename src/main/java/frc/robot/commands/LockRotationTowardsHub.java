@@ -101,6 +101,8 @@ public class LockRotationTowardsHub extends Command {
      */
     @Override
     public void execute() {
+        Translation2d target;
+
         //isBatteryInBack gives value to change controls based on location of battery
         m_throttle = MathUtil.applyDeadband(
             DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
@@ -112,18 +114,27 @@ public class LockRotationTowardsHub extends Command {
             DriveConstants.getSwerveDeadband()
         );
 
-        // Translation2d target;
-
-        // if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
-        //     if (m_driveBase.)
-        //     target = DriveConstants.kBlueHubPosition;
-        // } else {
-        //     target = DriveConstants.kRedHubPosition;
-        // }
-
-        Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
-            ? DriveConstants.kBlueHubPosition
-            : DriveConstants.kRedHubPosition;
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            if (m_driveBase.getPose().getY() <= DriveConstants.kInAllianceZoneBlue) {
+                target = DriveConstants.kBlueHubPosition;
+            } else {
+                if (m_driveBase.getPose().getX() <= DriveConstants.kVerticalMidfieldPosition) {
+                    target = DriveConstants.kBlueLeftPassingPosition;
+                } else {
+                    target = DriveConstants.kBlueRightPassingPosition;
+                }
+            }
+        } else {
+            if (m_driveBase.getPose().getY() >= DriveConstants.kInAllianceZoneRed) {
+                target = DriveConstants.kRedHubPosition;
+            } else {
+                if (m_driveBase.getPose().getX() >= DriveConstants.kVerticalMidfieldPosition) {
+                    target = DriveConstants.kRedLeftPassingPosition;
+                } else {
+                    target = DriveConstants.kRedRightPassingPosition;
+                }
+            }
+        }
         
         double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * LauncherConstants.getLaunchVelocity() * Math.PI;
         double fuelVerticalVelocity = estimatedFuelVelocity * Math.sin(5.0 * Math.PI / 24.0);
@@ -152,6 +163,45 @@ public class LockRotationTowardsHub extends Command {
 
         m_driveBase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
 
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            if (m_driveBase.getPose().getY() <= DriveConstants.kInAllianceZoneBlue) {
+                // Adjust hood angle based on distance to hub
+                m_hood.runToPosition(MathUtil.clamp(
+                    LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
+                    LauncherConstants.getHoodMinPosition(),
+                    LauncherConstants.getHoodMaxPosition()
+                ));
+
+                // Adjust launcher speed based on distance to hub
+                double speedModifier = MathUtil.clamp(
+                    LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
+                    m_launcher.getMinSpeedModifier(), 1.0);
+                m_launcher.setSpeedModifierDirect(speedModifier);
+                m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
+            } else {
+                m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition());
+                m_launcher.setSpeedModifier(1.0d);
+            }
+        } else {
+            if (m_driveBase.getPose().getY() >= DriveConstants.kInAllianceZoneRed) {
+                // Adjust hood angle based on distance to hub
+                m_hood.runToPosition(MathUtil.clamp(
+                    LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
+                    LauncherConstants.getHoodMinPosition(),
+                    LauncherConstants.getHoodMaxPosition()
+                ));
+
+                // Adjust launcher speed based on distance to hub
+                double speedModifier = MathUtil.clamp(
+                    LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
+                    m_launcher.getMinSpeedModifier(), 1.0);
+                m_launcher.setSpeedModifierDirect(speedModifier);
+                m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
+            } else {
+                m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition());
+                m_launcher.setSpeedModifier(1.0d);
+            }
+        }
         // Adjust hood angle based on distance to hub
         m_hood.runToPosition(MathUtil.clamp(
             LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),

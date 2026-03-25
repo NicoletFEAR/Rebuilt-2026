@@ -462,6 +462,10 @@ public final class Constants {
         public static final double kInAllianceZoneRed = Meters.convertFrom(469.11, Inches);
         public static final Translation2d kBlueHubPosition = new Translation2d(4.619, 4.033);
         public static final Translation2d kRedHubPosition = new Translation2d(11.936, 4.033);
+        public static final Translation2d kBlueLeftPassingPosition = new Translation2d(Meters.convertFrom(82.91, Inches), Meters.convertFrom(43, Inches));
+        public static final Translation2d kBlueRightPassingPosition = new Translation2d(Meters.convertFrom(234.77, Inches), Meters.convertFrom(43, Inches));
+        public static final Translation2d kRedLeftPassingPosition = new Translation2d(Meters.convertFrom(234.77, Inches), Meters.convertFrom(608.22, Inches));
+        public static final Translation2d kRedRightPassingPosition = new Translation2d(Meters.convertFrom(82.91, Inches), Meters.convertFrom(608.22, Inches));
     }
 
     public final class LauncherConstants {

@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -413,13 +416,6 @@ public final class Constants {
             new SwerveModuleState(0, Rotation2d.fromDegrees(-135))
         };
 
-        // public static final SwerveModuleState[] kXWheels = {
-        //     new SwerveModuleState(0, Rotation2d.fromDegrees(135)),
-        //     new SwerveModuleState(0, Rotation2d.fromDegrees(-135)),
-        //     new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-        //     new SwerveModuleState(0, Rotation2d.fromDegrees(-45))
-        // };
-
         public static final RobotConfig kRobotConfig = new RobotConfig(Units.lbsToKilograms(getWeight()),
             getMOI(),
             new ModuleConfig(getWheelDiameter() / 2,
@@ -461,6 +457,9 @@ public final class Constants {
             getBackRightOffset()
         );
 
+        public static final double kVerticalMidfieldPosition = Meters.convertFrom(317.688, Inches);
+        public static final double kInAllianceZoneBlue = Meters.convertFrom(182.11, Inches);
+        public static final double kInAllianceZoneRed = Meters.convertFrom(469.11, Inches);
         public static final Translation2d kBlueHubPosition = new Translation2d(4.619, 4.033);
         public static final Translation2d kRedHubPosition = new Translation2d(11.936, 4.033);
     }

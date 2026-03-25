@@ -217,8 +217,7 @@ public class RobotContainer {
                     // .alongWith(m_indexer.off())
                     .alongWith(new ConditionalCommand(
                         new InstantCommand(),
-                        m_launcher.idle()
-                            .alongWith(m_hood.runProfileToPosition(0.0)),
+                        m_launcher.idle(),
                         () -> m_manualLaunching
                     ))
                     // .alongWith(m_launcher.off())
@@ -327,8 +326,7 @@ public class RobotContainer {
                 // .onFalse(m_launcher.off());
                 .onFalse(new InstantCommand(() -> m_manualLaunching = false).andThen(new ConditionalCommand(
                     new InstantCommand(),
-                    m_launcher.idle()
-                        .alongWith(m_hood.runProfileToPosition(0.0)),
+                    m_launcher.idle(),
                     () -> m_automaticLaunching
                 )));
             

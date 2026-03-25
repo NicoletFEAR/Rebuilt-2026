@@ -217,8 +217,7 @@ public class RobotContainer {
                     // .alongWith(m_indexer.off())
                     .alongWith(new ConditionalCommand(
                         new InstantCommand(),
-                        m_launcher.idle()
-                            .alongWith(m_hood.runProfileToPosition(0.0)),
+                        m_launcher.idle(),
                         () -> m_manualLaunching
                     ))
                     // .alongWith(m_launcher.off())
@@ -327,8 +326,7 @@ public class RobotContainer {
                 // .onFalse(m_launcher.off());
                 .onFalse(new InstantCommand(() -> m_manualLaunching = false).andThen(new ConditionalCommand(
                     new InstantCommand(),
-                    m_launcher.idle()
-                        .alongWith(m_hood.runProfileToPosition(0.0)),
+                    m_launcher.idle(),
                     () -> m_automaticLaunching
                 )));
             
@@ -396,9 +394,11 @@ public class RobotContainer {
     public void autonomousInit() {
         m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
         m_driveBase.reinitializePoseEstimators();
-        CommandScheduler.getInstance().schedule(m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub));
-        m_hood.runProfileToPosition(0.0d);
-        m_launcher.idle();
+        CommandScheduler.getInstance().schedule(
+            m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub)
+            .alongWith(m_hood.runProfileToPosition(0.0d))
+            .alongWith(m_launcher.idle())
+        );
     }
 
     /**
@@ -461,18 +461,8 @@ public class RobotContainer {
                 m_launcher
                     .launch()
                     .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub))
-                    .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
-                    .andThen(m_indexer.index())
-            );
-
-            NamedCommands.registerCommand(
-                "StartLaunchSlow",
-                m_launcher
-                    .setSpeedModifier(0.7)
-                    .andThen(m_launcher.launch())
-                    .alongWith(m_hood.endAutoTarget())
-                    .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
-                    .andThen(m_indexer.index())
+                    .alongWith(new WaitUntilCommand(m_launcher::isAtVelocity)
+                    .andThen(m_indexer.index()))
             );
 
             NamedCommands.registerCommand(
@@ -481,7 +471,7 @@ public class RobotContainer {
                     .off()
                     .alongWith(m_launcher.idle())
                     .alongWith(m_launcher.setSpeedModifier(1.0))
-                    .alongWith(m_hood.runProfileToPosition(0.0))
+                    .alongWith(m_hood.endAutoTarget())
             );
         }
     }

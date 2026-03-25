@@ -25,6 +25,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.controllers.UniversalController;
@@ -219,7 +220,9 @@ public class AutoTarget extends Command {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        CommandScheduler.getInstance().schedule(m_hood.endAutoTarget());
+    }
 
     // Returns true when the command should end.
     @Override

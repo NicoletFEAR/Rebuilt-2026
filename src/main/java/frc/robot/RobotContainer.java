@@ -472,7 +472,7 @@ public class RobotContainer {
                 m_launcher
                     .setSpeedModifier(0.7)
                     .andThen(m_launcher.launch())
-                    .alongWith(m_hood.endAutoTarget())
+                    .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub))
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(m_indexer.index())
             );
@@ -483,7 +483,7 @@ public class RobotContainer {
                     .off()
                     .alongWith(m_launcher.idle())
                     .alongWith(m_launcher.setSpeedModifier(1.0))
-                    .alongWith(m_hood.runProfileToPosition(0.0))
+                    .alongWith(m_hood.endAutoTarget())
             );
         }
     }

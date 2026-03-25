@@ -11,21 +11,41 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "StartIntake"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZT Bottom North - NZB Bottom North"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartIntake"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "NZT Bottom North - NZB Bottom North"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NZB Bottom North - Launch BB"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZB Bottom North - Launch BB"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndIntake"
+                }
+              }
+            ]
           }
         },
         {
@@ -48,6 +68,170 @@
                 "type": "named",
                 "data": {
                   "name": "EndLaunch"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "StartLaunch"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "EndLaunch"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "sequential",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "StartIntake"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 2.5
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "EndIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "sequential",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "StartIntake"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 2.5
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "EndIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "sequential",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "StartIntake"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 2.5
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "EndIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "sequential",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "StartIntake"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 2.5
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "EndIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "sequential",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "StartIntake"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 2.5
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "EndIntake"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 }
               }
             ]

@@ -393,12 +393,15 @@ public class RobotContainer {
      */
     public void autonomousInit() {
         m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-        m_driveBase.reinitializePoseEstimators();
-        CommandScheduler.getInstance().schedule(
-            m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub)
-            .alongWith(m_hood.runProfileToPosition(0.0d))
-            .alongWith(m_launcher.idle())
-        );
+    }
+
+    public Command autonomousInitCommand() {
+        return m_hood.runProfileToPosition(0.0d)
+            .alongWith(m_launcher.idle());
+    }
+
+    public Command adjustLauncherSpeedToHub() {
+        return m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub);
     }
 
     /**

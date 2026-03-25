@@ -186,19 +186,8 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void resetPose(Pose2d pose) {
-        m_poseEstimator.resetPosition(getYaw(), getModulePositions(), pose);
-    }
-
-    public void reinitializePoseEstimators() {
-        Rotation2d initialYaw = RobotContainer.getAlliance() == Alliance.Blue
-            ? Rotation2d.fromDegrees(0)
-            : Rotation2d.fromDegrees(180);
-
-        m_poseEstimator.resetPosition(initialYaw, getModulePositions(),
-            new Pose2d(m_poseEstimator.getEstimatedPosition().getTranslation(), initialYaw));
-
-        m_megaTag1PoseEstimator.resetPosition(initialYaw, getModulePositions(),
-            new Pose2d(m_megaTag1PoseEstimator.getEstimatedPosition().getTranslation(), initialYaw));
+        m_poseEstimator.resetPosition(getPigeonYaw(), getModulePositions(), pose);
+        m_megaTag1PoseEstimator.resetPosition(m_megaTag1PoseEstimator.getEstimatedPosition().getRotation(), getModulePositions(), pose);
     }
 
     public ChassisSpeeds getRobotRelativeSpeeds() {

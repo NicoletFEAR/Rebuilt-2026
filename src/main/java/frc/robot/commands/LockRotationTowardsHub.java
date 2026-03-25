@@ -112,7 +112,7 @@ public class LockRotationTowardsHub extends Command {
             DriveConstants.getSwerveDeadband()
         );
 
-        Translation2d target;
+        // Translation2d target;
 
         // if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
         //     if (m_driveBase.)

@@ -461,8 +461,8 @@ public class RobotContainer {
                 m_launcher
                     .launch()
                     .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub))
-                    .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
-                    .andThen(m_indexer.index())
+                    .alongWith(new WaitUntilCommand(m_launcher::isAtVelocity)
+                    .andThen(m_indexer.index()))
             );
 
             NamedCommands.registerCommand(

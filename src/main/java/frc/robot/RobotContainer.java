@@ -468,16 +468,6 @@ public class RobotContainer {
             );
 
             NamedCommands.registerCommand(
-                "StartLaunchSlow",
-                m_launcher
-                    .setSpeedModifier(0.7)
-                    .andThen(m_launcher.launch())
-                    .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub))
-                    .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
-                    .andThen(m_indexer.index())
-            );
-
-            NamedCommands.registerCommand(
                 "EndLaunch",
                 m_indexer
                     .off()

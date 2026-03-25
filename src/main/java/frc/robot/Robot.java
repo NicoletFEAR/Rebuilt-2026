@@ -9,10 +9,18 @@ package frc.robot;
 
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.containers.AbstractRobotContainer;
+import frc.robot.containers.KitbotRobotContainer;
+import frc.robot.containers.TuskRobotContainer;
+import frc.robot.containers.HadesRobotContainer;
+import frc.robot.containers.BotEnum;
+
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -30,7 +38,8 @@ import com.pathplanner.lib.commands.FollowPathCommand;
  * project.
  */
 public class Robot extends LoggedRobot {
-    private RobotContainer m_robotContainer;
+    
+    private AbstractRobotContainer m_robotContainer;
     private double m_autoStart;
     private boolean m_printedAutoTiming = false;
     private Command m_autonomousCommand;
@@ -67,14 +76,17 @@ public class Robot extends LoggedRobot {
             Logger.addDataReceiver(new WPILOGWriter());
             // Publish data to NetworkTables
             Logger.addDataReceiver(new NT4Publisher());
-        } else if (Constants.kIsReplay) {
+
+        } 
+        else if (Constants.kIsReplay) {
             // When replaying on a laptop, run unconstrained by RoboRIO hardware limitations
             setUseTiming(false);
             // Gets the path to the log file open in AdvantageScope
             String logPath = LogFileUtil.findReplayLog();
             Logger.setReplaySource(new WPILOGReader(logPath));
             Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
-        } else {
+        } 
+        else {
             // We don't need to keep log files during simulation
             Logger.addDataReceiver(new NT4Publisher());
         }
@@ -92,58 +104,115 @@ public class Robot extends LoggedRobot {
         // clogging up the driver station
         DriverStation.silenceJoystickConnectionWarning(true);
 
-        RoboRioSim.setTeamNumber(4786);
-        m_robotContainer = new RobotContainer();
+        createRobotContainer();
 
+        RoboRioSim.setTeamNumber(m_robotContainer.getTeamNumber());
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
+    }
+
+    public static int getTeamNumber() {
+        if (Robot.isReal())
+            return RobotController.getTeamNumber();
+        else
+            return BotEnum.TUSK.getTeamNumber();
+    }
+
+    public static Alliance getAlliance() {
+        Alliance alliance = null;
+
+        try {
+            alliance = DriverStation.getAlliance().get();
+            if (alliance == null)
+                alliance = Alliance.Blue;
+        }
+        catch (Exception e) {
+            alliance = Alliance.Blue;
+        }
+
+        return alliance;
+    }
+
+    private BotEnum getBotEnum() {
+        return BotEnum.fromTeamNumber(getTeamNumber());
+    }
+
+    private void createRobotContainer() {
+        switch (getBotEnum()) {
+            case KITBOT:
+                this.m_robotContainer = new KitbotRobotContainer(getAlliance());
+                break;
+            case HADES:
+                this.m_robotContainer = new HadesRobotContainer(getAlliance());
+                break;
+            case TUSK:
+            default:
+                this.m_robotContainer = new TuskRobotContainer(getAlliance());
+                break;
+        }
     }
 
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        m_robotContainer.periodic();
+        Command command = null;
+        
+        if (m_robotContainer != null)
+            command = m_robotContainer.getAutonomousCommand();
 
-        if (m_autonomousCommand != null) {
-            if (!m_autonomousCommand.isScheduled() && !m_printedAutoTiming) {
+        if (command != null) {
+            if (!command.isScheduled() && !m_printedAutoTiming) {
                 if (DriverStation.isAutonomousEnabled()) {
                     System.out.println("Auto finished in " + (Timer.getTimestamp() - m_autoStart) + " seconds");
                 } else {
                     System.out.println("Auto cancelled in " + (Timer.getTimestamp() - m_autoStart) + " seconds");
                 }
-
-                CommandScheduler.getInstance().schedule(m_robotContainer.stopLedAnimation());
                 m_printedAutoTiming = true;
             }
         }
+
+        if (m_robotContainer != null)
+            m_robotContainer.periodic();
     }
 
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+        if (m_robotContainer != null)
+            m_robotContainer.disabledInit();
+    }
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+        if (m_robotContainer != null)
+            m_robotContainer.disabledPeriodic();
+    }
 
     @Override
-    public void disabledExit() {}
+    public void disabledExit() {
+        if (m_robotContainer != null)
+            m_robotContainer.disabledExit();
+    }
 
     @Override
     public void autonomousInit() {
         m_autoStart = Timer.getTimestamp();
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-        if (m_autonomousCommand != null) {
-            CommandScheduler.getInstance().schedule(m_robotContainer.runAutoLedAnimation().alongWith(m_autonomousCommand));
+        if (m_robotContainer != null) {
+            CommandScheduler.getInstance().schedule(m_autonomousCommand);
+            m_robotContainer.autonomousInit();
         }
-
-        m_robotContainer.autonomousInit();
     }
 
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+        if (m_robotContainer != null)
+            m_robotContainer.autonomousPeriodic();
+    }
 
     @Override
     public void autonomousExit() {
-        m_robotContainer.autonomousExit();
+        if (m_robotContainer != null)
+            m_robotContainer.autonomousExit();
     }
 
     @Override
@@ -151,28 +220,38 @@ public class Robot extends LoggedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-
-        m_robotContainer.teleopInit();
+        
+        if (m_robotContainer != null)
+            m_robotContainer.teleopInit();
     }
 
     @Override
     public void teleopPeriodic() {
-        m_robotContainer.teleopPeriodic();
+        if (m_robotContainer != null)
+            m_robotContainer.teleopPeriodic();
     }
 
     @Override
     public void teleopExit() {
-        m_robotContainer.teleopExit();
+        if (m_robotContainer != null)
+            m_robotContainer.teleopExit();
     }
 
     @Override
     public void testInit() {
-        CommandScheduler.getInstance().cancelAll();
+        if (m_robotContainer != null)
+            m_robotContainer.testInit();
     }
 
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+        if (m_robotContainer != null)
+            m_robotContainer.testPeriodic();
+    }
 
     @Override
-    public void testExit() {}
+    public void testExit() {
+        if (m_robotContainer != null)
+            m_robotContainer.testExit();
+    }
 }

@@ -38,9 +38,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.RobotContainer;
 import frc.robot.util.LimelightCamera;
 import frc.robot.util.Utils;
 
@@ -118,7 +118,7 @@ public class SwerveDrive extends SubsystemBase {
 
         m_poseEstimator = new SwerveDrivePoseEstimator(
             m_kinematics,
-            RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
+            Robot.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
             getModulePositions(),
             new Pose2d(),
             VecBuilder.fill(0.1, 0.1, 0.0),
@@ -127,7 +127,7 @@ public class SwerveDrive extends SubsystemBase {
 
         m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(
             m_kinematics,
-            RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
+            Robot.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
             getModulePositions(),
             new Pose2d(),
             VecBuilder.fill(0.1, 0.1, 0.0001),
@@ -137,7 +137,8 @@ public class SwerveDrive extends SubsystemBase {
         m_pigeon.setYaw(0);
 
         m_field = new Field2d();
-        RobotContainer.m_mainTab.add(m_field).withPosition(6, 2).withSize(6, 3);
+        // TODO Fix this into the new structure
+        //RobotContainer.m_mainTab.add(m_field).withPosition(6, 2).withSize(6, 3);
 
         AutoBuilder.configure(
             this::getPose,
@@ -190,7 +191,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void reinitializePoseEstimators() {
-        Rotation2d initialYaw = RobotContainer.getAlliance() == Alliance.Blue
+        Rotation2d initialYaw = Robot.getAlliance() == Alliance.Blue
             ? Rotation2d.fromDegrees(0)
             : Rotation2d.fromDegrees(180);
 
@@ -261,7 +262,7 @@ public class SwerveDrive extends SubsystemBase {
 
     public Rotation2d getPigeonYaw() {
         if (RobotBase.isReal()) {
-            Rotation2d rotation = RobotContainer.getAlliance() == Alliance.Blue
+            Rotation2d rotation = Robot.getAlliance() == Alliance.Blue
                 ? m_pigeon.getRotation2d()
                 : m_pigeon.getRotation2d().plus(Rotation2d.fromDegrees(180));
 
@@ -308,7 +309,7 @@ public class SwerveDrive extends SubsystemBase {
                     ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())
                     : new ChassisSpeeds(throttle, strafe, steer);
                 
-                if (RobotContainer.getAlliance() == Alliance.Red) {
+                if (Robot.getAlliance() == Alliance.Red) {
                     m_chassisSpeeds.vxMetersPerSecond *= -1.0;
                     m_chassisSpeeds.vyMetersPerSecond *= -1.0;
                 }
@@ -366,7 +367,7 @@ public class SwerveDrive extends SubsystemBase {
     public void zeroGyro() {
         m_pigeon.setYaw(0);
 
-        if (RobotContainer.getAlliance() == Alliance.Blue) {
+        if (Robot.getAlliance() == Alliance.Blue) {
             m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(0), m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)));
         } else {
             m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(180), m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));

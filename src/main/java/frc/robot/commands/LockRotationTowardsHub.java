@@ -128,7 +128,7 @@ public class LockRotationTowardsHub extends Command {
         
         double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * LauncherConstants.getLaunchVelocity() * Math.PI;
         double fuelVerticalVelocity = estimatedFuelVelocity * Math.sin(5.0 * Math.PI / 24.0);
-        double fuelHorizontalVelocity = estimatedFuelVelocity * Math.cos(5.0 * Math.PI / 24.0);
+        // double fuelHorizontalVelocity = estimatedFuelVelocity * Math.cos(5.0 * Math.PI / 24.0);
         double timeToHub = (fuelVerticalVelocity + Math.sqrt(Math.pow(fuelVerticalVelocity, 2) + 19.62 * Meters.convertFrom(5.0, Feet))) / 9.81;
         ChassisSpeeds driveBaseSpeeds = m_driveBaseSpeeds.get();
         Logger.recordOutput("Time to hub", timeToHub);

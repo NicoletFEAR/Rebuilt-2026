@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.DeviceIds;
-import frc.robot.commands.LockRotationTowardsHub;
+import frc.robot.commands.AutoTarget;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.intake.IntakeDriver;
@@ -134,7 +134,7 @@ public class RobotContainer {
             .R2()
             .and(m_driverController.L2().negate())
             .whileTrue(
-                new LockRotationTowardsHub(
+                new AutoTarget(
                     m_driverController,
                     OperatorConstants.kThrottleAxis,
                     OperatorConstants.kStrafeAxis,
@@ -154,7 +154,7 @@ public class RobotContainer {
             .R2()
             .and(m_driverController.L2())
             .whileTrue(
-                new LockRotationTowardsHub(
+                new AutoTarget(
                     m_driverController,
                     OperatorConstants.kThrottleAxis,
                     OperatorConstants.kStrafeAxis,

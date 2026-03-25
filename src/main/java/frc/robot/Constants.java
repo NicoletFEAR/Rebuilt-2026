@@ -567,6 +567,9 @@ public final class Constants {
         public static double getLaunchVelocity() {
             return Double.parseDouble(m_properties.getProperty("launcher.launch-velocity"));
         }
+
+        public static final double kHoodPassingPosition = 0.84d;
+        public static final double kPassSpeedModifier = 1.0d;
     }
 
     public final class IndexerConstants {

@@ -32,7 +32,7 @@ import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
-public class LockRotationTowardsHub extends Command {
+public class AutoTarget extends Command {
     /** Creates a new TeleopSwerve. */
     private SwerveDrive m_driveBase;
 
@@ -56,7 +56,7 @@ public class LockRotationTowardsHub extends Command {
 
     private double m_percentModifier;
 
-    public LockRotationTowardsHub(
+    public AutoTarget(
         UniversalController driverController,
         int throttleAxis,
         int strafeAxis,
@@ -179,8 +179,8 @@ public class LockRotationTowardsHub extends Command {
                 m_launcher.setSpeedModifierDirect(speedModifier);
                 m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
             } else {
-                m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition());
-                m_launcher.setSpeedModifier(1.0d);
+                m_hood.runProfileToPosition(LauncherConstants.kHoodPassingPosition);
+                m_launcher.setSpeedModifier(LauncherConstants.kPassSpeedModifier);
             }
         } else {
             if (m_driveBase.getPose().getY() >= DriveConstants.kInAllianceZoneRed) {
@@ -198,8 +198,8 @@ public class LockRotationTowardsHub extends Command {
                 m_launcher.setSpeedModifierDirect(speedModifier);
                 m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
             } else {
-                m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition());
-                m_launcher.setSpeedModifier(1.0d);
+                m_hood.runProfileToPosition(LauncherConstants.kHoodPassingPosition);
+                m_launcher.setSpeedModifier(LauncherConstants.kPassSpeedModifier);
             }
         }
         // Adjust hood angle based on distance to hub

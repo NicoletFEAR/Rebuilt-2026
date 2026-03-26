@@ -133,7 +133,7 @@ public class Robot extends LoggedRobot {
 
         if (m_autonomousCommand != null) {
             // CommandScheduler.getInstance().schedule(m_robotContainer.autonomousInitCommand().andThen(m_robotContainer.adjustLauncherSpeedToHub().alongWith(m_autonomousCommand)));
-            CommandScheduler.getInstance().schedule(m_autonomousCommand.alongWith(m_robotContainer.autonomousInitCommand().andThen(m_robotContainer.adjustLauncherSpeedToHub())));
+            CommandScheduler.getInstance().schedule(m_autonomousCommand.alongWith(m_robotContainer.autonomousInitCommand().alongWith(m_robotContainer.adjustLauncherSpeedToHub())));
         }
 
         m_robotContainer.autonomousInit();

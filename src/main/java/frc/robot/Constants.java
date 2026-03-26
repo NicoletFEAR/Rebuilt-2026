@@ -496,6 +496,17 @@ public final class Constants {
             kAutoAimSpeeds.put(5.204873d, 1.0d);
         }
 
+        public static InterpolatingDoubleTreeMap kAutoAimTof = new InterpolatingDoubleTreeMap();
+        static {
+            // Still needs to be tuned
+            // These are just temporary test values from Mechanical Advantage
+            kAutoAimTof.put(1.38, 0.9);
+            kAutoAimTof.put(1.88, 1.09);
+            kAutoAimTof.put(3.15, 1.11);
+            kAutoAimTof.put(4.55, 1.12);
+            kAutoAimTof.put(5.68, 1.16);
+        }
+
         public static double getGearRatio() {
             return Double.parseDouble(m_properties.getProperty("launcher.gear-ratio"));
         }

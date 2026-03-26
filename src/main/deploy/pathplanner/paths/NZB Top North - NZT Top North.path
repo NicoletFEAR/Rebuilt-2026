@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 6.4,
-        "y": 7.45
+        "y": 6.8
       },
       "prevControl": {
         "x": 6.401621685136774,
-        "y": 6.805368254296226
+        "y": 6.155368254296226
       },
       "nextControl": null,
       "isLocked": false,
@@ -55,13 +55,13 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": -70.0
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": -65.0
   },
   "useDefaultConstraints": true

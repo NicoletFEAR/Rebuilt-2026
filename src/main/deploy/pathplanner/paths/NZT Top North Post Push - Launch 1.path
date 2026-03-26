@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 6.4,
-        "y": 7.45
+        "y": 6.8
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.374020227693899,
-        "y": 7.4523106630103895
+        "x": 6.359988738738739,
+        "y": 7.82438063063063
       },
       "isLocked": false,
       "linkedName": "NZT Top-North Post-Push"
@@ -47,7 +47,7 @@
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": -70.0
   },
   "useDefaultConstraints": true

@@ -57,6 +57,25 @@
                 "data": {
                   "pathName": "Spinning Death - Heaven"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Heaven - Bottom to Top"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Spinning Death - Heaven"
+                }
               }
             ]
           }

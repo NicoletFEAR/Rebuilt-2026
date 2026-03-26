@@ -113,36 +113,20 @@ public class LockRotationTowardsHub extends Command {
             DriveConstants.getSwerveDeadband()
         );
 
-        // Translation2d target;
-
-        // if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
-        //     if (m_driveBase.)
-        //     target = DriveConstants.kBlueHubPosition;
-        // } else {
-        //     target = DriveConstants.kRedHubPosition;
-        // }
-
         Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
             ? DriveConstants.kBlueHubPosition
             : DriveConstants.kRedHubPosition;
         
-        double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * LauncherConstants.getLaunchVelocity() * Math.PI;
-        double fuelVerticalVelocity = estimatedFuelVelocity * Math.sin(5.0 * Math.PI / 24.0);
-        double fuelHorizontalVelocity = estimatedFuelVelocity * Math.cos(5.0 * Math.PI / 24.0);
-        double timeToHub = (fuelVerticalVelocity + Math.sqrt(Math.pow(fuelVerticalVelocity, 2) + 19.62 * Meters.convertFrom(5.0, Feet))) / 9.81;
         ChassisSpeeds driveBaseSpeeds = m_driveBaseSpeeds.get();
-        Logger.recordOutput("Time to hub", timeToHub);
-        Logger.recordOutput("Fuel vertical velocity", fuelVerticalVelocity);
-        // target = target.minus(new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond).times(timeToHub));
+        double distanceToHub = m_driveBase.distanceToHub();
+        target = target.minus(new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond).times(LauncherConstants.kAutoAimTof.get(distanceToHub));
         Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
         Pose2d drivePose = m_driveBase.getPose();
-        double distanceToHub = m_driveBase.distanceToHub();
-        Logger.recordOutput("Ball landing", new Pose2d(drivePose.getTranslation().plus(new Translation2d(distanceToHub * drivePose.getRotation().getCos() + driveBaseSpeeds.vxMetersPerSecond * timeToHub, distanceToHub * drivePose.getRotation().getSin() + driveBaseSpeeds.vyMetersPerSecond * timeToHub)), new Rotation2d()));
+        
         double desiredAngle = Math.atan2(
-            target.getY() - m_driveBase.getPose().getTranslation().getY(),
-            target.getX() - m_driveBase.getPose().getTranslation().getX()
+            target.getY() - drivePose.getTranslation().getY(),
+            target.getX() - drivePose.getTranslation().getX()
         );
-        Logger.recordOutput("Ideal robot", new Pose2d(drivePose.getTranslation(), new Rotation2d(desiredAngle)));
 
         // Always run the PID — no dead zone cutoff that causes oscillation
         m_steer = m_steerController.calculate(m_driveBase.getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180;
@@ -163,7 +147,10 @@ public class LockRotationTowardsHub extends Command {
         // Adjust launcher speed based on distance to hub
         double speedModifier = MathUtil.clamp(
             LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
-            m_launcher.getMinSpeedModifier(), 1.0);
+            m_launcher.getMinSpeedModifier(),
+            1.0
+        );
+        
         m_launcher.setSpeedModifierDirect(speedModifier);
         m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
     }

@@ -7,11 +7,6 @@
 
 package frc.robot.commands;
 
-import static edu.wpi.first.units.Units.Feet;
-import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.Meters;
-
-import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import org.littletonrobotics.junction.Logger;
@@ -48,7 +43,6 @@ public class LockRotationTowardsHub extends Command {
     private PIDController m_steerController = new PIDController(DriveConstants.getAutoTargetKP(), DriveConstants.getAutoTargetKI(), DriveConstants.getAutoTargetKD());
 
     private Supplier<ChassisSpeeds> m_driveBaseSpeeds;
-    private DoubleSupplier m_distanceToHub;
     private Hood m_hood;
     private Launcher m_launcher;
 
@@ -66,7 +60,6 @@ public class LockRotationTowardsHub extends Command {
         boolean isFieldRelative,
         SwerveDrive driveBase,
         Supplier<ChassisSpeeds> driveBaseSpeeds,
-        DoubleSupplier distanceToHub,
         Hood hood,
         Launcher launcher) {
         m_driverController = driverController;
@@ -83,7 +76,6 @@ public class LockRotationTowardsHub extends Command {
         m_driveBase = driveBase;
 
         m_driveBaseSpeeds = driveBaseSpeeds;
-        m_distanceToHub = distanceToHub;
         m_hood = hood;
         m_launcher = launcher;
         
@@ -118,14 +110,19 @@ public class LockRotationTowardsHub extends Command {
             : DriveConstants.kRedHubPosition;
         
         ChassisSpeeds driveBaseSpeeds = m_driveBaseSpeeds.get();
-        double distanceToHub = m_driveBase.distanceToHub();
-        target = target.minus(new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond).times(LauncherConstants.kAutoAimTof.get(distanceToHub));
-        Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
         Pose2d drivePose = m_driveBase.getPose();
+
+        double distance = Math.hypot(
+            target.getY() - drivePose.getY(),
+            target.getX() - drivePose.getX()
+        );
+
+        target = target.minus(new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond).times(LauncherConstants.kAutoAimTof.get(distance)));
+        Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
         
         double desiredAngle = Math.atan2(
-            target.getY() - drivePose.getTranslation().getY(),
-            target.getX() - drivePose.getTranslation().getX()
+            target.getY() - drivePose.getY(),
+            target.getX() - drivePose.getX()
         );
 
         // Always run the PID — no dead zone cutoff that causes oscillation
@@ -139,14 +136,14 @@ public class LockRotationTowardsHub extends Command {
 
         // Adjust hood angle based on distance to hub
         m_hood.runToPosition(MathUtil.clamp(
-            LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
+            LauncherConstants.kAutoAimHoodPositions.get(distance),
             LauncherConstants.getHoodMinPosition(),
             LauncherConstants.getHoodMaxPosition()
         ));
 
         // Adjust launcher speed based on distance to hub
         double speedModifier = MathUtil.clamp(
-            LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
+            LauncherConstants.kAutoAimSpeeds.get(distance),
             m_launcher.getMinSpeedModifier(),
             1.0
         );

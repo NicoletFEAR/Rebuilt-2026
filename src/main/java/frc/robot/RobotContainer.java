@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.LockRotationTowardsHub;
 import frc.robot.commands.TeleopSwerve;
@@ -241,12 +242,14 @@ public class RobotContainer {
             // Good speed for shooting from the middle of the alliance zone generally -- cross button of operator controller
             m_operatorController
                 .cross()
-                .onTrue(m_launcher.setSpeedModifier(0.7));
+                .onTrue(m_launcher.setSpeedModifier(0.7)
+                .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMinPosition())));
             
             // Good speed for shooting from the trench -- triangle button of operator controller
             m_operatorController
                 .triangle()
-                .onTrue(m_launcher.setSpeedModifier(1.0));
+                .onTrue(m_launcher.setSpeedModifier(1.0)
+                .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition())));
 
             // Control the climb manually -- left and right bumpers of operator controller
             // m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {

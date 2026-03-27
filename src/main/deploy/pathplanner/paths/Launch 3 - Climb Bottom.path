@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.203,
-        "y": 0.65
+        "x": 3.961426533523537,
+        "y": 0.6386019971469341
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.777881192788225,
-        "y": 1.6705748113927257
+        "x": 2.5363077263117626,
+        "y": 1.65917680853966
       },
       "isLocked": false,
       "linkedName": "Launch 3"
@@ -48,7 +48,7 @@
   "folder": "Start O and Outpost Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 66.78413838507123
+    "rotation": 76.38022942194044
   },
   "useDefaultConstraints": true
 }

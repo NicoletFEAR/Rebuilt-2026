@@ -147,7 +147,7 @@ public class SwerveDrive extends SubsystemBase {
 
             new PPHolonomicDriveController(
                 new PIDConstants(DriveConstants.getDriveKP(), DriveConstants.getDriveKI(), DriveConstants.getDriveKD()),
-                new PIDConstants(DriveConstants.getTurnKP(), DriveConstants.getTurnKI(), DriveConstants.getTurnKD())),
+                new PIDConstants(5.0, 0.0, 0.0)),
 
             DriveConstants.kRobotConfig,
 

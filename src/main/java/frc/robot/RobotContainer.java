@@ -242,14 +242,14 @@ public class RobotContainer {
             // Good speed for shooting from the middle of the alliance zone generally -- cross button of operator controller
             m_operatorController
                 .cross()
-                .onTrue(m_launcher.setSpeedModifier(0.7)
-                .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMinPosition())));
+                .onTrue(m_launcher.setSpeedModifier(0.7));
             
             // Good speed for shooting from the trench -- triangle button of operator controller
             m_operatorController
                 .triangle()
                 .onTrue(m_launcher.setSpeedModifier(1.0)
-                .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition())));
+                .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition())))
+                .onFalse(m_hood.runProfileToPosition(LauncherConstants.getHoodMinPosition()));
 
             // Control the climb manually -- left and right bumpers of operator controller
             // m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {

@@ -11,15 +11,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "StartIntake"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZT Top-South - NZT Bottom-South"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "NZT Top-South - NZT Bottom-South"
+            "name": "EndIntake"
           }
         },
         {
@@ -60,9 +73,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "NZT Bottom-North - NZT Top-North Post-Push"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZT Bottom-North - NZT Top-North Post-Push"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "EndIntake"
           }
         },
         {

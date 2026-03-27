@@ -8,42 +8,28 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.859444444444445,
-        "y": 5.467433333333333
+        "x": 3.3295666666666666,
+        "y": 6.6659999999999995
       },
       "isLocked": false,
       "linkedName": "Launch TB"
     },
     {
       "anchor": {
-        "x": 6.4,
-        "y": 4.65
+        "x": 3.326441441441442,
+        "y": 7.426036036036035
       },
       "prevControl": {
-        "x": 5.1907555555555565,
-        "y": 5.457688888888888
+        "x": 2.6766888888888887,
+        "y": 7.523511111111111
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NZB Top-North"
+      "linkedName": "Pre-Trench D"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.7647058823529423,
-      "constraints": {
-        "maxVelocity": 4.4,
-        "maxAcceleration": 4.4,
-        "maxAngularVelocity": 270.0,
-        "maxAngularAcceleration": 360.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -55,8 +41,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": -65.0
+    "velocity": 4.7,
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Comp",

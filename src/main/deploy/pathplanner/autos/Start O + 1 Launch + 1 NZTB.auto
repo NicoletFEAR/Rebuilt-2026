@@ -15,198 +15,52 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "NZT Bottom North - NZB Bottom North"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "StartIntake"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZT Bottom North - NZB Bottom North"
+                }
               }
             ]
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
+          "data": {
+            "name": "EndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZB Bottom North - Launch BB"
+          }
+        },
+        {
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "NZB Bottom North - Launch BB"
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "EndIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "StartLaunch"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "EndLaunch"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "StartIntake"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 2.5
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "EndIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "StartIntake"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 2.5
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "EndIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "StartIntake"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 2.5
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "EndIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "StartIntake"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 2.5
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "EndIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "StartIntake"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 2.5
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "EndIntake"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                  "name": "EndLaunch"
                 }
               }
             ]

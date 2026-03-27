@@ -57,6 +57,25 @@
                 "data": {
                   "pathName": "Spinning Death - Hell"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Hell - Top to Bottom"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Spinning Death - Hell"
+                }
               }
             ]
           }

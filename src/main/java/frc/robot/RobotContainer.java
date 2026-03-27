@@ -393,6 +393,7 @@ public class RobotContainer {
      */
     public void autonomousInit() {
         m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+        m_driveBase.reinitializePoseEstimators();
     }
 
     public Command autonomousInitCommand() {
@@ -443,7 +444,7 @@ public class RobotContainer {
      * any necessary cleanup for the teleop period
      */
     public void teleopExit() {
-        m_hood.runProfileToPosition(0.0d);
+        CommandScheduler.getInstance().schedule(m_hood.runProfileToPosition(0.0d));
     }
 
     private void createNamedCommands() {

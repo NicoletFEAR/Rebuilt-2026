@@ -11,22 +11,15 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "NZT Bottom North - NZB Bottom North"
-                }
-              }
-            ]
+            "name": "StartIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NZT Bottom North - NZB Bottom North"
           }
         },
         {

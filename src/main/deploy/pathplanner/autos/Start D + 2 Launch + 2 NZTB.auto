@@ -46,15 +46,22 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "deadline",
                 "data": {
-                  "name": "StartLaunch"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.5
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "StartLaunch"
+                      }
+                    }
+                  ]
                 }
               },
               {

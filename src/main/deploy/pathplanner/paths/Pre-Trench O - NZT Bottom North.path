@@ -35,7 +35,18 @@
     }
   ],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.639,
+        "y": 4.033
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.17285617825793723,
+      "maxWaypointRelativePos": 0.7157326130992596,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.7,

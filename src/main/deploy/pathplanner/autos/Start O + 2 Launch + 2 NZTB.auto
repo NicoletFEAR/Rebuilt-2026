@@ -11,34 +11,34 @@
           }
         },
         {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "NZT Bottom North - NZB Bottom North"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "EndIntake"
+            "name": "StartIntake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NZB Bottom North - Launch BB"
+            "pathName": "NZT Bottom North - NZB Bottom North"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZB Bottom North - Launch BB"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndIntake"
+                }
+              }
+            ]
           }
         },
         {
@@ -46,15 +46,22 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "deadline",
                 "data": {
-                  "name": "StartLaunch"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.5
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "StartLaunch"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -79,34 +86,34 @@
           }
         },
         {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Hairpin Bottom"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "EndIntake"
+            "name": "StartIntake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Hairpin Bottom - Launch BB"
+            "pathName": "NZT Bottom North - NZB Bottom North"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZB Bottom North - Launch BB"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndIntake"
+                }
+              }
+            ]
           }
         },
         {

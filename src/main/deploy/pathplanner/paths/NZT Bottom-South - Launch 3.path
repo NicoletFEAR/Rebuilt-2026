@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.0535698198198205,
-        "y": 0.5724662162162165
+        "x": 7.810371621621622,
+        "y": 0.3171171171171181
       },
       "isLocked": false,
       "linkedName": "NZT Bottom-South"
@@ -47,7 +47,7 @@
   "reversed": false,
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": 66.78
   },
   "useDefaultConstraints": true

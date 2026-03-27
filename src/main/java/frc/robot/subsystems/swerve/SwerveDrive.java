@@ -186,7 +186,8 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void resetPose(Pose2d pose) {
-        m_poseEstimator.resetPosition(getYaw(), getModulePositions(), pose);
+        m_poseEstimator.resetPosition(getPigeonYaw(), getModulePositions(), pose);
+        m_megaTag1PoseEstimator.resetPosition(m_megaTag1PoseEstimator.getEstimatedPosition().getRotation(), getModulePositions(), pose);
     }
 
     public void reinitializePoseEstimators() {

@@ -20,15 +20,20 @@
         "y": 1.061
       },
       "prevControl": {
-        "x": 5.414877777777779,
-        "y": 0.4490444444444437
+        "x": 6.5438400900900895,
+        "y": 0.38861486486486574
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "NZT Bottom-North Post-Push"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4679564691656589,
+      "rotationDegrees": 66.784
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -41,14 +46,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": -65.0
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 66.78413838507123
+    "rotation": 66.784
   },
   "useDefaultConstraints": true
 }

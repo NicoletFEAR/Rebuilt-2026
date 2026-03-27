@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.989,
-        "y": 4.0
+        "x": 3.0169044222539223,
+        "y": 2.501768901569187
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.989,
-        "y": 3.0
+        "x": 3.0479485813916622,
+        "y": 1.0893071643683627
       },
       "isLocked": false,
-      "linkedName": "Start T - Slight Back"
+      "linkedName": "Launch BB"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.6643918918918927
       },
       "prevControl": {
-        "x": 2.5706081081081082,
-        "y": 0.592894144144144
+        "x": 2.9300444444444445,
+        "y": 0.6829111111111102
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 42.87890360333854
   },
   "useDefaultConstraints": true
 }

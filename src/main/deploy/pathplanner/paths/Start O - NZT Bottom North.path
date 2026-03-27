@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.607033333333333,
-        "y": 0.6352111111111108
+        "x": 5.607033031229744,
+        "y": 0.6352218945281244
       },
       "isLocked": false,
       "linkedName": "Start O NZT"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 7.73,
-        "y": 1.061
+        "y": 1.2
       },
       "prevControl": {
-        "x": 6.560666666666667,
-        "y": 0.7589222222222207
+        "x": 7.892083333333334,
+        "y": 0.3948333333333337
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,7 +41,7 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": -65.0
   },
   "reversed": false,

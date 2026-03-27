@@ -177,6 +177,7 @@ public class AutoTarget extends Command {
                 double speedModifier = MathUtil.clamp(
                     LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
                     m_launcher.getMinSpeedModifier(), 1.0);
+                speedModifier *= 1.05;
                 m_launcher.setSpeedModifierDirect(speedModifier);
                 m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
             } else {
@@ -197,6 +198,7 @@ public class AutoTarget extends Command {
                 double speedModifier = MathUtil.clamp(
                     LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
                     m_launcher.getMinSpeedModifier(), 1.0);
+                speedModifier *= 1.05;
                 m_launcher.setSpeedModifierDirect(speedModifier);
                 m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
             } else {
@@ -205,6 +207,8 @@ public class AutoTarget extends Command {
                 m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * LauncherConstants.kPassSpeedModifier);
             }
         }
+
+        
     }
 
     // Called once the command ends or is interrupted.

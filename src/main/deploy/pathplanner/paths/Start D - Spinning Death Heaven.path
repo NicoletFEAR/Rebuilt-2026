@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.989,
-        "y": 4.0
+        "x": 4.35,
+        "y": 7.44
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.989,
-        "y": 3.0
+        "x": 5.35,
+        "y": 7.44
       },
       "isLocked": false,
-      "linkedName": "Start T - Slight Back"
+      "linkedName": "Spinning Death Start D"
     },
     {
       "anchor": {
-        "x": 3.510292792792793,
-        "y": 0.6643918918918927
+        "x": 7.714566666666666,
+        "y": 6.792677777777778
       },
       "prevControl": {
-        "x": 2.5706081081081082,
-        "y": 0.592894144144144
+        "x": 7.880222222222223,
+        "y": 7.7963555555555555
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Pre-Trench O"
+      "linkedName": "Spinning Death - Heaven Top"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 4.7,
-    "rotation": 0.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

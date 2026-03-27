@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.989,
-        "y": 5.0
+        "x": 2.9280968468468473,
+        "y": 5.087038288288288
       },
       "isLocked": false,
       "linkedName": "Start T - Slight Back"
     },
     {
       "anchor": {
-        "x": 2.989,
-        "y": 7.416322222222221
+        "x": 3.326441441441442,
+        "y": 7.426036036036035
       },
       "prevControl": {
-        "x": 2.989,
-        "y": 6.416322222222221
+        "x": 2.5603941441441447,
+        "y": 7.64052927927928
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,7 +41,7 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 4.7,
     "rotation": 0.0
   },
   "reversed": false,

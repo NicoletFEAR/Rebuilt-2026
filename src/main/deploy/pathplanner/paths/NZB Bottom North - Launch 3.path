@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.989,
-        "y": 4.0
+        "x": 7.73,
+        "y": 3.45
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.989,
-        "y": 3.0
+        "x": 7.4678031383737515,
+        "y": 0.44452211126961494
       },
       "isLocked": false,
-      "linkedName": "Start T - Slight Back"
+      "linkedName": "NZB Bottom-North"
     },
     {
       "anchor": {
-        "x": 3.510292792792793,
-        "y": 0.6643918918918927
+        "x": 3.203,
+        "y": 0.65
       },
       "prevControl": {
-        "x": 2.5706081081081082,
-        "y": 0.592894144144144
+        "x": 5.319985734664764,
+        "y": 0.48333808844507875
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Pre-Trench O"
+      "linkedName": "Launch 3"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.49893390191898174,
+      "rotationDegrees": 66.78
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -41,14 +46,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 4.7,
-    "rotation": 0.0
+    "velocity": 0,
+    "rotation": 66.78413838507123
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -65.0
   },
   "useDefaultConstraints": true
 }

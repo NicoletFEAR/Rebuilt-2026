@@ -11,15 +11,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "StartIntake"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZT Top South - NZB Top South"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "NZT Top South - NZB Top South"
+            "name": "EndIntake"
           }
         },
         {
@@ -56,19 +69,44 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Launch TB - NZB Top North"
+            "pathName": "Launch TB - Pre Trench D"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NZB Top North - NZT Top North"
+            "pathName": "Pre-Trench D - NZT Top South"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Hairpin Top"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "EndIntake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Top North Post Push - Launch 1"
+            "pathName": "Hairpin Top End - Launch TB"
           }
         },
         {

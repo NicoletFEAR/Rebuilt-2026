@@ -20,15 +20,20 @@
         "y": 6.938844444444444
       },
       "prevControl": {
-        "x": 5.531811111111112,
-        "y": 7.513766666666667
+        "x": 6.421272522522522,
+        "y": 7.5383896396396395
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "NZT Top-South Post-Push"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.37605804111245456,
+      "rotationDegrees": -62.93399999999999
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -41,14 +46,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": 65.0
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -62.93424938861828
+    "rotation": -62.93399999999999
   },
   "useDefaultConstraints": true
 }

@@ -393,7 +393,6 @@ public class RobotContainer {
      */
     public void autonomousInit() {
         m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-        m_driveBase.reinitializePoseEstimators();
     }
 
     public Command autonomousInitCommand() {

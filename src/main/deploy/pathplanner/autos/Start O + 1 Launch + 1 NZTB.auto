@@ -23,15 +23,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "EndIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NZB Bottom North - Launch BB"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NZB Bottom North - Launch BB"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndIntake"
+                }
+              }
+            ]
           }
         },
         {

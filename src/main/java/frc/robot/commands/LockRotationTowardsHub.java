@@ -144,10 +144,8 @@ public class LockRotationTowardsHub extends Command {
         // Adjust launcher speed based on distance to hub
         double speedModifier = MathUtil.clamp(
             LauncherConstants.kAutoAimSpeeds.get(distance),
-            m_launcher.getMinSpeedModifier(),
-            1.0
-        );
-        
+            m_launcher.getMinSpeedModifier(), 1.0);
+        speedModifier *= 1.05;
         m_launcher.setSpeedModifierDirect(speedModifier);
         m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
     }

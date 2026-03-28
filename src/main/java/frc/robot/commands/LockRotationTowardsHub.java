@@ -164,7 +164,7 @@ public class LockRotationTowardsHub extends Command {
         double speedModifier = MathUtil.clamp(
             LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
             m_launcher.getMinSpeedModifier(), 1.0);
-        speedModifier *= DriverStation.isAutonomous() ? 1.20 : 1.1;
+        speedModifier *= DriverStation.isAutonomous() ? 1.25 : 1.1;
         m_launcher.setSpeedModifierDirect(speedModifier);
         m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
 

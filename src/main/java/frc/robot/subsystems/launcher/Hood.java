@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
@@ -104,14 +105,10 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         return Commands.runOnce(() -> m_endAutoTarget = true).andThen(runProfileToPosition(0.0));
     }
 
-    public void autoAim(DoubleSupplier distance) {
-        while (!m_endAutoTarget) {
-            runToPosition(MathUtil.clamp(LauncherConstants.kAutoAimHoodPositions.get(distance.getAsDouble()), m_minPosition, m_maxPosition));
-        }
-    }
-
     public Command adjustToHubDistance(DoubleSupplier distance) {
-        return new InstantCommand(() -> autoAim(distance));
+        return new RunCommand(() -> {
+            runToPosition(MathUtil.clamp(LauncherConstants.kAutoAimHoodPositions.get(distance.getAsDouble()), m_minPosition, m_maxPosition));
+        }).until(() -> m_endAutoTarget);
     }
 
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {

@@ -25,6 +25,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Robot;
 import frc.robot.subsystems.swerve.SwerveDrive;
 import frc.robot.util.DeviceConfigurator;
 
@@ -43,7 +44,6 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     public Hood(SwerveDrive driveBase) {
         m_motor = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
         m_encoder = new CANcoder(DeviceIds.getHoodEncoderID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-
         SparkMaxConfig config = new SparkMaxConfig();
         config.closedLoop
             .p(LauncherConstants.getHoodKP())
@@ -72,6 +72,10 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     }
 
     public double getPosition() {
+        if (Robot.isSimulation()) {
+            return m_desiredPosition;
+        }
+        
         return m_encoder.getAbsolutePosition().getValueAsDouble();
     }
 

@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.922610556348074,
-        "y": 7.4572753209700435
+        "x": 7.0,
+        "y": 0.575722222222222
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0282486361419174,
-        "y": 6.954857866872117
+        "x": 6.037561054086043,
+        "y": 0.6029606201178537
       },
       "isLocked": false,
-      "linkedName": "Launch 1"
+      "linkedName": "Pre-Launch 3 Far"
     },
     {
       "anchor": {
-        "x": 1.1,
-        "y": 5.95
+        "x": 3.961426533523537,
+        "y": 0.6386019971469341
       },
       "prevControl": {
-        "x": 1.9656678829809628,
-        "y": 6.54761732159284
+        "x": 6.098271792683681,
+        "y": 0.5940682183489769
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot Middle"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6946058091286335,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 83.24640399798929
   },
   "reversed": false,
-  "folder": "Start D and Depot Paths",
+  "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -151.8318987397099
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.953094790582308,
+        "x": 4.953094790582309,
         "y": 7.574167212861935
       },
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -80.53767779197439
+    "rotation": -151.8318987397099
   },
   "useDefaultConstraints": true
 }

@@ -27,9 +27,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "NZB Bottom North - Launch 3"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "NZB Bottom North - Pre-Launch 3"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Pre-Launch 3 - Launch 3"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -89,15 +102,28 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "NZB Bottom North Far - Launch 3"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "EndIntake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "NZB Bottom North Far - Pre-Launch 3 Far"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Pre-Launch 3 Far - Launch 3"
+                      }
+                    }
+                  ]
                 }
               }
             ]

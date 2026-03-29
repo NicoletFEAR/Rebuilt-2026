@@ -41,7 +41,6 @@
   "bumperOffsetY": 0.0,
   "robotFeatures": [
     "{\"name\":\"Launcher\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.21,\"y\":0.087},\"size\":{\"width\":0.4953,\"length\":0.234},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":true}}",
-    "{\"name\":\"Climb\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.0,\"y\":-0.254},\"size\":{\"width\":0.1524,\"length\":0.2667},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":true}}",
     "{\"name\":\"Frame Perimeter\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.0},\"size\":{\"width\":0.6604,\"length\":0.66},\"borderRadius\":0.0,\"strokeWidth\":0.02,\"filled\":false}}",
     "{\"name\":\"Intake\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.371,\"y\":0.0},\"size\":{\"width\":0.68,\"length\":0.0810006},\"borderRadius\":0.0,\"strokeWidth\":0.02,\"filled\":true}}"
   ]

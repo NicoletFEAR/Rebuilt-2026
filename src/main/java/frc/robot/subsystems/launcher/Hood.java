@@ -1,6 +1,5 @@
 package frc.robot.subsystems.launcher;
 
-import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import org.littletonrobotics.junction.Logger;
@@ -20,27 +19,28 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.architecture.SubsystemInterfaces.PositionSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.swerve.SwerveDrive;
 import frc.robot.util.DeviceConfigurator;
 
 public class Hood extends SubsystemBase implements PositionSubsystem {
     private SparkMax m_motor;
     private CANcoder m_encoder;
     private PIDController m_pidController;
+    private SwerveDrive m_driveBase;
 
     private double m_desiredPosition;
     private double m_minPosition;
     private double m_maxPosition;
 
-    private boolean m_endAutoTarget;
+    private boolean m_autoTargeting;
 
-    public Hood() {
+    public Hood(SwerveDrive driveBase) {
         m_motor = new SparkMax(DeviceIds.getHoodID(), MotorType.kBrushed);
         m_encoder = new CANcoder(DeviceIds.getHoodEncoderID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
 
@@ -65,6 +65,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         m_maxPosition = LauncherConstants.getHoodMaxPosition();
 
         m_motor.getEncoder().setPosition(getPosition());
+        m_driveBase = driveBase;
 
         SmartDashboard.putData("MechSettings/Launcher/Hood/Reset Min Hood Position", new InstantCommand(() -> m_minPosition = getPosition()));
         SmartDashboard.putData("MechSettings/Launcher/Hood/Reset Max Hood Position", new InstantCommand(() -> m_maxPosition = getPosition()));
@@ -102,13 +103,11 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
     }
 
     public Command endAutoTarget() {
-        return Commands.runOnce(() -> m_endAutoTarget = true).andThen(runProfileToPosition(0.0));
+        return Commands.runOnce(() -> m_autoTargeting = false).andThen(runProfileToPosition(0.0));
     }
 
-    public Command adjustToHubDistance(DoubleSupplier distance) {
-        return new RunCommand(() -> {
-            runToPosition(MathUtil.clamp(LauncherConstants.kAutoAimHoodPositions.get(distance.getAsDouble()), m_minPosition, m_maxPosition));
-        }).until(() -> m_endAutoTarget);
+    public Command adjustToHubDistance() {
+        return new InstantCommand(() -> m_autoTargeting = true);
     }
 
     public void manualControl(Supplier<Double> throttle, boolean limitOverrideMode) {
@@ -132,6 +131,10 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
 
     @Override
     public void periodic() {
+        if (m_autoTargeting) {
+            runToPosition(MathUtil.clamp(LauncherConstants.kAutoAimHoodPositions.get(m_driveBase.distanceToHub()), m_minPosition, m_maxPosition));
+        }
+
         Logger.recordOutput("Launcher/Hood/Desired Position", m_desiredPosition);
         Logger.recordOutput("Launcher/Hood/Position", getPosition());
         Logger.recordOutput("Launcher/Hood/Current", m_motor.getOutputCurrent());

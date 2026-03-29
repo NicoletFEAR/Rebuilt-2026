@@ -76,7 +76,7 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("tusk")) {
             m_launcher = new Launcher();
             m_indexer = new Indexer();
-            m_hood = new Hood();
+            m_hood = new Hood(m_driveBase);
             // m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
@@ -466,7 +466,7 @@ public class RobotContainer {
                 "StartLaunch",
                 m_launcher
                     .launch()
-                    .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub))
+                    .alongWith(m_hood.adjustToHubDistance())
                     .alongWith(new WaitUntilCommand(m_launcher::isAtVelocity)
                     .andThen(m_indexer.index()))
             );

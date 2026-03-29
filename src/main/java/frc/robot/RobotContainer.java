@@ -468,7 +468,8 @@ public class RobotContainer {
                     .launch()
                     .alongWith(m_hood.adjustToHubDistance())
                     .alongWith(new WaitUntilCommand(m_launcher::isAtVelocity)
-                    .andThen(m_indexer.index()))
+                    .andThen(m_indexer.index()
+                    .alongWith(m_intakeDriver.intake())))
             );
 
             NamedCommands.registerCommand(
@@ -478,6 +479,8 @@ public class RobotContainer {
                     .alongWith(m_launcher.idle())
                     .alongWith(m_launcher.setSpeedModifier(1.0))
                     .alongWith(m_hood.endAutoTarget())
+                    .alongWith(m_intakeDriver.off())
+                    .alongWith(m_intakePivot.in())
             );
         }
     }

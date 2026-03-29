@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 2.5363077263117626,
-        "y": 1.65917680853966
+        "y": 1.6591768085396599
       },
       "isLocked": false,
       "linkedName": "Launch 3"
@@ -48,7 +48,7 @@
   "folder": "Start O and Outpost Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 76.38022942194044
+    "rotation": 83.24640399798929
   },
   "useDefaultConstraints": true
 }

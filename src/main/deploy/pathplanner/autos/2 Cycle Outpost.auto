@@ -60,7 +60,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Launch 3 - NZT Bottom North"
+                  "pathName": "Launch 3 - NZT Bottom North Close"
                 }
               },
               {
@@ -81,7 +81,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NZT Bottom North - NZB Bottom North"
+            "pathName": "NZT Bottom North - NZB Bottom North Far"
           }
         },
         {
@@ -91,7 +91,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "NZB Bottom North - Launch 3"
+                  "pathName": "NZB Bottom North Far - Launch 3"
                 }
               },
               {

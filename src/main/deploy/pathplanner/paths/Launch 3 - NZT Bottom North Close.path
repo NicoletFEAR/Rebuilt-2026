@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.35,
-        "y": 0.6
+        "x": 3.961426533523537,
+        "y": 0.6386019971469341
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.607033031229744,
-        "y": 0.6352218945281244
+        "x": 4.961426533523538,
+        "y": 0.6386019971469343
       },
       "isLocked": false,
-      "linkedName": "Start O NZT"
+      "linkedName": "Launch 3"
     },
     {
       "anchor": {
-        "x": 7.7,
+        "x": 7.0,
         "y": 1.2
       },
       "prevControl": {
-        "x": 7.8620833333333335,
-        "y": 0.3948333333333337
+        "x": 6.937318116975749,
+        "y": 0.4574607703281026
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NZT Bottom-North"
+      "linkedName": "NZT Bottom North Close"
     }
   ],
   "rotationTargets": [],
@@ -48,7 +48,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 83.24640399798929
   },
   "useDefaultConstraints": true
 }

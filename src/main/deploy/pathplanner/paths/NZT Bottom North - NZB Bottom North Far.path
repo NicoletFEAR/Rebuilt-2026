@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.35,
-        "y": 0.6
+        "x": 7.0,
+        "y": 1.2
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.607033031229744,
-        "y": 0.6352218945281244
+        "x": 7.0,
+        "y": 2.2
       },
       "isLocked": false,
-      "linkedName": "Start O NZT"
+      "linkedName": "NZT Bottom North Close"
     },
     {
       "anchor": {
-        "x": 7.7,
-        "y": 1.2
+        "x": 7.0,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 7.8620833333333335,
-        "y": 0.3948333333333337
+        "x": 7.0,
+        "y": 3.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NZT Bottom-North"
+      "linkedName": "NZB Bottom North Far"
     }
   ],
   "rotationTargets": [],
@@ -33,22 +33,22 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.5,
+    "velocity": 0,
     "rotation": -65.0
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": -90.0
+    "velocity": 2.5,
+    "rotation": -65.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

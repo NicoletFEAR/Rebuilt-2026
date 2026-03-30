@@ -177,10 +177,11 @@ public class AutoTarget extends Command {
                 double speedModifier = MathUtil.clamp(
                     LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
                     m_launcher.getMinSpeedModifier(), 1.0);
+                speedModifier *= 1.05;
                 m_launcher.setSpeedModifierDirect(speedModifier);
                 m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
             } else {
-                CommandScheduler.getInstance().schedule(m_hood.runProfileToPosition(LauncherConstants.kHoodPassingPosition));
+                m_hood.runToPosition(LauncherConstants.kHoodPassingPosition);
                 m_launcher.setSpeedModifierDirect(LauncherConstants.kPassSpeedModifier);
                 m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * LauncherConstants.kPassSpeedModifier);
             }
@@ -203,7 +204,7 @@ public class AutoTarget extends Command {
 
         
             } else {
-                CommandScheduler.getInstance().schedule(m_hood.runProfileToPosition(LauncherConstants.kHoodPassingPosition));
+                m_hood.runToPosition(LauncherConstants.kHoodPassingPosition);
                 m_launcher.setSpeedModifierDirect(LauncherConstants.kPassSpeedModifier);
                 m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * LauncherConstants.kPassSpeedModifier);
             }

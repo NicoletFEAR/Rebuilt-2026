@@ -57,7 +57,7 @@ public class AutoTarget extends Command {
 
     private double m_percentModifier;
 
-    public AutoTarget(
+    public AutoTarget (
         UniversalController driverController,
         int throttleAxis,
         int strafeAxis,

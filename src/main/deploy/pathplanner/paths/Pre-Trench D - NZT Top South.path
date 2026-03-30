@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.989,
-        "y": 7.416322222222221
+        "x": 3.326441441441442,
+        "y": 7.426036036036035
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.196822222222223,
-        "y": 7.630699999999999
+        "x": 4.48061936936937,
+        "y": 7.497533783783783
       },
       "isLocked": false,
       "linkedName": "Pre-Trench D"
@@ -20,15 +20,20 @@
         "y": 6.938844444444444
       },
       "prevControl": {
-        "x": 6.973988888888889,
-        "y": 7.221433333333334
+        "x": 7.963581081081081,
+        "y": 7.6098873873873885
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "NZT Top-South"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3567110036275694,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -41,7 +46,7 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": 65.0
   },
   "reversed": false,

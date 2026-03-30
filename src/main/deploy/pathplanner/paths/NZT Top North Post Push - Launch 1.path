@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 6.4,
-        "y": 7.45
+        "y": 6.8
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.374020227693899,
-        "y": 7.4523106630103895
+        "x": 6.359988738738739,
+        "y": 7.82438063063063
       },
       "isLocked": false,
       "linkedName": "NZT Top-North Post-Push"
     },
     {
       "anchor": {
-        "x": 3.205,
-        "y": 7.45
+        "x": 3.922610556348074,
+        "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 4.2178671124693174,
-        "y": 7.4309728099332455
+        "x": 4.935477668817391,
+        "y": 7.438248130903289
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,18 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.639,
+        "y": 4.033
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.31600270087778326,
+      "maxWaypointRelativePos": 1.0,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.7,
@@ -42,12 +53,12 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -62.93424938861828
+    "rotation": -151.8318987397099
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": -70.0
   },
   "useDefaultConstraints": true

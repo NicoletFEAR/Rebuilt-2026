@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.0535698198198205,
-        "y": 0.5724662162162165
+        "x": 7.623067047075606,
+        "y": 0.37982881597717666
       },
       "isLocked": false,
       "linkedName": "NZT Bottom-South"
     },
     {
       "anchor": {
-        "x": 3.203,
-        "y": 0.65
+        "x": 3.961426533523537,
+        "y": 0.6386019971469341
       },
       "prevControl": {
-        "x": 5.001736334049636,
-        "y": 0.6716975176732376
+        "x": 5.760162867573173,
+        "y": 0.6602995148201717
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,18 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.639,
+        "y": 4.033
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.3997299122214688,
+      "maxWaypointRelativePos": 1.0,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.7,
@@ -42,12 +53,12 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 66.78413838507123
+    "rotation": 83.24640399798929
   },
   "reversed": false,
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": 66.78
   },
   "useDefaultConstraints": true

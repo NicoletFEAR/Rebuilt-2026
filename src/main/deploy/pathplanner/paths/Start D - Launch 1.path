@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.205,
-        "y": 7.45
+        "x": 3.922610556348074,
+        "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 3.4532631694266103,
-        "y": 7.420582340231517
+        "x": 4.170873725774684,
+        "y": 7.4278576612015605
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -62.93424938861828
+    "rotation": -151.8318987397099
   },
   "reversed": false,
   "folder": "Start D and Depot Paths",

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.73,
-        "y": 1.061
+        "x": 7.7,
+        "y": 1.2
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.719212810776979,
-        "y": 2.1248183322718477
+        "x": 7.689212810776978,
+        "y": 2.263818332271848
       },
       "isLocked": false,
       "linkedName": "NZT Bottom-North"
@@ -36,7 +36,7 @@
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 2.5,
-        "maxAcceleration": 4.0,
+        "maxAcceleration": 2.5,
         "maxAngularVelocity": 270.0,
         "maxAngularAcceleration": 360.0,
         "nominalVoltage": 12.0,
@@ -55,13 +55,13 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": -65.0
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": -65.0
   },
   "useDefaultConstraints": true

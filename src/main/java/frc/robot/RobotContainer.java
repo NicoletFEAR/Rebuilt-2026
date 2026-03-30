@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.AutoTarget;
 import frc.robot.commands.TeleopSwerve;
@@ -75,7 +76,7 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("tusk")) {
             m_launcher = new Launcher();
             m_indexer = new Indexer();
-            m_hood = new Hood();
+            m_hood = new Hood(m_driveBase);
             // m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
@@ -246,7 +247,9 @@ public class RobotContainer {
             // Good speed for shooting from the trench -- triangle button of operator controller
             m_operatorController
                 .triangle()
-                .onTrue(m_launcher.setSpeedModifier(1.0));
+                .onTrue(m_launcher.setSpeedModifier(1.0)
+                .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition())))
+                .onFalse(m_hood.runProfileToPosition(LauncherConstants.getHoodMinPosition()));
 
             // Control the climb manually -- left and right bumpers of operator controller
             // m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
@@ -393,12 +396,15 @@ public class RobotContainer {
      */
     public void autonomousInit() {
         m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-        m_driveBase.reinitializePoseEstimators();
-        CommandScheduler.getInstance().schedule(
-            m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub)
-            .alongWith(m_hood.runProfileToPosition(0.0d))
-            .alongWith(m_launcher.idle())
-        );
+    }
+
+    public Command autonomousInitCommand() {
+        return m_hood.runProfileToPosition(0.0d)
+            .alongWith(m_launcher.idle());
+    }
+
+    public Command adjustLauncherSpeedToHub() {
+        return m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub);
     }
 
     /**
@@ -460,9 +466,10 @@ public class RobotContainer {
                 "StartLaunch",
                 m_launcher
                     .launch()
-                    .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub))
+                    .alongWith(m_hood.adjustToHubDistance())
                     .alongWith(new WaitUntilCommand(m_launcher::isAtVelocity)
-                    .andThen(m_indexer.index()))
+                    .andThen(m_indexer.index()
+                    .alongWith(m_intakeDriver.intake())))
             );
 
             NamedCommands.registerCommand(
@@ -472,6 +479,8 @@ public class RobotContainer {
                     .alongWith(m_launcher.idle())
                     .alongWith(m_launcher.setSpeedModifier(1.0))
                     .alongWith(m_hood.endAutoTarget())
+                    .alongWith(m_intakeDriver.off())
+                    .alongWith(m_intakePivot.in())
             );
         }
     }

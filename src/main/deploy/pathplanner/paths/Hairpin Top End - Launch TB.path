@@ -1,0 +1,65 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.931333333333333,
+        "y": 5.408966666666666
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.932234009767626,
+        "y": 5.451399456470615
+      },
+      "isLocked": false,
+      "linkedName": "Hairpin Top End"
+    },
+    {
+      "anchor": {
+        "x": 3.4,
+        "y": 5.5
+      },
+      "prevControl": {
+        "x": 4.399202315582297,
+        "y": 5.460065897593971
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Launch TB"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.619,
+        "y": 4.033
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 1.0,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.4,
+    "maxAcceleration": 4.4,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -51.49938163200943
+  },
+  "reversed": false,
+  "folder": "Comp",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -50.72270154361652
+  },
+  "useDefaultConstraints": false
+}

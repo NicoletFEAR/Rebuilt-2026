@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.205,
-        "y": 7.45
+        "x": 3.922610556348074,
+        "y": 7.4572753209700435
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.947144444444445,
-        "y": 7.504022222222222
+        "x": 5.664755000792518,
+        "y": 7.511297543192265
       },
       "isLocked": false,
       "linkedName": "Launch 1"
@@ -20,15 +20,20 @@
         "y": 6.938844444444444
       },
       "prevControl": {
-        "x": 5.531811111111112,
-        "y": 7.513766666666667
+        "x": 6.421272522522522,
+        "y": 7.5383896396396395
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "NZT Top-South Post-Push"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.37605804111245456,
+      "rotationDegrees": -62.93399999999999
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -41,14 +46,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": 65.0
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -62.93424938861828
+    "rotation": -151.8318987397099
   },
   "useDefaultConstraints": true
 }

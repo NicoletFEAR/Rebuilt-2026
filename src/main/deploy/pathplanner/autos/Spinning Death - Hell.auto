@@ -7,38 +7,26 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start O - Launch 3"
+            "pathName": "Start O - Spinning Death Hell"
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "StartLaunch"
+                  "pathName": "Spinning Death - Hell"
                 }
               },
               {
-                "type": "wait",
+                "type": "path",
                 "data": {
-                  "waitTime": 1.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndLaunch"
+                  "pathName": "Hell - Top to Bottom"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Launch 3 - Spinning Death Hell"
           }
         },
         {

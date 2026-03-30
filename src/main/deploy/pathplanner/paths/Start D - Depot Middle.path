@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.35,
-        "y": 7.44
+        "x": 3.592004504504505,
+        "y": 7.477105855855856
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8618333333333332,
-        "y": 7.231177777777777
+        "x": 2.6539660551791844,
+        "y": 7.080510751589819
       },
       "isLocked": false,
-      "linkedName": "Start D"
+      "linkedName": "Start D(Not In Trench)"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 5.95
       },
       "prevControl": {
-        "x": 2.189466666666667,
-        "y": 6.802422222222222
+        "x": 1.7897011497451345,
+        "y": 6.452191051567853
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

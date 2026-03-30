@@ -11,12 +11,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "StartIntake"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "NZT Bottom North - NZB Bottom North"
@@ -83,12 +77,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartIntake"
           }
         },
         {

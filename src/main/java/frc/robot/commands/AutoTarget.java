@@ -33,7 +33,7 @@ import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
-public class LockRotationTowardsHub extends Command {
+public class AutoTarget extends Command {
     /** Creates a new TeleopSwerve. */
     private SwerveDrive m_driveBase;
 
@@ -57,7 +57,7 @@ public class LockRotationTowardsHub extends Command {
 
     private double m_percentModifier;
 
-    public LockRotationTowardsHub(
+    public AutoTarget (
         UniversalController driverController,
         int throttleAxis,
         int strafeAxis,

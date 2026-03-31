@@ -451,7 +451,9 @@ public class RobotContainer {
                     .alongWith(new WaitUntilCommand(m_launcher::isAtVelocity)
                     .andThen(m_indexer.index()
                     .alongWith(m_intakeDriver.intake())
-                    .alongWith(m_intakePivot.jostleOut())))
+                    .alongWith(m_intakePivot.hold()
+                        .andThen(m_intakePivot.in())
+                        .repeatedly())))
             );
 
             NamedCommands.registerCommand(

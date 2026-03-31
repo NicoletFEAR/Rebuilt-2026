@@ -147,7 +147,7 @@ public class SwerveDrive extends SubsystemBase {
 
             new PPHolonomicDriveController(
                 new PIDConstants(DriveConstants.getDriveKP(), DriveConstants.getDriveKI(), DriveConstants.getDriveKD()),
-                new PIDConstants(DriveConstants.getTurnKP(), DriveConstants.getTurnKI(), DriveConstants.getTurnKD())),
+                new PIDConstants(5.0, 0.0, 0.0)),
 
             DriveConstants.kRobotConfig,
 
@@ -316,6 +316,7 @@ public class SwerveDrive extends SubsystemBase {
 
                 m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
                 m_desiredModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+                Logger.recordOutput("Swerve Desired States", m_desiredModuleStates);
 
                 setModuleStates(m_desiredModuleStates, isOpenLoop);
 

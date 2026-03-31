@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.42,
-        "y": 0.65
+        "x": 0.8240202702702708,
+        "y": 0.6848198198198201
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.8294308909350676,
-        "y": 0.7437795858426136
+        "x": 1.0793693693693698,
+        "y": 0.9810247747747747
       },
       "isLocked": false,
       "linkedName": "Outpost"
@@ -20,8 +20,8 @@
         "y": 0.9654999999999996
       },
       "prevControl": {
-        "x": 0.44436682531578553,
-        "y": 0.4744193401391943
+        "x": 0.8240202702702708,
+        "y": 0.6848198198198201
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 41.05192631546355
+    "rotation": 41.26710962334634
   },
   "reversed": false,
   "folder": "Start O and Outpost Paths",

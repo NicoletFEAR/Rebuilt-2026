@@ -154,10 +154,6 @@ public final class Constants {
             return Integer.parseInt(m_properties.getProperty("deviceIds.intake-pivot"));
         }
 
-        public static int getClimbID() {
-            return Integer.parseInt(m_properties.getProperty("deviceIds.climb"));
-        }
-
         public static int getIntakeBeamBreakID() {
             return Integer.parseInt(m_properties.getProperty("deviceIds.intake-beam-break"));
         }
@@ -676,66 +672,6 @@ public final class Constants {
 
         public static double getPivotOutPosition() {
             return Double.parseDouble(m_properties.getProperty("intake.pivot.out-position"));
-        }
-    }
-
-    public final class ClimbConstants {
-        public static double getGearRatio() {
-            return Double.parseDouble(m_properties.getProperty("climb.gear-ratio"));
-        }
-
-        public static double getSprocketCircumference() {
-            return Math.PI * Double.parseDouble(m_properties.getProperty("climb.sprocket-circumference"));
-        }
-        
-        public static double getSetpointTolerance() {
-            return Double.parseDouble(m_properties.getProperty("climb.setpoint-tolerance"));
-        }
-
-        public static double getManualModifier() {
-            return Double.parseDouble(m_properties.getProperty("climb.manual-modifier"));
-        }
-
-         public static double getKP() {
-            return Double.parseDouble(m_properties.getProperty("climb.kp"));
-        }
-
-        public static double getKI() {
-            return Double.parseDouble(m_properties.getProperty("climb.ki"));
-        }
-
-        public static double getKD() {
-            return Double.parseDouble(m_properties.getProperty("climb.kd"));
-        }
-
-        public static double getMinPosition() {
-            return Double.parseDouble(m_properties.getProperty("climb.min-position"));
-        }
-
-        public static double getMaxPosition() {
-            return Double.parseDouble(m_properties.getProperty("climb.max-position"));
-        }
-
-        public static double getHomePosition() {
-            return Double.parseDouble(m_properties.getProperty("climb.home-position"));
-        }
-
-        public static double getL1Position() {
-            return Double.parseDouble(m_properties.getProperty("climb.L1-position"));
-        }
-
-        public static double getClimbPosition() {
-            return Double.parseDouble(m_properties.getProperty("climb.climb-position"));
-        }
-    }
-
-    public final class LEDConstants {
-        public static int getSlotStart(int slot) {
-            return Integer.parseInt(m_properties.getProperty("led.slot-" + slot + ".start"));
-        }
-
-        public static int getSlotEnd(int slot) {
-            return Integer.parseInt(m_properties.getProperty("led.slot-" + slot + ".end"));
         }
     }
 

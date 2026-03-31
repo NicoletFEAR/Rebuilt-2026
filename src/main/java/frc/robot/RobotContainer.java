@@ -58,7 +58,6 @@ public class RobotContainer {
     private Hood m_hood;
     private IntakeDriver m_intakeDriver;
     private IntakePivot m_intakePivot;
-    // private Climb m_climb;
     private Led m_led;
 
     private static Alliance m_alliance = Alliance.Blue;
@@ -77,7 +76,6 @@ public class RobotContainer {
             m_launcher = new Launcher();
             m_indexer = new Indexer();
             m_hood = new Hood(m_driveBase);
-            // m_climb = new Climb();
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
             m_led = new Led(DeviceIds.getLedID());
@@ -250,21 +248,6 @@ public class RobotContainer {
                 .onTrue(m_launcher.setSpeedModifier(1.0)
                 .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition())))
                 .onFalse(m_hood.runProfileToPosition(LauncherConstants.getHoodMinPosition()));
-
-            // Control the climb manually -- left and right bumpers of operator controller
-            // m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
-            //     if (m_operatorController.L1().getAsBoolean() == m_operatorController.R1().getAsBoolean()) {
-            //         return 0.0;
-            //     } else if (m_operatorController.L1().getAsBoolean()) {
-            //         return 1.0;
-            //     } else {
-            //         return -1.0;
-            //     }
-            // }, m_limitOverrideMode), m_climb));
-
-            // Retracts the climb when teleop starts after climbing in auto
-            // new Trigger(() -> DriverStation.isTeleopEnabled() && m_climb.getState() == ClimbState.RETRACT_AUTO)
-            //     .onTrue(m_climb.climbL1());
 
             // Control the intake pivot manually -- left and right buttons on d-pad of operator controller
             m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
@@ -451,8 +434,6 @@ public class RobotContainer {
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
-            // NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1());
-            // NamedCommands.registerCommand("Climb", m_climb.retractAuto());
             // TODO: Replace these old commands with their newer versions in the autos
             // NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
             NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));

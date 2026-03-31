@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.981,
-        "y": 4.0
+        "x": 7.0,
+        "y": 7.457
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7616771991667175,
-        "y": 3.6678945526839426
+        "x": 6.0,
+        "y": 7.457
       },
       "isLocked": false,
-      "linkedName": "Launch 2"
+      "linkedName": "Pre Launch 1 Far"
     },
     {
       "anchor": {
-        "x": 0.8240202702702708,
-        "y": 0.6848198198198201
+        "x": 3.923,
+        "y": 7.457
       },
       "prevControl": {
-        "x": 0.9834975591525661,
-        "y": 0.9258097739842024
+        "x": 4.923,
+        "y": 7.457
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Outpost"
+      "linkedName": "Launch 1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -77.956407880775
   },
   "reversed": false,
-  "folder": "Start T Paths",
+  "folder": "Comp",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 0.0
+    "velocity": 4.7,
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

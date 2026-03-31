@@ -141,7 +141,6 @@ public class RobotContainer {
                     true,
                     true,
                     m_driveBase,
-                    m_driveBase::getFieldRelativeSpeeds,
                     m_hood,
                     m_launcher
                 )
@@ -160,7 +159,6 @@ public class RobotContainer {
                     true,
                     true,
                     m_driveBase,
-                    m_driveBase::getFieldRelativeSpeeds,
                     m_hood,
                     m_launcher
                 )

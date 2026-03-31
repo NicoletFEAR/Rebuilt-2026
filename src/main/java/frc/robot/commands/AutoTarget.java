@@ -7,8 +7,6 @@
 
 package frc.robot.commands;
 
-import java.util.function.Supplier;
-
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.MathUtil;
@@ -42,7 +40,6 @@ public class AutoTarget extends Command {
     private double m_steer;
     private PIDController m_steerController = new PIDController(DriveConstants.getAutoTargetKP(), DriveConstants.getAutoTargetKI(), DriveConstants.getAutoTargetKD());
 
-    private Supplier<ChassisSpeeds> m_driveBaseSpeeds;
     private Hood m_hood;
     private Launcher m_launcher;
 
@@ -59,7 +56,6 @@ public class AutoTarget extends Command {
         boolean isOpenLoop,
         boolean isFieldRelative,
         SwerveDrive driveBase,
-        Supplier<ChassisSpeeds> driveBaseSpeeds,
         Hood hood,
         Launcher launcher) {
         m_driverController = driverController;
@@ -75,7 +71,6 @@ public class AutoTarget extends Command {
 
         m_driveBase = driveBase;
 
-        m_driveBaseSpeeds = driveBaseSpeeds;
         m_hood = hood;
         m_launcher = launcher;
         
@@ -109,7 +104,7 @@ public class AutoTarget extends Command {
             ? DriveConstants.kBlueHubPosition
             : DriveConstants.kRedHubPosition;
         
-        ChassisSpeeds driveBaseSpeeds = m_driveBaseSpeeds.get();
+        ChassisSpeeds driveBaseSpeeds = m_driveBase.getFieldRelativeSpeeds();
         Pose2d drivePose = m_driveBase.getPose();
 
         double distance = Math.hypot(
@@ -119,6 +114,11 @@ public class AutoTarget extends Command {
 
         target = target.minus(new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond).times(LauncherConstants.kAutoAimTof.get(distance)));
         Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
+
+        distance = Math.hypot(
+            target.getY() - drivePose.getY(),
+            target.getX() - drivePose.getX()
+        );
         
         double desiredAngle = Math.atan2(
             target.getY() - drivePose.getY(),

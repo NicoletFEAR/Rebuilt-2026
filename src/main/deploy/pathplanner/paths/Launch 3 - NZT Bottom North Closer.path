@@ -33,6 +33,17 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
+      "name": "ResetIntake",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ResetIntake"
+        }
+      }
+    },
+    {
       "name": "StartIntake",
       "waypointRelativePos": 0.6642728904847383,
       "endWaypointRelativePos": null,

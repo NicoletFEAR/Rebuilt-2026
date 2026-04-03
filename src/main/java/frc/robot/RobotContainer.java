@@ -436,11 +436,17 @@ public class RobotContainer {
         if (Constants.kRobotName.equals("tusk")) {
             // TODO: Replace these old commands with their newer versions in the autos
             // NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
-            NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
+            NamedCommands.registerCommand(
+                "StartIntake", 
+                m_intakePivot
+                    .out()
+                    .alongWith(m_intakeDriver.intake()));
             
             NamedCommands.registerCommand(
                 "EndIntake",
-                m_intakePivot.in().alongWith(m_intakeDriver.off())
+                m_intakePivot
+                    .in()
+                    .alongWith(m_intakeDriver.off())
             );
 
             NamedCommands.registerCommand(
@@ -463,8 +469,6 @@ public class RobotContainer {
                     .alongWith(m_launcher.idle())
                     .alongWith(m_launcher.setSpeedModifier(1.0))
                     .alongWith(m_hood.endAutoTarget())
-                    .alongWith(m_intakeDriver.off())
-                    .alongWith(m_intakePivot.in())
             );
         }
     }

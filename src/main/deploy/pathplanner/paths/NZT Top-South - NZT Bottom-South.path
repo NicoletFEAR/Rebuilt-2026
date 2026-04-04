@@ -41,13 +41,13 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": 66.78
   },
   "reversed": false,
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": 65.0
   },
   "useDefaultConstraints": false

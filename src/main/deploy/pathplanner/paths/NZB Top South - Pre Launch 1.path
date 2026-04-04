@@ -1,0 +1,65 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.734,
+        "y": 4.65
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.464065315315315,
+        "y": 6.343355855855856
+      },
+      "isLocked": false,
+      "linkedName": "NZB Top-South"
+    },
+    {
+      "anchor": {
+        "x": 7.773033333333334,
+        "y": 7.4572753209700435
+      },
+      "prevControl": {
+        "x": 8.288605405405407,
+        "y": 7.610484780429504
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Pre Launch 1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.639,
+        "y": 4.033
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.6427289048473975,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.7,
+    "maxAcceleration": 4.7,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 4.7,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "Comp",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 65.0
+  },
+  "useDefaultConstraints": true
+}

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.4,
-        "y": 2.5
+        "x": 3.0169044222539223,
+        "y": 2.501768901569187
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.908166666666667,
-        "y": 2.514866666666667
+        "x": 4.52507108892059,
+        "y": 2.516635568235854
       },
       "isLocked": false,
       "linkedName": "Launch BB"
@@ -62,7 +62,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 51.037898951708776
+    "rotation": 54.865806943084266
   },
   "useDefaultConstraints": true
 }

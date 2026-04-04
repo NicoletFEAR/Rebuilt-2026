@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.DeviceIds;
 import frc.robot.commands.AutoTarget;
 import frc.robot.commands.TeleopSwerve;
@@ -57,7 +58,6 @@ public class RobotContainer {
     private Hood m_hood;
     private IntakeDriver m_intakeDriver;
     private IntakePivot m_intakePivot;
-    // private Climb m_climb;
     private Led m_led;
 
     private static Alliance m_alliance = Alliance.Blue;
@@ -75,8 +75,7 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("tusk")) {
             m_launcher = new Launcher();
             m_indexer = new Indexer();
-            m_hood = new Hood();
-            // m_climb = new Climb();
+            m_hood = new Hood(m_driveBase);
             m_intakeDriver = new IntakeDriver();
             m_intakePivot = new IntakePivot();
             m_led = new Led(DeviceIds.getLedID());
@@ -246,22 +245,9 @@ public class RobotContainer {
             // Good speed for shooting from the trench -- triangle button of operator controller
             m_operatorController
                 .triangle()
-                .onTrue(m_launcher.setSpeedModifier(1.0));
-
-            // Control the climb manually -- left and right bumpers of operator controller
-            // m_climb.setDefaultCommand(new RunCommand(() -> m_climb.manualControl(() -> {
-            //     if (m_operatorController.L1().getAsBoolean() == m_operatorController.R1().getAsBoolean()) {
-            //         return 0.0;
-            //     } else if (m_operatorController.L1().getAsBoolean()) {
-            //         return 1.0;
-            //     } else {
-            //         return -1.0;
-            //     }
-            // }, m_limitOverrideMode), m_climb));
-
-            // Retracts the climb when teleop starts after climbing in auto
-            // new Trigger(() -> DriverStation.isTeleopEnabled() && m_climb.getState() == ClimbState.RETRACT_AUTO)
-            //     .onTrue(m_climb.climbL1());
+                .onTrue(m_launcher.setSpeedModifier(1.0)
+                .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition())))
+                .onFalse(m_hood.runProfileToPosition(LauncherConstants.getHoodMinPosition()));
 
             // Control the intake pivot manually -- left and right buttons on d-pad of operator controller
             m_intakePivot.setDefaultCommand(new RunCommand(() -> m_intakePivot.manualControl(() -> {
@@ -393,12 +379,15 @@ public class RobotContainer {
      */
     public void autonomousInit() {
         m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-        m_driveBase.reinitializePoseEstimators();
-        CommandScheduler.getInstance().schedule(
-            m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub)
-            .alongWith(m_hood.runProfileToPosition(0.0d))
-            .alongWith(m_launcher.idle())
-        );
+    }
+
+    public Command autonomousInitCommand() {
+        return m_hood.runProfileToPosition(0.0d)
+            .alongWith(m_launcher.idle());
+    }
+
+    public Command adjustLauncherSpeedToHub() {
+        return m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub);
     }
 
     /**
@@ -440,29 +429,37 @@ public class RobotContainer {
      * any necessary cleanup for the teleop period
      */
     public void teleopExit() {
-        m_hood.runProfileToPosition(0.0d);
+        CommandScheduler.getInstance().schedule(m_hood.runProfileToPosition(0.0d));
     }
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
-            // NamedCommands.registerCommand("ClimbPrepare", m_climb.climbL1());
-            // NamedCommands.registerCommand("Climb", m_climb.retractAuto());
             // TODO: Replace these old commands with their newer versions in the autos
             // NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
-            NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
+            NamedCommands.registerCommand(
+                "StartIntake", 
+                m_intakePivot
+                    .out()
+                    .alongWith(m_intakeDriver.intake()));
             
             NamedCommands.registerCommand(
                 "EndIntake",
-                m_intakePivot.in().alongWith(m_intakeDriver.off())
+                m_intakePivot
+                    .in()
+                    .alongWith(m_intakeDriver.off())
             );
 
             NamedCommands.registerCommand(
                 "StartLaunch",
                 m_launcher
                     .launch()
-                    .alongWith(m_hood.adjustToHubDistance(m_driveBase::distanceToHub))
+                    .alongWith(m_hood.adjustToHubDistance())
                     .alongWith(new WaitUntilCommand(m_launcher::isAtVelocity)
-                    .andThen(m_indexer.index()))
+                    .andThen(m_indexer.index()
+                    .alongWith(m_intakeDriver.intake())
+                    .alongWith(m_intakePivot.hold()
+                        .andThen(m_intakePivot.in())
+                        .repeatedly())))
             );
 
             NamedCommands.registerCommand(

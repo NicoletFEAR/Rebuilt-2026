@@ -7,38 +7,26 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start D - Launch 1"
+            "pathName": "Start D - Spinning Death Heaven"
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "StartLaunch"
+                  "pathName": "Spinning Death - Heaven"
                 }
               },
               {
-                "type": "wait",
+                "type": "path",
                 "data": {
-                  "waitTime": 1.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndLaunch"
+                  "pathName": "Heaven - Bottom to Top"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Launch 1 - Spinning Death Heaven"
           }
         },
         {

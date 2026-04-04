@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.LauncherConstants;
@@ -107,6 +108,12 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         });
     }
 
+    public Command reverse() {
+        return new InstantCommand(() -> {
+            m_state = LauncherState.REVERSE;
+            setVelocity(LauncherConstants.getReverseVelocity());
+        });
+    }
     public Command rampVoltage() {
         return new RunCommand(() -> {
             m_state = LauncherState.LAUNCHING;
@@ -163,7 +170,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     @Override
     public void periodic() {
         SmartDashboard.putString("Launcher Speed", String.format("%.2f%%", m_speedModifier * 100));
-        SmartDashboard.putBoolean("Launching?", m_state == LauncherState.LAUNCHING);
+        SmartDashboard.putBoolean("Is Launching", m_state == LauncherState.LAUNCHING);
+        SmartDashboard.putBoolean("Is Reversing", m_state == LauncherState.REVERSE);
         Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
         Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Desired Velocity", m_desiredVelocity);
@@ -196,5 +204,6 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     public enum LauncherState {
         LAUNCHING,
         IDLE,
+        REVERSE
     }
 }

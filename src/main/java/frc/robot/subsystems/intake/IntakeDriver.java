@@ -73,9 +73,17 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
         }, this);
     }
     
+    public Command extake() {
+        return new InstantCommand(() -> {
+            m_state = IntakeDriverState.EXTAKING;
+            setVoltage(IntakeConstants.getDriverExtakeVoltage());
+        }, this);
+    }
+    
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("Intaking?", m_state == IntakeDriverState.INTAKING);
+        SmartDashboard.putBoolean("Is Intaking", m_state == IntakeDriverState.INTAKING);
+        SmartDashboard.putBoolean("Is Extaking", m_state == IntakeDriverState.EXTAKING);
         Logger.recordOutput("Intake/Driver/Voltage", getVoltage());
         Logger.recordOutput("Intake/Driver/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Intake/Driver/Current", m_motor.getStatorCurrent().getValueAsDouble());
@@ -96,5 +104,6 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     public enum IntakeDriverState {
         INTAKING,
         OFF,
+        EXTAKING,
     }
 }

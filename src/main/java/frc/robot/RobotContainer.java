@@ -195,6 +195,27 @@ public class RobotContainer {
                 .onFalse(m_kitbotLauncher.off());
         } else if (Constants.kRobotName.equals("tusk")) {
             // TODO: Fix jostle distance in case the intake is stuck on a ball
+
+            // Reverses the Launcher direction -- triangle button of driver controller
+            m_driverController
+                .triangle()
+                .onTrue(m_launcher
+                    .reverse())
+                .onFalse(m_launcher
+                    .idle());
+
+            // Extakes the balls inside the hopper -- cross button of driver controller
+            m_driverController
+                .cross()
+                .onTrue(m_intakePivot
+                    .out()
+                    .alongWith(m_intakeDriver.extake())
+                    .alongWith(m_indexer.extake()))
+                .onFalse(m_intakePivot
+                    .in()
+                    .alongWith(m_intakeDriver.off())
+                    .alongWith(m_indexer.off()));
+            
             // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
             m_operatorController
                 .R2()
@@ -213,13 +234,11 @@ public class RobotContainer {
                         m_indexer.off(),
                         () -> m_manualIndexing
                     ))
-                    // .alongWith(m_indexer.off())
                     .alongWith(new ConditionalCommand(
                         new InstantCommand(),
                         m_launcher.idle(),
                         () -> m_manualLaunching
                     ))
-                    // .alongWith(m_launcher.off())
                     .alongWith(new InstantCommand(() -> m_automaticLaunching = false))
                     .alongWith(m_intakePivot
                         .in()

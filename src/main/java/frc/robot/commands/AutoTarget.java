@@ -112,7 +112,15 @@ public class AutoTarget extends Command {
             target.getX() - drivePose.getX()
         );
 
-        target = target.minus(new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond).times(LauncherConstants.kAutoAimTof.get(distance)));
+        Translation2d velocityCompensation = new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond).times(LauncherConstants.kAutoAimTof.get(distance));
+
+        // Limit compensation to half the distance to the hub to prevent the target from flipping behind the robot
+        double compensationMagnitude = velocityCompensation.getNorm();
+        if (compensationMagnitude > distance * 0.5) {
+            velocityCompensation = velocityCompensation.times((distance * 0.5) / compensationMagnitude);
+        }
+
+        target = target.minus(velocityCompensation);
         Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
 
         distance = Math.hypot(

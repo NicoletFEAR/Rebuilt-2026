@@ -177,7 +177,6 @@ public final class Constants {
 
     public final class OperatorConstants {
         public static int getDriverControllerPort() {
-            System.out.println(m_properties.getProperty("operator.driver-controller-port"));
             return Integer.parseInt(m_properties.getProperty("operator.driver-controller-port"));
         }
 

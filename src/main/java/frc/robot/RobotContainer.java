@@ -461,14 +461,14 @@ public class RobotContainer {
                     .in()
                     .alongWith(m_intakeDriver.off())
             );
-            
+
             NamedCommands.registerCommand(
                 "StartIntake",
                 m_intakePivot
                     .out()
                     .alongWith(m_intakeDriver.intake())
             );
-            
+
             NamedCommands.registerCommand(
                 "EndIntake",
                 m_intakePivot

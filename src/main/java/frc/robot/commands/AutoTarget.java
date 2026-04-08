@@ -136,7 +136,7 @@ public class AutoTarget extends Command {
                 }
             }
         }
-        
+
         double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * LauncherConstants.getLaunchVelocity() * Math.PI;
         double fuelVerticalVelocity = estimatedFuelVelocity * Math.sin(5.0 * Math.PI / 24.0);
         double fuelHorizontalVelocity = estimatedFuelVelocity * Math.cos(5.0 * Math.PI / 24.0);
@@ -202,7 +202,7 @@ public class AutoTarget extends Command {
                 m_launcher.setSpeedModifierDirect(speedModifier);
                 m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
 
-        
+
             } else {
                 m_hood.runToPosition(LauncherConstants.kHoodPassingPosition);
                 m_launcher.setSpeedModifierDirect(LauncherConstants.kPassSpeedModifier);

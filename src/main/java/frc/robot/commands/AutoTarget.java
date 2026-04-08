@@ -145,7 +145,7 @@ public class AutoTarget extends Command {
         double speedModifier = MathUtil.clamp(
             LauncherConstants.kAutoAimSpeeds.get(distance),
             m_launcher.getMinSpeedModifier(), 1.0);
-        speedModifier *= DriverStation.isAutonomous() ? 1.25 : 1.1;
+        speedModifier *= 1.25;
         m_launcher.setSpeedModifierDirect(speedModifier);
         m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
     }

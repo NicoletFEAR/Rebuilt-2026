@@ -72,14 +72,14 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
             setVoltage(IntakeConstants.getDriverOffVoltage());
         }, this);
     }
-    
+
     public Command extake() {
         return new InstantCommand(() -> {
             m_state = IntakeDriverState.EXTAKING;
             setVoltage(IntakeConstants.getDriverExtakeVoltage());
         }, this);
     }
-    
+
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Is Intaking", m_state == IntakeDriverState.INTAKING);

@@ -73,7 +73,7 @@ public class AutoTarget extends Command {
 
         m_hood = hood;
         m_launcher = launcher;
-        
+
         addRequirements(m_driveBase);
     }
 
@@ -103,7 +103,7 @@ public class AutoTarget extends Command {
         Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
             ? DriveConstants.kBlueHubPosition
             : DriveConstants.kRedHubPosition;
-        
+
         ChassisSpeeds driveBaseSpeeds = m_driveBase.getFieldRelativeSpeeds();
         Pose2d drivePose = m_driveBase.getPose();
 
@@ -119,7 +119,7 @@ public class AutoTarget extends Command {
             target.getY() - drivePose.getY(),
             target.getX() - drivePose.getX()
         );
-        
+
         double desiredAngle = Math.atan2(
             target.getY() - drivePose.getY(),
             target.getX() - drivePose.getX()

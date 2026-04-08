@@ -62,7 +62,11 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     public Command off() {
         return new InstantCommand(() -> setVoltage(IndexerConstants.getOffVoltage()));
     }
-
+    
+    public Command extake() {
+        return new InstantCommand(() -> setVoltage(IndexerConstants.getExtakeVoltage()));
+    }
+    
     @Override
     public void periodic() {
         Logger.recordOutput("Launcher/Indexer/Voltage", getVoltage());

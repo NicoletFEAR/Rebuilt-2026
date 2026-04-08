@@ -570,6 +570,14 @@ public final class Constants {
         public static double getLaunchVelocity() {
             return Double.parseDouble(m_properties.getProperty("launcher.launch-velocity"));
         }
+
+        public static double getReverseVelocity() {
+            return Double.parseDouble(m_properties.getProperty("launcher.reverse-velocity"));
+        }
+
+        public static double getOffVelocity() {
+            return Double.parseDouble(m_properties.getProperty("launcher.off-velocity"));
+        }
     }
 
     public final class IndexerConstants {
@@ -595,6 +603,10 @@ public final class Constants {
 
         public static double getIndexVoltage() {
             return Double.parseDouble(m_properties.getProperty("indexer.index-voltage"));
+        }
+
+        public static double getExtakeVoltage() {
+            return Double.parseDouble(m_properties.getProperty("indexer.extake-voltage"));
         }
     }
 
@@ -636,6 +648,10 @@ public final class Constants {
 
         public static double getDriverIntakeVoltage() {
             return Double.parseDouble(m_properties.getProperty("intake.driver.intake-voltage"));
+        }
+
+        public static double getDriverExtakeVoltage() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver.extake-voltage"));
         }
 
         public static double getIntakeStuckOnBallThreshold() {

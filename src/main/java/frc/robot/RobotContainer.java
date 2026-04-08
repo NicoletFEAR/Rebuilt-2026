@@ -191,6 +191,27 @@ public class RobotContainer {
                 .onFalse(m_kitbotLauncher.off());
         } else if (Constants.kRobotName.equals("tusk")) {
             // TODO: Fix jostle distance in case the intake is stuck on a ball
+
+            // Reverses the Launcher direction -- triangle button of driver controller
+            m_driverController
+                .triangle()
+                .onTrue(m_launcher
+                    .reverse())
+                .onFalse(m_launcher
+                    .idle());
+
+            // Extakes the balls inside the hopper -- cross button of driver controller
+            m_driverController
+                .cross()
+                .onTrue(m_intakePivot
+                    .out()
+                    .alongWith(m_intakeDriver.extake())
+                    .alongWith(m_indexer.extake()))
+                .onFalse(m_intakePivot
+                    .in()
+                    .alongWith(m_intakeDriver.off())
+                    .alongWith(m_indexer.off()));
+            
             // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
             m_operatorController
                 .R2()
@@ -209,13 +230,11 @@ public class RobotContainer {
                         m_indexer.off(),
                         () -> m_manualIndexing
                     ))
-                    // .alongWith(m_indexer.off())
                     .alongWith(new ConditionalCommand(
                         new InstantCommand(),
                         m_launcher.idle(),
                         () -> m_manualLaunching
                     ))
-                    // .alongWith(m_launcher.off())
                     .alongWith(new InstantCommand(() -> m_automaticLaunching = false))
                     .alongWith(m_intakePivot
                         .in()
@@ -432,11 +451,17 @@ public class RobotContainer {
         if (Constants.kRobotName.equals("tusk")) {
             // TODO: Replace these old commands with their newer versions in the autos
             // NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
-            NamedCommands.registerCommand("StartIntake", m_intakePivot.out().alongWith(m_intakeDriver.intake()));
+            NamedCommands.registerCommand(
+                "StartIntake", 
+                m_intakePivot
+                    .out()
+                    .alongWith(m_intakeDriver.intake()));
             
             NamedCommands.registerCommand(
                 "EndIntake",
-                m_intakePivot.in().alongWith(m_intakeDriver.off())
+                m_intakePivot
+                    .in()
+                    .alongWith(m_intakeDriver.off())
             );
 
             NamedCommands.registerCommand(
@@ -459,8 +484,6 @@ public class RobotContainer {
                     .alongWith(m_launcher.idle())
                     .alongWith(m_launcher.setSpeedModifier(1.0))
                     .alongWith(m_hood.endAutoTarget())
-                    .alongWith(m_intakeDriver.off())
-                    .alongWith(m_intakePivot.in())
             );
         }
     }

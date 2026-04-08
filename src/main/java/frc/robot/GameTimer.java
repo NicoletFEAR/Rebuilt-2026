@@ -1,21 +1,19 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.subsystems.led.Led;
 import frc.robot.controllers.UniversalController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * This class is used to report out shifts in the game so that the driver 
+ * This class is used to report out shifts in the game so that the driver
  * and mech operator are aware of when scoring and defence should occur.
  */
 public class GameTimer extends Timer {
-    
+
     /**
      * The phase of the match that is going to occur along with
      * the amount of time that each phase will take.  In the
-     * Teleop phase, there are four shifts between Offense 
+     * Teleop phase, there are four shifts between Offense
      * and Defence, and the last 30 seconds is considered Endgame.
      */
     public enum Phase {
@@ -45,7 +43,7 @@ public class GameTimer extends Timer {
     // The max number of shifts in the game
     private static final int MAX_SHIFTS = 4;
 
-    // The amount of time before the next phase that should have 
+    // The amount of time before the next phase that should have
     // some level of alert
     private static final int BUFFER_TIME = 5;
 

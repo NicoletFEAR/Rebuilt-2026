@@ -63,7 +63,7 @@ public class TeleopSwerve extends Command {
     }
 
     /**
-     * This method is called repeatedly when this Command is scheduled to run.  It is used to 
+     * This method is called repeatedly when this Command is scheduled to run.  It is used to
      * apply changes to the throttle, strafe, and steer values based on the controller input.
      */
     @Override

@@ -36,13 +36,13 @@ import frc.robot.util.SwerveModuleConstants;
 public final class Constants {
     // Set to true to enable replaying log files
     public static final boolean kIsReplay = false;
-    
+
     private static Properties m_properties;
     public static String kRobotName;
 
     public static void instantiateProperties() {
         m_properties = new Properties();
-        
+
         if (Robot.isReal()) {
             kRobotName = kTeamNumberToName.get(RobotController.getTeamNumber());
         } else {
@@ -59,7 +59,7 @@ public final class Constants {
     public static boolean hasCANivore() {
         return m_properties.getProperty("has-canivore").equals("true");
     }
-    
+
     // How frequently the state of the robot updates during simulations
     // Set to 0.02 to represent once every loop (20 ms)
     public static final double kdt = 0.02;
@@ -177,7 +177,6 @@ public final class Constants {
 
     public final class OperatorConstants {
         public static int getDriverControllerPort() {
-            System.out.println(m_properties.getProperty("operator.driver-controller-port"));
             return Integer.parseInt(m_properties.getProperty("operator.driver-controller-port"));
         }
 
@@ -193,7 +192,7 @@ public final class Constants {
         public static final int kThrottleAxis = operatorAxis.getAxis("kLeftY");
         public static final int kStrafeAxis = operatorAxis.getAxis("kLeftX");
         public static final int kSteerAxis = operatorAxis.getAxis("kRightX");
-        
+
         public static ControllerType getControllerType() {
             return ControllerType.valueOf(m_properties.getProperty("operator.controller-type"));
         }
@@ -208,11 +207,11 @@ public final class Constants {
     }
 
     public final class DriveConstants {
-        
+
         public static int isBatteryInBack() {
             if (m_properties.getProperty("battery-back").equals("true"))
                 return -1;
-            else 
+            else
                 return 1;
         }
 
@@ -535,11 +534,11 @@ public final class Constants {
         public static double getHoodKD() {
             return Double.parseDouble(m_properties.getProperty("launcher.hood.kd"));
         }
-        
+
         public static double getHoodOffset() {
             return Double.parseDouble(m_properties.getProperty("launcher.hood.offset"));
         }
-        
+
         public static double getKP() {
             return Double.parseDouble(m_properties.getProperty("launcher.kp"));
         }
@@ -562,6 +561,14 @@ public final class Constants {
 
         public static double getLaunchVelocity() {
             return Double.parseDouble(m_properties.getProperty("launcher.launch-velocity"));
+        }
+
+        public static double getReverseVelocity() {
+            return Double.parseDouble(m_properties.getProperty("launcher.reverse-velocity"));
+        }
+
+        public static double getOffVelocity() {
+            return Double.parseDouble(m_properties.getProperty("launcher.off-velocity"));
         }
 
         public static final double kHoodPassingPosition = 0.84d;
@@ -592,6 +599,10 @@ public final class Constants {
         public static double getIndexVoltage() {
             return Double.parseDouble(m_properties.getProperty("indexer.index-voltage"));
         }
+
+        public static double getExtakeVoltage() {
+            return Double.parseDouble(m_properties.getProperty("indexer.extake-voltage"));
+        }
     }
 
     public final class IntakeConstants {
@@ -601,7 +612,7 @@ public final class Constants {
         public static double getPivotGearRatio() {
             return Double.parseDouble(m_properties.getProperty("intake.pivot.gear-ratio"));
         }
-        
+
         public static double getDriverKP() {
             return Double.parseDouble(m_properties.getProperty("intake.driver.kp"));
         }
@@ -625,13 +636,17 @@ public final class Constants {
         public static double getPivotKD() {
             return Double.parseDouble(m_properties.getProperty("intake.pivot.kd"));
         }
-        
+
         public static double getDriverOffVoltage() {
             return Double.parseDouble(m_properties.getProperty("intake.driver.off-voltage"));
         }
 
         public static double getDriverIntakeVoltage() {
             return Double.parseDouble(m_properties.getProperty("intake.driver.intake-voltage"));
+        }
+
+        public static double getDriverExtakeVoltage() {
+            return Double.parseDouble(m_properties.getProperty("intake.driver.extake-voltage"));
         }
 
         public static double getIntakeStuckOnBallThreshold() {

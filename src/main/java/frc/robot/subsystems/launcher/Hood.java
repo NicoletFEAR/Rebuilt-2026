@@ -75,7 +75,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         if (Robot.isSimulation()) {
             return m_desiredPosition;
         }
-        
+
         return m_encoder.getAbsolutePosition().getValueAsDouble();
     }
 

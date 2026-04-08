@@ -86,7 +86,7 @@ public class AutoTarget extends Command {
         m_distanceToHub = distanceToHub;
         m_hood = hood;
         m_launcher = launcher;
-        
+
         addRequirements(m_driveBase);
     }
 
@@ -97,7 +97,7 @@ public class AutoTarget extends Command {
     }
 
     /**
-     * This method is called repeatedly when this Command is scheduled to run.  It is used to 
+     * This method is called repeatedly when this Command is scheduled to run.  It is used to
      * apply changes to the throttle, strafe, and steer values based on the controller input.
      */
     @Override

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.math.MathUtil;
 
 public class LinearServo extends Servo{
-    
+
     double m_speed;
     double m_length;
     double setPos;

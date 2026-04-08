@@ -191,7 +191,7 @@ public class Led extends SubsystemBase {
         //         m_candle.setControl(
         //             new StrobeAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(slot).withColor(color));
         //         return;
-            
+
         //     case Solid:
         //         m_candle.setControl(new SolidColor(kSlot0StartIdx, kSlot0EndIdx).withColor(color));
         //         return;
@@ -200,7 +200,7 @@ public class Led extends SubsystemBase {
         //     default:
         //         m_candle.setControl(new EmptyAnimation(slot));
         //         return;
-                
+
         // }
     }
 }

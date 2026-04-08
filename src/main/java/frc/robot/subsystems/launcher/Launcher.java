@@ -107,6 +107,12 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         });
     }
 
+    public Command reverse() {
+        return new InstantCommand(() -> {
+            m_state = LauncherState.REVERSE;
+            setVelocity(LauncherConstants.getReverseVelocity());
+        });
+    }
     public Command rampVoltage() {
         return new RunCommand(() -> {
             m_state = LauncherState.LAUNCHING;
@@ -129,7 +135,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     // TODO: Replace 0.05 with 0.1 once tuning the launcher speeds is complete
     public Command raiseSpeed() {
         return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)), 
+            new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)),
             new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)).andThen(launch()),
             () -> m_state == LauncherState.IDLE
         );
@@ -137,7 +143,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public Command lowerSpeed() {
         return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, getMinSpeedModifier())), 
+            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, getMinSpeedModifier())),
             new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, getMinSpeedModifier())).andThen(launch()),
             () -> m_state == LauncherState.IDLE
         );
@@ -163,7 +169,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     @Override
     public void periodic() {
         SmartDashboard.putString("Launcher Speed", String.format("%.2f%%", m_speedModifier * 100));
-        SmartDashboard.putBoolean("Launching?", m_state == LauncherState.LAUNCHING);
+        SmartDashboard.putBoolean("Is Launching", m_state == LauncherState.LAUNCHING);
+        SmartDashboard.putBoolean("Is Reversing", m_state == LauncherState.REVERSE);
         Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
         Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Desired Velocity", m_desiredVelocity);
@@ -196,5 +203,6 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     public enum LauncherState {
         LAUNCHING,
         IDLE,
+        REVERSE
     }
 }

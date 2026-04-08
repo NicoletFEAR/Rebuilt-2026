@@ -103,7 +103,7 @@ public class Utils {
         } else if (newAngle - scopeReference < -180) {
             newAngle += 360;
         }
-        
+
         return newAngle;
     }
 

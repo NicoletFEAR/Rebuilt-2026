@@ -98,7 +98,7 @@ public class LimelightCamera {
     public void addPoseEstimateMegatag1(SwerveDrivePoseEstimator poseEstimator, ChassisSpeeds robotSpeeds) {
 
         PoseEstimate poseEstimate = getBotPoseEstimate_wpiBlue();
-        
+
         Pose2d pose = poseEstimate.pose;
         boolean isPoseInField =
                 // pose.getTranslation().getX() < Constants.kFieldTopRight.getX()
@@ -155,7 +155,7 @@ public class LimelightCamera {
 
     /**
      * Gets the latest JSON results output and returns a LimelightResults object.
-     * 
+     *
      * @param limelightName Name of the Limelight camera
      * @return LimelightResults object containing all current target data
      */
@@ -231,7 +231,7 @@ public class LimelightCamera {
     /**
      * Takes a 6-length array of pose data and converts it to a Pose3d object.
      * Array format: [x, y, z, roll, pitch, yaw] where angles are in degrees.
-     * 
+     *
      * @param inData Array containing pose data [x, y, z, roll, pitch, yaw]
      * @return Pose3d object representing the pose, or empty Pose3d if invalid data
      */
@@ -255,7 +255,7 @@ public class LimelightCamera {
 
     /**
      * Gets the full JSON results dump.
-     * 
+     *
      * @param limelightName Name of the Limelight camera
      * @return JSON string containing all current results
      */

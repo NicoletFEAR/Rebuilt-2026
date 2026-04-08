@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.lib.architecture.SubsystemInterfaces.VoltageSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.LauncherConstants;
@@ -136,7 +135,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     // TODO: Replace 0.05 with 0.1 once tuning the launcher speeds is complete
     public Command raiseSpeed() {
         return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)), 
+            new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)),
             new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)).andThen(launch()),
             () -> m_state == LauncherState.IDLE
         );
@@ -144,7 +143,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public Command lowerSpeed() {
         return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, getMinSpeedModifier())), 
+            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, getMinSpeedModifier())),
             new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, getMinSpeedModifier())).andThen(launch()),
             () -> m_state == LauncherState.IDLE
         );

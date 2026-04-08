@@ -26,7 +26,7 @@ public class UniversalController {
     private Axis controllerAxis;
     private Button controllerButton;
     private Alert alert = new Alert("Controllers", "Unsupported Controller Type: " + controllerType, AlertType.kError);
-    
+
     /**
      * Create a new instance
      * @param port The port for the controller on the laptop
@@ -89,7 +89,7 @@ public class UniversalController {
         switch (controllerType) {
             case PS5:
                 return ps5Controller.create();
-            case PS4: 
+            case PS4:
                 return ps4Controller.share();
             case XBOX:
                 return xboxController.back();
@@ -99,7 +99,7 @@ public class UniversalController {
         }
     }
 
-    public Trigger L1() { 
+    public Trigger L1() {
         switch (controllerType) {
             case PS4:
                 return ps4Controller.L1();
@@ -113,7 +113,7 @@ public class UniversalController {
         }
     }
 
-    public Trigger L2() { 
+    public Trigger L2() {
         switch (controllerType) {
             case PS4:
                 return ps4Controller.L2();
@@ -300,7 +300,7 @@ public class UniversalController {
             case PS5:
                 return ps5Controller.button(button);
             case XBOX:
-                return xboxController.button(button);        
+                return xboxController.button(button);
             default:
                 sendAlert("button " + button);
                 return null;
@@ -370,7 +370,7 @@ public class UniversalController {
     }
 
     /**
-     * This method will return the underlying Command Controller. It is up to 
+     * This method will return the underlying Command Controller. It is up to
      * the caller to cast it to the correct type.
      * @return The underlying command controller
      */

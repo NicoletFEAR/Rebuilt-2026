@@ -7,12 +7,8 @@
 
 package frc.robot.commands;
 
-import static edu.wpi.first.units.Units.Feet;
-import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.Meters;
 
 import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -21,7 +17,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,7 +42,6 @@ public class AutoTarget extends Command {
     private double m_steer;
     private PIDController m_steerController = new PIDController(DriveConstants.getAutoTargetKP(), DriveConstants.getAutoTargetKI(), DriveConstants.getAutoTargetKD());
 
-    private Supplier<ChassisSpeeds> m_driveBaseSpeeds;
     private DoubleSupplier m_distanceToHub;
     private Hood m_hood;
     private Launcher m_launcher;
@@ -67,7 +61,6 @@ public class AutoTarget extends Command {
         boolean isOpenLoop,
         boolean isFieldRelative,
         SwerveDrive driveBase,
-        Supplier<ChassisSpeeds> driveBaseSpeeds,
         DoubleSupplier distanceToHub,
         Hood hood,
         Launcher launcher) {
@@ -84,7 +77,6 @@ public class AutoTarget extends Command {
 
         m_driveBase = driveBase;
 
-        m_driveBaseSpeeds = driveBaseSpeeds;
         m_distanceToHub = distanceToHub;
         m_hood = hood;
         m_launcher = launcher;
@@ -120,20 +112,20 @@ public class AutoTarget extends Command {
         );
 
         if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
-            if (m_driveBase.getPose().getY() <= DriveConstants.kInAllianceZoneBlue) {
+            if (m_driveBase.getPose().getX() <= DriveConstants.kInAllianceZoneBlue) {
                 target = DriveConstants.kBlueHubPosition;
             } else {
-                if (m_driveBase.getPose().getX() <= DriveConstants.kVerticalMidfieldPosition) {
+                if (m_driveBase.getPose().getY() <= DriveConstants.kVerticalMidfieldPosition) {
                     target = DriveConstants.kBlueLeftPassingPosition;
                 } else {
                     target = DriveConstants.kBlueRightPassingPosition;
                 }
             }
         } else {
-            if (m_driveBase.getPose().getY() >= DriveConstants.kInAllianceZoneRed) {
+            if (m_driveBase.getPose().getX() >= DriveConstants.kInAllianceZoneRed) {
                 target = DriveConstants.kRedHubPosition;
             } else {
-                if (m_driveBase.getPose().getX() >= DriveConstants.kVerticalMidfieldPosition) {
+                if (m_driveBase.getPose().getY() >= DriveConstants.kVerticalMidfieldPosition) {
                     target = DriveConstants.kRedLeftPassingPosition;
                 } else {
                     target = DriveConstants.kRedRightPassingPosition;
@@ -141,23 +133,12 @@ public class AutoTarget extends Command {
             }
         }
 
-        double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * LauncherConstants.getLaunchVelocity() * Math.PI;
-        double fuelVerticalVelocity = estimatedFuelVelocity * Math.sin(5.0 * Math.PI / 24.0);
-        double fuelHorizontalVelocity = estimatedFuelVelocity * Math.cos(5.0 * Math.PI / 24.0);
-        double timeToHub = (fuelVerticalVelocity + Math.sqrt(Math.pow(fuelVerticalVelocity, 2) + 19.62 * Meters.convertFrom(5.0, Feet))) / 9.81;
-        ChassisSpeeds driveBaseSpeeds = m_driveBaseSpeeds.get();
-        Logger.recordOutput("Time to hub", timeToHub);
-        Logger.recordOutput("Fuel vertical velocity", fuelVerticalVelocity);
-        // target = target.minus(new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond).times(timeToHub));
         Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
-        Pose2d drivePose = m_driveBase.getPose();
-        double distanceToHub = m_driveBase.distanceToHub();
-        Logger.recordOutput("Ball landing", new Pose2d(drivePose.getTranslation().plus(new Translation2d(distanceToHub * drivePose.getRotation().getCos() + driveBaseSpeeds.vxMetersPerSecond * timeToHub, distanceToHub * drivePose.getRotation().getSin() + driveBaseSpeeds.vyMetersPerSecond * timeToHub)), new Rotation2d()));
+
         double desiredAngle = Math.atan2(
             target.getY() - m_driveBase.getPose().getTranslation().getY(),
             target.getX() - m_driveBase.getPose().getTranslation().getX()
         );
-        Logger.recordOutput("Ideal robot", new Pose2d(drivePose.getTranslation(), new Rotation2d(desiredAngle)));
 
         // Always run the PID — no dead zone cutoff that causes oscillation
         m_steer = m_steerController.calculate(m_driveBase.getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180;
@@ -169,7 +150,7 @@ public class AutoTarget extends Command {
         m_driveBase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
 
         if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
-            if (m_driveBase.getPose().getY() <= DriveConstants.kInAllianceZoneBlue) {
+            if (m_driveBase.getPose().getX() <= DriveConstants.kInAllianceZoneBlue) {
                 // Adjust hood angle based on distance to hub
                 m_hood.runToPosition(MathUtil.clamp(
                     LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
@@ -190,7 +171,7 @@ public class AutoTarget extends Command {
                 m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * LauncherConstants.kPassSpeedModifier);
             }
         } else {
-            if (m_driveBase.getPose().getY() >= DriveConstants.kInAllianceZoneRed) {
+            if (m_driveBase.getPose().getX() >= DriveConstants.kInAllianceZoneRed) {
                 // Adjust hood angle based on distance to hub
                 m_hood.runToPosition(MathUtil.clamp(
                     LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),

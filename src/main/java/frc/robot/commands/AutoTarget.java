@@ -112,14 +112,18 @@ public class AutoTarget extends Command {
             target.getX() - drivePose.getX()
         );
 
-        Translation2d velocityCompensation = new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond).times(LauncherConstants.kAutoAimTof.get(distance));
+        // Only compensate for the lateral (perpendicular) component of robot velocity
+        // The radial component (toward/away from hub) is handled by launcher speed/hood
+        Translation2d robotToHub = target.minus(drivePose.getTranslation());
+        Translation2d robotToHubUnit = robotToHub.div(distance);
+        Translation2d velocity = new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond);
 
-        // Limit compensation to half the distance to the hub to prevent the target from flipping behind the robot
-        double compensationMagnitude = velocityCompensation.getNorm();
-        if (compensationMagnitude > distance * 0.5) {
-            velocityCompensation = velocityCompensation.times((distance * 0.5) / compensationMagnitude);
-        }
+        // Project velocity onto the perpendicular of the robot-to-hub direction
+        // perpendicular = (-hubUnit.y, hubUnit.x)
+        double lateralSpeed = velocity.getX() * (-robotToHubUnit.getY()) + velocity.getY() * robotToHubUnit.getX();
+        Translation2d lateralVelocity = new Translation2d(-robotToHubUnit.getY(), robotToHubUnit.getX()).times(lateralSpeed);
 
+        Translation2d velocityCompensation = lateralVelocity.times(LauncherConstants.kAutoAimTof.get(distance));
         target = target.minus(velocityCompensation);
         Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
 

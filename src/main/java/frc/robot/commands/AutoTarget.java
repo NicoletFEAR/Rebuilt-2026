@@ -104,7 +104,6 @@ public class AutoTarget extends Command {
             ? DriveConstants.kBlueHubPosition
             : DriveConstants.kRedHubPosition;
 
-        ChassisSpeeds driveBaseSpeeds = m_driveBase.getFieldRelativeSpeeds();
         Pose2d drivePose = m_driveBase.getPose();
 
         double distance = Math.hypot(
@@ -112,20 +111,21 @@ public class AutoTarget extends Command {
             target.getX() - drivePose.getX()
         );
 
-        // Travel compensation temporarily disabled for debugging
-        // Translation2d robotToHub = target.minus(drivePose.getTranslation());
-        // Translation2d robotToHubUnit = robotToHub.div(distance);
-        // Translation2d velocity = new Translation2d(driveBaseSpeeds.vxMetersPerSecond, driveBaseSpeeds.vyMetersPerSecond);
-        // double lateralSpeed = velocity.getX() * (-robotToHubUnit.getY()) + velocity.getY() * robotToHubUnit.getX();
-        // Translation2d lateralVelocity = new Translation2d(-robotToHubUnit.getY(), robotToHubUnit.getX()).times(lateralSpeed);
-        // Translation2d velocityCompensation = lateralVelocity.times(LauncherConstants.kAutoAimTof.get(distance));
-        // target = target.minus(velocityCompensation);
-        Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
+        // Compensate for robot's translational velocity to lead the shot
+        // Use robot-relative speeds converted without omega to avoid PID rotation feedback
+        ChassisSpeeds robotSpeeds = m_driveBase.getRobotRelativeSpeeds();
+        Translation2d fieldVelocity = new Translation2d(robotSpeeds.vxMetersPerSecond, robotSpeeds.vyMetersPerSecond)
+            .rotateBy(m_driveBase.getYaw());
+        Translation2d velocityCompensation = fieldVelocity.times(LauncherConstants.kAutoAimTof.get(distance));
 
-        distance = Math.hypot(
-            target.getY() - drivePose.getY(),
-            target.getX() - drivePose.getX()
-        );
+        // Clamp compensation so the adjusted target never crosses behind the robot
+        double compensationMagnitude = velocityCompensation.getNorm();
+        if (compensationMagnitude > distance * 0.3) {
+            velocityCompensation = velocityCompensation.times((distance * 0.3) / compensationMagnitude);
+        }
+
+        target = target.minus(velocityCompensation);
+        Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
 
         double desiredAngle = Math.atan2(
             target.getY() - drivePose.getY(),

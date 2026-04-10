@@ -169,52 +169,6 @@ public class AutoTarget extends Command {
             m_launcher.setSpeedModifierDirect(LauncherConstants.kPassSpeedModifier);
             m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * LauncherConstants.kPassSpeedModifier);
         }
-
-        // if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
-        //     if (m_driveBase.getPose().getX() <= DriveConstants.kInAllianceZoneBlue) {
-        //         // Adjust hood angle based on distance to hub
-        //         m_hood.runToPosition(MathUtil.clamp(
-        //             LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
-        //             LauncherConstants.getHoodMinPosition(),
-        //             LauncherConstants.getHoodMaxPosition()
-        //         ));
-
-        //         // Adjust launcher speed based on distance to hub
-        //         double speedModifier = MathUtil.clamp(
-        //             LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
-        //             m_launcher.getMinSpeedModifier(), 1.0);
-        //         speedModifier *= DriverStation.isAutonomous() ? 1.25 : 1.1;
-        //         m_launcher.setSpeedModifierDirect(speedModifier);
-        //         m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
-        //     } else {
-        //         m_hood.runToPosition(LauncherConstants.kHoodPassingPosition);
-        //         m_launcher.setSpeedModifierDirect(LauncherConstants.kPassSpeedModifier);
-        //         m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * LauncherConstants.kPassSpeedModifier);
-        //     }
-        // } else {
-        //     if (m_driveBase.getPose().getX() >= DriveConstants.kInAllianceZoneRed) {
-        //         // Adjust hood angle based on distance to hub
-        //         m_hood.runToPosition(MathUtil.clamp(
-        //             LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
-        //             LauncherConstants.getHoodMinPosition(),
-        //             LauncherConstants.getHoodMaxPosition()
-        //         ));
-
-        //         // Adjust launcher speed based on distance to hub
-        //         double speedModifier = MathUtil.clamp(
-        //             LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
-        //             m_launcher.getMinSpeedModifier(), 1.0);
-        //         speedModifier *= DriverStation.isAutonomous() ? 1.25 : 1.1;
-        //         m_launcher.setSpeedModifierDirect(speedModifier);
-        //         m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
-
-
-        //     } else {
-        //         m_hood.runToPosition(LauncherConstants.kHoodPassingPosition);
-        //         m_launcher.setSpeedModifierDirect(LauncherConstants.kPassSpeedModifier);
-        //         m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * LauncherConstants.kPassSpeedModifier);
-        //     }
-        // }
     }
 
     // Called once the command ends or is interrupted.

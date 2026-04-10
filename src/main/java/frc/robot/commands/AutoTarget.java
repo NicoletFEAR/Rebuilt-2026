@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.controllers.UniversalController;
@@ -46,6 +47,10 @@ public class AutoTarget extends Command {
     private boolean m_isFieldRelative;
 
     private double m_percentModifier;
+
+    // Track position over time to compute pure translational velocity
+    private Translation2d m_lastPosition;
+    private Translation2d m_fieldVelocity = new Translation2d();
 
     public AutoTarget (
         UniversalController driverController,
@@ -80,6 +85,8 @@ public class AutoTarget extends Command {
     @Override
     public void initialize() {
         m_steerController.reset();
+        m_lastPosition = m_driveBase.getPose().getTranslation();
+        m_fieldVelocity = new Translation2d();
     }
 
     /**
@@ -110,9 +117,27 @@ public class AutoTarget extends Command {
             target.getX() - drivePose.getX()
         );
 
-        // TODO: Travel compensation disabled — causes rotation instability
-        // Needs further investigation into velocity feedback loop
+        // Compute translational velocity by differentiating pose position
+        // This is independent of PID rotation commands — pure translational movement
+        Translation2d currentPosition = drivePose.getTranslation();
+        Translation2d positionDelta = currentPosition.minus(m_lastPosition);
+        // Low-pass filter: blend new measurement with previous velocity to smooth noise
+        Translation2d rawVelocity = positionDelta.div(Constants.kdt);
+        m_fieldVelocity = m_fieldVelocity.times(0.8).plus(rawVelocity.times(0.2));
+        m_lastPosition = currentPosition;
+
+        Translation2d velocityCompensation = m_fieldVelocity.times(LauncherConstants.kAutoAimTof.get(distance));
+
+        // Cap compensation to prevent target from flipping past the robot at close range or high speed
+        double maxCompensation = distance * 0.5;
+        double compensationMagnitude = velocityCompensation.getNorm();
+        if (compensationMagnitude > maxCompensation && compensationMagnitude > 0) {
+            velocityCompensation = velocityCompensation.times(maxCompensation / compensationMagnitude);
+        }
+
+        target = target.minus(velocityCompensation);
         Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
+        Logger.recordOutput("AutoTarget/FieldVelocity", m_fieldVelocity.getNorm());
 
         double desiredAngle = Math.atan2(
             target.getY() - drivePose.getY(),

@@ -118,12 +118,6 @@ public class AutoTarget extends Command {
             .rotateBy(m_driveBase.getYaw());
         Translation2d velocityCompensation = fieldVelocity.times(LauncherConstants.kAutoAimTof.get(distance));
 
-        // Clamp compensation so the adjusted target never crosses behind the robot
-        double compensationMagnitude = velocityCompensation.getNorm();
-        if (compensationMagnitude > distance * 0.3) {
-            velocityCompensation = velocityCompensation.times((distance * 0.3) / compensationMagnitude);
-        }
-
         target = target.minus(velocityCompensation);
         Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
 

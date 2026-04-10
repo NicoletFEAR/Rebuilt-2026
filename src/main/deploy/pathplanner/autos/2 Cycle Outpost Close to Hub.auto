@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start T - Depot Middle"
+            "pathName": "Start O - NZT Bottom North"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "StartIntake"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "pathName": "NZT Bottom North - NZB Bottom North"
           }
         },
         {
@@ -27,9 +21,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Depot Middle - Launch D"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "NZB Bottom North - Pre-Launch 3"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Pre-Launch 3 - Launch 3"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -60,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Launch D - Pre Outpost"
+                  "pathName": "Launch 3 - NZT Bottom North Closest"
                 }
               },
               {
@@ -73,21 +80,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartIntake"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Pre Outpost - Outpost"
+            "pathName": "NZT Bottom North Closest - NZB Bottom North Closest"
           }
         },
         {
@@ -95,9 +90,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Outpost - Launch O"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "NZB Bottom North Closest - Pre-Launch 3 Closest"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Pre-Launch 3 Closest - Launch 3"
+                      }
+                    }
+                  ]
                 }
               },
               {

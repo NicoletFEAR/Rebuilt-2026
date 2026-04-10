@@ -111,13 +111,23 @@ public class AutoTarget extends Command {
             target.getX() - drivePose.getX()
         );
 
-        // Compensate for robot's translational velocity to lead the shot
-        // Use robot-relative speeds converted without omega to avoid PID rotation feedback
+        // Compensate only for lateral (perpendicular to hub) velocity to lead the shot
+        // Radial component (toward/away from hub) doesn't need aim compensation
+        // Use robot-relative speeds to avoid PID rotation feedback
         ChassisSpeeds robotSpeeds = m_driveBase.getRobotRelativeSpeeds();
         Translation2d fieldVelocity = new Translation2d(robotSpeeds.vxMetersPerSecond, robotSpeeds.vyMetersPerSecond)
             .rotateBy(m_driveBase.getYaw());
-        Translation2d velocityCompensation = fieldVelocity.times(LauncherConstants.kAutoAimTof.get(distance));
 
+        // Decompose velocity into radial (toward hub) and lateral (perpendicular) components
+        Translation2d robotToHub = target.minus(drivePose.getTranslation());
+        Translation2d robotToHubUnit = robotToHub.div(distance);
+        // Perpendicular direction: rotate hub direction 90 degrees
+        Translation2d perpUnit = new Translation2d(-robotToHubUnit.getY(), robotToHubUnit.getX());
+        // Project field velocity onto perpendicular direction
+        double lateralSpeed = fieldVelocity.getX() * perpUnit.getX() + fieldVelocity.getY() * perpUnit.getY();
+        Translation2d lateralVelocity = perpUnit.times(lateralSpeed);
+
+        Translation2d velocityCompensation = lateralVelocity.times(LauncherConstants.kAutoAimTof.get(distance));
         target = target.minus(velocityCompensation);
         Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
 

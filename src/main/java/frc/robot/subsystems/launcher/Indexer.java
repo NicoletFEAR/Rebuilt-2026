@@ -14,7 +14,6 @@ import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Voltage;
-// import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,11 +28,9 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
     private TalonFX m_motor;
     private DCMotorSim m_motorSim;
-    // private DigitalInput m_beamBreak;
 
     public Indexer () {
         m_motor = new TalonFX(DeviceIds.getIndexerID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-        // m_beamBreak = new DigitalInput(DeviceIds.kIndexerBeamBreak);
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IndexerConstants.getGearRatio()), DCMotor.getKrakenX60(1));
 
         TalonFXConfiguration leadConfig = new TalonFXConfiguration();
@@ -63,12 +60,15 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
         return new InstantCommand(() -> setVoltage(IndexerConstants.getOffVoltage()));
     }
 
+    public Command extake() {
+        return new InstantCommand(() -> setVoltage(IndexerConstants.getExtakeVoltage()));
+    }
+
     @Override
     public void periodic() {
         Logger.recordOutput("Launcher/Indexer/Voltage", getVoltage());
         Logger.recordOutput("Launcher/Indexer/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Indexer/Current", m_motor.getStatorCurrent().getValueAsDouble());
-        // Logger.recordOutput("Indexer/Beam Break", m_beamBreak.get());
     }
 
     @Override

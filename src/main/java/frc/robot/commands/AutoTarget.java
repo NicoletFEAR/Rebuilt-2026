@@ -86,7 +86,7 @@ public class AutoTarget extends Command {
         m_distanceToHub = distanceToHub;
         m_hood = hood;
         m_launcher = launcher;
-        
+
         addRequirements(m_driveBase);
     }
 
@@ -97,7 +97,7 @@ public class AutoTarget extends Command {
     }
 
     /**
-     * This method is called repeatedly when this Command is scheduled to run.  It is used to 
+     * This method is called repeatedly when this Command is scheduled to run.  It is used to
      * apply changes to the throttle, strafe, and steer values based on the controller input.
      */
     @Override
@@ -125,7 +125,7 @@ public class AutoTarget extends Command {
         Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
             ? DriveConstants.kBlueHubPosition
             : DriveConstants.kRedHubPosition;
-        
+
         double estimatedFuelVelocity = Meters.convertFrom(3.0, Inches) * LauncherConstants.getLaunchVelocity() * Math.PI;
         double fuelVerticalVelocity = estimatedFuelVelocity * Math.sin(5.0 * Math.PI / 24.0);
         double fuelHorizontalVelocity = estimatedFuelVelocity * Math.cos(5.0 * Math.PI / 24.0);
@@ -168,7 +168,7 @@ public class AutoTarget extends Command {
         m_launcher.setSpeedModifierDirect(speedModifier);
         m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
 
-        
+
     }
 
     // Called once the command ends or is interrupted.

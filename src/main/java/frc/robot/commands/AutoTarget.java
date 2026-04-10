@@ -14,7 +14,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -111,24 +110,8 @@ public class AutoTarget extends Command {
             target.getX() - drivePose.getX()
         );
 
-        // Compensate only for lateral (perpendicular to hub) velocity to lead the shot
-        // Radial component (toward/away from hub) doesn't need aim compensation
-        // Use robot-relative speeds to avoid PID rotation feedback
-        ChassisSpeeds robotSpeeds = m_driveBase.getRobotRelativeSpeeds();
-        Translation2d fieldVelocity = new Translation2d(robotSpeeds.vxMetersPerSecond, robotSpeeds.vyMetersPerSecond)
-            .rotateBy(m_driveBase.getYaw());
-
-        // Decompose velocity into radial (toward hub) and lateral (perpendicular) components
-        Translation2d robotToHub = target.minus(drivePose.getTranslation());
-        Translation2d robotToHubUnit = robotToHub.div(distance);
-        // Perpendicular direction: rotate hub direction 90 degrees
-        Translation2d perpUnit = new Translation2d(-robotToHubUnit.getY(), robotToHubUnit.getX());
-        // Project field velocity onto perpendicular direction
-        double lateralSpeed = fieldVelocity.getX() * perpUnit.getX() + fieldVelocity.getY() * perpUnit.getY();
-        Translation2d lateralVelocity = perpUnit.times(lateralSpeed);
-
-        Translation2d velocityCompensation = lateralVelocity.times(LauncherConstants.kAutoAimTof.get(distance));
-        target = target.minus(velocityCompensation);
+        // TODO: Travel compensation disabled — causes rotation instability
+        // Needs further investigation into velocity feedback loop
         Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
 
         double desiredAngle = Math.atan2(

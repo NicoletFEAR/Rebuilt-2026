@@ -138,7 +138,13 @@ public class AutoTarget extends Command {
         );
 
         // Always run the PID — no dead zone cutoff that causes oscillation
+        // When very close to the hub, reduce steer authority to prevent angle instability
         m_steer = m_steerController.calculate(m_driveBase.getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180;
+
+        // Scale down rotation command when close to hub to prevent atan2 instability
+        if (distance < 0.5) {
+            m_steer *= distance / 0.5;
+        }
 
         m_throttle *= m_percentModifier;
         m_strafe *= m_percentModifier;

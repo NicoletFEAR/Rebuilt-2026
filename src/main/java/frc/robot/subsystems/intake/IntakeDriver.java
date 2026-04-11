@@ -15,7 +15,6 @@ import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Voltage;
-// import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,13 +30,11 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     private double m_desiredVoltage;
     private TalonFX m_motor;
     private DCMotorSim m_motorSim;
-    // private DigitalInput m_beamBreak;
     private IntakeDriverState m_state = IntakeDriverState.OFF;
 
     public IntakeDriver() {
         m_motor = new TalonFX(DeviceIds.getIntakeDriverID(), new CANBus(Constants.hasCANivore() ? "*" : "rio"));
         m_motorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.001, IntakeConstants.getDriverGearRatio()), DCMotor.getKrakenX60(1));
-        // m_beamBreak = new DigitalInput(DeviceIds.kIntakeBeamBreak);
 
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.Feedback.SensorToMechanismRatio = IntakeConstants.getDriverGearRatio();
@@ -87,7 +84,6 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
         Logger.recordOutput("Intake/Driver/Voltage", getVoltage());
         Logger.recordOutput("Intake/Driver/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Intake/Driver/Current", m_motor.getStatorCurrent().getValueAsDouble());
-        // Logger.recordOutput("Intake/Beam Break", m_beamBreak.get());
     }
 
     @Override

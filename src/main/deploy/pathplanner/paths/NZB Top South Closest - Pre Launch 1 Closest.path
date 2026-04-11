@@ -3,34 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.35,
-        "y": 7.44
+        "x": 6.0,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.689691225651966,
-        "y": 7.472173999566651
+        "x": 6.662166666666667,
+        "y": 5.126377777777777
       },
       "isLocked": false,
-      "linkedName": "Start D"
+      "linkedName": "NZB Top South Closest"
     },
     {
       "anchor": {
-        "x": 3.922610556348074,
+        "x": 6.0,
         "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 4.170873725774684,
-        "y": 7.4278576612015605
+        "x": 7.003222222222222,
+        "y": 7.455299999999999
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Launch 1"
+      "linkedName": "Pre-Launch 1 Closest"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.639,
+        "y": 4.033
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.7255583126550871,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.7,
@@ -41,14 +52,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -77.956407880775
+    "velocity": 4.7,
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Start D and Depot Paths",
+  "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 65.0
   },
   "useDefaultConstraints": true
 }

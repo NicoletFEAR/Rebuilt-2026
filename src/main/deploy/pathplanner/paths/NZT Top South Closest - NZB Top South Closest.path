@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.35,
-        "y": 7.44
+        "x": 6.0,
+        "y": 6.939
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.689691225651966,
-        "y": 7.472173999566651
+        "x": 6.0,
+        "y": 5.939
       },
       "isLocked": false,
-      "linkedName": "Start D"
+      "linkedName": "NZT Top South Closest"
     },
     {
       "anchor": {
-        "x": 3.922610556348074,
-        "y": 7.4572753209700435
+        "x": 6.0,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 4.170873725774684,
-        "y": 7.4278576612015605
+        "x": 6.0,
+        "y": 5.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Launch 1"
+      "linkedName": "NZB Top South Closest"
     }
   ],
   "rotationTargets": [],
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -77.956407880775
+    "velocity": 2.5,
+    "rotation": 65.0
   },
   "reversed": false,
-  "folder": "Start D and Depot Paths",
+  "folder": "Comp",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 90.0
+    "velocity": 2.5,
+    "rotation": 65.0
   },
   "useDefaultConstraints": true
 }

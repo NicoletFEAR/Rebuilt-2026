@@ -167,7 +167,7 @@ public class AutoTarget extends Command {
 
         Logger.recordOutput("Angle to lookahead", angleToLookahead);
 
-        if (angleToLookahead < 0.25 && angleToLookahead > -0.25) {
+        if (angleToLookahead < 0.125 && angleToLookahead > -0.125) {
             if (linearVelocity > maxLinearVelocity) {
                 speeds.vxMetersPerSecond *= maxLinearVelocity / linearVelocity;
                 speeds.vyMetersPerSecond *= maxLinearVelocity / linearVelocity;

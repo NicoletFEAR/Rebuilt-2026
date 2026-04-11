@@ -333,6 +333,10 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
+    public void updateSimYaw(ChassisSpeeds speeds) {
+        m_simYaw += Units.radiansToDegrees(speeds.omegaRadiansPerSecond * Constants.kdt);
+    }
+
     public void runVolts(Voltage volts) {
         for (SwerveModule module : m_modules) {
             module.runVolts(volts, 0);

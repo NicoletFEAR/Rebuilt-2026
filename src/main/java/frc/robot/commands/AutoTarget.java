@@ -7,6 +7,9 @@
 
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.MathUtil;
@@ -14,13 +17,17 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LauncherConstants;
+import frc.robot.RobotContainer;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Launcher;
@@ -51,6 +58,8 @@ public class AutoTarget extends Command {
     // Track position over time to compute pure translational velocity
     private Translation2d m_lastPosition;
     private Translation2d m_fieldVelocity = new Translation2d();
+
+    private SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(DriveConstants.kModuleTranslations);
 
     public AutoTarget (
         UniversalController driverController,
@@ -128,30 +137,49 @@ public class AutoTarget extends Command {
 
         Translation2d velocityCompensation = m_fieldVelocity.times(LauncherConstants.kAutoAimTof.get(distance));
 
-        // Cap compensation to prevent target from flipping past the robot at close range or high speed
-        double maxCompensation = distance * 0.5;
-        double compensationMagnitude = velocityCompensation.getNorm();
-        if (compensationMagnitude > maxCompensation && compensationMagnitude > 0) {
-            velocityCompensation = velocityCompensation.times(maxCompensation / compensationMagnitude);
-        }
+        double maxLinearVelocity = distance / LauncherConstants.kAutoAimTof.get(distance) * 0.75;
 
-        target = target.minus(velocityCompensation);
-        Logger.recordOutput("Rotation target", new Pose2d(target, new Rotation2d()));
+        Translation2d lookaheadTarget = target.minus(velocityCompensation);
+        Logger.recordOutput("Rotation target", new Pose2d(lookaheadTarget, new Rotation2d()));
         Logger.recordOutput("AutoTarget/FieldVelocity", m_fieldVelocity.getNorm());
 
         double desiredAngle = Math.atan2(
-            target.getY() - drivePose.getY(),
-            target.getX() - drivePose.getX()
+            lookaheadTarget.getY() - drivePose.getY(),
+            lookaheadTarget.getX() - drivePose.getX()
         );
 
         // Always run the PID
         m_steer = m_steerController.calculate(m_driveBase.getYaw().getDegrees(), Math.toDegrees(desiredAngle)) / 180;
 
-        m_throttle *= m_percentModifier;
-        m_strafe *= m_percentModifier;
-        m_steer *= m_percentModifier;
+        m_throttle *= m_percentModifier * DriveConstants.getMaxModuleSpeed();
+        m_strafe *= m_percentModifier * DriveConstants.getMaxModuleSpeed();
+        m_steer *= RotationsPerSecond.of(DriveConstants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
 
-        m_driveBase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_throttle, m_strafe, m_steer, drivePose.getRotation());
+
+        if (RobotContainer.getAlliance() == Alliance.Red) {
+            speeds.vxMetersPerSecond *= -1.0;
+            speeds.vyMetersPerSecond *= -1.0;
+        }
+
+        double linearVelocity = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).getNorm();
+        double angleToLookahead = currentPosition.minus(target).getAngle().minus(velocityCompensation.unaryMinus().getAngle()).getRotations();
+
+        Logger.recordOutput("Angle to lookahead", angleToLookahead);
+
+        if (angleToLookahead < 0.25 && angleToLookahead > -0.25) {
+            if (linearVelocity > maxLinearVelocity) {
+                speeds.vxMetersPerSecond *= maxLinearVelocity / linearVelocity;
+                speeds.vyMetersPerSecond *= maxLinearVelocity / linearVelocity;
+            }
+        }
+
+        speeds = ChassisSpeeds.discretize(speeds, Constants.kdt);
+        m_driveBase.setModuleStates(m_kinematics.toSwerveModuleStates(speeds), m_isOpenLoop);
+
+        if (RobotBase.isSimulation()) {
+            m_driveBase.updateSimYaw(speeds);
+        }
 
         // Adjust hood angle based on distance to hub
         m_hood.runToPosition(MathUtil.clamp(

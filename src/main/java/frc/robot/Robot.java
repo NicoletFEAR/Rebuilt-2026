@@ -22,6 +22,8 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.pathfinding.LocalADStar;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 
 /**
  * The system is configured to automatically run this class, and to call the functions corresponding to
@@ -37,6 +39,7 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void robotInit() {
+        Pathfinding.setPathfinder(new LocalADStar());
         Constants.instantiateProperties();
 
         // Various values that make managing the code version easier

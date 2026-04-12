@@ -1,8 +1,10 @@
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
+import java.util.function.Supplier;
+
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -12,12 +14,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.auto.Autos;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.DeviceIds;
@@ -45,7 +49,7 @@ public class RobotContainer {
     private final UniversalController m_operatorController = new UniversalController(
         OperatorConstants.getOperatorControllerPort(), OperatorConstants.getControllerType());
 
-    private final SendableChooser<Command> autoChooser;
+    private final SendableChooser<Supplier<Command>> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
 
     private final SwerveDrive m_driveBase = new SwerveDrive();
@@ -82,7 +86,7 @@ public class RobotContainer {
         }
 
         createNamedCommands();
-        autoChooser = AutoBuilder.buildAutoChooser();
+        autoChooser = Autos.buildAutoChooser(this);
 
         m_mainTab.add("Auto Chooser", autoChooser).withPosition(5, 0).withSize(5, 2);
 
@@ -336,7 +340,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+        return autoChooser.getSelected().get();
     }
 
     public Command runAutoLedAnimation() {
@@ -445,6 +449,41 @@ public class RobotContainer {
      */
     public void teleopExit() {
         CommandScheduler.getInstance().schedule(m_hood.runProfileToPosition(0.0d));
+    }
+
+    public Command autoStartIntake() {
+        return m_intakePivot
+            .out()
+            .alongWith(m_intakeDriver.intake());
+    }
+
+    public Command autoEndIntake() {
+        return m_intakePivot
+            .in()
+            .alongWith(m_intakeDriver.off());
+    }
+
+    public Command autoStartLaunch() {
+        return m_launcher
+            .launch()
+            .alongWith(m_hood.adjustToHubDistance())
+            .alongWith(new WaitUntilCommand(m_launcher::isAtVelocity)
+                .andThen(m_indexer.index()
+                    .alongWith(m_intakeDriver.intake())
+                    .alongWith(m_intakePivot.hold()
+                        .andThen(m_intakePivot.in())
+                        .repeatedly())));
+    }
+
+    public Command autoEndLaunch() {
+        return m_indexer
+            .off()
+            .alongWith(m_launcher.idle())
+            .alongWith(m_hood.endAutoTarget());
+    }
+
+    public Command autoResetPose(Pose2d pose) {
+        return Commands.runOnce(() -> m_driveBase.resetPose(pose));
     }
 
     private void createNamedCommands() {

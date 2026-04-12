@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 6.0057346647646215,
-        "y": 3.9897146932952925
+        "y": 4.778972895863053
       },
       "prevControl": null,
       "nextControl": {
         "x": 6.255343885415335,
-        "y": 3.323894412805469
+        "y": 4.113152615373229
       },
       "isLocked": false,
       "linkedName": "NZB Bottom North Closest"

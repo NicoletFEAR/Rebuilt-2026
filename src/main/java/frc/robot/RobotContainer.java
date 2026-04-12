@@ -1,7 +1,5 @@
 package frc.robot;
 
-import java.util.function.Supplier;
-
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -10,7 +8,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -49,7 +46,6 @@ public class RobotContainer {
     private final UniversalController m_operatorController = new UniversalController(
         OperatorConstants.getOperatorControllerPort(), OperatorConstants.getControllerType());
 
-    private final SendableChooser<Supplier<Command>> autoChooser;
     public static ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
 
     private final SwerveDrive m_driveBase = new SwerveDrive();
@@ -64,7 +60,6 @@ public class RobotContainer {
     private IntakePivot m_intakePivot;
     private Led m_led;
 
-    private static Alliance m_alliance = Alliance.Blue;
     private boolean m_limitOverrideMode = false;
     private boolean m_automaticLaunching = false;
     private boolean m_manualLaunching = false;
@@ -86,9 +81,7 @@ public class RobotContainer {
         }
 
         createNamedCommands();
-        autoChooser = Autos.buildAutoChooser(this);
-
-        m_mainTab.add("Auto Chooser", autoChooser).withPosition(5, 0).withSize(5, 2);
+        Autos.addChoosersToShuffleboard(m_mainTab);
 
         configureBindings();
     }
@@ -143,7 +136,6 @@ public class RobotContainer {
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.getDefaultSpeed(),
                     true,
-                    true,
                     m_driveBase,
                     m_hood,
                     m_launcher
@@ -160,7 +152,6 @@ public class RobotContainer {
                     OperatorConstants.kThrottleAxis,
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.getSlowSpeed(),
-                    true,
                     true,
                     m_driveBase,
                     m_hood,
@@ -340,7 +331,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected().get();
+        return Autos.getAuto(this);
     }
 
     public Command runAutoLedAnimation() {
@@ -349,10 +340,6 @@ public class RobotContainer {
 
     public Command stopLedAnimation() {
         return m_led.stopAnimation();
-    }
-
-    public static Alliance getAlliance() {
-        return m_alliance;
     }
 
     public Alliance getAutoWinner() {
@@ -388,7 +375,6 @@ public class RobotContainer {
     }
 
     public void periodic() {
-      m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
       SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
 
@@ -396,14 +382,7 @@ public class RobotContainer {
      * This method should be called at the start of autonomous and perform
      * any necessary setup and processing for the autonomous period
      */
-    public void autonomousInit() {
-        m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-    }
-
-    public Command autonomousInitCommand() {
-        return m_hood.runProfileToPosition(0.0d)
-            .alongWith(m_launcher.idle());
-    }
+    public void autonomousInit() {}
 
     public Command adjustLauncherSpeedToHub() {
         return m_launcher.adjustSpeedToHubDistance(m_driveBase::distanceToHub);
@@ -423,10 +402,8 @@ public class RobotContainer {
      * who won autos, starting times, and sending alerts based on game shifts.
      */
     public void teleopInit() {
-        m_alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-
         // Start the game timer
-        m_gameTimer.teleopStart(getAutoWinner() == m_alliance);
+        m_gameTimer.teleopStart(getAutoWinner() == Robot.getAlliance());
 
         CommandScheduler.getInstance().schedule(
             m_led.startSwerveAnimation()

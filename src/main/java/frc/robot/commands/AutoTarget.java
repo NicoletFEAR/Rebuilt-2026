@@ -25,9 +25,9 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LauncherConstants;
-import frc.robot.RobotContainer;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Launcher;
@@ -51,7 +51,6 @@ public class AutoTarget extends Command {
     private Launcher m_launcher;
 
     private boolean m_isOpenLoop;
-    private boolean m_isFieldRelative;
 
     private double m_percentModifier;
 
@@ -67,7 +66,6 @@ public class AutoTarget extends Command {
         int strafeAxis,
         double percentModifier,
         boolean isOpenLoop,
-        boolean isFieldRelative,
         SwerveDrive driveBase,
         Hood hood,
         Launcher launcher) {
@@ -79,8 +77,6 @@ public class AutoTarget extends Command {
         m_isOpenLoop = isOpenLoop;
 
         m_steerController.enableContinuousInput(-180, 180);
-
-        m_isFieldRelative = isFieldRelative;
 
         m_driveBase = driveBase;
 
@@ -157,7 +153,7 @@ public class AutoTarget extends Command {
 
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_throttle, m_strafe, m_steer, drivePose.getRotation());
 
-        if (RobotContainer.getAlliance() == Alliance.Red) {
+        if (Robot.getAlliance() == Alliance.Red) {
             speeds.vxMetersPerSecond *= -1.0;
             speeds.vyMetersPerSecond *= -1.0;
         }

@@ -7,9 +7,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,6 +24,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathfindingCommand;
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 
@@ -80,6 +83,9 @@ public class Robot extends LoggedRobot {
         } else {
             // We don't need to keep log files during simulation
             Logger.addDataReceiver(new NT4Publisher());
+            // Default to blue in simulation
+            DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
+            DriverStationSim.notifyNewData();
         }
 
         // Disables Hoot logging
@@ -88,9 +94,6 @@ public class Robot extends LoggedRobot {
         // Start logging! No more data receivers, replay sources, or metadata values may be added.
         Logger.start();
 
-        // WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
-        PortForwarder.add(5800, "10.47.86.11", 5800);
-
         // It's obvious if a joystick is disconnected and I'm tired of these warnings
         // clogging up the driver station
         DriverStation.silenceJoystickConnectionWarning(true);
@@ -98,7 +101,7 @@ public class Robot extends LoggedRobot {
         RoboRioSim.setTeamNumber(4786);
         m_robotContainer = new RobotContainer();
 
-        CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
+        CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand().andThen(PathfindingCommand.warmupCommand()));
     }
 
     @Override
@@ -179,4 +182,8 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void testExit() {}
+
+    public static Alliance getAlliance() {
+        return DriverStation.getAlliance().orElse(Alliance.Blue);
+    }
 }

@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.Supplier;
+
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -426,6 +428,10 @@ public class RobotContainer {
      */
     public void teleopExit() {
         CommandScheduler.getInstance().schedule(m_hood.runProfileToPosition(0.0d));
+    }
+
+    public Supplier<Pose2d> autoGetPose() {
+        return () -> m_driveBase.getPose();
     }
 
     public Command autoStartIntake() {

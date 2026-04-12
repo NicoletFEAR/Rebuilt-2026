@@ -199,7 +199,7 @@ public class SideRelativePose2d extends AllianceRelativePose2d {
         );
     }
 
-    public SideRelativePose2d nearestAllianceSide(Collection<SideRelativePose2d> poses) {
+    public SideRelativePose2d nearestSideRelative(Collection<SideRelativePose2d> poses) {
         return Collections.min(
             poses,
             Comparator.comparing((SideRelativePose2d other) -> getTranslation().getDistance(other.getTranslation()))

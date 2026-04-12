@@ -471,8 +471,6 @@ public class RobotContainer {
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
-            // TODO: Replace these old commands with their newer versions in the autos
-            // NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
             NamedCommands.registerCommand(
                 "ResetIntake",
                 m_intakePivot

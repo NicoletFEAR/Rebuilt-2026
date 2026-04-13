@@ -87,6 +87,9 @@ public class TalonSwerveModule implements SwerveModule {
     }
 
     public Rotation2d getModuleHeading() {
+        if (RobotBase.isReal()) {
+            return Rotation2d.fromDegrees(getAbsolutePosition());
+        }
         return m_modulePosition.angle;
     }
 
@@ -96,7 +99,7 @@ public class TalonSwerveModule implements SwerveModule {
 
     public SwerveModulePosition getModulePosition() {
         if (RobotBase.isReal()) {
-            m_modulePosition.angle = Rotation2d.fromDegrees(m_steerEncoder.getPosition());
+            m_modulePosition.angle = Rotation2d.fromDegrees(getAbsolutePosition());
             m_modulePosition.distanceMeters = getDriveMeters();
         } else {
             m_modulePosition.angle = m_simAngle;
@@ -108,7 +111,7 @@ public class TalonSwerveModule implements SwerveModule {
 
     public SwerveModuleState getModuleState() {
         if (RobotBase.isReal()) {
-            m_moduleState.angle = Rotation2d.fromDegrees(m_steerEncoder.getPosition());
+            m_moduleState.angle = Rotation2d.fromDegrees(getAbsolutePosition());
             m_moduleState.speedMetersPerSecond = getDriveMetersPerSecond();
         } else {
             m_moduleState.angle = m_simAngle;
@@ -142,6 +145,9 @@ public class TalonSwerveModule implements SwerveModule {
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/SpeedCommandSent", moduleState.speedMetersPerSecond != m_lastSpeed);
 
         if (moduleState.angle.getDegrees() != m_lastAngle) {
+            // Re-sync relative encoder to absolute before commanding new position
+            // This prevents drift between the SparkMax encoder and CANcoder
+            m_steerEncoder.setPosition(getAbsolutePosition());
             m_steerController.setSetpoint(moduleState.angle.getDegrees(), ControlType.kPosition);
             m_lastAngle = moduleState.angle.getDegrees();
         }

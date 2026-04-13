@@ -139,7 +139,6 @@ public class RobotContainer {
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.getDefaultSpeed(),
                     true,
-                    true,
                     m_driveBase,
                     m_hood,
                     m_launcher
@@ -156,7 +155,6 @@ public class RobotContainer {
                     OperatorConstants.kThrottleAxis,
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.getSlowSpeed(),
-                    true,
                     true,
                     m_driveBase,
                     m_hood,

@@ -51,7 +51,6 @@ public class AutoTarget extends Command {
     private Launcher m_launcher;
 
     private boolean m_isOpenLoop;
-    private boolean m_isFieldRelative;
 
     private double m_percentModifier;
 
@@ -67,7 +66,6 @@ public class AutoTarget extends Command {
         int strafeAxis,
         double percentModifier,
         boolean isOpenLoop,
-        boolean isFieldRelative,
         SwerveDrive driveBase,
         Hood hood,
         Launcher launcher) {
@@ -79,8 +77,6 @@ public class AutoTarget extends Command {
         m_isOpenLoop = isOpenLoop;
 
         m_steerController.enableContinuousInput(-180, 180);
-
-        m_isFieldRelative = isFieldRelative;
 
         m_driveBase = driveBase;
 
@@ -104,10 +100,6 @@ public class AutoTarget extends Command {
      */
     @Override
     public void execute() {
-        target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
-            ? DriveConstants.kBlueHubPosition
-            : DriveConstants.kRedHubPosition;
-
         //isBatteryInBack gives value to change controls based on location of battery
         m_throttle = MathUtil.applyDeadband(
             DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),

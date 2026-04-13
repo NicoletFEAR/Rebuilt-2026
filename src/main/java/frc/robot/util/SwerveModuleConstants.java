@@ -12,11 +12,13 @@ public class SwerveModuleConstants {
     public int steerId;
     public int steerEncoderId;
     public double offset;
+    public boolean driveInverted;
 
-    public SwerveModuleConstants(int driveId, int steerId, int steerEncoderId, double offset) {
+    public SwerveModuleConstants(int driveId, int steerId, int steerEncoderId, double offset, boolean driveInverted) {
         this.driveId = driveId;
         this.steerId = steerId;
         this.steerEncoderId = steerEncoderId;
         this.offset = offset;
+        this.driveInverted = driveInverted;
     }
 }

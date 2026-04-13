@@ -55,10 +55,10 @@ public class DeviceConfigurator {
         motor.getEncoder().setPosition(0);
     }
 
-    public static void configureTalonFXDriveMotor(TalonFX motor) {
+    public static void configureTalonFXDriveMotor(TalonFX motor, boolean inverted) {
         TalonFXConfiguration config = new TalonFXConfiguration();
 
-        config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        config.MotorOutput.Inverted = inverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
         config.CurrentLimits.StatorCurrentLimitEnable = true;
         config.CurrentLimits.StatorCurrentLimit = 360;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;

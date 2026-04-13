@@ -70,7 +70,7 @@ public class TalonSwerveModule implements SwerveModule {
         m_moduleState = new SwerveModuleState();
 
         DeviceConfigurator.configureSparkMaxSteerMotor(m_steerMotor);
-        DeviceConfigurator.configureTalonFXDriveMotor(m_driveMotor);
+        DeviceConfigurator.configureTalonFXDriveMotor(m_driveMotor, m_constants.driveInverted);
         DeviceConfigurator.configureCANcoder(m_steerAbsEncoder, m_constants.offset);
     }
 

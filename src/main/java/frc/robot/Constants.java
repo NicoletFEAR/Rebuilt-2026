@@ -428,28 +428,32 @@ public final class Constants {
             DeviceIds.getFrontLeftDriveId(),
             DeviceIds.getFrontLeftSteerId(),
             DeviceIds.getFrontLeftSteerEncoderId(),
-            getFrontLeftOffset()
+            getFrontLeftOffset(),
+            true
         );
 
         public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
             DeviceIds.getFrontRightDriveId(),
             DeviceIds.getFrontRightSteerId(),
             DeviceIds.getFrontRightSteerEncoderId(),
-            getFrontRightOffset()
+            getFrontRightOffset(),
+            false
         );
 
         public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
             DeviceIds.getBackLeftDriveId(),
             DeviceIds.getBackLeftSteerId(),
             DeviceIds.getBackLeftSteerEncoderId(),
-            getBackLeftOffset()
+            getBackLeftOffset(),
+            true
         );
 
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
             DeviceIds.getBackRightDriveId(),
             DeviceIds.getBackRightSteerId(),
             DeviceIds.getBackRightSteerEncoderId(),
-            getBackRightOffset()
+            getBackRightOffset(),
+            false
         );
 
         public static final double kVerticalMidfieldPosition = Meters.convertFrom(317.688, Inches);

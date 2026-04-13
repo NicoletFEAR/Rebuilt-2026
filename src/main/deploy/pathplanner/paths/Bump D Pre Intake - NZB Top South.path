@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.35,
-        "y": 7.44
+        "x": 6.662166666666667,
+        "y": 5.983888888888889
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.689691225651966,
-        "y": 7.472173999566651
+        "x": 7.704822222222223,
+        "y": 6.110566666666666
       },
       "isLocked": false,
-      "linkedName": "Start D"
+      "linkedName": "Bump D Pre-Intake"
     },
     {
       "anchor": {
-        "x": 3.922610556348074,
-        "y": 7.4572753209700435
+        "x": 7.734,
+        "y": 4.65
       },
       "prevControl": {
-        "x": 4.170873725774684,
-        "y": 7.4278576612015605
+        "x": 7.792522222222221,
+        "y": 5.642833333333333
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Launch 1"
+      "linkedName": "NZB Top-South"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -77.956407880775
+    "rotation": 65.0
   },
   "reversed": false,
-  "folder": "Start D and Depot Paths",
+  "folder": "Comp",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 90.0
+    "velocity": 2.5,
+    "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

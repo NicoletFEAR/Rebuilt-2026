@@ -111,7 +111,6 @@ public class TalonSwerveModule implements SwerveModule {
 
     public SwerveModuleState getModuleState() {
         if (RobotBase.isReal()) {
-            m_moduleState.angle = Rotation2d.fromDegrees(getAbsolutePosition());
             m_moduleState.speedMetersPerSecond = getDriveMetersPerSecond();
         } else {
             m_moduleState.angle = m_simAngle;

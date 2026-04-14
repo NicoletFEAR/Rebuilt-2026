@@ -46,6 +46,8 @@ public class SparkMaxSwerveModule implements SwerveModule {
     private double m_lastSpeed;
     private double m_lastAngle;
 
+    private static final double SPEED_EPSILON = 1e-4;
+
     private Rotation2d m_simAngle = new Rotation2d();
     private double m_simDist;
     private double m_simVel;
@@ -122,7 +124,7 @@ public class SparkMaxSwerveModule implements SwerveModule {
             m_lastAngle = moduleState.angle.getDegrees();
         }
 
-        if (moduleState.speedMetersPerSecond != m_lastSpeed) {
+        if (Math.abs(moduleState.speedMetersPerSecond - m_lastSpeed) > SPEED_EPSILON) {
             if (isOpenLoop) {
                 m_driveMotor.set(moduleState.speedMetersPerSecond / DriveConstants.getMaxModuleSpeed());
             } else {

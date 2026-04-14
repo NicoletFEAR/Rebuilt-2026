@@ -264,7 +264,7 @@ public final class Constants {
         }
 
         public static double getDriveRevToMeters() {
-            return getDriveGearRatio() / (Math.PI * getWheelDiameter());
+            return (Math.PI * getWheelDiameter()) / getDriveGearRatio();
         }
 
         public static double getTurnRotationsToDegrees() {
@@ -424,12 +424,28 @@ public final class Constants {
             DriveConstants.kModuleTranslations
         );
 
+        public static boolean getFrontLeftInverted() {
+            return Boolean.parseBoolean(m_properties.getProperty("drive.front-left-inverted"));
+        }
+
+        public static boolean getFrontRightInverted() {
+            return Boolean.parseBoolean(m_properties.getProperty("drive.front-right-inverted"));
+        }
+
+        public static boolean getBackLeftInverted() {
+            return Boolean.parseBoolean(m_properties.getProperty("drive.back-left-inverted"));
+        }
+
+        public static boolean getBackRightInverted() {
+            return Boolean.parseBoolean(m_properties.getProperty("drive.back-right-inverted"));
+        }
+
         public static final SwerveModuleConstants kFrontLeft = new SwerveModuleConstants(
             DeviceIds.getFrontLeftDriveId(),
             DeviceIds.getFrontLeftSteerId(),
             DeviceIds.getFrontLeftSteerEncoderId(),
             getFrontLeftOffset(),
-            true
+            getFrontLeftInverted()
         );
 
         public static final SwerveModuleConstants kFrontRight = new SwerveModuleConstants(
@@ -437,7 +453,7 @@ public final class Constants {
             DeviceIds.getFrontRightSteerId(),
             DeviceIds.getFrontRightSteerEncoderId(),
             getFrontRightOffset(),
-            true
+            getFrontRightInverted()
         );
 
         public static final SwerveModuleConstants kBackLeft = new SwerveModuleConstants(
@@ -445,7 +461,7 @@ public final class Constants {
             DeviceIds.getBackLeftSteerId(),
             DeviceIds.getBackLeftSteerEncoderId(),
             getBackLeftOffset(),
-            true
+            getBackLeftInverted()
         );
 
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
@@ -453,7 +469,7 @@ public final class Constants {
             DeviceIds.getBackRightSteerId(),
             DeviceIds.getBackRightSteerEncoderId(),
             getBackRightOffset(),
-            true
+            getBackRightInverted()
         );
 
         public static final double kVerticalMidfieldPosition = 4.0d;

@@ -63,7 +63,7 @@ public class DeviceConfigurator {
         config.CurrentLimits.StatorCurrentLimit = 360;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = DriveConstants.getDriveRampRate();
-        config.Feedback.SensorToMechanismRatio = DriveConstants.getDriveRevToMeters();
+        config.Feedback.SensorToMechanismRatio = DriveConstants.getDriveGearRatio();
 
         config.Slot0.kP = DriveConstants.getDriveKP();
         config.Slot0.kI = DriveConstants.getDriveKI();
@@ -84,8 +84,8 @@ public class DeviceConfigurator {
             .idleMode(IdleMode.kBrake)
             .openLoopRampRate(DriveConstants.getDriveRampRate());
 
-        config.encoder.positionConversionFactor(1 / DriveConstants.getDriveRevToMeters())
-            .velocityConversionFactor(60 / DriveConstants.getDriveRevToMeters());
+        config.encoder.positionConversionFactor(DriveConstants.getDriveRevToMeters())
+            .velocityConversionFactor(DriveConstants.getDriveRevToMeters() / 60.0);
 
         config.closedLoop
             .p(DriveConstants.getDriveKP())

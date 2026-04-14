@@ -50,6 +50,8 @@ public class TalonSwerveModule implements SwerveModule {
     private double m_lastSpeed;
     private double m_lastAngle;
 
+    private static final double SPEED_EPSILON = 1e-4;
+
     private Rotation2d m_simAngle = new Rotation2d();
     private double m_simDist;
     private double m_simVel;
@@ -75,11 +77,13 @@ public class TalonSwerveModule implements SwerveModule {
     }
 
     public double getDriveMeters() {
-        return m_driveMotor.getPosition().getValue().in(Rotations);
+        // TalonFX position is in mechanism rotations (after gear ratio), convert to meters
+        return m_driveMotor.getPosition().getValue().in(Rotations) * Math.PI * DriveConstants.getWheelDiameter();
     }
 
     public double getDriveMetersPerSecond() {
-        return m_driveMotor.getVelocity().getValue().in(RotationsPerSecond);
+        // TalonFX velocity is in mechanism RPS (after gear ratio), convert to m/s
+        return m_driveMotor.getVelocity().getValue().in(RotationsPerSecond) * Math.PI * DriveConstants.getWheelDiameter();
     }
 
     public void resetAngleToAbsolute() {
@@ -142,21 +146,20 @@ public class TalonSwerveModule implements SwerveModule {
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/PostCosineSpeed", moduleState.speedMetersPerSecond);
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/IsOpenLoop", isOpenLoop);
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/LastSpeed", m_lastSpeed);
-        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/SpeedCommandSent", moduleState.speedMetersPerSecond != m_lastSpeed);
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/SpeedCommandSent", Math.abs(moduleState.speedMetersPerSecond - m_lastSpeed) > SPEED_EPSILON);
 
         if (moduleState.angle.getDegrees() != m_lastAngle) {
-            // Re-sync relative encoder to absolute before commanding new position
-            // This prevents drift between the SparkMax encoder and CANcoder
-            m_steerEncoder.setPosition(getAbsolutePosition());
             m_steerController.setSetpoint(moduleState.angle.getDegrees(), ControlType.kPosition);
             m_lastAngle = moduleState.angle.getDegrees();
         }
 
-        if (moduleState.speedMetersPerSecond != m_lastSpeed) {
+        if (Math.abs(moduleState.speedMetersPerSecond - m_lastSpeed) > SPEED_EPSILON) {
             if (isOpenLoop) {
                 m_driveMotor.set(moduleState.speedMetersPerSecond / DriveConstants.getMaxModuleSpeed());
             } else {
-                m_driveMotor.setControl(new VelocityVoltage(moduleState.speedMetersPerSecond));
+                // Convert m/s to mechanism RPS for VelocityVoltage
+                double mechanismRps = moduleState.speedMetersPerSecond / (Math.PI * DriveConstants.getWheelDiameter());
+                m_driveMotor.setControl(new VelocityVoltage(mechanismRps));
             }
 
             m_lastSpeed = moduleState.speedMetersPerSecond;

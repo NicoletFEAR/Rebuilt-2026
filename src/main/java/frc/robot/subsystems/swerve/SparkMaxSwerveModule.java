@@ -78,7 +78,10 @@ public class SparkMaxSwerveModule implements SwerveModule {
     }
 
     public Rotation2d getModuleHeading() {
-        return m_modulePosition.angle;
+        if (RobotBase.isReal()) {
+            return Rotation2d.fromDegrees(m_steerEncoder.getPosition());
+        }
+        return m_simAngle;
     }
 
     public double getAbsolutePosition() {

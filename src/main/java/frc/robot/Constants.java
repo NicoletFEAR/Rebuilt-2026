@@ -445,7 +445,7 @@ public final class Constants {
             DeviceIds.getBackLeftSteerId(),
             DeviceIds.getBackLeftSteerEncoderId(),
             getBackLeftOffset(),
-            false
+            true
         );
 
         public static final SwerveModuleConstants kBackRight = new SwerveModuleConstants(
@@ -453,7 +453,7 @@ public final class Constants {
             DeviceIds.getBackRightSteerId(),
             DeviceIds.getBackRightSteerEncoderId(),
             getBackRightOffset(),
-            false
+            true
         );
 
         public static final double kVerticalMidfieldPosition = 4.0d;

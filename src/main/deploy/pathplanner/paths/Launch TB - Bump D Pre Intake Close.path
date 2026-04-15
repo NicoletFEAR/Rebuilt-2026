@@ -8,27 +8,32 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3295666666666666,
-        "y": 6.6659999999999995
+        "x": 4.415055415384632,
+        "y": 5.492825596569292
       },
       "isLocked": false,
       "linkedName": "Launch TB"
     },
     {
       "anchor": {
-        "x": 3.326441441441442,
-        "y": 7.426036036036035
+        "x": 6.213922222222224,
+        "y": 6.003377777777778
       },
       "prevControl": {
-        "x": 2.6766888888888887,
-        "y": 7.523511111111111
+        "x": 5.191662710626592,
+        "y": 5.8289275661239435
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Pre-Trench D"
+      "linkedName": "Bump D Pre Intake Close"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -42,6 +47,17 @@
           "name": "ResetIntake"
         }
       }
+    },
+    {
+      "name": "StartIntake",
+      "waypointRelativePos": 0.5588089330024808,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StartIntake"
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -53,8 +69,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 4.7,
-    "rotation": 0.0
+    "velocity": 2.5,
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Comp",

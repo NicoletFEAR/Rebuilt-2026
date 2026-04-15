@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.500188888888889,
-        "y": 2.154322222222222
+        "x": 7.061688888888889,
+        "y": 1.511188888888888
       },
       "isLocked": false,
       "linkedName": "NZB Bottom North Far"
@@ -20,8 +20,8 @@
         "y": 0.55
       },
       "prevControl": {
-        "x": 7.149388888888889,
-        "y": 0.038875780630843404
+        "x": 7.227344444444444,
+        "y": 0.15671111111111036
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,7 +38,7 @@
       },
       "rotationOffset": 0.0,
       "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.8903225806451537,
+      "maxWaypointRelativePos": 1.0,
       "name": "Point Towards Zone"
     }
   ],

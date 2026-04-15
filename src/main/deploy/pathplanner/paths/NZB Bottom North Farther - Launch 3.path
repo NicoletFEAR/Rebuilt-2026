@@ -4,15 +4,15 @@
     {
       "anchor": {
         "x": 6.5,
-        "y": 0.639
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.5,
-        "y": 0.6390000000000001
+        "x": 6.915522222222222,
+        "y": 1.2480888888888884
       },
       "isLocked": false,
-      "linkedName": "Pre Launch 3 Farther"
+      "linkedName": "NZB Bottom North Farther"
     },
     {
       "anchor": {
@@ -20,22 +20,28 @@
         "y": 0.55
       },
       "prevControl": {
-        "x": 4.961426533523537,
-        "y": 0.5499999999999999
+        "x": 6.6914,
+        "y": 0.702399999999999
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Launch 3"
     }
   ],
-  "rotationTargets": [
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 180.0
+      "fieldPosition": {
+        "x": 4.639,
+        "y": 4.033
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 1.0,
+      "name": "Point Towards Zone"
     }
   ],
-  "constraintZones": [],
-  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.7,
@@ -52,8 +58,8 @@
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
-    "velocity": 4.5,
-    "rotation": 180.0
+    "velocity": 0,
+    "rotation": -65.0
   },
   "useDefaultConstraints": true
 }

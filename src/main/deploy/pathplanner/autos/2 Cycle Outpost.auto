@@ -21,22 +21,9 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "NZB Bottom North - Pre-Launch 3"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Pre-Launch 3 - Launch 3"
-                      }
-                    }
-                  ]
+                  "pathName": "NZB Bottom North - Launch 3"
                 }
               },
               {
@@ -97,22 +84,9 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "NZB Bottom North Far - Pre-Launch 3 Far"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Pre-Launch 3 Far - Launch 3"
-                      }
-                    }
-                  ]
+                  "pathName": "NZB Bottom North Far - Launch 3"
                 }
               },
               {

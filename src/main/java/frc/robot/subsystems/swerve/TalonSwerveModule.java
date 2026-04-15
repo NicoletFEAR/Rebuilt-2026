@@ -31,7 +31,6 @@ import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.util.DeviceConfigurator;
 import frc.robot.util.SwerveModuleConstants;
-import frc.robot.util.Utils;
 
 public class TalonSwerveModule implements SwerveModule {
     SwerveModuleConstants m_constants;
@@ -128,7 +127,7 @@ public class TalonSwerveModule implements SwerveModule {
     }
 
     public void setSwerveModuleState(SwerveModuleState moduleState, boolean isOpenLoop) {
-        moduleState = Utils.optimize(moduleState, getModuleHeading());
+        // moduleState = Utils.optimize(moduleState, getModuleHeading());
 
         double preCosinSpeed = moduleState.speedMetersPerSecond;
         moduleState.speedMetersPerSecond *= moduleState.angle.minus(getModuleHeading()).getCos();

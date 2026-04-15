@@ -51,6 +51,8 @@ public class AutoTarget extends Command {
 
     private double m_percentModifier;
 
+    private Translation2d target;
+
     public AutoTarget (
         UniversalController driverController,
         int throttleAxis,
@@ -94,6 +96,10 @@ public class AutoTarget extends Command {
      */
     @Override
     public void execute() {
+        target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
+            ? DriveConstants.kBlueHubPosition
+            : DriveConstants.kRedHubPosition;
+        
         //isBatteryInBack gives value to change controls based on location of battery
         m_throttle = MathUtil.applyDeadband(
             DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),

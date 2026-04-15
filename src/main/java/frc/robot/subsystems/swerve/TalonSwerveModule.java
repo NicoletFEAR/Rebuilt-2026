@@ -87,7 +87,7 @@ public class TalonSwerveModule implements SwerveModule {
     }
 
     public Rotation2d getModuleHeading() {
-        return m_modulePosition.angle;
+        return RobotBase.isSimulation() ? m_simAngle : Rotation2d.fromDegrees(m_steerEncoder.getPosition());
     }
 
     public double getAbsolutePosition() {

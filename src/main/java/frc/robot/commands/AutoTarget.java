@@ -99,7 +99,7 @@ public class AutoTarget extends Command {
         target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
             ? DriveConstants.kBlueHubPosition
             : DriveConstants.kRedHubPosition;
-
+        
         //isBatteryInBack gives value to change controls based on location of battery
         m_throttle = MathUtil.applyDeadband(
             DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
@@ -116,9 +116,17 @@ public class AutoTarget extends Command {
                 target = DriveConstants.kBlueHubPosition;
             } else {
                 if (m_driveBase.getPose().getY() <= DriveConstants.kVerticalMidfieldPosition) {
-                    target = DriveConstants.kBlueLeftPassingPosition;
+                    if (m_driveBase.getPose().getY() >= DriveConstants.kBlueLeftHubRedRightHubPosition) {
+                        target = DriveConstants.kBlueLeftHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kBlueLeftPassingPosition;
+                    }
                 } else {
-                    target = DriveConstants.kBlueRightPassingPosition;
+                    if (m_driveBase.getPose().getY() <= DriveConstants.kBlueRightHubRedLeftHubPosition) {
+                        target = DriveConstants.kBlueRightHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kBlueRightPassingPosition;
+                    }
                 }
             }
         } else {
@@ -126,9 +134,17 @@ public class AutoTarget extends Command {
                 target = DriveConstants.kRedHubPosition;
             } else {
                 if (m_driveBase.getPose().getY() >= DriveConstants.kVerticalMidfieldPosition) {
-                    target = DriveConstants.kRedLeftPassingPosition;
+                    if (m_driveBase.getPose().getY() <= DriveConstants.kBlueRightHubRedLeftHubPosition) {
+                        target = DriveConstants.kRedLeftHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kRedLeftPassingPosition;
+                    } 
                 } else {
-                    target = DriveConstants.kRedRightPassingPosition;
+                    if (m_driveBase.getPose().getY() >= DriveConstants.kBlueLeftHubRedRightHubPosition) {
+                        target = DriveConstants.kRedRightHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kRedRightPassingPosition;
+                    } 
                 }
             }
         }
@@ -149,26 +165,20 @@ public class AutoTarget extends Command {
 
         m_driveBase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
 
-        if (target == DriveConstants.kBlueHubPosition || target == DriveConstants.kRedHubPosition) {
-            // Adjust hood angle based on distance to hub
-            m_hood.runToPosition(MathUtil.clamp(
-                LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
-                LauncherConstants.getHoodMinPosition(),
-                LauncherConstants.getHoodMaxPosition()
-            ));
+         // Adjust hood angle based on distance to hub
+        m_hood.runToPosition(MathUtil.clamp(
+            LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
+            LauncherConstants.getHoodMinPosition(),
+            LauncherConstants.getHoodMaxPosition()
+        ));
 
-            // Adjust launcher speed based on distance to hub
-            double speedModifier = MathUtil.clamp(
-                LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
-                m_launcher.getMinSpeedModifier(), 1.0);
-            speedModifier *= DriverStation.isAutonomous() ? 1.25 : 1.1;
-            m_launcher.setSpeedModifierDirect(speedModifier);
-            m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
-        } else {
-            m_hood.runToPosition(LauncherConstants.kHoodPassingPosition);
-            m_launcher.setSpeedModifierDirect(LauncherConstants.kPassSpeedModifier);
-            m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * LauncherConstants.kPassSpeedModifier);
-        }
+        // Adjust launcher speed based on distance to hub
+        double speedModifier = MathUtil.clamp(
+            LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
+            m_launcher.getMinSpeedModifier(), 1.0);
+        speedModifier *= DriverStation.isAutonomous() ? 1.25 : 1.1;
+        m_launcher.setSpeedModifierDirect(speedModifier);
+        m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
     }
 
     // Called once the command ends or is interrupted.

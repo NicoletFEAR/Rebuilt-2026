@@ -116,9 +116,17 @@ public class AutoTarget extends Command {
                 target = DriveConstants.kBlueHubPosition;
             } else {
                 if (m_driveBase.getPose().getY() <= DriveConstants.kVerticalMidfieldPosition) {
-                    target = DriveConstants.kBlueLeftPassingPosition;
+                    if (m_driveBase.getPose().getY() >= DriveConstants.kBlueLeftHubRedRightHubPosition) {
+                        target = DriveConstants.kBlueLeftHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kBlueLeftPassingPosition;
+                    }
                 } else {
-                    target = DriveConstants.kBlueRightPassingPosition;
+                    if (m_driveBase.getPose().getY() <= DriveConstants.kBlueRightHubRedLeftHubPosition) {
+                        target = DriveConstants.kBlueRightHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kBlueRightPassingPosition;
+                    }
                 }
             }
         } else {
@@ -126,9 +134,17 @@ public class AutoTarget extends Command {
                 target = DriveConstants.kRedHubPosition;
             } else {
                 if (m_driveBase.getPose().getY() >= DriveConstants.kVerticalMidfieldPosition) {
-                    target = DriveConstants.kRedLeftPassingPosition;
+                    if (m_driveBase.getPose().getY() <= DriveConstants.kBlueRightHubRedLeftHubPosition) {
+                        target = DriveConstants.kRedLeftHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kRedLeftPassingPosition;
+                    } 
                 } else {
-                    target = DriveConstants.kRedRightPassingPosition;
+                    if (m_driveBase.getPose().getY() >= DriveConstants.kBlueLeftHubRedRightHubPosition) {
+                        target = DriveConstants.kRedRightHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kRedRightPassingPosition;
+                    } 
                 }
             }
         }

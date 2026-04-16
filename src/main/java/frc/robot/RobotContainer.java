@@ -191,6 +191,8 @@ public class RobotContainer {
                 .onTrue(m_kitbotLauncher.launch())
                 .onFalse(m_kitbotIntake.off())
                 .onFalse(m_kitbotLauncher.off());
+
+        // These are the button bindings which are specific to Tusk
         } else if (Constants.kRobotName.equals("tusk")) {
             // TODO: Fix jostle distance in case the intake is stuck on a ball
 
@@ -481,7 +483,6 @@ public class RobotContainer {
                     .alongWith(m_hood.adjustToHubDistance())
                     .alongWith(new WaitUntilCommand(m_launcher::isAtVelocity)
                     .andThen(m_indexer.index()
-                    .alongWith(m_intakeDriver.intake())
                     .alongWith(m_intakePivot.hold()
                         .andThen(m_intakePivot.in())
                         .repeatedly())))

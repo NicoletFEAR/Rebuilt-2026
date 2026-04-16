@@ -28,7 +28,12 @@
       "linkedName": "NZT Bottom North Close"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.337759336099588,
+      "rotationDegrees": 83.246
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -71,7 +76,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 83.24640399798929
+    "rotation": 83.246
   },
   "useDefaultConstraints": true
 }

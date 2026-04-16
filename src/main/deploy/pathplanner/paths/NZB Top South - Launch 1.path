@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.83079954954955,
-        "y": 6.588490990990992
+        "x": 8.11408888888889,
+        "y": 6.909611111111111
       },
       "isLocked": false,
       "linkedName": "NZB Top-South"
     },
     {
       "anchor": {
-        "x": 3.922610556348074,
-        "y": 7.4572753209700435
+        "x": 3.7,
+        "y": 7.457
       },
       "prevControl": {
-        "x": 7.1566779279279285,
-        "y": 7.742668918918918
+        "x": 6.4882783325408155,
+        "y": 8.020202456807734
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,14 +38,14 @@
       },
       "rotationOffset": 0.0,
       "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 1.0,
+      "maxWaypointRelativePos": 0.7732009925558325,
       "name": "Point Towards Zone"
     }
   ],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -53,7 +53,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -77.956407880775
+    "rotation": -71.87529253659945
   },
   "reversed": false,
   "folder": "Comp",
@@ -61,5 +61,5 @@
     "velocity": 0,
     "rotation": 65.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

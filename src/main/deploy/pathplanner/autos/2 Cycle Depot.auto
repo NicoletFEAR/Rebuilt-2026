@@ -40,15 +40,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "StartLaunch"
-                }
-              },
-              {
                 "type": "wait",
                 "data": {
                   "waitTime": 3.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
                 }
               }
             ]
@@ -71,12 +71,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartIntake"
           }
         },
         {

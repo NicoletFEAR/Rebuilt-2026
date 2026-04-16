@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 6.915522222222222,
-        "y": 1.2480888888888884
+        "y": 1.248088888888888
       },
       "isLocked": false,
       "linkedName": "NZB Bottom North Farther"
@@ -44,8 +44,8 @@
   ],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -61,5 +61,5 @@
     "velocity": 0,
     "rotation": -65.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

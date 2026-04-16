@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.734,
-        "y": 4.65
+        "x": 6.5,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.83079954954955,
-        "y": 6.588490990990992
+        "x": 7.371171171171171,
+        "y": 6.4250675675675675
       },
       "isLocked": false,
-      "linkedName": "NZB Top-South"
+      "linkedName": "NZB Top South Farther"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 7.1566779279279285,
-        "y": 7.742668918918918
+        "x": 6.74811936936937,
+        "y": 7.783524774774774
       },
       "nextControl": null,
       "isLocked": false,

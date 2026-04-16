@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.0,
-        "y": 4.033
+        "x": 6.0,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.8120111111111115,
-        "y": 5.633088888888888
+        "x": 7.207747747747748,
+        "y": 6.762128378378378
       },
       "isLocked": false,
-      "linkedName": "NZT Top South Far"
+      "linkedName": "NZB Top South Closest"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 7.022711111111111,
-        "y": 8.303066666666666
+        "x": 6.359988738738739,
+        "y": 7.64052927927928
       },
       "nextControl": null,
       "isLocked": false,

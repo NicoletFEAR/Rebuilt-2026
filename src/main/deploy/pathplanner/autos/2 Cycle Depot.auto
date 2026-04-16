@@ -21,22 +21,9 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "NZB Top South - Pre Launch 1"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Pre Launch 1 - Launch 1"
-                      }
-                    }
-                  ]
+                  "pathName": "NZB Top South - Launch 1"
                 }
               },
               {
@@ -49,15 +36,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "StartLaunch"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StartLaunch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
+              }
+            ]
           }
         },
         {
@@ -96,22 +90,9 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "NZT Top South Far - Pre Launch 1 Far"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Pre Launch 1 Far - Launch 1"
-                      }
-                    }
-                  ]
+                  "pathName": "NZB Top South Far - Launch 1"
                 }
               },
               {

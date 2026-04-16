@@ -21,9 +21,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "NZB Top South - Launch 1"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "NZB Top South - Pre Launch 1"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Pre Launch 1 - Launch 1"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -90,9 +103,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "NZB Top South Far - Launch 1"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "NZT Top South Far - Pre Launch 1 Far"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Pre Launch 1 Far - Launch 1"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -130,7 +156,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Launch 1 - NZT Top South Closer"
+                  "pathName": "Launch 1 - Other Side Hub Depot"
                 }
               },
               {
@@ -140,37 +166,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NZT Top South Closer - NZB Top South Farther"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "NZB Top South Farther - Launch 1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "StartIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartLaunch"
           }
         }
       ]

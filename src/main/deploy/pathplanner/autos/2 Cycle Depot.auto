@@ -21,9 +21,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "NZB Top South - Launch 1"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "NZB Top South - Pre Launch 1"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Pre Launch 1 - Launch 1"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -84,9 +97,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "NZB Top South Far - Launch 1"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "NZT Top South Far - Pre Launch 1 Far"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Pre Launch 1 Far - Launch 1"
+                      }
+                    }
+                  ]
                 }
               },
               {

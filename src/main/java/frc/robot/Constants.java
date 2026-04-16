@@ -8,6 +8,9 @@
 package frc.robot;
 
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -468,16 +471,16 @@ public final class Constants {
         public static final Translation2d kBlueRightPassingPosition = new Translation2d(Meters.convertFrom(43, Inches), Meters.convertFrom(234.77, Inches));
 
         // Blue Hub Passing Positions
-        public static final Translation2d kBlueLeftHubPassingPosition = new Translation2d(Meters.convertFrom(13, Inches), Meters.convertFrom(13, Inches));
-        public static final Translation2d kBlueRightHubPassingPosition = new Translation2d(Meters.convertFrom(13, Inches), Meters.convertFrom(304.69, Inches));
+        public static final Translation2d kBlueLeftHubPassingPosition = new Translation2d(Meters.convertFrom(13, Inches), Meters.convertFrom(30, Inches));
+        public static final Translation2d kBlueRightHubPassingPosition = new Translation2d(Meters.convertFrom(13, Inches), Meters.convertFrom(287.69, Inches));
 
         // Red Passing Positions
         public static final Translation2d kRedLeftPassingPosition = new Translation2d(Meters.convertFrom(608.22, Inches), Meters.convertFrom(234.77, Inches));
         public static final Translation2d kRedRightPassingPosition = new Translation2d(Meters.convertFrom(608.22, Inches), Meters.convertFrom(82.91, Inches));
 
         // Red Hub Passing Positions
-        public static final Translation2d kRedLeftHubPassingPosition = new Translation2d(Meters.convertFrom(638.22, Inches), Meters.convertFrom(304.69, Inches));
-        public static final Translation2d kRedRightHubPassingPosition = new Translation2d(Meters.convertFrom(638.22, Inches), Meters.convertFrom(13, Inches));
+        public static final Translation2d kRedLeftHubPassingPosition = new Translation2d(Meters.convertFrom(638.22, Inches), Meters.convertFrom(287.69, Inches));
+        public static final Translation2d kRedRightHubPassingPosition = new Translation2d(Meters.convertFrom(638.22, Inches), Meters.convertFrom(30, Inches));
     }
 
     public final class LauncherConstants {

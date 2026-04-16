@@ -503,16 +503,16 @@ public final class Constants {
         // Formatted as pairs where the first value is the distance from the hub and second value is the desired launcher speed modifier
         public static InterpolatingDoubleTreeMap kAutoAimSpeeds = new InterpolatingDoubleTreeMap();
         static {
-            kAutoAimSpeeds.put(0.0d, 0.7d);
-            kAutoAimSpeeds.put(1.616208d, 0.8d);
-            kAutoAimSpeeds.put(2.164127d, 0.837796d);
-            kAutoAimSpeeds.put(2.90789d, 0.8891098d);
-            kAutoAimSpeeds.put(3.045959d, 0.8891098d);
-            kAutoAimSpeeds.put(3.225971d, 0.837796d);
-            kAutoAimSpeeds.put(3.564832d, 0.930613d);
-            kAutoAimSpeeds.put(4.008246d, 1.0d);
-            kAutoAimSpeeds.put(4.648431d, 1.0d);
-            kAutoAimSpeeds.put(5.204873d, 1.0d);
+            kAutoAimSpeeds.put(0.0d, 0.7d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(1.616208d, 0.8d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(2.164127d, 0.837796d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(2.90789d, 0.8891098d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(3.045959d, 0.8891098d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(3.225971d, 0.837796d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(3.564832d, 0.930613d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(4.008246d, 1.0d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(4.648431d, 1.0d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(5.204873d, 1.0d * 11.0 / 13.0);
         }
 
         public static double getGearRatio() {

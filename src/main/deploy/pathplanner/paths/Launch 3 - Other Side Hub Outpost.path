@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7,
-        "y": 7.457
+        "x": 3.961426533523537,
+        "y": 0.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.4031666666666665,
-        "y": 7.403833333333332
+        "x": 4.961426533523537,
+        "y": 0.5499999999999998
       },
       "isLocked": false,
-      "linkedName": "Launch 1"
+      "linkedName": "Launch 3"
     },
     {
       "anchor": {
-        "x": 7.734055555555555,
-        "y": 6.938844444444444
+        "x": 10.4,
+        "y": 0.55
       },
       "prevControl": {
-        "x": 6.067755555555557,
-        "y": 7.338366666666666
+        "x": 9.4,
+        "y": 0.5500000000000002
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NZT Top-South"
+      "linkedName": "Other Side Hub Outpost"
     }
   ],
   "rotationTargets": [],
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 65.0
+    "velocity": 4.7,
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -71.87529253659945
+    "rotation": 83.24640399798929
   },
   "useDefaultConstraints": true
 }

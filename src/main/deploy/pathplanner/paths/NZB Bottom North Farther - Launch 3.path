@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.7,
-        "y": 0.6500000000000004
+        "x": 6.5,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.700000000000001,
-        "y": 0.6500000000000005
+        "x": 6.915522222222222,
+        "y": 1.248088888888888
       },
       "isLocked": false,
-      "linkedName": "Spinning Death - Heaven Bottom"
+      "linkedName": "NZB Bottom North Farther"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.55
       },
       "prevControl": {
-        "x": 5.1502642350176595,
-        "y": 0.5499999999996362
+        "x": 6.6914,
+        "y": 0.702399999999999
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,11 +30,22 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.639,
+        "y": 4.033
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 1.0,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -45,10 +56,10 @@
     "rotation": 83.24640399798929
   },
   "reversed": false,
-  "folder": "Neutral Zone Trench Paths",
+  "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -65.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

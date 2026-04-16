@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 
@@ -452,19 +453,38 @@ public final class Constants {
             getBackRightOffset()
         );
 
+        // Vertical Line Positions
         public static final double kVerticalMidfieldPosition = 4.0d;
+        public static final double kBlueRightHubRedLeftHubPosition = 4.6096d;
+        public static final double kBlueLeftHubRedRightHubPosition = 3.3904d;
+
+        // In Alliance Zone Positions
         public static final double kInAllianceZoneBlue = Meters.convertFrom(182.11, Inches);
         public static final double kInAllianceZoneRed = Meters.convertFrom(469.11, Inches);
+
+        // Hub Positions
         public static final Translation2d kBlueHubPosition = new Translation2d(4.619, 4.033);
         public static final Translation2d kRedHubPosition = new Translation2d(11.936, 4.033);
+
+        // Blue Passing Positions
         public static final Translation2d kBlueLeftPassingPosition = new Translation2d(Meters.convertFrom(43, Inches), Meters.convertFrom(82.91, Inches));
         public static final Translation2d kBlueRightPassingPosition = new Translation2d(Meters.convertFrom(43, Inches), Meters.convertFrom(234.77, Inches));
+
+        // Blue Hub Passing Positions
+        public static final Translation2d kBlueLeftHubPassingPosition = new Translation2d(Meters.convertFrom(13, Inches), Meters.convertFrom(30, Inches));
+        public static final Translation2d kBlueRightHubPassingPosition = new Translation2d(Meters.convertFrom(13, Inches), Meters.convertFrom(287.69, Inches));
+
+        // Red Passing Positions
         public static final Translation2d kRedLeftPassingPosition = new Translation2d(Meters.convertFrom(608.22, Inches), Meters.convertFrom(234.77, Inches));
         public static final Translation2d kRedRightPassingPosition = new Translation2d(Meters.convertFrom(608.22, Inches), Meters.convertFrom(82.91, Inches));
+
+        // Red Hub Passing Positions
+        public static final Translation2d kRedLeftHubPassingPosition = new Translation2d(Meters.convertFrom(638.22, Inches), Meters.convertFrom(287.69, Inches));
+        public static final Translation2d kRedRightHubPassingPosition = new Translation2d(Meters.convertFrom(638.22, Inches), Meters.convertFrom(30, Inches));
     }
 
     public final class LauncherConstants {
-        // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired hood position
+        // Formatted as pairs where the first value is the distance from the hub and the second value is the desired hood position
         // Must be sorted from low to high distance from the hub
         public static InterpolatingDoubleTreeMap kAutoAimHoodPositions = new InterpolatingDoubleTreeMap();
         static {
@@ -480,7 +500,7 @@ public final class Constants {
             kAutoAimHoodPositions.put(5.204873d, 0.836426d);
         }
 
-        // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired launcher speed modifier
+        // Formatted as pairs where the first value is the distance from the hub and second value is the desired launcher speed modifier
         public static InterpolatingDoubleTreeMap kAutoAimSpeeds = new InterpolatingDoubleTreeMap();
         static {
             kAutoAimSpeeds.put(0.0d, 0.7d);

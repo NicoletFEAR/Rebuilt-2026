@@ -107,6 +107,13 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         });
     }
 
+    public Command off() {
+        return new InstantCommand(() -> {
+            m_state = LauncherState.OFF;
+            setVelocity(LauncherConstants.getOffVelocity());
+        });
+    }
+
     public Command reverse() {
         return new InstantCommand(() -> {
             m_state = LauncherState.REVERSE;
@@ -203,6 +210,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     public enum LauncherState {
         LAUNCHING,
         IDLE,
-        REVERSE
+        REVERSE,
+        OFF,
     }
 }

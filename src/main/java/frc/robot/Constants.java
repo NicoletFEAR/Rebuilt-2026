@@ -489,8 +489,9 @@ public final class Constants {
         public static InterpolatingDoubleTreeMap kAutoAimHoodPositions = new InterpolatingDoubleTreeMap();
         static {
             kAutoAimHoodPositions.put(0.0d, 0.0d);
-            kAutoAimHoodPositions.put(1.616208d, 0.024414d);
-            kAutoAimHoodPositions.put(2.164127d, 0.174316d);
+            kAutoAimHoodPositions.put(1.557696d, 0.050049d);
+            kAutoAimHoodPositions.put(2.075004d, 0.062744d);
+            kAutoAimHoodPositions.put(2.526589d, 0.315918d);
             kAutoAimHoodPositions.put(2.90789d, 0.419922d);
             kAutoAimHoodPositions.put(3.045959d, 0.420654d);
             kAutoAimHoodPositions.put(3.225971d, 0.612549d);
@@ -503,9 +504,9 @@ public final class Constants {
         // Formatted as pairs where the first value is the distance from the hub and second value is the desired launcher speed modifier
         public static InterpolatingDoubleTreeMap kAutoAimSpeeds = new InterpolatingDoubleTreeMap();
         static {
-            kAutoAimSpeeds.put(0.0d, 0.7d * 11.0 / 13.0);
-            kAutoAimSpeeds.put(1.616208d, 0.8d * 11.0 / 13.0);
-            kAutoAimSpeeds.put(2.164127d, 0.837796d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(1.557696d, 0.59188d);
+            kAutoAimSpeeds.put(2.075004d, 0.624099d);
+            kAutoAimSpeeds.put(2.526589d, 0.752666d);
             kAutoAimSpeeds.put(2.90789d, 0.8891098d * 11.0 / 13.0);
             kAutoAimSpeeds.put(3.045959d, 0.8891098d * 11.0 / 13.0);
             kAutoAimSpeeds.put(3.225971d, 0.837796d * 11.0 / 13.0);

@@ -507,11 +507,11 @@ public final class Constants {
             kAutoAimSpeeds.put(1.557696d, 0.59188d);
             kAutoAimSpeeds.put(2.075004d, 0.624099d);
             kAutoAimSpeeds.put(2.526589d, 0.752666d);
-            kAutoAimSpeeds.put(2.90789d, 0.8891098d * 11.0 / 13.0);
-            kAutoAimSpeeds.put(3.045959d, 0.8891098d * 11.0 / 13.0);
-            kAutoAimSpeeds.put(3.225971d, 0.837796d * 11.0 / 13.0);
-            kAutoAimSpeeds.put(3.564832d, 0.930613d * 11.0 / 13.0);
-            kAutoAimSpeeds.put(4.008246d, 1.0d * 11.0 / 13.0);
+            kAutoAimSpeeds.put(2.90789d, 0.8891098d * 11.0 * 1.1 / 13.0);
+            kAutoAimSpeeds.put(3.045959d, 0.8891098d * 11.0 * 1.1 / 13.0);
+            kAutoAimSpeeds.put(3.225971d, 0.837796d * 11.0 * 1.1 / 13.0);
+            kAutoAimSpeeds.put(3.564832d, 0.930613d * 11.0 * 1.1 / 13.0);
+            kAutoAimSpeeds.put(4.008246d, 1.0d * 11.0 * 1.1 / 13.0);
             kAutoAimSpeeds.put(4.3820096d, 1.0d);
             kAutoAimSpeeds.put(5.00034d, 1.0d);
         }

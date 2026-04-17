@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.184688888888888,
-        "y": 5.360244444444445
+        "x": 6.788844444444444,
+        "y": 5.857211111111111
       },
       "isLocked": false,
       "linkedName": "NZB Top-South"
     },
     {
       "anchor": {
-        "x": 3.4,
-        "y": 5.5
+        "x": 2.6182222222222227,
+        "y": 5.428455555555555
       },
       "prevControl": {
-        "x": 4.547622222222222,
-        "y": 5.740277777777778
+        "x": 3.7583222222222226,
+        "y": 5.4479444444444445
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,8 +30,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.35,
-      "rotationDegrees": -50.72
+      "waypointRelativePos": 0.38091286307053623,
+      "rotationDegrees": -51.5
     }
   ],
   "constraintZones": [
@@ -57,7 +57,7 @@
       },
       "rotationOffset": 0.0,
       "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.4734491315136484,
+      "maxWaypointRelativePos": 0.2749379652605533,
       "name": "Point Towards Zone"
     }
   ],

@@ -218,14 +218,14 @@ public class AutoTarget extends Command {
         if (m_driveBase.getPose().getX() <= DriveConstants.kInAllianceZoneRed || m_driveBase.getPose().getX() >= DriveConstants.kInAllianceZoneBlue) {
             // Adjust hood angle based on distance to hub
             m_hood.runToPosition(MathUtil.clamp(
-                LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
+                LauncherConstants.kAutoAimHoodPositions.get(distance),
                 LauncherConstants.getHoodMinPosition(),
                 LauncherConstants.getHoodMaxPosition()
             ));
 
             // Adjust launcher speed based on distance to hub
             double speedModifier = MathUtil.clamp(
-                LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
+                LauncherConstants.kAutoAimSpeeds.get(distance),
                 m_launcher.getMinSpeedModifier(), 1.0);
             m_launcher.setSpeedModifierDirect(speedModifier);
             m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);

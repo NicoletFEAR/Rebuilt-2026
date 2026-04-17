@@ -215,20 +215,29 @@ public class AutoTarget extends Command {
             m_driveBase.updateSimYaw(speeds);
         }
 
-        // Adjust hood angle based on distance to hub
-        m_hood.runToPosition(MathUtil.clamp(
-            LauncherConstants.kAutoAimHoodPositions.get(distance),
-            LauncherConstants.getHoodMinPosition(),
-            LauncherConstants.getHoodMaxPosition()
-        ));
+        if (m_driveBase.getPose().getX() <= DriveConstants.kInAllianceZoneRed || m_driveBase.getPose().getX() >= DriveConstants.kInAllianceZoneBlue) {
+            // Adjust hood angle based on distance to hub
+            m_hood.runToPosition(MathUtil.clamp(
+                LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
+                LauncherConstants.getHoodMinPosition(),
+                LauncherConstants.getHoodMaxPosition()
+            ));
 
-        // Adjust launcher speed based on distance to hub
-        double speedModifier = MathUtil.clamp(
-            LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
-            m_launcher.getMinSpeedModifier(), 1.0);
-        m_launcher.setSpeedModifierDirect(speedModifier);
-        m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
-    }
+            // Adjust launcher speed based on distance to hub
+            double speedModifier = MathUtil.clamp(
+                LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
+                m_launcher.getMinSpeedModifier(), 1.0);
+            m_launcher.setSpeedModifierDirect(speedModifier);
+            m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
+        } else {
+            // Sets Hood to max
+            m_hood.runToPosition(LauncherConstants.getHoodMaxPosition());
+
+            // Sets Launcher to max
+            m_launcher.setSpeedModifierDirect(1.0d);
+            m_launcher.setVelocity(LauncherConstants.getLaunchVelocity());
+        }
+    } 
 
     // Called once the command ends or is interrupted.
     @Override

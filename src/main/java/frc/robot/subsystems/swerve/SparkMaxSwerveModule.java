@@ -75,7 +75,7 @@ public class SparkMaxSwerveModule implements SwerveModule {
         m_steerEncoder.setPosition(getAbsolutePosition());
     }
 
-    public Rotation2d getModuleHeading() {
+    public Rotation2d getHeading() {
         return m_modulePosition.angle;
     }
 
@@ -113,9 +113,9 @@ public class SparkMaxSwerveModule implements SwerveModule {
     }
 
     public void setSwerveModuleState(SwerveModuleState moduleState, boolean isOpenLoop) {
-        moduleState = Utils.optimize(moduleState, getModuleHeading());
+        moduleState = Utils.optimize(moduleState, getHeading());
 
-        moduleState.speedMetersPerSecond *= moduleState.angle.minus(getModuleHeading()).getCos();
+        moduleState.speedMetersPerSecond *= moduleState.angle.minus(getHeading()).getCos();
 
         if (moduleState.angle.getDegrees() != m_lastAngle) {
             m_steerController.setSetpoint(moduleState.angle.getDegrees(), ControlType.kPosition);

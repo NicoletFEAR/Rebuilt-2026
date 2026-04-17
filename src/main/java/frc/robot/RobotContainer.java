@@ -101,7 +101,7 @@ public class RobotContainer {
                 OperatorConstants.kSteerAxis,
                 OperatorConstants.getDefaultSpeed(),
                 true,
-                true,
+                false,
                 m_driveBase
             )
         );

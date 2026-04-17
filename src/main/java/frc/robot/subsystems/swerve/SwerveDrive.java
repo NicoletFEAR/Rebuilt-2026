@@ -316,7 +316,14 @@ public class SwerveDrive extends SubsystemBase {
 
                 m_chassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, Constants.kdt);
                 m_desiredModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-                Logger.recordOutput("Swerve Desired States", m_desiredModuleStates);
+
+                Logger.recordOutput("Swerve/Desired States", m_desiredModuleStates);
+
+                // for (int i = 0; i < m_modules.length; i++) {
+                //     m_desiredModuleStates[i] = Utils.optimize(m_desiredModuleStates[i], m_modules[i].getHeading());
+                // }
+
+                // Logger.recordOutput("Swerve/Optimized States", m_desiredModuleStates);
 
                 setModuleStates(m_desiredModuleStates, isOpenLoop);
 

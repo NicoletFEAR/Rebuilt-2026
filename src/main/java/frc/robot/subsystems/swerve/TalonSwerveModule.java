@@ -85,8 +85,8 @@ public class TalonSwerveModule implements SwerveModule {
         m_steerEncoder.setPosition(getAbsolutePosition());
     }
 
-    public Rotation2d getModuleHeading() {
-        return RobotBase.isSimulation() ? m_simAngle : Rotation2d.fromDegrees(m_steerEncoder.getPosition());
+    public Rotation2d getHeading() {
+        return m_moduleState.angle;
     }
 
     public double getAbsolutePosition() {
@@ -130,10 +130,10 @@ public class TalonSwerveModule implements SwerveModule {
         // moduleState = Utils.optimize(moduleState, getModuleHeading());
 
         double preCosinSpeed = moduleState.speedMetersPerSecond;
-        moduleState.speedMetersPerSecond *= moduleState.angle.minus(getModuleHeading()).getCos();
+        moduleState.speedMetersPerSecond *= moduleState.angle.minus(getHeading()).getCos();
 
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/DesiredAngle", moduleState.angle.getDegrees());
-        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/CurrentAngle", getModuleHeading().getDegrees());
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/CurrentAngle", getHeading().getDegrees());
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/PreCosineSpeed", preCosinSpeed);
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/PostCosineSpeed", moduleState.speedMetersPerSecond);
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/IsOpenLoop", isOpenLoop);
@@ -141,8 +141,8 @@ public class TalonSwerveModule implements SwerveModule {
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/SpeedCommandSent", moduleState.speedMetersPerSecond != m_lastSpeed);
 
         if (moduleState.angle.getDegrees() != m_lastAngle) {
-            m_steerController.setSetpoint(moduleState.angle.getDegrees(), ControlType.kPosition);
-            m_lastAngle = moduleState.angle.getDegrees();
+            m_steerController.setSetpoint(moduleState.angle.getDegrees() % 360.0, ControlType.kPosition);
+            m_lastAngle = moduleState.angle.getDegrees() % 360.0;
         }
 
         if (moduleState.speedMetersPerSecond != m_lastSpeed) {

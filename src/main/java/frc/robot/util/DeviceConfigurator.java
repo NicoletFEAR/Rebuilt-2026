@@ -46,6 +46,8 @@ public class DeviceConfigurator {
             .p(DriveConstants.getTurnKP())
             .i(DriveConstants.getTurnKI())
             .d(DriveConstants.getTurnKD())
+            .positionWrappingEnabled(true)
+            .positionWrappingInputRange(0.0, 360.0)
             .feedForward
             .kS(DriveConstants.getTurnKS())
             .kV(DriveConstants.getTurnKV())
@@ -58,7 +60,7 @@ public class DeviceConfigurator {
     public static void configureTalonFXDriveMotor(TalonFX motor) {
         TalonFXConfiguration config = new TalonFXConfiguration();
 
-        config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         config.CurrentLimits.StatorCurrentLimitEnable = true;
         config.CurrentLimits.StatorCurrentLimit = 360;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;

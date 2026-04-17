@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 3.961426533523537,
-        "y": 0.6386019971469341
+        "y": 0.55
       },
       "prevControl": {
         "x": 6.122182596291008,
-        "y": 0.48333808844508086
+        "y": 0.3947360912981468
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,14 +38,14 @@
       },
       "rotationOffset": 0.0,
       "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.8372721134368611,
+      "maxWaypointRelativePos": 1.0,
       "name": "Point Towards Zone"
     }
   ],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -61,5 +61,5 @@
     "velocity": 0,
     "rotation": -65.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

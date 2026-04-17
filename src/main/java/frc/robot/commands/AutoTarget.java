@@ -100,6 +100,10 @@ public class AutoTarget extends Command {
      */
     @Override
     public void execute() {
+        Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
+            ? DriveConstants.kBlueHubPosition
+            : DriveConstants.kRedHubPosition;
+
         //isBatteryInBack gives value to change controls based on location of battery
         m_throttle = MathUtil.applyDeadband(
             DriveConstants.isBatteryInBack() * m_driverController.getRawAxis(m_throttleAxis),
@@ -111,9 +115,43 @@ public class AutoTarget extends Command {
             DriveConstants.getSwerveDeadband()
         );
 
-        Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
-            ? DriveConstants.kBlueHubPosition
-            : DriveConstants.kRedHubPosition;
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            if (m_driveBase.getPose().getX() <= DriveConstants.kInAllianceZoneBlue) {
+                target = DriveConstants.kBlueHubPosition;
+            } else {
+                if (m_driveBase.getPose().getY() <= DriveConstants.kVerticalMidfieldPosition) {
+                    if (m_driveBase.getPose().getY() >= DriveConstants.kBlueLeftHubRedRightHubPosition) {
+                        target = DriveConstants.kBlueLeftHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kBlueLeftPassingPosition;
+                    }
+                } else {
+                    if (m_driveBase.getPose().getY() <= DriveConstants.kBlueRightHubRedLeftHubPosition) {
+                        target = DriveConstants.kBlueRightHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kBlueRightPassingPosition;
+                    }
+                }
+            }
+        } else {
+            if (m_driveBase.getPose().getX() >= DriveConstants.kInAllianceZoneRed) {
+                target = DriveConstants.kRedHubPosition;
+            } else {
+                if (m_driveBase.getPose().getY() >= DriveConstants.kVerticalMidfieldPosition) {
+                    if (m_driveBase.getPose().getY() <= DriveConstants.kBlueRightHubRedLeftHubPosition) {
+                        target = DriveConstants.kRedLeftHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kRedLeftPassingPosition;
+                    }
+                } else {
+                    if (m_driveBase.getPose().getY() >= DriveConstants.kBlueLeftHubRedRightHubPosition) {
+                        target = DriveConstants.kRedRightHubPassingPosition;
+                    } else {
+                        target = DriveConstants.kRedRightPassingPosition;
+                    }
+                }
+            }
+        }
 
         Pose2d drivePose = m_driveBase.getPose();
 
@@ -186,9 +224,10 @@ public class AutoTarget extends Command {
 
         // Adjust launcher speed based on distance to hub
         double speedModifier = MathUtil.clamp(
-            LauncherConstants.kAutoAimSpeeds.get(distance),
+            LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()),
             m_launcher.getMinSpeedModifier(), 1.0);
-        speedModifier *= 1.25;
+        speedModifier *= 1.1;
+        speedModifier = MathUtil.clamp(speedModifier, 0.0, 1.0);
         m_launcher.setSpeedModifierDirect(speedModifier);
         m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);
     }

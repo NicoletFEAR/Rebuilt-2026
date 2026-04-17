@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 3.961426533523537,
-        "y": 0.6386019971469341
+        "y": 0.55
       },
       "prevControl": null,
       "nextControl": {
         "x": 5.764148755745759,
-        "y": 0.613046441590659
+        "y": 0.524444444443725
       },
       "isLocked": false,
       "linkedName": "Launch 3"

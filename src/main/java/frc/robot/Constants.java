@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 
@@ -456,47 +457,67 @@ public final class Constants {
             true
         );
 
+        // Vertical Line Positions
         public static final double kVerticalMidfieldPosition = 4.0d;
+        public static final double kBlueRightHubRedLeftHubPosition = 4.6096d;
+        public static final double kBlueLeftHubRedRightHubPosition = 3.3904d;
+
+        // In Alliance Zone Positions
         public static final double kInAllianceZoneBlue = Meters.convertFrom(182.11, Inches);
         public static final double kInAllianceZoneRed = Meters.convertFrom(469.11, Inches);
+
+        // Hub Positions
         public static final Translation2d kBlueHubPosition = new Translation2d(4.619, 4.033);
         public static final Translation2d kRedHubPosition = new Translation2d(11.936, 4.033);
+
+        // Blue Passing Positions
         public static final Translation2d kBlueLeftPassingPosition = new Translation2d(Meters.convertFrom(43, Inches), Meters.convertFrom(82.91, Inches));
         public static final Translation2d kBlueRightPassingPosition = new Translation2d(Meters.convertFrom(43, Inches), Meters.convertFrom(234.77, Inches));
+
+        // Blue Hub Passing Positions
+        public static final Translation2d kBlueLeftHubPassingPosition = new Translation2d(Meters.convertFrom(13, Inches), Meters.convertFrom(30, Inches));
+        public static final Translation2d kBlueRightHubPassingPosition = new Translation2d(Meters.convertFrom(13, Inches), Meters.convertFrom(287.69, Inches));
+
+        // Red Passing Positions
         public static final Translation2d kRedLeftPassingPosition = new Translation2d(Meters.convertFrom(608.22, Inches), Meters.convertFrom(234.77, Inches));
         public static final Translation2d kRedRightPassingPosition = new Translation2d(Meters.convertFrom(608.22, Inches), Meters.convertFrom(82.91, Inches));
+
+        // Red Hub Passing Positions
+        public static final Translation2d kRedLeftHubPassingPosition = new Translation2d(Meters.convertFrom(638.22, Inches), Meters.convertFrom(287.69, Inches));
+        public static final Translation2d kRedRightHubPassingPosition = new Translation2d(Meters.convertFrom(638.22, Inches), Meters.convertFrom(30, Inches));
     }
 
     public final class LauncherConstants {
-        // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired hood position
+        // Formatted as pairs where the first value is the distance from the hub and the second value is the desired hood position
         // Must be sorted from low to high distance from the hub
         public static InterpolatingDoubleTreeMap kAutoAimHoodPositions = new InterpolatingDoubleTreeMap();
         static {
             kAutoAimHoodPositions.put(0.0d, 0.0d);
-            kAutoAimHoodPositions.put(1.616208d, 0.024414d);
-            kAutoAimHoodPositions.put(2.164127d, 0.174316d);
+            kAutoAimHoodPositions.put(1.557696d, 0.050049d);
+            kAutoAimHoodPositions.put(2.075004d, 0.062744d);
+            kAutoAimHoodPositions.put(2.526589d, 0.315918d);
             kAutoAimHoodPositions.put(2.90789d, 0.419922d);
             kAutoAimHoodPositions.put(3.045959d, 0.420654d);
             kAutoAimHoodPositions.put(3.225971d, 0.612549d);
             kAutoAimHoodPositions.put(3.564832d, 0.555908d);
             kAutoAimHoodPositions.put(4.008246d, 0.613037d);
-            kAutoAimHoodPositions.put(4.648431d, 0.687256d);
-            kAutoAimHoodPositions.put(5.204873d, 0.836426d);
+            kAutoAimHoodPositions.put(4.382009d, 0.825928d);
+            kAutoAimHoodPositions.put(5.00034d, 0.823486d);
         }
 
-        // Formatted as pairs where value 1 is the distance from the hub and value 2 is the desired launcher speed modifier
+        // Formatted as pairs where the first value is the distance from the hub and second value is the desired launcher speed modifier
         public static InterpolatingDoubleTreeMap kAutoAimSpeeds = new InterpolatingDoubleTreeMap();
         static {
-            kAutoAimSpeeds.put(0.0d, 0.7d);
-            kAutoAimSpeeds.put(1.616208d, 0.8d);
-            kAutoAimSpeeds.put(2.164127d, 0.837796d);
-            kAutoAimSpeeds.put(2.90789d, 0.8891098d);
-            kAutoAimSpeeds.put(3.045959d, 0.8891098d);
-            kAutoAimSpeeds.put(3.225971d, 0.837796d);
-            kAutoAimSpeeds.put(3.564832d, 0.930613d);
-            kAutoAimSpeeds.put(4.008246d, 1.0d);
-            kAutoAimSpeeds.put(4.648431d, 1.0d);
-            kAutoAimSpeeds.put(5.204873d, 1.0d);
+            kAutoAimSpeeds.put(1.557696d, 0.59188d);
+            kAutoAimSpeeds.put(2.075004d, 0.624099d);
+            kAutoAimSpeeds.put(2.526589d, 0.752666d);
+            kAutoAimSpeeds.put(2.90789d, 0.8891098d * 11.0 * 1.1 / 13.0);
+            kAutoAimSpeeds.put(3.045959d, 0.8891098d * 11.0 * 1.1 / 13.0);
+            kAutoAimSpeeds.put(3.225971d, 0.837796d * 11.0 * 1.1 / 13.0);
+            kAutoAimSpeeds.put(3.564832d, 0.930613d * 11.0 * 1.1 / 13.0);
+            kAutoAimSpeeds.put(4.008246d, 1.0d * 11.0 * 1.1 / 13.0);
+            kAutoAimSpeeds.put(4.3820096d, 1.0d);
+            kAutoAimSpeeds.put(5.00034d, 1.0d);
         }
 
         public static InterpolatingDoubleTreeMap kAutoAimTof = new InterpolatingDoubleTreeMap();

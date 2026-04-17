@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.641388888888887,
-        "y": 5.496666666666666
+        "x": 4.635322222222222,
+        "y": 5.662322222222222
       },
       "isLocked": false,
       "linkedName": "Start Bump D"
@@ -60,7 +60,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 179.55238582913947
   },
   "useDefaultConstraints": true
 }

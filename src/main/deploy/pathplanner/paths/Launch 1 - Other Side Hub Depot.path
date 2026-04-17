@@ -1,0 +1,71 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.7,
+        "y": 7.457
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.256577777773605,
+        "y": 8.137411111110346
+      },
+      "isLocked": false,
+      "linkedName": "Launch 1"
+    },
+    {
+      "anchor": {
+        "x": 10.520966666666666,
+        "y": 4.093466666666666
+      },
+      "prevControl": {
+        "x": 10.67687777777778,
+        "y": 4.843788888888888
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Other Side Hub Depot"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.22821576763485446,
+      "rotationDegrees": 140.708
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "StartIntake",
+      "waypointRelativePos": 0.22928039702232922,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StartIntake"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.7,
+    "maxAcceleration": 4.7,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0.0,
+    "rotation": 140.708
+  },
+  "reversed": false,
+  "folder": "Comp",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -71.87529253659945
+  },
+  "useDefaultConstraints": true
+}

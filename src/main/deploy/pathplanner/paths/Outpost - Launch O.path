@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.8240202702702708,
-        "y": 0.6848198198198201
+        "x": 0.5621444444444443,
+        "y": 0.6643918918918927
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0793693693693698,
-        "y": 0.9810247747747747
+        "x": 1.3306955552425532,
+        "y": 1.304180286668629
       },
       "isLocked": false,
       "linkedName": "Outpost"
     },
     {
       "anchor": {
-        "x": 1.068855555555556,
-        "y": 0.9654999999999996
+        "x": 2.0920222222222224,
+        "y": 1.939944444444444
       },
       "prevControl": {
-        "x": 0.8240202702702708,
-        "y": 0.6848198198198201
+        "x": 1.3216279010975325,
+        "y": 1.3023767304102183
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Launch O"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 41.26710962334634
+    "rotation": 40.353664508804115
   },
   "reversed": false,
   "folder": "Start O and Outpost Paths",

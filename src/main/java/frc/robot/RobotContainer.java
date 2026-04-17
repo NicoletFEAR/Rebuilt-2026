@@ -187,16 +187,18 @@ public class RobotContainer {
                 .onTrue(m_kitbotLauncher.launch())
                 .onFalse(m_kitbotIntake.off())
                 .onFalse(m_kitbotLauncher.off());
+
+        // These are the button bindings which are specific to Tusk
         } else if (Constants.kRobotName.equals("tusk")) {
             // TODO: Fix jostle distance in case the intake is stuck on a ball
 
-            // Reverses the Launcher direction -- triangle button of driver controller
-            m_driverController
-                .triangle()
-                .onTrue(m_launcher
-                    .reverse())
-                .onFalse(m_launcher
-                    .idle());
+            // // Reverses the Launcher direction -- triangle button of driver controller
+            // m_driverController
+            //     .triangle()
+            //     .whileTrue(m_launcher.off()
+            //         .andThen(Commands.waitUntil(m_launcher::isAtVelocity))
+            //         .andThen(m_launcher.reverse()))
+            //     .onFalse(m_launcher.idle());
 
             // Extakes the balls inside the hopper -- cross button of driver controller
             m_driverController

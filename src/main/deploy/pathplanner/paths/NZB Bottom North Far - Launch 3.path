@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.500188888888889,
-        "y": 2.154322222222222
+        "x": 7.061688888888889,
+        "y": 1.511188888888888
       },
       "isLocked": false,
       "linkedName": "NZB Bottom North Far"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 3.961426533523537,
-        "y": 0.6386019971469341
+        "y": 0.55
       },
       "prevControl": {
-        "x": 7.149388888888889,
-        "y": 0.12747777777777747
+        "x": 7.227344444444444,
+        "y": 0.15671111111111036
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,14 +38,14 @@
       },
       "rotationOffset": 0.0,
       "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.8903225806451537,
+      "maxWaypointRelativePos": 1.0,
       "name": "Point Towards Zone"
     }
   ],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -61,5 +61,5 @@
     "velocity": 0,
     "rotation": -65.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

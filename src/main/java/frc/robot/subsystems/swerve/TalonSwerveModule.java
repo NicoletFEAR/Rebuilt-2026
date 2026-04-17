@@ -86,10 +86,7 @@ public class TalonSwerveModule implements SwerveModule {
     }
 
     public Rotation2d getModuleHeading() {
-        if (RobotBase.isReal()) {
-            return Rotation2d.fromDegrees(getAbsolutePosition());
-        }
-        return m_modulePosition.angle;
+        return m_moduleState.angle;
     }
 
     public double getAbsolutePosition() {

@@ -237,7 +237,7 @@ public class AutoTarget extends Command {
             m_launcher.setSpeedModifierDirect(1.0d);
             m_launcher.setVelocity(LauncherConstants.getLaunchVelocity());
         }
-    } 
+    }
 
     // Called once the command ends or is interrupted.
     @Override

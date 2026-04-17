@@ -101,7 +101,7 @@ public class RobotContainer {
                 OperatorConstants.kSteerAxis,
                 OperatorConstants.getDefaultSpeed(),
                 true,
-                true,
+                false,
                 m_driveBase
             )
         );
@@ -205,8 +205,8 @@ public class RobotContainer {
                 .cross()
                 .onTrue(m_intakePivot
                     .out()
-                    .alongWith(m_intakeDriver.extake())
-                    .alongWith(m_indexer.extake()))
+                    .andThen(m_intakeDriver.extake()
+                    .alongWith(m_indexer.extake())))
                 .onFalse(m_intakePivot
                     .in()
                     .alongWith(m_intakeDriver.off())

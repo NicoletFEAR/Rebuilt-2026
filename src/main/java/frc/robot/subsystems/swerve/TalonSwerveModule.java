@@ -85,7 +85,7 @@ public class TalonSwerveModule implements SwerveModule {
         m_steerEncoder.setPosition(getAbsolutePosition());
     }
 
-    public Rotation2d getModuleHeading() {
+    public Rotation2d getHeading() {
         return m_moduleState.angle;
     }
 
@@ -129,10 +129,10 @@ public class TalonSwerveModule implements SwerveModule {
         // moduleState = Utils.optimize(moduleState, getModuleHeading());
 
         double preCosinSpeed = moduleState.speedMetersPerSecond;
-        moduleState.speedMetersPerSecond *= moduleState.angle.minus(getModuleHeading()).getCos();
+        moduleState.speedMetersPerSecond *= moduleState.angle.minus(getHeading()).getCos();
 
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/DesiredAngle", moduleState.angle.getDegrees());
-        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/CurrentAngle", getModuleHeading().getDegrees());
+        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/CurrentAngle", getHeading().getDegrees());
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/PreCosineSpeed", preCosinSpeed);
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/PostCosineSpeed", moduleState.speedMetersPerSecond);
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/IsOpenLoop", isOpenLoop);

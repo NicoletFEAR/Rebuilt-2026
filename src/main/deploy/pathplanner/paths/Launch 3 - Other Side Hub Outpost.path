@@ -8,30 +8,47 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.961426533523537,
-        "y": 0.5499999999999998
+        "x": 6.9544999999999995,
+        "y": 0.18594444444444208
       },
       "isLocked": false,
       "linkedName": "Launch 3"
     },
     {
       "anchor": {
-        "x": 10.4,
-        "y": 0.55
+        "x": 10.39428888888889,
+        "y": 4.01551111111111
       },
       "prevControl": {
-        "x": 9.4,
-        "y": 0.5500000000000002
+        "x": 9.848600000000001,
+        "y": 3.05081111111111
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Other Side Hub Outpost"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.21659751037344416,
+      "rotationDegrees": -139.192
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "StartIntake",
+      "waypointRelativePos": 0.21141439205955298,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StartIntake"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.7,
     "maxAcceleration": 4.7,
@@ -41,8 +58,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 4.7,
-    "rotation": 0.0
+    "velocity": 0.0,
+    "rotation": -139.192
   },
   "reversed": false,
   "folder": "Comp",

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1,
-        "y": 5.95
+        "x": 0.6011222222222223,
+        "y": 5.974144444444444
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3362617269794712,
-        "y": 5.86826630826472
+        "x": 0.8373839492016935,
+        "y": 5.892410752709163
       },
       "isLocked": false,
       "linkedName": "Depot Middle"

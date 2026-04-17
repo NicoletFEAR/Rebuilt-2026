@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -193,13 +192,13 @@ public class RobotContainer {
         } else if (Constants.kRobotName.equals("tusk")) {
             // TODO: Fix jostle distance in case the intake is stuck on a ball
 
-            // Reverses the Launcher direction -- triangle button of driver controller
-            m_driverController
-                .triangle()
-                .whileTrue(m_launcher.off()
-                    .andThen(Commands.waitUntil(m_launcher::isAtVelocity))
-                    .andThen(m_launcher.reverse()))
-                .onFalse(m_launcher.idle());
+            // // Reverses the Launcher direction -- triangle button of driver controller
+            // m_driverController
+            //     .triangle()
+            //     .whileTrue(m_launcher.off()
+            //         .andThen(Commands.waitUntil(m_launcher::isAtVelocity))
+            //         .andThen(m_launcher.reverse()))
+            //     .onFalse(m_launcher.idle());
 
             // Extakes the balls inside the hopper -- cross button of driver controller
             m_driverController
@@ -480,6 +479,7 @@ public class RobotContainer {
                     .alongWith(m_hood.adjustToHubDistance())
                     .alongWith(new WaitUntilCommand(m_launcher::isAtVelocity)
                     .andThen(m_indexer.index()
+                    .alongWith(m_intakeDriver.intake())
                     .alongWith(m_intakePivot.hold()
                         .andThen(m_intakePivot.in())
                         .repeatedly())))

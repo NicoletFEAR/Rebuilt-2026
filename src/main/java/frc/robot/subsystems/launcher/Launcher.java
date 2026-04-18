@@ -161,10 +161,10 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public Command adjustSpeedToHubDistance(DoubleSupplier distance) {
         return new ConditionalCommand(
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0))
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()) * 1.1, 0.0, 1.0))
                 .until(() -> m_stopAutoTargeting)
                 .andThen(() -> m_stopAutoTargeting = false),
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0))
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()) * 1.1, 0.0, 1.0))
                 .until(() -> m_stopAutoTargeting)
                 .andThen(() -> m_stopAutoTargeting = false)
                 .alongWith(launch()),

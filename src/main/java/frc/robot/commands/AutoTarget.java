@@ -165,9 +165,8 @@ public class AutoTarget extends Command {
 
         m_driveBase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
 
-        //if ((m_driveBase.getPose().getX() >= DriveConstants.kInAllianceZoneRed && DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red)
-        //     || (m_driveBase.getPose().getX() <= DriveConstants.kInAllianceZoneBlue && DriverStation. getAlliance().orElse(Alliance.Blue) == Alliance.Blue)) {
-        if (true) {
+        if ((m_driveBase.getPose().getX() >= DriveConstants.kInAllianceZoneRed && DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red)
+             || (m_driveBase.getPose().getX() <= DriveConstants.kInAllianceZoneBlue && DriverStation. getAlliance().orElse(Alliance.Blue) == Alliance.Blue)) {
             // Adjust hood angle based on distance to hub
             m_hood.runToPosition(MathUtil.clamp(
                 LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),

@@ -79,7 +79,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
 
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("Is Intaking", m_state == IntakeDriverState.INTAKING);
+        SmartDashboard.putBoolean("Intaking", m_state == IntakeDriverState.INTAKING);
         SmartDashboard.putBoolean("Is Extaking", m_state == IntakeDriverState.EXTAKING);
         Logger.recordOutput("Intake/Driver/Voltage", getVoltage());
         Logger.recordOutput("Intake/Driver/Desired Voltage", m_desiredVoltage);

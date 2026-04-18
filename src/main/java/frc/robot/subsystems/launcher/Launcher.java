@@ -60,6 +60,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         config.Slot0.kD = LauncherConstants.getKD();
         config.MotionMagic.MotionMagicAcceleration = 100.0;
         config.Slot0.kV = 0.1;
+        config.CurrentLimits.SupplyCurrentLimitEnable = true;
+        config.CurrentLimits.SupplyCurrentLimit = 40.0;
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         m_leftMotor.getConfigurator().apply(config);
 

@@ -176,7 +176,7 @@ public class AutoTarget extends Command {
 
             // Adjust launcher speed based on distance to hub
             double speedModifier = MathUtil.clamp(
-                LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()) * 1.1,
+                LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()) * m_launcher.getAutoAimSpeedModifier(),
                 m_launcher.getMinSpeedModifier(), 1.0);
             m_launcher.setSpeedModifierDirect(speedModifier);
             m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);

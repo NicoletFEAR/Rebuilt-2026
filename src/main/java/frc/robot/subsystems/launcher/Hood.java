@@ -50,7 +50,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
             .i(LauncherConstants.getHoodKI())
             .d(LauncherConstants.getHoodKD());
         config.encoder.positionConversionFactor(LauncherConstants.getHoodGearRatio());
-        config.smartCurrentLimit(40);
+        config.smartCurrentLimit(20);
         m_motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_pidController = new PIDController(

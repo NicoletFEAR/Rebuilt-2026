@@ -140,7 +140,7 @@ public class Hood extends SubsystemBase implements PositionSubsystem {
         }
 
         Logger.recordOutput("Launcher/Hood/Desired Position", m_desiredPosition);
-        SmartDashboard.putString("Hood Position", String.format("%.2f%%", (getPosition() - m_minPosition) / (m_maxPosition - m_minPosition)));
+        SmartDashboard.putString("Hood Position", String.format("%.2f%%", (getPosition() - m_minPosition) / (m_maxPosition - m_minPosition) * 100.0));
         Logger.recordOutput("Launcher/Hood/Position", getPosition());
         Logger.recordOutput("Launcher/Hood/Current", m_motor.getOutputCurrent());
         Logger.recordOutput("Launcher/Hood/Voltage", m_motor.getBusVoltage());

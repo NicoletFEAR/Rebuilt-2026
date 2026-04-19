@@ -91,9 +91,9 @@
             "height": 128.0,
             "type": "Large Text Display",
             "properties": {
-              "topic": "/AdvantageKit/RealOutputs/Launcher/Hood/Position",
+              "topic": "/SmartDashboard/Hood Position",
               "period": 0.06,
-              "data_type": "double"
+              "data_type": "string"
             }
           },
           {
@@ -138,9 +138,9 @@
             "height": 128.0,
             "type": "Large Text Display",
             "properties": {
-              "topic": "/AdvantageKit/RealOutputs/Launcher/Indexer/Voltage",
+              "topic": "/SmartDashboard/Indexer Voltage",
               "period": 0.06,
-              "data_type": "double"
+              "data_type": "string"
             }
           },
           {
@@ -151,9 +151,9 @@
             "height": 128.0,
             "type": "Large Text Display",
             "properties": {
-              "topic": "/AdvantageKit/RealOutputs/Launcher/Left/Voltage",
+              "topic": "/SmartDashboard/Left Voltage",
               "period": 0.06,
-              "data_type": "double"
+              "data_type": "string"
             }
           },
           {
@@ -164,9 +164,9 @@
             "height": 128.0,
             "type": "Large Text Display",
             "properties": {
-              "topic": "/AdvantageKit/RealOutputs/Launcher/Right/Voltage",
+              "topic": "/SmartDashboard/Right Voltage",
               "period": 0.06,
-              "data_type": "double"
+              "data_type": "string"
             }
           }
         ]

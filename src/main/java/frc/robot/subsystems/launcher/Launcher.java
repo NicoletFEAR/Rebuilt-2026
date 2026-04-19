@@ -39,7 +39,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
     private double m_desiredVelocity;
     private double m_speedModifier = 1.0;
-    private double m_autoAimSpeedModifier = 1.1;
+    private double m_autoAimSpeedModifier = 1.3;
     private LauncherState m_state = LauncherState.IDLE;
     private TalonFX m_leftMotor;
     private TalonFX m_rightMotor;
@@ -183,6 +183,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         Logger.recordOutput("Launcher/Desired Velocity", m_desiredVelocity);
         Logger.recordOutput("Launcher/Left/Voltage", m_leftMotor.getMotorVoltage().getValueAsDouble());
         Logger.recordOutput("Launcher/Left/Current", m_leftMotor.getStatorCurrent().getValueAsDouble());
+        SmartDashboard.putString("Left Voltage", String.format("%.2fV", m_leftMotor.getMotorVoltage().getValueAsDouble()));
+        SmartDashboard.putString("Right Voltage", String.format("%.2fV", m_rightMotor.getMotorVoltage().getValueAsDouble()));
         Logger.recordOutput("Launcher/Left/Velocity", m_leftMotor.getVelocity().getValueAsDouble());
         Logger.recordOutput("Launcher/Right/Voltage", m_rightMotor.getMotorVoltage().getValueAsDouble());
         Logger.recordOutput("Launcher/Right/Current", m_rightMotor.getStatorCurrent().getValueAsDouble());

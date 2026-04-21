@@ -14,6 +14,7 @@ import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import edu.wpi.first.math.MathUtil;
@@ -38,6 +39,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
     private double m_desiredVelocity;
     private double m_speedModifier = 1.0;
+    private double m_autoAimSpeedModifier = 1.1;
     private LauncherState m_state = LauncherState.IDLE;
     private TalonFX m_leftMotor;
     private TalonFX m_rightMotor;
@@ -60,9 +62,11 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         config.Slot0.kD = LauncherConstants.getKD();
         config.MotionMagic.MotionMagicAcceleration = 100.0;
         config.Slot0.kV = 0.1;
+        config.CurrentLimits.SupplyCurrentLimitEnable = true;
+        config.CurrentLimits.SupplyCurrentLimit = 40.0;
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         m_leftMotor.getConfigurator().apply(config);
-
         config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         m_rightMotor.getConfigurator().apply(config);
     }
@@ -139,29 +143,25 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         return LauncherConstants.getIdleVelocity() / LauncherConstants.getLaunchVelocity();
     }
 
+    public double getAutoAimSpeedModifier() {
+        return m_autoAimSpeedModifier;
+    }
+
     // TODO: Replace 0.05 with 0.1 once tuning the launcher speeds is complete
     public Command raiseSpeed() {
-        return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)),
-            new InstantCommand(() -> m_speedModifier = Math.min(m_speedModifier + 0.05, 1.0)).andThen(launch()),
-            () -> m_state == LauncherState.IDLE
-        );
+        return new InstantCommand(() -> m_autoAimSpeedModifier += 0.05);
     }
 
     public Command lowerSpeed() {
-        return new ConditionalCommand(
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, getMinSpeedModifier())),
-            new InstantCommand(() -> m_speedModifier = Math.max(m_speedModifier - 0.05, getMinSpeedModifier())).andThen(launch()),
-            () -> m_state == LauncherState.IDLE
-        );
+        return new InstantCommand(() -> m_autoAimSpeedModifier -= 0.05);
     }
 
     public Command adjustSpeedToHubDistance(DoubleSupplier distance) {
         return new ConditionalCommand(
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0))
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()) * m_autoAimSpeedModifier, 0.0, 1.0))
                 .until(() -> m_stopAutoTargeting)
                 .andThen(() -> m_stopAutoTargeting = false),
-            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()), 0.0, 1.0))
+            new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()) * m_autoAimSpeedModifier, 0.0, 1.0))
                 .until(() -> m_stopAutoTargeting)
                 .andThen(() -> m_stopAutoTargeting = false)
                 .alongWith(launch()),
@@ -175,9 +175,9 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     @Override
     public void periodic() {
-        SmartDashboard.putString("Launcher Speed", String.format("%.2f%%", m_speedModifier * 100));
-        SmartDashboard.putBoolean("Is Launching", m_state == LauncherState.LAUNCHING);
-        SmartDashboard.putBoolean("Is Reversing", m_state == LauncherState.REVERSE);
+        SmartDashboard.putString("Launcher Speed", String.format("%.2f%%", m_autoAimSpeedModifier * 100));
+        SmartDashboard.putBoolean("Launching", m_state == LauncherState.LAUNCHING);
+        SmartDashboard.putBoolean("Reversing Launcher", m_state == LauncherState.REVERSE);
         Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
         Logger.recordOutput("Launcher/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Desired Velocity", m_desiredVelocity);

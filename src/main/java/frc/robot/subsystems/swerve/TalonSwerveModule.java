@@ -17,6 +17,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.sim.TalonFXSimState;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -25,18 +26,25 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.util.DeviceConfigurator;
 import frc.robot.util.SwerveModuleConstants;
+import frc.robot.util.Utils;
 
-public class TalonSwerveModule implements SwerveModule {
+public class TalonSwerveModule extends SubsystemBase implements SwerveModule {
     SwerveModuleConstants m_constants;
 
     private SparkMax m_steerMotor;
     private TalonFX m_driveMotor;
+    private DCMotorSim m_driveMotorModel;
     private CANcoder m_steerAbsEncoder;
 
     private RelativeEncoder m_steerEncoder;
@@ -50,15 +58,13 @@ public class TalonSwerveModule implements SwerveModule {
     private double m_lastAngle;
 
     private Rotation2d m_simAngle = new Rotation2d();
-    private double m_simDist;
-    private double m_simVel;
 
     public TalonSwerveModule(SwerveModuleConstants constants) {
         m_constants = constants;
 
         m_steerMotor = new SparkMax(constants.steerId, MotorType.kBrushless);
         m_driveMotor = new TalonFX(constants.driveId, new CANBus(Constants.hasCANivore() ? "*" : "rio"));
-
+        m_driveMotorModel = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.04, DriveConstants.getDriveGearRatio()), DCMotor.getKrakenX60(1));
         m_steerEncoder = m_steerMotor.getEncoder();
 
         m_steerController = m_steerMotor.getClosedLoopController();
@@ -96,11 +102,11 @@ public class TalonSwerveModule implements SwerveModule {
     public SwerveModulePosition getModulePosition() {
         if (RobotBase.isReal()) {
             m_modulePosition.angle = Rotation2d.fromDegrees(m_steerEncoder.getPosition());
-            m_modulePosition.distanceMeters = getDriveMeters();
         } else {
             m_modulePosition.angle = m_simAngle;
-            m_modulePosition.distanceMeters = m_simDist;
         }
+
+        m_modulePosition.distanceMeters = getDriveMeters();
 
         return m_modulePosition;
     }
@@ -108,11 +114,11 @@ public class TalonSwerveModule implements SwerveModule {
     public SwerveModuleState getModuleState() {
         if (RobotBase.isReal()) {
             m_moduleState.angle = Rotation2d.fromDegrees(m_steerEncoder.getPosition());
-            m_moduleState.speedMetersPerSecond = getDriveMetersPerSecond();
         } else {
             m_moduleState.angle = m_simAngle;
-            m_moduleState.speedMetersPerSecond = m_simVel;
         }
+
+        m_moduleState.speedMetersPerSecond = getDriveMetersPerSecond();
 
         return m_moduleState;
     }
@@ -127,7 +133,7 @@ public class TalonSwerveModule implements SwerveModule {
     }
 
     public void setSwerveModuleState(SwerveModuleState moduleState, boolean isOpenLoop) {
-        // moduleState = Utils.optimize(moduleState, getModuleHeading());
+        moduleState = Utils.optimize(moduleState, getModuleHeading());
 
         double preCosinSpeed = moduleState.speedMetersPerSecond;
         moduleState.speedMetersPerSecond *= moduleState.angle.minus(getHeading()).getCos();
@@ -163,8 +169,17 @@ public class TalonSwerveModule implements SwerveModule {
 
         if (RobotBase.isSimulation()) {
             m_simAngle = moduleState.angle;
-            m_simVel = moduleState.speedMetersPerSecond;
-            m_simDist += moduleState.speedMetersPerSecond / (1 / Constants.kdt);
         }
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        TalonFXSimState driveMotorSim = m_driveMotor.getSimState();
+        driveMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+        Voltage motorVoltage = driveMotorSim.getMotorVoltageMeasure();
+        m_driveMotorModel.setInputVoltage(motorVoltage.in(Volts));
+        m_driveMotorModel.update(0.02);
+        driveMotorSim.setRawRotorPosition(m_driveMotorModel.getAngularPosition().in(Rotations) * DriveConstants.getDriveGearRatio());
+        driveMotorSim.setRotorVelocity(m_driveMotorModel.getAngularVelocity().in(RotationsPerSecond) * DriveConstants.getDriveGearRatio());
     }
 }

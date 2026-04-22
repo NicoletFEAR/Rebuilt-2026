@@ -51,6 +51,8 @@ public class IntakePivot extends SubsystemBase implements PositionSubsystem {
         config.Feedback.SensorToMechanismRatio = IntakeConstants.getPivotGearRatio();
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        config.CurrentLimits.SupplyCurrentLimitEnable = true;
+        config.CurrentLimits.SupplyCurrentLimit = 30.0;
         m_motor.getConfigurator().apply(config);
 
         m_desiredPosition = IntakeConstants.getPivotHomePosition();

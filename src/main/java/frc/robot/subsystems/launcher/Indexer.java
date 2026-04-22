@@ -16,6 +16,7 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -39,7 +40,7 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
         leadConfig.Slot0.kI = IndexerConstants.getKI();
         leadConfig.Slot0.kD = IndexerConstants.getKD();
         leadConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-        leadConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
+        leadConfig.CurrentLimits.SupplyCurrentLimit = 25.0;
         m_motor.getConfigurator().apply(leadConfig);
     }
 
@@ -69,6 +70,7 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
     @Override
     public void periodic() {
         Logger.recordOutput("Launcher/Indexer/Voltage", getVoltage());
+        SmartDashboard.putString("Indexer Voltage", String.format("%.2fV", getVoltage()));
         Logger.recordOutput("Launcher/Indexer/Desired Voltage", m_desiredVoltage);
         Logger.recordOutput("Launcher/Indexer/Current", m_motor.getStatorCurrent().getValueAsDouble());
     }

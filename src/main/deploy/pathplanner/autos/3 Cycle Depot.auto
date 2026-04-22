@@ -154,9 +154,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Launch 1 - Other Side Hub Depot"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Launch 1 - NZT Top South Closest"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "NZT Top South Closest - NZB Top South Closest"
+                      }
+                    }
+                  ]
                 }
               },
               {

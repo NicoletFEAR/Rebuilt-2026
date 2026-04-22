@@ -130,23 +130,6 @@ public class RobotContainer {
         //     )
         // );
 
-        // Slows speed -- left trigger of driver controller (only when not locking to hub)
-        m_driverController
-            .L2()
-            .and(m_driverController.R2().negate())
-            .whileTrue(
-                new TeleopSwerve(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.kSteerAxis,
-                    OperatorConstants.getSlowSpeed(),
-                    true,
-                    true,
-                    m_driveBase
-                )
-            );
-
         // Make gyroscope think current position is zero -- create button of driver controller
         m_driverController
             .create()
@@ -155,32 +138,12 @@ public class RobotContainer {
         // Enables Palantir-Class Target Lock on the hub
         m_driverController
             .R2()
-            .and(m_driverController.L2().negate())
             .whileTrue(
                 new AutoTarget(
                     m_driverController,
                     OperatorConstants.kThrottleAxis,
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.getDefaultSpeed(),
-                    true,
-                    true,
-                    m_driveBase,
-                    m_driveBase::distanceToHub,
-                    m_hood,
-                    m_launcher
-                )
-            );
-
-        // Slow hub lock -- L2 + R2 on driver controller
-        m_driverController
-            .R2()
-            .and(m_driverController.L2())
-            .whileTrue(
-                new AutoTarget(
-                    m_driverController,
-                    OperatorConstants.kThrottleAxis,
-                    OperatorConstants.kStrafeAxis,
-                    OperatorConstants.getSlowSpeed(),
                     true,
                     true,
                     m_driveBase,
@@ -230,7 +193,7 @@ public class RobotContainer {
 
             // Extakes the balls inside the hopper -- cross button of driver controller
             m_driverController
-                .cross()
+                .L2()
                 .onTrue(m_intakePivot
                     .out()
                     .andThen(m_intakeDriver.extake()

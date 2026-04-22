@@ -148,9 +148,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Launch 3 - Other Side Hub Outpost"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Launch 3 - NZT Bottom North Closest"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "NZT Bottom North Closest - NZB Bottom North Closest"
+                      }
+                    }
+                  ]
                 }
               },
               {

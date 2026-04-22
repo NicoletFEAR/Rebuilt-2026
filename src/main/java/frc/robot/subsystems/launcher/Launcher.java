@@ -175,7 +175,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     @Override
     public void periodic() {
-        SmartDashboard.putString("Launcher Speed", String.format("%.2f%%", m_autoAimSpeedModifier * 100));
+        SmartDashboard.putString("Launcher Speed", String.format("%.0f%%", m_autoAimSpeedModifier * 100));
         SmartDashboard.putBoolean("Launching", m_state == LauncherState.LAUNCHING);
         SmartDashboard.putBoolean("Reversing Launcher", m_state == LauncherState.REVERSE);
         Logger.recordOutput("Launcher/Speed Modifier", m_speedModifier);
@@ -183,6 +183,8 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         Logger.recordOutput("Launcher/Desired Velocity", m_desiredVelocity);
         Logger.recordOutput("Launcher/Left/Voltage", m_leftMotor.getMotorVoltage().getValueAsDouble());
         Logger.recordOutput("Launcher/Left/Current", m_leftMotor.getStatorCurrent().getValueAsDouble());
+        SmartDashboard.putString("Left Voltage", String.format("%.2fV", m_leftMotor.getMotorVoltage().getValueAsDouble()));
+        SmartDashboard.putString("Right Voltage", String.format("%.2fV", m_rightMotor.getMotorVoltage().getValueAsDouble()));
         Logger.recordOutput("Launcher/Left/Velocity", m_leftMotor.getVelocity().getValueAsDouble());
         Logger.recordOutput("Launcher/Right/Voltage", m_rightMotor.getMotorVoltage().getValueAsDouble());
         Logger.recordOutput("Launcher/Right/Current", m_rightMotor.getStatorCurrent().getValueAsDouble());

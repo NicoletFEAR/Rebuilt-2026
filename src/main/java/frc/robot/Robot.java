@@ -111,7 +111,6 @@ public class Robot extends LoggedRobot {
                     System.out.println("Auto cancelled in " + (Timer.getTimestamp() - m_autoStart) + " seconds");
                 }
 
-                CommandScheduler.getInstance().schedule(m_robotContainer.stopLedAnimation());
                 m_printedAutoTiming = true;
             }
         }

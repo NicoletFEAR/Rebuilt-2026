@@ -37,7 +37,6 @@ import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.util.DeviceConfigurator;
 import frc.robot.util.SwerveModuleConstants;
-import frc.robot.util.Utils;
 
 public class TalonSwerveModule extends SubsystemBase implements SwerveModule {
     SwerveModuleConstants m_constants;
@@ -133,14 +132,14 @@ public class TalonSwerveModule extends SubsystemBase implements SwerveModule {
     }
 
     public void setSwerveModuleState(SwerveModuleState moduleState, boolean isOpenLoop) {
-        moduleState = Utils.optimize(moduleState, getModuleHeading());
+        // moduleState = Utils.optimize(moduleState, getModuleHeading());
 
-        double preCosinSpeed = moduleState.speedMetersPerSecond;
-        moduleState.speedMetersPerSecond *= moduleState.angle.minus(getModuleHeading()).getCos();
+        // double preCosinSpeed = moduleState.speedMetersPerSecond;
+        // moduleState.speedMetersPerSecond *= moduleState.angle.minus(getModuleHeading()).getCos();
 
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/DesiredAngle", moduleState.angle.getDegrees());
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/CurrentAngle", getModuleHeading().getDegrees());
-        Logger.recordOutput("Auto/Module" + m_constants.driveId + "/PreCosineSpeed", preCosinSpeed);
+        // Logger.recordOutput("Auto/Module" + m_constants.driveId + "/PreCosineSpeed", preCosinSpeed);
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/PostCosineSpeed", moduleState.speedMetersPerSecond);
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/IsOpenLoop", isOpenLoop);
         Logger.recordOutput("Auto/Module" + m_constants.driveId + "/LastSpeed", m_lastSpeed);

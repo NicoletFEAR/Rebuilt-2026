@@ -46,6 +46,8 @@ public class DeviceConfigurator {
             .p(DriveConstants.getTurnKP())
             .i(DriveConstants.getTurnKI())
             .d(DriveConstants.getTurnKD())
+            .positionWrappingEnabled(true)
+            .positionWrappingInputRange(0.0, 360.0)
             .feedForward
             .kS(DriveConstants.getTurnKS())
             .kV(DriveConstants.getTurnKV())

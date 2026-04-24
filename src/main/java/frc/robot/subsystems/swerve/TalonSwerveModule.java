@@ -132,7 +132,7 @@ public class TalonSwerveModule extends SubsystemBase implements SwerveModule {
     }
 
     public void setSwerveModuleState(SwerveModuleState moduleState, boolean isOpenLoop) {
-        // moduleState = Utils.optimize(moduleState, getModuleHeading());
+        moduleState.optimize(getModuleHeading());
 
         double preCosinSpeed = moduleState.speedMetersPerSecond;
         moduleState.speedMetersPerSecond *= moduleState.angle.minus(getModuleHeading()).getCos();

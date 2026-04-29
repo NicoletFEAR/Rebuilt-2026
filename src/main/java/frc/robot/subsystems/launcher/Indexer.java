@@ -39,8 +39,6 @@ public class Indexer extends SubsystemBase implements VoltageSubsystem{
         leadConfig.Slot0.kP = IndexerConstants.getKP();
         leadConfig.Slot0.kI = IndexerConstants.getKI();
         leadConfig.Slot0.kD = IndexerConstants.getKD();
-        leadConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-        leadConfig.CurrentLimits.SupplyCurrentLimit = 25.0;
         m_motor.getConfigurator().apply(leadConfig);
     }
 

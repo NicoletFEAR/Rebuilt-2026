@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.839486447931526,
-        "y": 5.542353780313838
+        "x": 2.0530444444444447,
+        "y": 4.0447444444444445
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6174464285714283,
-        "y": 5.103964285714286
+        "x": 2.831004425084347,
+        "y": 3.606354949844893
       },
       "isLocked": false,
       "linkedName": "Launch D"
@@ -59,7 +59,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -28.72458575832246
+    "rotation": 0.21620946246236372
   },
   "useDefaultConstraints": true
 }

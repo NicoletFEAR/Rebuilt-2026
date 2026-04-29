@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0530444444444447,
-        "y": 4.0447444444444445
+        "x": 0.4162339514978599,
+        "y": 7.017360912981456
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3250691076240293,
-        "y": 6.415679553019496
+        "x": 0.41623395149785997,
+        "y": 6.017360912981456
       },
       "isLocked": false,
-      "linkedName": "Launch D"
+      "linkedName": "Depot Top"
     },
     {
       "anchor": {
-        "x": 7.734055555555555,
-        "y": 6.938844444444444
+        "x": 0.4162339514978599,
+        "y": 4.843666191155493
       },
       "prevControl": {
-        "x": 5.970311111111112,
-        "y": 7.640444444444444
+        "x": 0.41623395149785986,
+        "y": 5.843666191155493
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NZT Top-South"
+      "linkedName": "Depot Bottom"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 1.5,
+    "maxAcceleration": 1.5,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 65.0
+    "rotation": 90.0
   },
   "reversed": false,
-  "folder": "Start D and Depot Paths",
+  "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.21620946246236372
+    "rotation": 90.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

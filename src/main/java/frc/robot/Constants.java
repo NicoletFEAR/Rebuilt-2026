@@ -515,6 +515,14 @@ public final class Constants {
             kAutoAimSpeeds.put(5.204873d, 1.0d * 11.0 / 13.0);
         }
 
+        public static InterpolatingDoubleTreeMap kAutoAimTof = new InterpolatingDoubleTreeMap();
+        static {
+            kAutoAimTof.put(1.5, 1.3);
+            kAutoAimTof.put(2.0, 1.58);
+            kAutoAimTof.put(2.5, 1.48);
+            kAutoAimTof.put(3.0, 1.45);
+        }
+
         public static double getGearRatio() {
             return Double.parseDouble(m_properties.getProperty("launcher.gear-ratio"));
         }

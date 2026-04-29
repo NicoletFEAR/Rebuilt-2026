@@ -8,7 +8,8 @@
 package frc.robot.commands;
 
 
-import java.util.function.DoubleSupplier;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -17,12 +18,18 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LauncherConstants;
+import frc.robot.RobotContainer;
 import frc.robot.controllers.UniversalController;
 import frc.robot.subsystems.launcher.Hood;
 import frc.robot.subsystems.launcher.Launcher;
@@ -42,16 +49,18 @@ public class AutoTarget extends Command {
     private double m_steer;
     private PIDController m_steerController = new PIDController(DriveConstants.getAutoTargetKP(), DriveConstants.getAutoTargetKI(), DriveConstants.getAutoTargetKD());
 
-    private DoubleSupplier m_distanceToHub;
     private Hood m_hood;
     private Launcher m_launcher;
 
     private boolean m_isOpenLoop;
-    private boolean m_isFieldRelative;
 
     private double m_percentModifier;
 
-    private Translation2d target;
+    // Track position over time to compute pure translational velocity
+    private Translation2d m_lastPosition;
+    private Translation2d m_fieldVelocity = new Translation2d();
+
+    private SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(DriveConstants.kModuleTranslations);
 
     public AutoTarget (
         UniversalController driverController,
@@ -59,9 +68,7 @@ public class AutoTarget extends Command {
         int strafeAxis,
         double percentModifier,
         boolean isOpenLoop,
-        boolean isFieldRelative,
         SwerveDrive driveBase,
-        DoubleSupplier distanceToHub,
         Hood hood,
         Launcher launcher) {
         m_driverController = driverController;
@@ -73,11 +80,8 @@ public class AutoTarget extends Command {
 
         m_steerController.enableContinuousInput(-180, 180);
 
-        m_isFieldRelative = isFieldRelative;
-
         m_driveBase = driveBase;
 
-        m_distanceToHub = distanceToHub;
         m_hood = hood;
         m_launcher = launcher;
 
@@ -88,6 +92,8 @@ public class AutoTarget extends Command {
     @Override
     public void initialize() {
         m_steerController.reset();
+        m_lastPosition = m_driveBase.getPose().getTranslation();
+        m_fieldVelocity = new Translation2d();
     }
 
     /**
@@ -96,7 +102,7 @@ public class AutoTarget extends Command {
      */
     @Override
     public void execute() {
-        target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
+        Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
             ? DriveConstants.kBlueHubPosition
             : DriveConstants.kRedHubPosition;
 
@@ -149,11 +155,36 @@ public class AutoTarget extends Command {
             }
         }
 
-        Logger.recordOutput("Rotation Target", new Pose2d(target, new Rotation2d()));
+        Pose2d drivePose = m_driveBase.getPose();
+
+        double distance = Math.hypot(
+            target.getY() - drivePose.getY(),
+            target.getX() - drivePose.getX()
+        );
+
+        // Compute translational velocity by differentiating pose position
+        // This is independent of PID rotation commands — pure translational movement
+        Translation2d currentPosition = drivePose.getTranslation();
+        Translation2d positionDelta = currentPosition.minus(m_lastPosition);
+        // Low-pass filter: blend new measurement with previous velocity to smooth noise
+        Translation2d rawVelocity = positionDelta.div(Constants.kdt);
+        m_fieldVelocity = m_fieldVelocity.times(0.8).plus(rawVelocity.times(0.2));
+        m_lastPosition = currentPosition;
+
+        Translation2d velocityCompensation = m_fieldVelocity.times(LauncherConstants.kAutoAimTof.get(distance));
+
+        double maxLinearVelocity = distance / LauncherConstants.kAutoAimTof.get(distance) * 0.75;
+
+        Translation2d lookaheadTarget = SmartDashboard.getBoolean("Enable Launch on the Fly", false)
+            ? target.minus(velocityCompensation)
+            : target;
+
+        Logger.recordOutput("Rotation target", new Pose2d(lookaheadTarget, new Rotation2d()));
+        Logger.recordOutput("AutoTarget/FieldVelocity", m_fieldVelocity.getNorm());
 
         double desiredAngle = Math.atan2(
-            target.getY() - m_driveBase.getPose().getTranslation().getY(),
-            target.getX() - m_driveBase.getPose().getTranslation().getX()
+            lookaheadTarget.getY() - drivePose.getTranslation().getY(),
+            lookaheadTarget.getX() - drivePose.getTranslation().getX()
         );
 
         // Always run the PID — no dead zone cutoff that causes oscillation
@@ -163,20 +194,52 @@ public class AutoTarget extends Command {
         m_strafe *= m_percentModifier;
         m_steer *= m_percentModifier;
 
-        m_driveBase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, m_isFieldRelative);
+        if (SmartDashboard.getBoolean("Enable Launch on the Fly", false)) {
+            m_throttle *= DriveConstants.getMaxModuleSpeed();
+            m_strafe *= DriveConstants.getMaxModuleSpeed();
+            m_steer *= RotationsPerSecond.of(DriveConstants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
+
+            ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_throttle, m_strafe, m_steer, drivePose.getRotation());
+
+            if (RobotContainer.getAlliance() == Alliance.Red) {
+                speeds.vxMetersPerSecond *= -1.0;
+                speeds.vyMetersPerSecond *= -1.0;
+            }
+
+            double linearVelocity = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).getNorm();
+            double angleToLookahead = currentPosition.minus(target).getAngle().minus(velocityCompensation.unaryMinus().getAngle()).getRotations();
+
+            Logger.recordOutput("Angle to lookahead", angleToLookahead);
+
+            if (angleToLookahead < 0.125 && angleToLookahead > -0.125) {
+                if (linearVelocity > maxLinearVelocity) {
+                    speeds.vxMetersPerSecond *= maxLinearVelocity / linearVelocity;
+                    speeds.vyMetersPerSecond *= maxLinearVelocity / linearVelocity;
+                }
+            }
+
+            speeds = ChassisSpeeds.discretize(speeds, Constants.kdt);
+            m_driveBase.setModuleStates(m_kinematics.toSwerveModuleStates(speeds), m_isOpenLoop);
+
+            if (RobotBase.isSimulation()) {
+                m_driveBase.updateSimYaw(speeds);
+            }
+        } else {
+            m_driveBase.drive(m_throttle, m_strafe, m_steer, m_isOpenLoop, true);
+        }
 
         if ((m_driveBase.getPose().getX() >= DriveConstants.kInAllianceZoneRed && DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red)
              || (m_driveBase.getPose().getX() <= DriveConstants.kInAllianceZoneBlue && DriverStation. getAlliance().orElse(Alliance.Blue) == Alliance.Blue)) {
             // Adjust hood angle based on distance to hub
             m_hood.runToPosition(MathUtil.clamp(
-                LauncherConstants.kAutoAimHoodPositions.get(m_distanceToHub.getAsDouble()),
+                LauncherConstants.kAutoAimHoodPositions.get(m_driveBase.distanceToHub()),
                 LauncherConstants.getHoodMinPosition(),
                 LauncherConstants.getHoodMaxPosition()
             ));
 
             // Adjust launcher speed based on distance to hub
             double speedModifier = MathUtil.clamp(
-                LauncherConstants.kAutoAimSpeeds.get(m_distanceToHub.getAsDouble()) * m_launcher.getAutoAimSpeedModifier(),
+                LauncherConstants.kAutoAimSpeeds.get(m_driveBase.distanceToHub()) * m_launcher.getAutoAimSpeedModifier(),
                 m_launcher.getMinSpeedModifier(), 1.0);
             m_launcher.setSpeedModifierDirect(speedModifier);
             m_launcher.setVelocity(LauncherConstants.getLaunchVelocity() * speedModifier);

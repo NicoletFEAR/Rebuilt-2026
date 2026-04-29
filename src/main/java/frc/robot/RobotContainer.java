@@ -85,6 +85,7 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser();
 
         m_mainTab.add("Auto Chooser", autoChooser).withPosition(5, 0).withSize(5, 2);
+        SmartDashboard.putBoolean("Enable Launch on the Fly", true);
 
         configureBindings();
     }
@@ -121,9 +122,7 @@ public class RobotContainer {
                     OperatorConstants.kStrafeAxis,
                     OperatorConstants.getDefaultSpeed(),
                     true,
-                    true,
                     m_driveBase,
-                    m_driveBase::distanceToHub,
                     m_hood,
                     m_launcher
                 )

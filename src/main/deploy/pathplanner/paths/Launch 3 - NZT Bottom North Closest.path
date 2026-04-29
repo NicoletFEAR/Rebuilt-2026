@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.961426533523538,
-        "y": 0.5500000000000003
+        "x": 4.983580599144079,
+        "y": 0.6127246790299581
       },
       "isLocked": false,
       "linkedName": "Launch 3"
@@ -20,15 +20,36 @@
         "y": 1.1043937232524967
       },
       "prevControl": {
-        "x": 5.937318116975749,
-        "y": 0.3618544935805994
+        "x": 5.54206274902417,
+        "y": 0.7084289138764208
+      },
+      "nextControl": {
+        "x": 6.329201141226819,
+        "y": 1.3890442225392303
+      },
+      "isLocked": false,
+      "linkedName": "NZT Bottom North Closest"
+    },
+    {
+      "anchor": {
+        "x": 6.0057346647646215,
+        "y": 3.9897146932952925
+      },
+      "prevControl": {
+        "x": 6.160998573466475,
+        "y": 3.1228245363766054
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NZT Bottom North Closest"
+      "linkedName": "NZB Bottom North Closest"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.58,
+      "rotationDegrees": -67.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -45,7 +66,7 @@
     },
     {
       "name": "StartIntake",
-      "waypointRelativePos": 0.7265361242403737,
+      "waypointRelativePos": 0.5820312499999999,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

@@ -3,70 +3,54 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.961426533523537,
-        "y": 0.55
+        "x": 4.35,
+        "y": 0.6
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.961426533523538,
-        "y": 0.5500000000000003
+        "x": 5.607033031229744,
+        "y": 0.6352218945281244
       },
       "isLocked": false,
-      "linkedName": "Launch 3"
+      "linkedName": "Start O NZT"
     },
     {
       "anchor": {
-        "x": 7.0,
+        "x": 7.7,
         "y": 1.2
       },
       "prevControl": {
-        "x": 6.711958370397375,
-        "y": 0.5220244636563977
+        "x": 7.441889192483658,
+        "y": 0.20876845276648448
       },
       "nextControl": {
-        "x": 7.157275320970041,
-        "y": 1.5701854493580605
+        "x": 7.830085592011411,
+        "y": 1.69957203994294
       },
       "isLocked": false,
-      "linkedName": "NZT Bottom North Close"
+      "linkedName": "NZT Bottom-North"
     },
     {
       "anchor": {
-        "x": 7.0,
-        "y": 4.0
+        "x": 7.73,
+        "y": 3.45
       },
       "prevControl": {
-        "x": 7.0796433666191145,
-        "y": 3.148701854493581
+        "x": 7.855962910128387,
+        "y": 1.1820256776034253
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NZB Bottom North Far"
+      "linkedName": "NZB Bottom-North"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.632832729155878,
-      "rotationDegrees": -65.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "ResetIntake",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "ResetIntake"
-        }
-      }
-    },
-    {
       "name": "StartIntake",
-      "waypointRelativePos": 0.6341145833333413,
+      "waypointRelativePos": 0.6601562500000018,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -92,7 +76,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 83.246
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

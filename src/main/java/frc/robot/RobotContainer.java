@@ -107,18 +107,18 @@ public class RobotContainer {
         // Driver Controller Mappings \\
 
         // Driving -- joysticks of driver controller
-        // m_driveBase.setDefaultCommand(
-        //     new TeleopSwerve(
-        //         m_driverController,
-        //         OperatorConstants.kThrottleAxis,
-        //         OperatorConstants.kStrafeAxis,
-        //         OperatorConstants.kSteerAxis,
-        //         OperatorConstants.getDefaultSpeed(),
-        //         true,
-        //         true,
-        //         m_driveBase
-        //     )
-        // );
+        m_driveBase.setDefaultCommand(
+            new TeleopSwerve(
+                m_driverController,
+                OperatorConstants.kThrottleAxis,
+                OperatorConstants.kStrafeAxis,
+                OperatorConstants.kSteerAxis,
+                OperatorConstants.getDefaultSpeed(),
+                true,
+                true,
+                m_driveBase
+            )
+        );
 
         // Make gyroscope think current position is zero -- create button of driver controller
         m_driverController

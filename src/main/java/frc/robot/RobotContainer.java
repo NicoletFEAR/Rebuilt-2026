@@ -85,7 +85,7 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser();
 
         m_mainTab.add("Auto Chooser", autoChooser).withPosition(5, 0).withSize(5, 2);
-        SmartDashboard.putBoolean("Enable Launch on the Fly", true);
+        SmartDashboard.putBoolean("Enable Launch on the Fly", false);
 
         configureBindings();
     }

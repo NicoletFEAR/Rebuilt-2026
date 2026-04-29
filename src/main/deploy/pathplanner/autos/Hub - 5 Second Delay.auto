@@ -5,15 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Start T - Depot Middle"
+            "waitTime": 5.0
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 1.5
+            "pathName": "Start T - Depot Middle"
           }
         },
         {

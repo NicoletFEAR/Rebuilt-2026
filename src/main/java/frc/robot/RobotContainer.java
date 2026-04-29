@@ -1,8 +1,14 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
+import org.littletonrobotics.junction.Logger;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -12,9 +18,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -86,6 +94,11 @@ public class RobotContainer {
 
         m_mainTab.add("Auto Chooser", autoChooser).withPosition(5, 0).withSize(5, 2);
         SmartDashboard.putBoolean("Enable Launch on the Fly", false);
+
+        SmartDashboard.putData(
+            "Testing/Test Swerve Modules",
+            testSwerves()
+        );
 
         configureBindings();
     }
@@ -303,6 +316,53 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
+    }
+
+    private Command testSwerves() {
+        SequentialCommandGroup testCommand = new SequentialCommandGroup();
+
+        for (double speed = 0.0; speed < 4.0; speed += 1.0) {
+            for (double angle = 0.0; angle < 360.0; angle += 15.0) {
+                testCommand.addCommands(
+                    runSwervesToState(speed, angle),
+                    Commands.waitSeconds(0.1)
+                );
+            }
+        }
+
+        testCommand.addCommands(runSwervesToState(0.0, 0.0), Commands.waitSeconds(1.0));
+
+        for (double speed = -1.0; speed > -4.0; speed -= 1.0) {
+            for (double angle = 0.0; angle < 360.0; angle += 15.0) {
+                testCommand.addCommands(
+                    runSwervesToState(speed, angle),
+                    Commands.waitSeconds(0.1)
+                );
+            }
+        }
+
+        testCommand.addCommands(runSwervesToState(0.0, 0.0));
+
+        return testCommand;
+    }
+
+    private Command runSwervesToState(double speed, double angle) {
+        return Commands.runOnce(() -> {
+            SwerveModuleState state = new SwerveModuleState(
+                MetersPerSecond.of(speed),
+                Rotation2d.fromDegrees(angle)
+            );
+
+            SwerveModuleState[] states = new SwerveModuleState[] {
+                state,
+                state,
+                state,
+                state,
+            };
+
+            Logger.recordOutput("Swerve Desired States", states);
+            m_driveBase.setModuleStates(states, true);
+        });
     }
 
     public Command runAutoLedAnimation() {

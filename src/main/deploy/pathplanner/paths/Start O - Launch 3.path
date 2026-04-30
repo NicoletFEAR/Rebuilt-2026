@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 3.7290888888888887,
+        "x": 5.804655555555557,
         "y": 0.6147000000000002
       },
       "prevControl": {
-        "x": 3.974252504314782,
+        "x": 6.04981917098145,
         "y": 0.6636367108754244
       },
       "nextControl": null,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 83.24640399798929
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Start O and Outpost Paths",

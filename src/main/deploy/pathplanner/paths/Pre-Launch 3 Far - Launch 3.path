@@ -16,24 +16,19 @@
     },
     {
       "anchor": {
-        "x": 3.961426533523537,
-        "y": 0.6386019971469341
+        "x": 5.804655555555557,
+        "y": 0.6147000000000002
       },
       "prevControl": {
-        "x": 6.098271792683681,
-        "y": 0.5940682183489769
+        "x": 7.941500814715701,
+        "y": 0.5701662212020431
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Launch 3"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.6946058091286335,
-      "rotationDegrees": 180.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 83.24640399798929
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 4.5,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

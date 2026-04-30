@@ -517,6 +517,21 @@ public class RobotContainer {
                     .alongWith(m_launcher.setSpeedModifier(1.0))
                     .alongWith(m_hood.endAutoTarget())
             );
+
+            NamedCommands.registerCommand(
+                "StartExtake",
+                m_intakePivot
+                    .out()
+                    .andThen(m_intakeDriver.extake()
+                    .alongWith(m_indexer.extake()))
+            );
+
+            NamedCommands.registerCommand(
+                "EndExtake", 
+                m_intakePivot
+                    .in()
+                    .alongWith(m_intakeDriver.off()
+                    .alongWith(m_indexer.off())));
         }
     }
 }

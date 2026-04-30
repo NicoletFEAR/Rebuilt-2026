@@ -3,32 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7290888888888887,
+        "x": 5.804655555555557,
         "y": 0.6147000000000002
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.751242954509431,
+        "x": 6.826809621176099,
         "y": 0.6774246790299583
       },
       "isLocked": false,
       "linkedName": "Launch 3"
-    },
-    {
-      "anchor": {
-        "x": 6.0,
-        "y": 1.1043937232524967
-      },
-      "prevControl": {
-        "x": 5.54206274902417,
-        "y": 0.7084289138764208
-      },
-      "nextControl": {
-        "x": 6.329201141226819,
-        "y": 1.3890442225392303
-      },
-      "isLocked": false,
-      "linkedName": "NZT Bottom North Closest"
     },
     {
       "anchor": {
@@ -46,7 +30,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.58,
+      "waypointRelativePos": 0.3,
       "rotationDegrees": -67.0
     }
   ],
@@ -66,7 +50,7 @@
     },
     {
       "name": "StartIntake",
-      "waypointRelativePos": 0.5820312499999999,
+      "waypointRelativePos": 0.3,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -92,7 +76,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 83.24640399798929
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

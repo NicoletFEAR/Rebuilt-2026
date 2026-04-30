@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.7,
-        "y": 7.457
+        "x": 5.609766666666667,
+        "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 4.740544444444445,
-        "y": 7.552555555555555
+        "x": 6.650311111111112,
+        "y": 7.552830876525599
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -71.87529253659945
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Neutral Zone Trench Paths",

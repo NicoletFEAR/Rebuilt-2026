@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7,
-        "y": 7.457
+        "x": 5.609766666666667,
+        "y": 7.4572753209700435
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.4031666666666665,
-        "y": 7.403833333333332
+        "x": 7.3129333333333335,
+        "y": 7.404108654303376
       },
       "isLocked": false,
       "linkedName": "Launch 1"
@@ -48,7 +48,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -71.87529253659945
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

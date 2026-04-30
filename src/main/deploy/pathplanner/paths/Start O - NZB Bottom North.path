@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 7.441889192483658,
-        "y": 0.20876845276648448
+        "y": 0.20876845276648437
       },
       "nextControl": {
         "x": 7.830085592011411,
@@ -50,7 +50,7 @@
   "eventMarkers": [
     {
       "name": "StartIntake",
-      "waypointRelativePos": 0.6601562500000018,
+      "waypointRelativePos": 0.4297362110311803,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -69,7 +69,7 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.5,
+    "velocity": 0.0,
     "rotation": -65.0
   },
   "reversed": false,

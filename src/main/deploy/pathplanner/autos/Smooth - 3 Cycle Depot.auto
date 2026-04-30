@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start O - NZT Bottom North"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NZT Bottom North - NZB Bottom North"
+            "pathName": "Start D - NZB Top South"
           }
         },
         {
@@ -27,13 +21,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "NZB Bottom North - Pre-Launch 3"
+                        "pathName": "NZB Top South - Pre Launch 1"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Pre-Launch 3 - Launch 3"
+                        "pathName": "Pre Launch 1 - Launch 1"
                       }
                     }
                   ]
@@ -74,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Launch 3 - NZT Bottom North Close"
+                  "pathName": "Launch 1 - NZB Top South Far"
                 }
               },
               {
@@ -84,12 +78,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NZT Bottom North - NZB Bottom North Far"
           }
         },
         {
@@ -103,13 +91,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "NZB Bottom North Far - Pre-Launch 3 Far"
+                        "pathName": "NZT Top South Far - Pre Launch 1 Far"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Pre-Launch 3 Far - Launch 3"
+                        "pathName": "Pre Launch 1 Far - Launch 1"
                       }
                     }
                   ]
@@ -148,22 +136,9 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Launch 3 - NZT Bottom North Closest"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "NZT Bottom North Closest - NZB Bottom North Closest"
-                      }
-                    }
-                  ]
+                  "pathName": "Launch 1 - NZB Top South Closest"
                 }
               },
               {

@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 7.0,
-        "y": 6.938844444444444
+        "y": 6.773188888888889
       },
       "prevControl": null,
       "nextControl": {
         "x": 7.0,
-        "y": 5.938844444444444
+        "y": 5.773188888888889
       },
       "isLocked": false,
       "linkedName": "NZT Top South Close"

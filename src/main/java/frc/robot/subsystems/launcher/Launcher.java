@@ -154,6 +154,14 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
         return new InstantCommand(() -> m_autoAimSpeedModifier -= 0.05);
     }
 
+    public Command raiseTrueSpeed() {
+        return new InstantCommand(() -> m_speedModifier += 0.05);
+    }
+
+    public Command lowerTrueSpeed() {
+        return new InstantCommand(() -> m_speedModifier -= 0.05);
+    }
+
     public Command adjustSpeedToHubDistance(DoubleSupplier distance) {
         return new ConditionalCommand(
             new RunCommand(() -> m_speedModifier = MathUtil.clamp(LauncherConstants.kAutoAimSpeeds.get(distance.getAsDouble()) * m_autoAimSpeedModifier, 0.0, 1.0))

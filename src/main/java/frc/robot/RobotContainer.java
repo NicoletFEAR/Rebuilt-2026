@@ -309,8 +309,6 @@ public class RobotContainer {
                     m_launcher.idle(),
                     () -> m_automaticLaunching
                 )));
-
-            //TODO: Make Min and Max reset button - use niche buttons(multiple)
         }
     }
 

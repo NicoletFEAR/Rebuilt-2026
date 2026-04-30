@@ -83,8 +83,14 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
 
     public void setVelocity(double velocity) {
         m_desiredVelocity = velocity;
-        m_leftMotor.setControl(m_velocityRequest.withVelocity(m_desiredVelocity));
-        m_rightMotor.setControl(m_velocityRequest.withVelocity(m_desiredVelocity));
+
+        if (!MathUtil.isNear(m_leftMotor.getVelocity().getValueAsDouble(), velocity, 0.01)) {
+            m_leftMotor.setControl(m_velocityRequest.withVelocity(m_desiredVelocity));
+        }
+
+        if (!MathUtil.isNear(m_rightMotor.getVelocity().getValueAsDouble(), velocity, 0.01)) {
+            m_rightMotor.setControl(m_velocityRequest.withVelocity(m_desiredVelocity));
+        }
     }
 
     public boolean isAtVelocity() {

@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7290888888888887,
-        "y": 0.6147000000000002
+        "x": 4.35,
+        "y": 0.6
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.729088888888889,
-        "y": 0.6147000000000005
+        "x": 5.607033031229744,
+        "y": 0.6352218945281244
       },
       "isLocked": false,
-      "linkedName": "Launch 3"
+      "linkedName": "Start O NZT"
     },
     {
       "anchor": {
-        "x": 6.5,
-        "y": 1.2
+        "x": 7.977666666666666,
+        "y": 0.7998444444444441
       },
       "prevControl": {
-        "x": 6.5846959459459455,
-        "y": 0.49075450450450486
+        "x": 7.782777777777778,
+        "y": 0.32236666666666686
+      },
+      "nextControl": {
+        "x": 8.152338059861938,
+        "y": 1.227789357772863
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.133577777777777,
+        "y": 2.2517666666666663
+      },
+      "prevControl": {
+        "x": 8.065366666666666,
+        "y": 1.2675777777777786
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NZT Bottom North Closer"
+      "linkedName": "Cheesy End"
     }
   ],
   "rotationTargets": [],
@@ -33,19 +49,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "ResetIntake",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "ResetIntake"
-        }
-      }
-    },
-    {
       "name": "StartIntake",
-      "waypointRelativePos": 0.6642728904847383,
+      "waypointRelativePos": 0.4297362110311803,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -64,14 +69,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.5,
+    "velocity": 0.0,
     "rotation": -65.0
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 83.24640399798929
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start D - NZT Top South"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NZT Top South - NZB Top South"
+            "pathName": "Start D - NZB Top South"
           }
         },
         {
@@ -74,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Launch 1 - NZT Top South Close"
+                  "pathName": "Launch 1 - NZB Top South Far"
                 }
               },
               {
@@ -84,18 +78,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NZT Top North Close - NZT Top South Far"
           }
         },
         {
@@ -154,22 +136,9 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Launch 1 - NZT Top South Closest"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "NZT Top South Closest - NZB Top South Closest"
-                      }
-                    }
-                  ]
+                  "pathName": "Launch 1 - NZB Top South Closest"
                 }
               },
               {

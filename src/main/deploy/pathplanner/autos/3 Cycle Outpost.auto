@@ -70,12 +70,6 @@
                 "data": {
                   "pathName": "Launch 3 - NZT Bottom North Close"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndExtake"
-                }
               }
             ]
           }
@@ -139,12 +133,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "Launch 3 - NZT Bottom North Closest"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndExtake"
                 }
               }
             ]

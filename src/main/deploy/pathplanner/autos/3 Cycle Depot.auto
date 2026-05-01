@@ -70,12 +70,6 @@
                 "data": {
                   "pathName": "Launch 1 - NZB Top South Far"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndExtake"
-                }
               }
             ]
           }
@@ -139,12 +133,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "Launch 1 - NZB Top South Closest"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EndExtake"
                 }
               }
             ]

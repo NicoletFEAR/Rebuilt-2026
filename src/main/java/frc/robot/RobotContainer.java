@@ -126,8 +126,8 @@ public class RobotContainer {
             .onTrue(new InstantCommand(m_driveBase::zeroGyro, m_driveBase));
 
         // Enables Palantir-Class Target Lock on the hub
-        m_driverController
-            .R2()
+        m_operatorController
+            .L2()
             .whileTrue(
                 new AutoTarget(
                     m_driverController,
@@ -179,9 +179,22 @@ public class RobotContainer {
             //         .andThen(m_launcher.reverse()))
             //     .onFalse(m_launcher.idle());
 
-            // Extakes the balls inside the hopper -- cross button of driver controller
+            // Intakes fuel -- left trigger on operator controller
             m_driverController
                 .L2()
+                .onTrue(m_led.startIntakeAnimation()
+                    .alongWith(m_intakePivot.out())
+                    .alongWith(m_intakeDriver.intake()))
+                .onFalse(m_led.startSwerveAnimation()
+                    .alongWith(m_intakePivot
+                        .in()
+                        .until(m_intakePivot::isStuckOnBall)
+                        .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition)))
+                        .alongWith(m_intakeDriver.off()));
+
+            // Extakes the balls inside the hopper -- cross button of driver controller
+            m_driverController
+                .R2()
                 .onTrue(m_intakePivot
                     .out()
                     .andThen(m_intakeDriver.extake()
@@ -264,19 +277,6 @@ public class RobotContainer {
                     return -1.0;
                 }
             }, m_limitOverrideMode), m_hood));
-
-            // Intakes fuel -- left trigger on operator controller
-            m_operatorController
-                .L2()
-                .onTrue(m_led.startIntakeAnimation()
-                    .alongWith(m_intakePivot.out())
-                    .alongWith(m_intakeDriver.intake()))
-                .onFalse(m_led.startSwerveAnimation()
-                    .alongWith(m_intakePivot
-                        .in()
-                        .until(m_intakePivot::isStuckOnBall)
-                        .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition)))
-                        .alongWith(m_intakeDriver.off()));
 
             // m_operatorController
             //     .leftStick()
@@ -473,8 +473,6 @@ public class RobotContainer {
 
     private void createNamedCommands() {
         if (Constants.kRobotName.equals("tusk")) {
-            // TODO: Replace these old commands with their newer versions in the autos
-            // NamedCommands.registerCommand("HoodDown", new RunCommand(() -> m_hood.runToPosition(0.0)).until(m_hood::getIsAtSetpoint));
             NamedCommands.registerCommand(
                 "ResetIntake",
                 m_intakePivot
@@ -527,7 +525,7 @@ public class RobotContainer {
             );
 
             NamedCommands.registerCommand(
-                "EndExtake", 
+                "EndExtake",
                 m_intakePivot
                     .in()
                     .alongWith(m_intakeDriver.off()

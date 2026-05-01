@@ -237,23 +237,25 @@ public class RobotContainer {
             // Increases launcher speed by 10% unless it's already at 100% -- circle button on operator controller
             m_operatorController
                 .circle()
-                .onTrue(m_launcher.raiseSpeed());
+                .onTrue(m_launcher.raiseTrueSpeed());
 
             // Decreases launcher speed by 10% unless it's at 0% -- square button of operator controller
             m_operatorController
                 .square()
-                .onTrue(m_launcher.lowerSpeed());
+                .onTrue(m_launcher.lowerTrueSpeed());
 
             // Good speed for shooting from the middle of the alliance zone generally -- cross button of operator controller
             m_operatorController
                 .cross()
-                .onTrue(m_launcher.setSpeedModifier(0.7));
+                .onTrue(m_launcher.setSpeedModifier(LauncherConstants.kAutoAimSpeeds.get(2.7))
+                .alongWith(m_hood.runProfileToPosition(LauncherConstants.kAutoAimHoodPositions.get(2.7))))
+                .onFalse(m_hood.runProfileToPosition(LauncherConstants.getHoodMinPosition()));
 
             // Good speed for shooting from the trench -- triangle button of operator controller
             m_operatorController
                 .triangle()
-                .onTrue(m_launcher.setSpeedModifier(1.0)
-                .alongWith(m_hood.runProfileToPosition(LauncherConstants.getHoodMaxPosition())))
+                .onTrue(m_launcher.setSpeedModifier(LauncherConstants.kAutoAimSpeeds.get(3.65))
+                .alongWith(m_hood.runProfileToPosition(LauncherConstants.kAutoAimHoodPositions.get(3.65))))
                 .onFalse(m_hood.runProfileToPosition(LauncherConstants.getHoodMinPosition()));
 
             // Control the intake pivot manually -- left and right buttons on d-pad of operator controller

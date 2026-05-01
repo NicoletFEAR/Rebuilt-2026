@@ -39,7 +39,7 @@ public class Launcher extends SubsystemBase implements VoltageSubsystem{
     private double m_desiredVoltage;
     private double m_desiredVelocity;
     private double m_speedModifier = 1.0;
-    private double m_autoAimSpeedModifier = 1.5;
+    private double m_autoAimSpeedModifier = 1.1;
     private LauncherState m_state = LauncherState.IDLE;
     private TalonFX m_leftMotor;
     private TalonFX m_rightMotor;

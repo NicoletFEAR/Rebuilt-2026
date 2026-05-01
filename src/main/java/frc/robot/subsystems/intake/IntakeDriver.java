@@ -59,7 +59,7 @@ public class IntakeDriver extends SubsystemBase implements VoltageSubsystem {
     public Command intake() {
         return new InstantCommand(() -> {
             m_state = IntakeDriverState.INTAKING;
-            setVoltage(IntakeConstants.getDriverIntakeVoltage() * 0.25);
+            setVoltage(IntakeConstants.getDriverIntakeVoltage() * 0.1);
         }, this);
     }
 

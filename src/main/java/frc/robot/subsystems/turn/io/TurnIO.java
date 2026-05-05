@@ -8,8 +8,6 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
 import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.base.IO;
@@ -33,9 +31,7 @@ public abstract class TurnIO extends IO<TurnState, TurnIO, TurnName, TurnIdentit
         m_state = new TurnState();
     }
 
-    public Command applyVoltage(Voltage voltage) {
-        return Commands.none();
-    }
+    public void applyVoltage(Voltage voltage) {}
 
     @Override
     public TurnState updateState() {

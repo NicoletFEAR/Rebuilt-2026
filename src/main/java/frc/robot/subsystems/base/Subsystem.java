@@ -3,11 +3,8 @@ package frc.robot.subsystems.base;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Alert.AlertType;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.robots.hades.HadesState;
-import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.util.Container;
 
@@ -49,27 +46,11 @@ public abstract class Subsystem<T extends State<T, W, X>, U extends Request<T, U
         return m_state.update(m_io.get().updateState());
     }
 
-    public U requestHades(HadesState fullState) {
-        return m_request.update(m_requestor.requestHades(fullState));
-    }
-
-    public void runHades(HadesState fullState) {
-        CommandScheduler.getInstance().schedule(m_choreographer.choreographHades(fullState, m_request));
-    }
-
-    public U requestKitbot(KitbotState fullState) {
-        return m_request.update(m_requestor.requestKitbot(fullState));
-    }
-
-    public void runKitbot(KitbotState fullState) {
-        CommandScheduler.getInstance().schedule(m_choreographer.choreographKitbot(fullState, m_request));
-    }
-
     public U requestTusk(TuskState fullState) {
         return m_request.update(m_requestor.requestTusk(fullState));
     }
 
     public void runTusk(TuskState fullState) {
-        CommandScheduler.getInstance().schedule(m_choreographer.choreographTusk(fullState, m_request));
+        m_choreographer.choreographTusk(fullState, m_request);
     }
 }

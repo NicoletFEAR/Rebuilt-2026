@@ -1,8 +1,6 @@
 package frc.robot.subsystems.controller.io;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.base.IO;
 import frc.robot.subsystems.controller.ControllerIdentity;
 import frc.robot.subsystems.controller.ControllerName;
@@ -17,17 +15,11 @@ public abstract class ControllerIO extends IO<ControllerState, ControllerIO, Con
         m_state = new ControllerState();
     }
 
-    public Command leftRumble(double strength) {
-        return Commands.none();
-    };
+    public void leftRumble(double strength) {}
 
-    public Command rightRumble(double strength) {
-        return Commands.none();
-    };
+    public void rightRumble(double strength) {}
 
-    public Command rumble(double strength) {
-        return Commands.none();
-    };
+    public void rumble(double strength) {}
 
     @Override
     public ControllerState updateState() {

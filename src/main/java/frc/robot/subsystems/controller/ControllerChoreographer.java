@@ -1,12 +1,7 @@
 package frc.robot.subsystems.controller;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.constants.Constants;
-import frc.robot.robots.hades.HadesState;
-import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.Choreographer;
 import frc.robot.subsystems.controller.io.ControllerIO;
@@ -19,139 +14,7 @@ public class ControllerChoreographer extends Choreographer<ControllerState, Cont
     }
 
     @Override
-    public Command choreographHades(HadesState fullState, ControllerRequest requestedState) {
-        ConstraintType leftRumbleStrengthType = requestedState.LeftRumbleStrength.getType();
-        ConstraintType rightRumbleStrengthType = requestedState.RightRumbleStrength.getType();
-        double leftRumbleStrength = requestedState.LeftRumbleStrength.get();
-        double rightRumbleStrength = requestedState.RightRumbleStrength.get();
-
-        if (leftRumbleStrengthType == ConstraintType.IGNORE
-            && rightRumbleStrengthType == ConstraintType.IGNORE) {
-            return Commands.none();
-        } else if (leftRumbleStrengthType == ConstraintType.IGNORE) {
-            if (!MathUtil.isNear(
-                fullState.Controller.RightRumbleStrength,
-                rightRumbleStrength,
-                Constants.kGeneralTolerance
-            )) {
-                return m_io.get().rightRumble(rightRumbleStrength);
-            } else {
-                return Commands.none();
-            }
-        } else if (rightRumbleStrengthType == ConstraintType.IGNORE) {
-            if (!MathUtil.isNear(
-                fullState.Controller.LeftRumbleStrength,
-                leftRumbleStrength,
-                Constants.kGeneralTolerance
-            )) {
-                return m_io.get().leftRumble(leftRumbleStrength);
-            } else {
-                return Commands.none();
-            }
-        } else {
-            if (leftRumbleStrength == rightRumbleStrength
-                && !MathUtil.isNear(
-                    fullState.Controller.LeftRumbleStrength,
-                    leftRumbleStrength,
-                    Constants.kGeneralTolerance
-                ) && !MathUtil.isNear(
-                    fullState.Controller.RightRumbleStrength,
-                    rightRumbleStrength,
-                    Constants.kGeneralTolerance
-            )) {
-                return m_io.get().rumble(leftRumbleStrength);
-            } else {
-                SequentialCommandGroup result = new SequentialCommandGroup();
-
-                if (!MathUtil.isNear(
-                    fullState.Controller.RightRumbleStrength,
-                    rightRumbleStrength,
-                    Constants.kGeneralTolerance
-                )) {
-                    result.addCommands(m_io.get().rightRumble(rightRumbleStrength));
-                }
-
-                if (!MathUtil.isNear(
-                    fullState.Controller.LeftRumbleStrength,
-                    leftRumbleStrength,
-                    Constants.kGeneralTolerance
-                )) {
-                    result.addCommands(m_io.get().leftRumble(leftRumbleStrength));
-                }
-
-                return result;
-            }
-        }
-    }
-
-    @Override
-    public Command choreographKitbot(KitbotState fullState, ControllerRequest requestedState) {
-        ConstraintType leftRumbleStrengthType = requestedState.LeftRumbleStrength.getType();
-        ConstraintType rightRumbleStrengthType = requestedState.RightRumbleStrength.getType();
-        double leftRumbleStrength = requestedState.LeftRumbleStrength.get();
-        double rightRumbleStrength = requestedState.RightRumbleStrength.get();
-
-        if (leftRumbleStrengthType == ConstraintType.IGNORE
-            && rightRumbleStrengthType == ConstraintType.IGNORE) {
-            return Commands.none();
-        } else if (leftRumbleStrengthType == ConstraintType.IGNORE) {
-            if (!MathUtil.isNear(
-                fullState.Controller.RightRumbleStrength,
-                rightRumbleStrength,
-                Constants.kGeneralTolerance
-            )) {
-                return m_io.get().rightRumble(rightRumbleStrength);
-            } else {
-                return Commands.none();
-            }
-        } else if (rightRumbleStrengthType == ConstraintType.IGNORE) {
-            if (!MathUtil.isNear(
-                fullState.Controller.LeftRumbleStrength,
-                leftRumbleStrength,
-                Constants.kGeneralTolerance
-            )) {
-                return m_io.get().leftRumble(leftRumbleStrength);
-            } else {
-                return Commands.none();
-            }
-        } else {
-            if (leftRumbleStrength == rightRumbleStrength
-                && !MathUtil.isNear(
-                    fullState.Controller.LeftRumbleStrength,
-                    leftRumbleStrength,
-                    Constants.kGeneralTolerance
-                ) && !MathUtil.isNear(
-                    fullState.Controller.RightRumbleStrength,
-                    rightRumbleStrength,
-                    Constants.kGeneralTolerance
-            )) {
-                return m_io.get().rumble(leftRumbleStrength);
-            } else {
-                SequentialCommandGroup result = new SequentialCommandGroup();
-
-                if (!MathUtil.isNear(
-                    fullState.Controller.RightRumbleStrength,
-                    rightRumbleStrength,
-                    Constants.kGeneralTolerance
-                )) {
-                    result.addCommands(m_io.get().rightRumble(rightRumbleStrength));
-                }
-
-                if (!MathUtil.isNear(
-                    fullState.Controller.LeftRumbleStrength,
-                    leftRumbleStrength,
-                    Constants.kGeneralTolerance
-                )) {
-                    result.addCommands(m_io.get().leftRumble(leftRumbleStrength));
-                }
-
-                return result;
-            }
-        }
-    }
-
-    @Override
-    public Command choreographTusk(TuskState fullState, ControllerRequest requestedState) {
+    public void choreographTusk(TuskState fullState, ControllerRequest requestedState) {
         ControllerState currentState = switch (m_name) {
             case DRIVER -> fullState.DriverController;
             case OPERATOR -> fullState.OperatorController;
@@ -162,30 +25,8 @@ public class ControllerChoreographer extends Choreographer<ControllerState, Cont
         double leftRumbleStrength = requestedState.LeftRumbleStrength.get();
         double rightRumbleStrength = requestedState.RightRumbleStrength.get();
 
-        if (leftRumbleStrengthType == ConstraintType.IGNORE
-            && rightRumbleStrengthType == ConstraintType.IGNORE) {
-            return Commands.none();
-        } else if (leftRumbleStrengthType == ConstraintType.IGNORE) {
-            if (!MathUtil.isNear(
-                currentState.RightRumbleStrength,
-                rightRumbleStrength,
-                Constants.kGeneralTolerance
-            )) {
-                return m_io.get().rightRumble(rightRumbleStrength);
-            } else {
-                return Commands.none();
-            }
-        } else if (rightRumbleStrengthType == ConstraintType.IGNORE) {
-            if (!MathUtil.isNear(
-                currentState.LeftRumbleStrength,
-                leftRumbleStrength,
-                Constants.kGeneralTolerance
-            )) {
-                return m_io.get().leftRumble(leftRumbleStrength);
-            } else {
-                return Commands.none();
-            }
-        } else {
+        if (leftRumbleStrengthType == ConstraintType.MATCH
+            && rightRumbleStrengthType == ConstraintType.MATCH) {
             if (leftRumbleStrength == rightRumbleStrength
                 && !MathUtil.isNear(
                     currentState.LeftRumbleStrength,
@@ -196,16 +37,14 @@ public class ControllerChoreographer extends Choreographer<ControllerState, Cont
                     rightRumbleStrength,
                     Constants.kGeneralTolerance
             )) {
-                return m_io.get().rumble(leftRumbleStrength);
+                m_io.get().rumble(leftRumbleStrength);
             } else {
-                SequentialCommandGroup result = new SequentialCommandGroup();
-
                 if (!MathUtil.isNear(
                     currentState.RightRumbleStrength,
                     rightRumbleStrength,
                     Constants.kGeneralTolerance
                 )) {
-                    result.addCommands(m_io.get().rightRumble(rightRumbleStrength));
+                    m_io.get().rightRumble(rightRumbleStrength);
                 }
 
                 if (!MathUtil.isNear(
@@ -213,10 +52,24 @@ public class ControllerChoreographer extends Choreographer<ControllerState, Cont
                     leftRumbleStrength,
                     Constants.kGeneralTolerance
                 )) {
-                    result.addCommands(m_io.get().leftRumble(leftRumbleStrength));
+                    m_io.get().leftRumble(leftRumbleStrength);
                 }
-
-                return result;
+            }
+        } else if (leftRumbleStrengthType == ConstraintType.MATCH) {
+            if (!MathUtil.isNear(
+                currentState.LeftRumbleStrength,
+                leftRumbleStrength,
+                Constants.kGeneralTolerance
+            )) {
+                m_io.get().leftRumble(leftRumbleStrength);
+            }
+        } else if (rightRumbleStrengthType == ConstraintType.MATCH) {
+            if (!MathUtil.isNear(
+                currentState.RightRumbleStrength,
+                rightRumbleStrength,
+                Constants.kGeneralTolerance
+            )) {
+                m_io.get().rightRumble(rightRumbleStrength);
             }
         }
     }

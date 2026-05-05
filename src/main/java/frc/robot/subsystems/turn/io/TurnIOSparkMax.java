@@ -12,8 +12,6 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
 import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.turn.TurnIdentity;
@@ -49,8 +47,8 @@ public class TurnIOSparkMax extends TurnIO {
     }
 
     @Override
-    public Command applyVoltage(Voltage voltage) {
-        return Commands.runOnce(() -> m_motor.setVoltage(voltage));
+    public void applyVoltage(Voltage voltage) {
+        m_motor.setVoltage(voltage);
     }
 
     @Override

@@ -22,8 +22,6 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
 import frc.robot.constants.DriveConstants;
@@ -76,8 +74,8 @@ public class TurnIOSparkMaxSimulated extends TurnIO {
     }
 
     @Override
-    public Command applyVoltage(Voltage voltage) {
-        return Commands.runOnce(() -> m_motor.setVoltage(voltage));
+    public void applyVoltage(Voltage voltage) {
+        m_motor.setVoltage(voltage);
     }
 
     @Override

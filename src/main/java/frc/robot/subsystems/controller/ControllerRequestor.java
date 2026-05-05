@@ -1,7 +1,5 @@
 package frc.robot.subsystems.controller;
 
-import frc.robot.robots.hades.HadesState;
-import frc.robot.robots.kitbot.KitbotState;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.Requestor;
 
@@ -9,16 +7,6 @@ public class ControllerRequestor extends Requestor<ControllerState, ControllerRe
     public ControllerRequestor(ControllerName name) {
         super(name);
         m_request = new ControllerRequest();
-    }
-
-    @Override
-    public ControllerRequest requestHades(HadesState fullState) {
-        return m_request.update(fullState.Controller);
-    }
-
-    @Override
-    public ControllerRequest requestKitbot(KitbotState fullState) {
-        return m_request.update(fullState.Controller);
     }
 
     @Override

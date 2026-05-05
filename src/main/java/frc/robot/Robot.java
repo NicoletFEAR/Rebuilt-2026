@@ -41,9 +41,6 @@ public class Robot extends LoggedRobot {
     private RobotContainer m_robotContainer;
 
     @Override
-    public void disabledPeriodic() {}
-
-    @Override
     public void robotInit() {
         RoboRioSim.setTeamNumber(4786);
         m_identity = RobotIdentity.getIdentity();
@@ -99,12 +96,6 @@ public class Robot extends LoggedRobot {
         CommandScheduler.getInstance().run();
         m_robotContainer.periodic();
     }
-
-    @Override
-    public void simulationPeriodic() {}
-
-    @Override
-    public void teleopPeriodic() {}
 
     @Override
     public void testInit() {

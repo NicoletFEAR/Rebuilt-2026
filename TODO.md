@@ -1,6 +1,6 @@
 # TODO
 
-* Replace choreographer commands with doing things directly
+* Unify robots with Architecture classes
 * Replace Turn subsystem with Drive subsystem
 * Add estimator layer
 * Refactor constants to be with their respective subsystems
@@ -16,7 +16,6 @@
 * Replace AdvantageKit with in-house logging application
 * Create timer subsystem
 * Create fuel simulation?
-* Figure out some way to unify robots
 * Integrate some sort of AI for optimal choreography/requesting?
 
 * Add javadocs sometime

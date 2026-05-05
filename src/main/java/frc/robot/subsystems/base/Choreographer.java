@@ -5,7 +5,7 @@ import frc.robot.io.base.State;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.util.Container;
 
-public abstract class Choreographer<T extends State<T, W, X>, U extends Request<T, U, W, X>, V extends IO<T, V, W, X>, W extends Enum<W>, X extends Enum<X>> {
+public abstract class Choreographer<T extends State<T, X>, U extends Request<T, U, X>, V extends IO<T, V, X>, W extends Enum<W>, X extends Enum<X>> {
     protected final W m_name;
 
     protected final Container<V> m_io;

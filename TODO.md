@@ -1,6 +1,5 @@
 # TODO
 
-* Unify robots with Architecture classes
 * Replace Turn subsystem with Drive subsystem
 * Add estimator layer
 * Refactor constants to be with their respective subsystems

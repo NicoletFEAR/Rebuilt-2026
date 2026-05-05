@@ -4,7 +4,6 @@ import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.Constants;
 import frc.robot.io.controller.ControllerIO;
 import frc.robot.io.controller.ControllerIdentity;
-import frc.robot.io.controller.ControllerName;
 import frc.robot.io.controller.ControllerState;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.Choreographer;

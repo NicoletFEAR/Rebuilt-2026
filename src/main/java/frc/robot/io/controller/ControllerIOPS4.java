@@ -9,8 +9,8 @@ public class ControllerIOPS4 extends ControllerIO {
     private double m_leftRumbleStrength = 0.0;
     private double m_rightRumbleStrength = 0.0;
 
-    public ControllerIOPS4(ControllerName name) {
-        super(name);
+    public ControllerIOPS4(int port) {
+        super(port);
         m_controller = new PS4Controller(m_port);
     }
 
@@ -48,7 +48,6 @@ public class ControllerIOPS4 extends ControllerIO {
         m_state.LeftTrigger = m_controller.getL2Axis();
         m_state.LeftX = -m_controller.getLeftX();
         m_state.LeftY = -m_controller.getLeftY();
-        m_state.Name = m_name;
         m_state.Options = m_controller.getOptionsButton();
         m_state.PlayStation = m_controller.getPSButton();
         m_state.ProperIdentity = ControllerIdentity.getIdentity(DriverStation.getJoystickName(m_port));

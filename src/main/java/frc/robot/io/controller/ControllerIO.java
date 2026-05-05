@@ -3,19 +3,16 @@ package frc.robot.io.controller;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.io.base.IO;
 
-public abstract class ControllerIO extends IO<ControllerState, ControllerIO, ControllerName, ControllerIdentity> {
+public abstract class ControllerIO extends IO<ControllerState, ControllerIO, ControllerIdentity> {
     protected final int m_port;
 
-    public ControllerIO(ControllerName name) {
-        super(name);
-        m_port = m_name.getPort();
+    public ControllerIO(int port) {
+        m_port = port;
         m_state = new ControllerState();
     }
 
     public void leftRumble(double strength) {}
-
     public void rightRumble(double strength) {}
-
     public void rumble(double strength) {}
 
     @Override
@@ -32,7 +29,6 @@ public abstract class ControllerIO extends IO<ControllerState, ControllerIO, Con
         m_state.LeftTrigger = 0.0;
         m_state.LeftX = 0.0;
         m_state.LeftY = 0.0;
-        m_state.Name = m_name;
         m_state.Options = false;
         m_state.PlayStation = false;
         m_state.ProperIdentity = ControllerIdentity.getIdentity(DriverStation.getJoystickName(m_port));
@@ -53,13 +49,13 @@ public abstract class ControllerIO extends IO<ControllerState, ControllerIO, Con
     @Override
     public ControllerIO getProperIO() {
         return switch (m_state.ProperIdentity) {
-            case NONE -> new ControllerIONone(m_name);
-            case KEYBOARD_0 -> new ControllerIONone(m_name);
-            case KEYBOARD_1 -> new ControllerIONone(m_name);
-            case KEYBOARD_2 -> new ControllerIONone(m_name);
-            case PS4 -> new ControllerIOPS4(m_name);
-            case PS5 -> new ControllerIOPS5(m_name);
-            case XBOX -> new ControllerIOXbox(m_name);
+            case NONE -> new ControllerIONone(m_port);
+            case KEYBOARD_0 -> new ControllerIONone(m_port);
+            case KEYBOARD_1 -> new ControllerIONone(m_port);
+            case KEYBOARD_2 -> new ControllerIONone(m_port);
+            case PS4 -> new ControllerIOPS4(m_port);
+            case PS5 -> new ControllerIOPS5(m_port);
+            case XBOX -> new ControllerIOXbox(m_port);
         };
     }
 }

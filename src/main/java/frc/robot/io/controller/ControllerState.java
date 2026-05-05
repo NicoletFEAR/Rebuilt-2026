@@ -5,7 +5,7 @@ import org.littletonrobotics.junction.AutoLog;
 import frc.robot.io.base.State;
 
 @AutoLog
-public class ControllerState extends State<ControllerState, ControllerName, ControllerIdentity> {
+public class ControllerState extends State<ControllerState, ControllerIdentity> {
     public boolean Circle = false;
     public boolean Create = false;
     public boolean Cross = false;
@@ -48,7 +48,6 @@ public class ControllerState extends State<ControllerState, ControllerName, Cont
         Options = newState.Options;
         PlayStation = newState.PlayStation;
         ProperIdentity = newState.ProperIdentity;
-        Name = newState.Name;
         RightBumper = newState.RightBumper;
         RightRumbleStrength = newState.RightRumbleStrength;
         RightStick = newState.RightStick;

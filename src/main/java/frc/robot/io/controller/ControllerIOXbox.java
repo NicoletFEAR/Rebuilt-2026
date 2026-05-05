@@ -9,8 +9,8 @@ public class ControllerIOXbox extends ControllerIO {
     private double m_leftRumbleStrength = 0.0;
     private double m_rightRumbleStrength = 0.0;
 
-    public ControllerIOXbox(ControllerName name) {
-        super(name);
+    public ControllerIOXbox(int port) {
+        super(port);
         m_controller = new XboxController(m_port);
     }
 
@@ -48,7 +48,6 @@ public class ControllerIOXbox extends ControllerIO {
         m_state.LeftTrigger = m_controller.getLeftTriggerAxis();
         m_state.LeftX = -m_controller.getLeftX();
         m_state.LeftY = -m_controller.getLeftY();
-        m_state.Name = m_name;
         m_state.Options = m_controller.getStartButton();
         m_state.PlayStation = false;
         m_state.ProperIdentity = ControllerIdentity.getIdentity(DriverStation.getJoystickName(m_port));

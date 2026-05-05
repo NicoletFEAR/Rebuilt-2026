@@ -1,4 +1,4 @@
-package frc.robot.subsystems.base;
+package frc.robot.io.base;
 
 public abstract class IO<T extends State<T, V, W>, U extends IO<T, U, V, W>, V extends Enum<V>, W extends Enum<W>> {
     protected V m_name;

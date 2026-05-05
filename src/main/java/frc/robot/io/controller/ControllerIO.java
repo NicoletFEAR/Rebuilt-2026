@@ -1,10 +1,7 @@
-package frc.robot.subsystems.controller.io;
+package frc.robot.io.controller;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.subsystems.base.IO;
-import frc.robot.subsystems.controller.ControllerIdentity;
-import frc.robot.subsystems.controller.ControllerName;
-import frc.robot.subsystems.controller.ControllerState;
+import frc.robot.io.base.IO;
 
 public abstract class ControllerIO extends IO<ControllerState, ControllerIO, ControllerName, ControllerIdentity> {
     protected final int m_port;

@@ -2,6 +2,9 @@ package frc.robot.subsystems.controller;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import frc.robot.io.controller.ControllerIdentity;
+import frc.robot.io.controller.ControllerName;
+import frc.robot.io.controller.ControllerState;
 import frc.robot.subsystems.base.Request;
 import frc.robot.util.constraint.BooleanConstraintAutoLogged;
 import frc.robot.util.constraint.DoubleConstraintAutoLogged;

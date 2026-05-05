@@ -1,8 +1,8 @@
-package frc.robot.subsystems.controller;
+package frc.robot.io.controller;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import frc.robot.subsystems.base.State;
+import frc.robot.io.base.State;
 
 @AutoLog
 public class ControllerState extends State<ControllerState, ControllerName, ControllerIdentity> {

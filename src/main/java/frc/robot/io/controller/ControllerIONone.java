@@ -1,6 +1,4 @@
-package frc.robot.subsystems.controller.io;
-
-import frc.robot.subsystems.controller.ControllerName;
+package frc.robot.io.controller;
 
 public class ControllerIONone extends ControllerIO {
     public ControllerIONone(ControllerName name) {

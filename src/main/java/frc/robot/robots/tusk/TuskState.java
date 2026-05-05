@@ -2,9 +2,9 @@ package frc.robot.robots.tusk;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import frc.robot.io.controller.ControllerState;
+import frc.robot.io.controller.ControllerStateAutoLogged;
 import frc.robot.robots.base.RobotState;
-import frc.robot.subsystems.controller.ControllerState;
-import frc.robot.subsystems.controller.ControllerStateAutoLogged;
 import frc.robot.subsystems.turn.TurnState;
 import frc.robot.subsystems.turn.TurnStateAutoLogged;
 

@@ -9,7 +9,7 @@ import org.littletonrobotics.junction.AutoLog;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
-import frc.robot.subsystems.base.State;
+import frc.robot.io.base.State;
 
 @AutoLog
 public class TurnState extends State<TurnState, TurnName, TurnIdentity> {

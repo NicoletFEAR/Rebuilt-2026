@@ -1,8 +1,11 @@
 package frc.robot.subsystems.controller;
 
+import frc.robot.io.controller.ControllerIdentity;
+import frc.robot.io.controller.ControllerIO;
+import frc.robot.io.controller.ControllerIONone;
+import frc.robot.io.controller.ControllerName;
+import frc.robot.io.controller.ControllerState;
 import frc.robot.subsystems.base.Subsystem;
-import frc.robot.subsystems.controller.io.ControllerIO;
-import frc.robot.subsystems.controller.io.ControllerIONone;
 import frc.robot.util.Container;
 
 public class Controller extends Subsystem<ControllerState, ControllerRequest, ControllerIO, ControllerName, ControllerIdentity> {

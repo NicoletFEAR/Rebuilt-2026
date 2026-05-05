@@ -1,4 +1,4 @@
-package frc.robot.subsystems.controller;
+package frc.robot.io.controller;
 
 import frc.robot.constants.DeviceIds;
 

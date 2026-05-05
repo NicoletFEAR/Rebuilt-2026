@@ -2,6 +2,7 @@
 
 * Replace Turn subsystem with Drive subsystem
 * Add estimator layer
+* Refactor constants to be with their respective subsystems
 * Initialize all variables default as possible (not in constructor)
 * Sort class fields
 * Implement a battery subsystem that can manage the battery during simulation

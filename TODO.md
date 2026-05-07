@@ -1,6 +1,7 @@
 # TODO
 
 * Replace Turn subsystem with Drive subsystem
+* Create an entire robot hardware IO framework
 * Add estimator layer
 * Refactor constants to be with their respective subsystems
 * Initialize all variables default as possible (not in constructor)

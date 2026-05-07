@@ -28,12 +28,12 @@ public class MotorIOTalonFX extends MotorIO {
         motor = new TalonFX(configuration.id().device(), configuration.id().bus());
         TalonFXConfiguration directConfiguration = new TalonFXConfiguration();
 
-        InvertedValue inverted = switch(configuration.inversion()) {
+        InvertedValue inverted = switch (configuration.inversion()) {
             case CLOCKWISE_IS_POSITIVE -> InvertedValue.Clockwise_Positive;
             case COUNTER_CLOCKWISE_IS_POSITIVE -> InvertedValue.CounterClockwise_Positive;
         };
 
-        NeutralModeValue neutralMode = switch(configuration.neutralMode()) {
+        NeutralModeValue neutralMode = switch (configuration.neutralMode()) {
             case BRAKE -> NeutralModeValue.Brake;
             case COAST -> NeutralModeValue.Coast;
         };

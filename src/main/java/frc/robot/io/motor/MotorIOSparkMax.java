@@ -25,7 +25,7 @@ public class MotorIOSparkMax extends MotorIO {
         motor = new SparkMax(configuration.id().device(), MotorType.kBrushless);
         SparkMaxConfig directConfiguration = new SparkMaxConfig();
 
-        IdleMode idleMode = switch(configuration.neutralMode()) {
+        IdleMode idleMode = switch (configuration.neutralMode()) {
             case BRAKE -> IdleMode.kBrake;
             case COAST -> IdleMode.kCoast;
         };

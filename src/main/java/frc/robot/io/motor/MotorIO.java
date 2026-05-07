@@ -1,5 +1,6 @@
 package frc.robot.io.motor;
 
+import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
@@ -25,6 +26,7 @@ public abstract class MotorIO extends IO<MotorState, MotorIO, MotorIdentity> {
     @Override
     public MotorState updateState() {
         state.CurrentIdentity = MotorIdentity.NONE;
+        state.Position = Radians.of(0.0);
 
         if (Robot.isSimulation()) {
             state.ProperIdentity = MotorIdentity.TALON_FX_SIMULATED;

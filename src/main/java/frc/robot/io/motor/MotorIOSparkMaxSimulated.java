@@ -39,7 +39,7 @@ public class MotorIOSparkMaxSimulated extends MotorIO {
         motor = new SparkMax(configuration.id().device(), MotorType.kBrushless);
         SparkMaxConfig directConfiguration = new SparkMaxConfig();
 
-        IdleMode idleMode = switch(configuration.neutralMode()) {
+        IdleMode idleMode = switch (configuration.neutralMode()) {
             case BRAKE -> IdleMode.kBrake;
             case COAST -> IdleMode.kCoast;
         };
@@ -47,11 +47,11 @@ public class MotorIOSparkMaxSimulated extends MotorIO {
         directConfiguration
             .inverted(configuration.inversion() == MotorInversion.COUNTER_CLOCKWISE_IS_POSITIVE)
             .idleMode(idleMode);
-        
+
         if (configuration.statorCurrentLimit().isPresent()) {
             directConfiguration.smartCurrentLimit(Math.toIntExact(Math.round(configuration.statorCurrentLimit().get())));
         }
-        
+
         motor.configure(directConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         motorSimulation = new SparkMaxSim(motor, DCMotor.getNEO(1));
     }

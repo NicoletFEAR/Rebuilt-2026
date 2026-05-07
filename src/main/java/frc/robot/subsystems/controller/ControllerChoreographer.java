@@ -2,21 +2,21 @@ package frc.robot.subsystems.controller;
 
 import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.Constants;
-import frc.robot.io.controller.ControllerIO;
-import frc.robot.io.controller.ControllerIdentity;
-import frc.robot.io.controller.ControllerState;
+import frc.robot.io.joystick.Joystick;
+import frc.robot.io.joystick.JoystickIdentity;
+import frc.robot.io.joystick.JoystickState;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.subsystems.base.Choreographer;
 import frc.robot.util.Container;
 import frc.robot.util.constraint.ConstraintType;
 
-public class ControllerChoreographer extends Choreographer<ControllerState, ControllerRequest, ControllerIO, ControllerName, ControllerIdentity> {
-    public ControllerChoreographer(ControllerName name, Container<ControllerIO> io) {
+public class ControllerChoreographer extends Choreographer<JoystickState, ControllerState, ControllerRequest, Joystick, ControllerName, JoystickIdentity> {
+    public ControllerChoreographer(ControllerName name, Container<Joystick> io) {
         super(name, io);
     }
 
     @Override
-    public void choreographTusk(TuskState fullState, ControllerRequest requestedState) {
+    public void choreograph(TuskState fullState, ControllerRequest requestedState) {
         ControllerState currentState = switch (name) {
             case DRIVER -> fullState.DriverController;
             case OPERATOR -> fullState.OperatorController;

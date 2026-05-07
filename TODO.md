@@ -1,5 +1,6 @@
 # TODO
 
+* Decouple subsystems from specific IO somehow
 * Replace Turn subsystem with Drive subsystem
 * Create an entire robot hardware IO framework
 * Add estimator layer

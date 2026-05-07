@@ -5,15 +5,15 @@ import frc.robot.io.base.State;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.util.Container;
 
-public abstract class Choreographer<T extends State<T, X>, U extends Request<T, U, X>, V extends IO<T, V, X>, W extends Enum<W>, X extends Enum<X>> {
-    protected final W name;
+public abstract class Choreographer<T extends State<T, Y>, U extends State<U, Y>, V extends Request<U, V, Y>, W extends IO<T, W, Y>, X extends Enum<X>, Y extends Enum<Y>> {
+    protected final X name;
 
-    protected final Container<V> io;
+    protected final Container<W> io;
 
-    public Choreographer(W name, Container<V> io) {
+    public Choreographer(X name, Container<W> io) {
         this.name = name;
         this.io = io;
     }
 
-    public void choreographTusk(TuskState fullState, U requestedState) {}
+    public void choreograph(TuskState fullState, V requestedState) {}
 }

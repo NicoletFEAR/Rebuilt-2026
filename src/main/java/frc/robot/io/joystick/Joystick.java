@@ -1,14 +1,14 @@
-package frc.robot.io.controller;
+package frc.robot.io.joystick;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.io.base.IO;
 
-public abstract class ControllerIO extends IO<ControllerState, ControllerIO, ControllerIdentity> {
+public abstract class Joystick extends IO<JoystickState, Joystick, JoystickIdentity> {
     protected final int port;
 
-    public ControllerIO(int port) {
+    public Joystick(int port) {
         this.port = port;
-        state = new ControllerState();
+        state = new JoystickState();
     }
 
     public void leftRumble(double strength) {}
@@ -16,11 +16,11 @@ public abstract class ControllerIO extends IO<ControllerState, ControllerIO, Con
     public void rumble(double strength) {}
 
     @Override
-    public ControllerState updateState() {
+    public JoystickState updateState() {
         state.Circle = false;
         state.Create = false;
         state.Cross = false;
-        state.CurrentIdentity = ControllerIdentity.NONE;
+        state.CurrentIdentity = JoystickIdentity.NONE;
         state.Down = false;
         state.Left = false;
         state.LeftBumper = false;
@@ -31,7 +31,7 @@ public abstract class ControllerIO extends IO<ControllerState, ControllerIO, Con
         state.LeftY = 0.0;
         state.Options = false;
         state.PlayStation = false;
-        state.ProperIdentity = ControllerIdentity.getIdentity(DriverStation.getJoystickName(port));
+        state.ProperIdentity = JoystickIdentity.getIdentity(DriverStation.getJoystickName(port));
         state.Right = false;
         state.RightBumper = false;
         state.RightRumbleStrength = 0.0;
@@ -47,15 +47,15 @@ public abstract class ControllerIO extends IO<ControllerState, ControllerIO, Con
     }
 
     @Override
-    public ControllerIO getProperIO() {
+    public Joystick getProperIO() {
         return switch (state.ProperIdentity) {
-            case NONE -> new ControllerIONone(port);
-            case KEYBOARD_0 -> new ControllerIONone(port);
-            case KEYBOARD_1 -> new ControllerIONone(port);
-            case KEYBOARD_2 -> new ControllerIONone(port);
-            case PS4 -> new ControllerIOPS4(port);
-            case PS5 -> new ControllerIOPS5(port);
-            case XBOX -> new ControllerIOXbox(port);
+            case NONE -> new EmptyJoystick(port);
+            case KEYBOARD_0 -> new EmptyJoystick(port);
+            case KEYBOARD_1 -> new EmptyJoystick(port);
+            case KEYBOARD_2 -> new EmptyJoystick(port);
+            case PS4 -> new PS4Joystick(port);
+            case PS5 -> new PS5Joystick(port);
+            case XBOX -> new XboxJoystick(port);
         };
     }
 }

@@ -1,6 +1,6 @@
-package frc.robot.io.controller;
+package frc.robot.io.joystick;
 
-public enum ControllerIdentity {
+public enum JoystickIdentity {
     NONE("None"),
     KEYBOARD_0("Keyboard 0"),
     KEYBOARD_1("Keyboard 1"),
@@ -12,7 +12,7 @@ public enum ControllerIdentity {
 
     private final String name;
 
-    ControllerIdentity(String name) {
+    JoystickIdentity(String name) {
         this.name = name;
     }
 
@@ -21,7 +21,7 @@ public enum ControllerIdentity {
         return name;
     }
 
-    public static ControllerIdentity getIdentity(String name) {
+    public static JoystickIdentity getIdentity(String name) {
         return switch (name) {
             case "Keyboard 0" -> KEYBOARD_0;
             case "Keyboard 1" -> KEYBOARD_1;

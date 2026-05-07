@@ -1,11 +1,12 @@
-package frc.robot.io.controller;
+package frc.robot.subsystems.controller;
 
 import org.littletonrobotics.junction.AutoLog;
 
 import frc.robot.io.base.State;
+import frc.robot.io.joystick.JoystickIdentity;
 
 @AutoLog
-public class ControllerState extends State<ControllerState, ControllerIdentity> {
+public class ControllerState extends State<ControllerState, JoystickIdentity> {
     public boolean Circle = false;
     public boolean Create = false;
     public boolean Cross = false;

@@ -10,17 +10,18 @@ import frc.robot.io.base.State;
 import frc.robot.robots.tusk.TuskState;
 import frc.robot.util.Container;
 
-public abstract class Subsystem<T extends State<T, X>, U extends Request<T, U, X>, V extends IO<T, V, X>, W extends Enum<W>, X extends Enum<X>> {
-    protected final W name;
+public abstract class Subsystem<T extends State<T, Y>, U extends State<U, Y>, V extends Request<U, V, Y>, W extends IO<T, W, Y>, X extends Enum<X>, Y extends Enum<Y>> {
+    protected final X name;
 
-    protected Container<V> io;
+    protected Container<W> io;
     protected Alert missingIO = new Alert("", AlertType.kError);
-    protected Requestor<T, U, W, X> requestor;
-    protected Choreographer<T, U, V, W, X> choreographer;
-    protected T state;
-    protected U request;
+    protected Estimator<T, U, W, Y> estimator;
+    protected Requestor<U, V, X, Y> requestor;
+    protected Choreographer<T, U, V, W, X, Y> choreographer;
+    protected U state;
+    protected V request;
 
-    public Subsystem(W name) {
+    public Subsystem(X name) {
         this.name = name;
     }
 
@@ -40,19 +41,19 @@ public abstract class Subsystem<T extends State<T, X>, U extends Request<T, U, X
 
     public void updateMissingIO() {}
 
-    public T getState() {
+    public U getState() {
         return state;
     }
 
-    public T update() {
-        return state.update(io.get().updateState());
+    public U update() {
+        return state.update(estimator.estimate());
     }
 
-    public U requestTusk(TuskState fullState) {
-        return request.update(requestor.requestTusk(fullState));
+    public V requestTusk(TuskState fullState) {
+        return request.update(requestor.request(fullState));
     }
 
     public void runTusk(TuskState fullState) {
-        choreographer.choreographTusk(fullState, request);
+        choreographer.choreograph(fullState, request);
     }
 }

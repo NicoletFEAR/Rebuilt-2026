@@ -6,6 +6,10 @@ public class CANId {
     private final CANBus m_bus;
     private final int m_device;
 
+    public CANId(int device) {
+        this(device, new CANBus("rio"));
+    }
+
     public CANId(int device, CANBus bus) {
         m_bus = bus;
         m_device = device;

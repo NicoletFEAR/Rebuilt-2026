@@ -18,15 +18,16 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.constants.Constants;
-import frc.robot.util.CANId;
+import frc.robot.io.motor.MotorValues.MotorConfiguration;
+import frc.robot.io.motor.MotorValues.MotorInversion;
 
 public class MotorIOSparkMaxSimulated extends MotorIO {
     private final SparkMax motor;
     private final DCMotorSim motorModel;
     private final SparkMaxSim motorSimulation;
 
-    public MotorIOSparkMaxSimulated(CANId id, MotorType type) {
-        super(id, type);
+    public MotorIOSparkMaxSimulated(MotorConfiguration configuration) {
+        super(configuration);
         motorModel = new DCMotorSim(
             LinearSystemId.createDCMotorSystem(
                 DCMotor.getNEO(1),
@@ -35,13 +36,23 @@ public class MotorIOSparkMaxSimulated extends MotorIO {
             ),
             DCMotor.getNEO(1)
         );
-        motor = new SparkMax(id.getDevice(), type);
-        SparkMaxConfig configuration = new SparkMaxConfig();
-        configuration
-            .inverted(false)
-            .smartCurrentLimit(40)
-            .idleMode(IdleMode.kBrake);
-        motor.configure(configuration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        motor = new SparkMax(configuration.id().getDevice(), MotorType.kBrushless);
+        SparkMaxConfig directConfiguration = new SparkMaxConfig();
+
+        IdleMode idleMode = switch(configuration.idleMode()) {
+            case BRAKE -> IdleMode.kBrake;
+            case COAST -> IdleMode.kCoast;
+        };
+
+        directConfiguration
+            .inverted(configuration.inversion() == MotorInversion.COUNTER_CLOCKWISE_IS_POSITIVE)
+            .idleMode(idleMode);
+        
+        if (configuration.statorCurrentLimit().isPresent()) {
+            directConfiguration.smartCurrentLimit(Math.toIntExact(Math.round(configuration.statorCurrentLimit().get())));
+        }
+        
+        motor.configure(directConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         motorSimulation = new SparkMaxSim(motor, DCMotor.getNEO(1));
     }
 
@@ -61,9 +72,9 @@ public class MotorIOSparkMaxSimulated extends MotorIO {
             Constants.kLoopPeriod
         );
 
-        m_state.CurrentIdentity = MotorIdentity.SPARK_MAX;
+        m_state.CurrentIdentity = MotorIdentity.SPARK_MAX_SIMULATED;
         m_state.Position = Rotations.of(motor.getEncoder().getPosition());
-        m_state.ProperIdentity = motor.hasActiveFault() ? MotorIdentity.NONE : MotorIdentity.SPARK_MAX;
+        m_state.ProperIdentity = motor.hasActiveFault() ? MotorIdentity.NONE : MotorIdentity.SPARK_MAX_SIMULATED;
         m_state.Velocity = RotationsPerSecond.of(motor.getEncoder().getVelocity());
         m_state.Voltage = Volts.of(motor.getBusVoltage());
         return m_state;

@@ -10,15 +10,13 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.Robot;
 import frc.robot.io.base.IO;
-import frc.robot.util.CANId;
+import frc.robot.io.motor.MotorValues.MotorConfiguration;
 
 public abstract class MotorIO extends IO<MotorState, MotorIO, MotorIdentity> {
-    CANId id;
-    MotorType type;
+    private final MotorConfiguration configuration;
 
-    public MotorIO(CANId id, MotorType type) {
-        this.id = id;
-        this.type = type;
+    public MotorIO(MotorConfiguration configuration) {
+        this.configuration = configuration;
         m_state = new MotorState();
     }
 
@@ -31,14 +29,14 @@ public abstract class MotorIO extends IO<MotorState, MotorIO, MotorIdentity> {
         if (Robot.isSimulation()) {
             m_state.ProperIdentity = MotorIdentity.TALON_FX_SIMULATED;
         } else {
-            TalonFX talon = new TalonFX(id.getDevice(), id.getBus());
+            TalonFX talon = new TalonFX(configuration.id().getDevice(), configuration.id().getBus());
 
             if (talon.isAlive()) {
                 talon.close();
                 m_state.ProperIdentity = MotorIdentity.TALON_FX;
             } else {
                 talon.close();
-                SparkMax sparkMax = new SparkMax(id.getDevice(), type);
+                SparkMax sparkMax = new SparkMax(configuration.id().getDevice(), MotorType.kBrushless);
 
                 if (sparkMax.hasActiveFault()) {
                     sparkMax.close();
@@ -58,11 +56,11 @@ public abstract class MotorIO extends IO<MotorState, MotorIO, MotorIdentity> {
     @Override
     public MotorIO getProperIO() {
         return switch (m_state.ProperIdentity) {
-            case NONE -> new MotorIONone(id, type);
-            case SPARK_MAX -> new MotorIOSparkMax(id, type);
-            case SPARK_MAX_SIMULATED -> new MotorIOSparkMaxSimulated(id, type);
-            case TALON_FX -> new MotorIONone(id, type);
-            case TALON_FX_SIMULATED -> new MotorIONone(id, type);
+            case NONE -> new MotorIONone(configuration);
+            case SPARK_MAX -> new MotorIOSparkMax(configuration);
+            case SPARK_MAX_SIMULATED -> new MotorIOSparkMaxSimulated(configuration);
+            case TALON_FX -> new MotorIOTalonFX(configuration);
+            case TALON_FX_SIMULATED -> new MotorIOTalonFXSimulated(configuration);
         };
     }
 }

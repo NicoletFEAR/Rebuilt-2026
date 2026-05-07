@@ -13,21 +13,32 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.units.measure.Voltage;
-import frc.robot.util.CANId;
+import frc.robot.io.motor.MotorValues.MotorConfiguration;
+import frc.robot.io.motor.MotorValues.MotorInversion;
 
 public class MotorIOSparkMax extends MotorIO {
     private final RelativeEncoder encoder;
     private final SparkMax motor;
 
-    public MotorIOSparkMax(CANId id, MotorType type) {
-        super(id, type);
-        motor = new SparkMax(id.getDevice(), type);
-        SparkMaxConfig configuration = new SparkMaxConfig();
-        configuration
-            .inverted(false)
-            .smartCurrentLimit(40)
-            .idleMode(IdleMode.kBrake);
-        motor.configure(configuration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    public MotorIOSparkMax(MotorConfiguration configuration) {
+        super(configuration);
+        motor = new SparkMax(configuration.id().getDevice(), MotorType.kBrushless);
+        SparkMaxConfig directConfiguration = new SparkMaxConfig();
+
+        IdleMode idleMode = switch(configuration.idleMode()) {
+            case BRAKE -> IdleMode.kBrake;
+            case COAST -> IdleMode.kCoast;
+        };
+
+        directConfiguration
+            .inverted(configuration.inversion() == MotorInversion.COUNTER_CLOCKWISE_IS_POSITIVE)
+            .idleMode(idleMode);
+
+        if (configuration.statorCurrentLimit().isPresent()) {
+            directConfiguration.smartCurrentLimit(Math.toIntExact(Math.round(configuration.statorCurrentLimit().get())));
+        }
+
+        motor.configure(directConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         encoder = motor.getEncoder();
     }
 

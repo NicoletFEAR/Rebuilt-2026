@@ -40,7 +40,7 @@ public class MotorIOTalonFXSimulated extends MotorIO {
             ),
             DCMotor.getKrakenX60(1)
         );
-        motor = new TalonFX(configuration.id().getDevice(), configuration.id().getBus());
+        motor = new TalonFX(configuration.id().device(), configuration.id().bus());
         TalonFXConfiguration directConfiguration = new TalonFXConfiguration();
 
         InvertedValue inverted = switch(configuration.inversion()) {
@@ -48,7 +48,7 @@ public class MotorIOTalonFXSimulated extends MotorIO {
             case COUNTER_CLOCKWISE_IS_POSITIVE -> InvertedValue.CounterClockwise_Positive;
         };
 
-        NeutralModeValue neutralMode = switch(configuration.idleMode()) {
+        NeutralModeValue neutralMode = switch(configuration.neutralMode()) {
             case BRAKE -> NeutralModeValue.Brake;
             case COAST -> NeutralModeValue.Coast;
         };
@@ -76,16 +76,16 @@ public class MotorIOTalonFXSimulated extends MotorIO {
     @Override
     public MotorState updateState() {
         motorModel.setInputVoltage(motorSimulation.getMotorVoltageMeasure().in(Volts));
-        motorModel.update(Constants.kLoopPeriod);
+        motorModel.update(Constants.LOOP_PERIOD);
         motorSimulation.setRawRotorPosition(motorModel.getAngularPosition());
         motorSimulation.setRotorVelocity(motorModel.getAngularVelocity());
         motorSimulation.setRotorAcceleration(motorModel.getAngularAcceleration());
         BaseStatusSignal.refreshAll(position, velocity, voltage);
-        m_state.CurrentIdentity = MotorIdentity.TALON_FX;
-        m_state.Position = position.getValue();
-        m_state.ProperIdentity = motor.isAlive() ? MotorIdentity.NONE : MotorIdentity.TALON_FX;
-        m_state.Velocity = velocity.getValue();
-        m_state.Voltage = voltage.getValue();
-        return m_state;
+        state.CurrentIdentity = MotorIdentity.TALON_FX;
+        state.Position = position.getValue();
+        state.ProperIdentity = motor.isAlive() ? MotorIdentity.NONE : MotorIdentity.TALON_FX;
+        state.Velocity = velocity.getValue();
+        state.Voltage = voltage.getValue();
+        return state;
     }
 }

@@ -17,7 +17,7 @@ public class ControllerChoreographer extends Choreographer<ControllerState, Cont
 
     @Override
     public void choreographTusk(TuskState fullState, ControllerRequest requestedState) {
-        ControllerState currentState = switch (m_name) {
+        ControllerState currentState = switch (name) {
             case DRIVER -> fullState.DriverController;
             case OPERATOR -> fullState.OperatorController;
         };
@@ -33,45 +33,45 @@ public class ControllerChoreographer extends Choreographer<ControllerState, Cont
                 && !MathUtil.isNear(
                     currentState.LeftRumbleStrength,
                     leftRumbleStrength,
-                    Constants.kGeneralTolerance
+                    Constants.GENERAL_TOLERANCE
                 ) && !MathUtil.isNear(
                     currentState.RightRumbleStrength,
                     rightRumbleStrength,
-                    Constants.kGeneralTolerance
+                    Constants.GENERAL_TOLERANCE
             )) {
-                m_io.get().rumble(leftRumbleStrength);
+                io.get().rumble(leftRumbleStrength);
             } else {
                 if (!MathUtil.isNear(
                     currentState.RightRumbleStrength,
                     rightRumbleStrength,
-                    Constants.kGeneralTolerance
+                    Constants.GENERAL_TOLERANCE
                 )) {
-                    m_io.get().rightRumble(rightRumbleStrength);
+                    io.get().rightRumble(rightRumbleStrength);
                 }
 
                 if (!MathUtil.isNear(
                     currentState.LeftRumbleStrength,
                     leftRumbleStrength,
-                    Constants.kGeneralTolerance
+                    Constants.GENERAL_TOLERANCE
                 )) {
-                    m_io.get().leftRumble(leftRumbleStrength);
+                    io.get().leftRumble(leftRumbleStrength);
                 }
             }
         } else if (leftRumbleStrengthType == ConstraintType.MATCH) {
             if (!MathUtil.isNear(
                 currentState.LeftRumbleStrength,
                 leftRumbleStrength,
-                Constants.kGeneralTolerance
+                Constants.GENERAL_TOLERANCE
             )) {
-                m_io.get().leftRumble(leftRumbleStrength);
+                io.get().leftRumble(leftRumbleStrength);
             }
         } else if (rightRumbleStrengthType == ConstraintType.MATCH) {
             if (!MathUtil.isNear(
                 currentState.RightRumbleStrength,
                 rightRumbleStrength,
-                Constants.kGeneralTolerance
+                Constants.GENERAL_TOLERANCE
             )) {
-                m_io.get().rightRumble(rightRumbleStrength);
+                io.get().rightRumble(rightRumbleStrength);
             }
         }
     }

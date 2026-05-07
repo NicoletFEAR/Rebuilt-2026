@@ -41,23 +41,23 @@ public final class Equality {
     public static boolean equals(ClosedLoopGeneralConfigs a, ClosedLoopGeneralConfigs b) {
         return a.ContinuousWrap == b.ContinuousWrap
             && a.DifferentialContinuousWrap == b.DifferentialContinuousWrap
-            && MathUtil.isNear(a.GainSchedErrorThreshold, b.GainSchedErrorThreshold, Constants.kGeneralTolerance)
+            && MathUtil.isNear(a.GainSchedErrorThreshold, b.GainSchedErrorThreshold, Constants.GENERAL_TOLERANCE)
             && a.GainSchedKpBehavior == b.GainSchedKpBehavior;
     }
 
     public static boolean equals(ClosedLoopRampsConfigs a, ClosedLoopRampsConfigs b) {
-        return MathUtil.isNear(a.DutyCycleClosedLoopRampPeriod, b.DutyCycleClosedLoopRampPeriod, Constants.kGeneralTolerance)
-            && MathUtil.isNear(a.TorqueClosedLoopRampPeriod, b.TorqueClosedLoopRampPeriod, Constants.kGeneralTolerance * 10.0)
-            && MathUtil.isNear(a.VoltageClosedLoopRampPeriod, b.VoltageClosedLoopRampPeriod, Constants.kGeneralTolerance);
+        return MathUtil.isNear(a.DutyCycleClosedLoopRampPeriod, b.DutyCycleClosedLoopRampPeriod, Constants.GENERAL_TOLERANCE)
+            && MathUtil.isNear(a.TorqueClosedLoopRampPeriod, b.TorqueClosedLoopRampPeriod, Constants.GENERAL_TOLERANCE * 10.0)
+            && MathUtil.isNear(a.VoltageClosedLoopRampPeriod, b.VoltageClosedLoopRampPeriod, Constants.GENERAL_TOLERANCE);
     }
 
     public static boolean equals(CurrentLimitsConfigs a, CurrentLimitsConfigs b) {
-        return MathUtil.isNear(a.StatorCurrentLimit, b.StatorCurrentLimit, Constants.kGeneralTolerance * 800.0)
+        return MathUtil.isNear(a.StatorCurrentLimit, b.StatorCurrentLimit, Constants.GENERAL_TOLERANCE * 800.0)
             && a.StatorCurrentLimitEnable == b.StatorCurrentLimitEnable
-            && MathUtil.isNear(a.SupplyCurrentLimit, b.SupplyCurrentLimit, Constants.kGeneralTolerance * 800.0)
+            && MathUtil.isNear(a.SupplyCurrentLimit, b.SupplyCurrentLimit, Constants.GENERAL_TOLERANCE * 800.0)
             && a.SupplyCurrentLimitEnable == b.SupplyCurrentLimitEnable
-            && MathUtil.isNear(a.SupplyCurrentLowerLimit, b.SupplyCurrentLowerLimit, Constants.kGeneralTolerance * 500.0)
-            && MathUtil.isNear(a.SupplyCurrentLowerTime, b.SupplyCurrentLowerTime, Constants.kGeneralTolerance * 5.0);
+            && MathUtil.isNear(a.SupplyCurrentLowerLimit, b.SupplyCurrentLowerLimit, Constants.GENERAL_TOLERANCE * 500.0)
+            && MathUtil.isNear(a.SupplyCurrentLowerTime, b.SupplyCurrentLowerTime, Constants.GENERAL_TOLERANCE * 5.0);
     }
 
     public static boolean equals(CustomParamsConfigs a, CustomParamsConfigs b) {
@@ -66,36 +66,36 @@ public final class Equality {
     }
 
     public static boolean equals(DifferentialConstantsConfigs a, DifferentialConstantsConfigs b) {
-        return MathUtil.isNear(a.PeakDifferentialDutyCycle, b.PeakDifferentialDutyCycle, Constants.kGeneralTolerance)
-            && MathUtil.isNear(a.PeakDifferentialTorqueCurrent, b.PeakDifferentialTorqueCurrent, Constants.kGeneralTolerance * 800.0)
-            && MathUtil.isNear(a.PeakDifferentialVoltage, b.PeakDifferentialVoltage, Constants.kGeneralTolerance * 32.0);
+        return MathUtil.isNear(a.PeakDifferentialDutyCycle, b.PeakDifferentialDutyCycle, Constants.GENERAL_TOLERANCE)
+            && MathUtil.isNear(a.PeakDifferentialTorqueCurrent, b.PeakDifferentialTorqueCurrent, Constants.GENERAL_TOLERANCE * 800.0)
+            && MathUtil.isNear(a.PeakDifferentialVoltage, b.PeakDifferentialVoltage, Constants.GENERAL_TOLERANCE * 32.0);
     }
 
     public static boolean equals(DifferentialSensorsConfigs a, DifferentialSensorsConfigs b) {
         return a.DifferentialRemoteSensorID == b.DifferentialRemoteSensorID
             && a.DifferentialSensorSource == b.DifferentialSensorSource
             && a.DifferentialTalonFXSensorID == b.DifferentialTalonFXSensorID
-            && MathUtil.isNear(a.SensorToDifferentialRatio, b.SensorToDifferentialRatio, Constants.kUnboundedTolerance);
+            && MathUtil.isNear(a.SensorToDifferentialRatio, b.SensorToDifferentialRatio, Constants.UNBOUNDED_TOLERANCE);
     }
 
     public static boolean equals(FeedbackConfigs a, FeedbackConfigs b) {
         return a.FeedbackRemoteSensorID == b.FeedbackRemoteSensorID
-            && MathUtil.isNear(a.FeedbackRotorOffset, b.FeedbackRotorOffset, Constants.kGeneralTolerance * 2.0)
+            && MathUtil.isNear(a.FeedbackRotorOffset, b.FeedbackRotorOffset, Constants.GENERAL_TOLERANCE * 2.0)
             && a.FeedbackSensorSource == b.FeedbackSensorSource
-            && MathUtil.isNear(a.RotorToSensorRatio, b.RotorToSensorRatio, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.SensorToMechanismRatio, b.SensorToMechanismRatio, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.VelocityFilterTimeConstant, b.VelocityFilterTimeConstant, Constants.kGeneralTolerance);
+            && MathUtil.isNear(a.RotorToSensorRatio, b.RotorToSensorRatio, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.SensorToMechanismRatio, b.SensorToMechanismRatio, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.VelocityFilterTimeConstant, b.VelocityFilterTimeConstant, Constants.GENERAL_TOLERANCE);
     }
 
     public static boolean equals(HardwareLimitSwitchConfigs a, HardwareLimitSwitchConfigs b) {
         return a.ForwardLimitAutosetPositionEnable == b.ForwardLimitAutosetPositionEnable
-            && MathUtil.isNear(a.ForwardLimitAutosetPositionValue, b.ForwardLimitAutosetPositionValue, Constants.kUnboundedTolerance)
+            && MathUtil.isNear(a.ForwardLimitAutosetPositionValue, b.ForwardLimitAutosetPositionValue, Constants.UNBOUNDED_TOLERANCE)
             && a.ForwardLimitEnable == b.ForwardLimitEnable
             && a.ForwardLimitRemoteSensorID == b.ForwardLimitRemoteSensorID
             && a.ForwardLimitSource == b.ForwardLimitSource
             && a.ForwardLimitType == b.ForwardLimitType
             && a.ReverseLimitAutosetPositionEnable == b.ReverseLimitAutosetPositionEnable
-            && MathUtil.isNear(a.ReverseLimitAutosetPositionValue, b.ReverseLimitAutosetPositionValue, Constants.kUnboundedTolerance)
+            && MathUtil.isNear(a.ReverseLimitAutosetPositionValue, b.ReverseLimitAutosetPositionValue, Constants.UNBOUNDED_TOLERANCE)
             && a.ReverseLimitEnable == b.ReverseLimitEnable
             && a.ReverseLimitRemoteSensorID == b.ReverseLimitRemoteSensorID
             && a.ReverseLimitSource == b.ReverseLimitSource
@@ -103,81 +103,81 @@ public final class Equality {
     }
 
     public static boolean equals(MagnetSensorConfigs a, MagnetSensorConfigs b) {
-        return MathUtil.isNear(a.AbsoluteSensorDiscontinuityPoint, b.AbsoluteSensorDiscontinuityPoint, Constants.kGeneralTolerance)
-            && MathUtil.isNear(a.MagnetOffset, b.MagnetOffset, Constants.kGeneralTolerance * 2.0)
+        return MathUtil.isNear(a.AbsoluteSensorDiscontinuityPoint, b.AbsoluteSensorDiscontinuityPoint, Constants.GENERAL_TOLERANCE)
+            && MathUtil.isNear(a.MagnetOffset, b.MagnetOffset, Constants.GENERAL_TOLERANCE * 2.0)
             && a.SensorDirection == b.SensorDirection;
     }
 
     public static boolean equals(MotionMagicConfigs a, MotionMagicConfigs b) {
-        return MathUtil.isNear(a.MotionMagicAcceleration, b.MotionMagicAcceleration, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.MotionMagicCruiseVelocity, b.MotionMagicCruiseVelocity, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.MotionMagicExpo_kA, b.MotionMagicExpo_kA, Constants.kGeneralTolerance * 12.0)
-            && MathUtil.isNear(a.MotionMagicExpo_kV, b.MotionMagicExpo_kV, Constants.kGeneralTolerance * 12.0)
-            && MathUtil.isNear(a.MotionMagicJerk, b.MotionMagicJerk, Constants.kUnboundedTolerance);
+        return MathUtil.isNear(a.MotionMagicAcceleration, b.MotionMagicAcceleration, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.MotionMagicCruiseVelocity, b.MotionMagicCruiseVelocity, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.MotionMagicExpo_kA, b.MotionMagicExpo_kA, Constants.GENERAL_TOLERANCE * 12.0)
+            && MathUtil.isNear(a.MotionMagicExpo_kV, b.MotionMagicExpo_kV, Constants.GENERAL_TOLERANCE * 12.0)
+            && MathUtil.isNear(a.MotionMagicJerk, b.MotionMagicJerk, Constants.UNBOUNDED_TOLERANCE);
     }
 
     public static boolean equals(MotorOutputConfigs a, MotorOutputConfigs b) {
-        return MathUtil.isNear(a.ControlTimesyncFreqHz, b.ControlTimesyncFreqHz, Constants.kGeneralTolerance * 450.0)
-            && MathUtil.isNear(a.DutyCycleNeutralDeadband, b.DutyCycleNeutralDeadband, Constants.kGeneralTolerance * 0.25)
+        return MathUtil.isNear(a.ControlTimesyncFreqHz, b.ControlTimesyncFreqHz, Constants.GENERAL_TOLERANCE * 450.0)
+            && MathUtil.isNear(a.DutyCycleNeutralDeadband, b.DutyCycleNeutralDeadband, Constants.GENERAL_TOLERANCE * 0.25)
             && a.Inverted == b.Inverted
             && a.NeutralMode == b.NeutralMode
-            && MathUtil.isNear(a.PeakForwardDutyCycle, b.PeakForwardDutyCycle, Constants.kGeneralTolerance * 2.0)
-            && MathUtil.isNear(a.PeakReverseDutyCycle, b.PeakReverseDutyCycle, Constants.kGeneralTolerance * 2.0);
+            && MathUtil.isNear(a.PeakForwardDutyCycle, b.PeakForwardDutyCycle, Constants.GENERAL_TOLERANCE * 2.0)
+            && MathUtil.isNear(a.PeakReverseDutyCycle, b.PeakReverseDutyCycle, Constants.GENERAL_TOLERANCE * 2.0);
     }
 
     public static boolean equals(OpenLoopRampsConfigs a, OpenLoopRampsConfigs b) {
-        return MathUtil.isNear(a.DutyCycleOpenLoopRampPeriod, b.DutyCycleOpenLoopRampPeriod, Constants.kGeneralTolerance)
-            && MathUtil.isNear(a.TorqueOpenLoopRampPeriod, b.TorqueOpenLoopRampPeriod, Constants.kGeneralTolerance * 10.0)
-            && MathUtil.isNear(a.VoltageOpenLoopRampPeriod, b.VoltageOpenLoopRampPeriod, Constants.kGeneralTolerance);
+        return MathUtil.isNear(a.DutyCycleOpenLoopRampPeriod, b.DutyCycleOpenLoopRampPeriod, Constants.GENERAL_TOLERANCE)
+            && MathUtil.isNear(a.TorqueOpenLoopRampPeriod, b.TorqueOpenLoopRampPeriod, Constants.GENERAL_TOLERANCE * 10.0)
+            && MathUtil.isNear(a.VoltageOpenLoopRampPeriod, b.VoltageOpenLoopRampPeriod, Constants.GENERAL_TOLERANCE);
     }
 
     public static boolean equals(Slot0Configs a, Slot0Configs b) {
         return a.GainSchedBehavior == b.GainSchedBehavior
-            && MathUtil.isNear(a.GravityArmPositionOffset, b.GravityArmPositionOffset, Constants.kGeneralTolerance * 0.5)
+            && MathUtil.isNear(a.GravityArmPositionOffset, b.GravityArmPositionOffset, Constants.GENERAL_TOLERANCE * 0.5)
             && a.GravityType == b.GravityType
-            && MathUtil.isNear(a.kA, b.kA, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kD, b.kD, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kG, b.kG, Constants.kGeneralTolerance * 12.0)
-            && MathUtil.isNear(a.kI, b.kI, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kP, b.kP, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kS, b.kS, Constants.kGeneralTolerance * 12.0)
-            && MathUtil.isNear(a.kV, b.kV, Constants.kUnboundedTolerance)
+            && MathUtil.isNear(a.kA, b.kA, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kD, b.kD, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kG, b.kG, Constants.GENERAL_TOLERANCE * 12.0)
+            && MathUtil.isNear(a.kI, b.kI, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kP, b.kP, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kS, b.kS, Constants.GENERAL_TOLERANCE * 12.0)
+            && MathUtil.isNear(a.kV, b.kV, Constants.UNBOUNDED_TOLERANCE)
             && a.StaticFeedforwardSign == b.StaticFeedforwardSign;
     }
 
     public static boolean equals(Slot1Configs a, Slot1Configs b) {
         return a.GainSchedBehavior == b.GainSchedBehavior
-            && MathUtil.isNear(a.GravityArmPositionOffset, b.GravityArmPositionOffset, Constants.kGeneralTolerance * 0.5)
+            && MathUtil.isNear(a.GravityArmPositionOffset, b.GravityArmPositionOffset, Constants.GENERAL_TOLERANCE * 0.5)
             && a.GravityType == b.GravityType
-            && MathUtil.isNear(a.kA, b.kA, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kD, b.kD, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kG, b.kG, Constants.kGeneralTolerance * 12.0)
-            && MathUtil.isNear(a.kI, b.kI, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kP, b.kP, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kS, b.kS, Constants.kGeneralTolerance * 12.0)
-            && MathUtil.isNear(a.kV, b.kV, Constants.kUnboundedTolerance)
+            && MathUtil.isNear(a.kA, b.kA, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kD, b.kD, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kG, b.kG, Constants.GENERAL_TOLERANCE * 12.0)
+            && MathUtil.isNear(a.kI, b.kI, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kP, b.kP, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kS, b.kS, Constants.GENERAL_TOLERANCE * 12.0)
+            && MathUtil.isNear(a.kV, b.kV, Constants.UNBOUNDED_TOLERANCE)
             && a.StaticFeedforwardSign == b.StaticFeedforwardSign;
     }
 
     public static boolean equals(Slot2Configs a, Slot2Configs b) {
         return a.GainSchedBehavior == b.GainSchedBehavior
-            && MathUtil.isNear(a.GravityArmPositionOffset, b.GravityArmPositionOffset, Constants.kGeneralTolerance * 0.5)
+            && MathUtil.isNear(a.GravityArmPositionOffset, b.GravityArmPositionOffset, Constants.GENERAL_TOLERANCE * 0.5)
             && a.GravityType == b.GravityType
-            && MathUtil.isNear(a.kA, b.kA, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kD, b.kD, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kG, b.kG, Constants.kGeneralTolerance * 12.0)
-            && MathUtil.isNear(a.kI, b.kI, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kP, b.kP, Constants.kUnboundedTolerance)
-            && MathUtil.isNear(a.kS, b.kS, Constants.kGeneralTolerance * 12.0)
-            && MathUtil.isNear(a.kV, b.kV, Constants.kUnboundedTolerance)
+            && MathUtil.isNear(a.kA, b.kA, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kD, b.kD, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kG, b.kG, Constants.GENERAL_TOLERANCE * 12.0)
+            && MathUtil.isNear(a.kI, b.kI, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kP, b.kP, Constants.UNBOUNDED_TOLERANCE)
+            && MathUtil.isNear(a.kS, b.kS, Constants.GENERAL_TOLERANCE * 12.0)
+            && MathUtil.isNear(a.kV, b.kV, Constants.UNBOUNDED_TOLERANCE)
             && a.StaticFeedforwardSign == b.StaticFeedforwardSign;
     }
 
     public static boolean equals(SoftwareLimitSwitchConfigs a, SoftwareLimitSwitchConfigs b) {
         return a.ForwardSoftLimitEnable == b.ForwardSoftLimitEnable
-            && MathUtil.isNear(a.ForwardSoftLimitThreshold, b.ForwardSoftLimitThreshold, Constants.kUnboundedTolerance)
+            && MathUtil.isNear(a.ForwardSoftLimitThreshold, b.ForwardSoftLimitThreshold, Constants.UNBOUNDED_TOLERANCE)
             && a.ReverseSoftLimitEnable == b.ReverseSoftLimitEnable
-            && MathUtil.isNear(a.ReverseSoftLimitThreshold, b.ReverseSoftLimitThreshold, Constants.kUnboundedTolerance);
+            && MathUtil.isNear(a.ReverseSoftLimitThreshold, b.ReverseSoftLimitThreshold, Constants.UNBOUNDED_TOLERANCE);
     }
 
     public static boolean equals(TalonFXConfiguration a, TalonFXConfiguration b) {
@@ -203,15 +203,15 @@ public final class Equality {
     }
 
     public static boolean equals(TorqueCurrentConfigs a, TorqueCurrentConfigs b) {
-        return MathUtil.isNear(a.PeakForwardTorqueCurrent, b.PeakForwardTorqueCurrent, Constants.kGeneralTolerance * 1600.0)
-            && MathUtil.isNear(a.PeakReverseTorqueCurrent, b.PeakReverseTorqueCurrent, Constants.kGeneralTolerance * 1600.0)
-            && MathUtil.isNear(a.TorqueNeutralDeadband, b.TorqueNeutralDeadband, Constants.kGeneralTolerance * 25.0);
+        return MathUtil.isNear(a.PeakForwardTorqueCurrent, b.PeakForwardTorqueCurrent, Constants.GENERAL_TOLERANCE * 1600.0)
+            && MathUtil.isNear(a.PeakReverseTorqueCurrent, b.PeakReverseTorqueCurrent, Constants.GENERAL_TOLERANCE * 1600.0)
+            && MathUtil.isNear(a.TorqueNeutralDeadband, b.TorqueNeutralDeadband, Constants.GENERAL_TOLERANCE * 25.0);
     }
 
     public static boolean equals(VoltageConfigs a, VoltageConfigs b) {
-        return MathUtil.isNear(a.PeakForwardVoltage, b.PeakForwardVoltage, Constants.kGeneralTolerance * 24.0)
-            && MathUtil.isNear(a.PeakReverseVoltage, b.PeakReverseVoltage, Constants.kGeneralTolerance * 24.0)
-            && MathUtil.isNear(a.SupplyVoltageTimeConstant, b.SupplyVoltageTimeConstant, Constants.kGeneralTolerance * 0.1);
+        return MathUtil.isNear(a.PeakForwardVoltage, b.PeakForwardVoltage, Constants.GENERAL_TOLERANCE * 24.0)
+            && MathUtil.isNear(a.PeakReverseVoltage, b.PeakReverseVoltage, Constants.GENERAL_TOLERANCE * 24.0)
+            && MathUtil.isNear(a.SupplyVoltageTimeConstant, b.SupplyVoltageTimeConstant, Constants.GENERAL_TOLERANCE * 0.1);
     }
 
     private Equality() {}

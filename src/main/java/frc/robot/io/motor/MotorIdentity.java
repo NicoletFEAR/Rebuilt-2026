@@ -8,14 +8,14 @@ public enum MotorIdentity {
     TALON_FX_SIMULATED("TalonFX Simulated"),
     ;
 
-    private final String m_name;
+    private final String name;
 
     MotorIdentity(String name) {
-        m_name = name;
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return m_name;
+        return name;
     }
 }

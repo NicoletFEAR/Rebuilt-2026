@@ -8,24 +8,48 @@ public final class MotorValues {
     public static record MotorConfiguration(
         CANId id,
         MotorInversion inversion,
-        MotorIdleMode idleMode,
+        MotorNeutralMode neutralMode,
         Optional<Double> statorCurrentLimit
     ) {}
 
-    public static enum MotorIdleMode {
-        BRAKE,
-        COAST,
+    public static enum MotorNeutralMode {
+        BRAKE("Brake"),
+        COAST("Coast"),
+        ;
+
+        private final String name;
+
+        MotorNeutralMode(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     public static enum MotorInversion {
-        CLOCKWISE_IS_POSITIVE,
-        COUNTER_CLOCKWISE_IS_POSITIVE,
+        CLOCKWISE_IS_POSITIVE("Clockwise is Positive"),
+        COUNTER_CLOCKWISE_IS_POSITIVE("Counter-Clockwise is Positive"),
+        ;
+
+        private final String name;
+
+        MotorInversion(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     public static class MotorConfigurationBuilder {
         private final CANId id;
         private MotorInversion inversion = MotorInversion.COUNTER_CLOCKWISE_IS_POSITIVE;
-        private MotorIdleMode idleMode = MotorIdleMode.COAST;
+        private MotorNeutralMode neutralMode = MotorNeutralMode.COAST;
         private Optional<Double> statorCurrentLimit = Optional.empty();
 
         public MotorConfigurationBuilder(CANId id) {
@@ -37,8 +61,8 @@ public final class MotorValues {
             return this;
         }
 
-        public MotorConfigurationBuilder idleMode(MotorIdleMode idleMode) {
-            this.idleMode = idleMode;
+        public MotorConfigurationBuilder neutralMode(MotorNeutralMode neutralMode) {
+            this.neutralMode = neutralMode;
             return this;
         }
 
@@ -48,7 +72,7 @@ public final class MotorValues {
         }
 
         public MotorConfiguration build() {
-            return new MotorConfiguration(id, inversion, idleMode, statorCurrentLimit);
+            return new MotorConfiguration(id, inversion, neutralMode, statorCurrentLimit);
         }
     }
 

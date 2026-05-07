@@ -7,32 +7,32 @@ import frc.robot.subsystems.controller.Controller;
 import frc.robot.subsystems.controller.ControllerName;
 
 public class Tusk extends RobotContainer {
-    private final Controller m_driverController;
-    private final Controller m_operatorController;
+    private final Controller driverController;
+    private final Controller operatorController;
 
-    private final TuskStateAutoLogged m_state = new TuskStateAutoLogged();
-    private final TuskRequestAutoLogged m_request = new TuskRequestAutoLogged();
+    private final TuskStateAutoLogged state = new TuskStateAutoLogged();
+    private final TuskRequestAutoLogged request = new TuskRequestAutoLogged();
 
     public Tusk() {
-        m_driverController = new Controller(ControllerName.DRIVER);
-        m_operatorController = new Controller(ControllerName.OPERATOR);
+        driverController = new Controller(ControllerName.DRIVER);
+        operatorController = new Controller(ControllerName.OPERATOR);
     }
 
     @Override
     public void periodic() {
-        m_state.updateDriverController(m_driverController.update());
-        m_state.updateOperatorController(m_operatorController.update());
+        state.updateDriverController(driverController.update());
+        state.updateOperatorController(operatorController.update());
 
-        m_driverController.updateMissingIO();
-        m_operatorController.updateMissingIO();
+        driverController.updateMissingIO();
+        operatorController.updateMissingIO();
 
-        m_request.updateDriverController(m_driverController.requestTusk(m_state));
-        m_request.updateOperatorController(m_operatorController.requestTusk(m_state));
+        request.updateDriverController(driverController.requestTusk(state));
+        request.updateOperatorController(operatorController.requestTusk(state));
 
-        Logger.processInputs("Tusk/State", m_state);
-        Logger.processInputs("Tusk/Request", m_request);
+        Logger.processInputs("Tusk/State", state);
+        Logger.processInputs("Tusk/Request", request);
 
-        m_driverController.runTusk(m_state);
-        m_operatorController.runTusk(m_state);
+        driverController.runTusk(state);
+        operatorController.runTusk(state);
     }
 }

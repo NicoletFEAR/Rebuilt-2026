@@ -5,63 +5,63 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class ControllerIOXbox extends ControllerIO {
-    private XboxController m_controller;
-    private double m_leftRumbleStrength = 0.0;
-    private double m_rightRumbleStrength = 0.0;
+    private XboxController controller;
+    private double leftRumbleStrength = 0.0;
+    private double rightRumbleStrength = 0.0;
 
     public ControllerIOXbox(int port) {
         super(port);
-        m_controller = new XboxController(m_port);
+        controller = new XboxController(port);
     }
 
     @Override
     public void leftRumble(double strength) {
-        m_leftRumbleStrength = strength;
-        m_controller.setRumble(RumbleType.kLeftRumble, strength);
+        leftRumbleStrength = strength;
+        controller.setRumble(RumbleType.kLeftRumble, strength);
     }
 
     @Override
     public void rightRumble(double strength) {
-        m_rightRumbleStrength = strength;
-        m_controller.setRumble(RumbleType.kRightRumble, strength);
+        rightRumbleStrength = strength;
+        controller.setRumble(RumbleType.kRightRumble, strength);
     }
 
     @Override
     public void rumble(double strength) {
-        m_leftRumbleStrength = strength;
-        m_rightRumbleStrength = strength;
-        m_controller.setRumble(RumbleType.kBothRumble, strength);
+        leftRumbleStrength = strength;
+        rightRumbleStrength = strength;
+        controller.setRumble(RumbleType.kBothRumble, strength);
     }
 
     @Override
     public ControllerState updateState() {
-        int pov = m_controller.getPOV();
-        m_state.Circle = m_controller.getBButton();
-        m_state.Create = m_controller.getBackButton();
-        m_state.Cross = m_controller.getAButton();
-        m_state.CurrentIdentity = ControllerIdentity.XBOX;
-        m_state.Down = pov == 135 || pov == 180 || pov == 225;
-        m_state.Left = pov == 225 || pov == 270 || pov == 315;
-        m_state.LeftBumper = m_controller.getLeftBumperButton();
-        m_state.LeftRumbleStrength = m_leftRumbleStrength;
-        m_state.LeftStick = m_controller.getLeftStickButton();
-        m_state.LeftTrigger = m_controller.getLeftTriggerAxis();
-        m_state.LeftX = -m_controller.getLeftX();
-        m_state.LeftY = -m_controller.getLeftY();
-        m_state.Options = m_controller.getStartButton();
-        m_state.PlayStation = false;
-        m_state.ProperIdentity = ControllerIdentity.getIdentity(DriverStation.getJoystickName(m_port));
-        m_state.Right = pov == 45 || pov == 90 || pov == 135;
-        m_state.RightBumper = m_controller.getRightBumperButton();
-        m_state.RightRumbleStrength = m_rightRumbleStrength;
-        m_state.RightStick = m_controller.getRightStickButton();
-        m_state.RightTrigger = m_controller.getRightTriggerAxis();
-        m_state.RightX = -m_controller.getRightX();
-        m_state.RightY = -m_controller.getRightY();
-        m_state.Square = m_controller.getXButton();
-        m_state.Touchpad = false;
-        m_state.Triangle = m_controller.getYButton();
-        m_state.Up = pov == 0 || pov == 45 || pov == 315;
-        return m_state;
+        int pov = controller.getPOV();
+        state.Circle = controller.getBButton();
+        state.Create = controller.getBackButton();
+        state.Cross = controller.getAButton();
+        state.CurrentIdentity = ControllerIdentity.XBOX;
+        state.Down = pov == 135 || pov == 180 || pov == 225;
+        state.Left = pov == 225 || pov == 270 || pov == 315;
+        state.LeftBumper = controller.getLeftBumperButton();
+        state.LeftRumbleStrength = leftRumbleStrength;
+        state.LeftStick = controller.getLeftStickButton();
+        state.LeftTrigger = controller.getLeftTriggerAxis();
+        state.LeftX = -controller.getLeftX();
+        state.LeftY = -controller.getLeftY();
+        state.Options = controller.getStartButton();
+        state.PlayStation = false;
+        state.ProperIdentity = ControllerIdentity.getIdentity(DriverStation.getJoystickName(port));
+        state.Right = pov == 45 || pov == 90 || pov == 135;
+        state.RightBumper = controller.getRightBumperButton();
+        state.RightRumbleStrength = rightRumbleStrength;
+        state.RightStick = controller.getRightStickButton();
+        state.RightTrigger = controller.getRightTriggerAxis();
+        state.RightX = -controller.getRightX();
+        state.RightY = -controller.getRightY();
+        state.Square = controller.getXButton();
+        state.Touchpad = false;
+        state.Triangle = controller.getYButton();
+        state.Up = pov == 0 || pov == 45 || pov == 315;
+        return state;
     }
 }

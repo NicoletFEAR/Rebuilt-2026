@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.io.base.IO;
 
 public abstract class ControllerIO extends IO<ControllerState, ControllerIO, ControllerIdentity> {
-    protected final int m_port;
+    protected final int port;
 
     public ControllerIO(int port) {
-        m_port = port;
-        m_state = new ControllerState();
+        this.port = port;
+        state = new ControllerState();
     }
 
     public void leftRumble(double strength) {}
@@ -17,45 +17,45 @@ public abstract class ControllerIO extends IO<ControllerState, ControllerIO, Con
 
     @Override
     public ControllerState updateState() {
-        m_state.Circle = false;
-        m_state.Create = false;
-        m_state.Cross = false;
-        m_state.CurrentIdentity = ControllerIdentity.NONE;
-        m_state.Down = false;
-        m_state.Left = false;
-        m_state.LeftBumper = false;
-        m_state.LeftRumbleStrength = 0.0;
-        m_state.LeftStick = false;
-        m_state.LeftTrigger = 0.0;
-        m_state.LeftX = 0.0;
-        m_state.LeftY = 0.0;
-        m_state.Options = false;
-        m_state.PlayStation = false;
-        m_state.ProperIdentity = ControllerIdentity.getIdentity(DriverStation.getJoystickName(m_port));
-        m_state.Right = false;
-        m_state.RightBumper = false;
-        m_state.RightRumbleStrength = 0.0;
-        m_state.RightStick = false;
-        m_state.RightTrigger = 0.0;
-        m_state.RightX = 0.0;
-        m_state.RightY = 0.0;
-        m_state.Square = false;
-        m_state.Touchpad = false;
-        m_state.Triangle = false;
-        m_state.Up = false;
-        return m_state;
+        state.Circle = false;
+        state.Create = false;
+        state.Cross = false;
+        state.CurrentIdentity = ControllerIdentity.NONE;
+        state.Down = false;
+        state.Left = false;
+        state.LeftBumper = false;
+        state.LeftRumbleStrength = 0.0;
+        state.LeftStick = false;
+        state.LeftTrigger = 0.0;
+        state.LeftX = 0.0;
+        state.LeftY = 0.0;
+        state.Options = false;
+        state.PlayStation = false;
+        state.ProperIdentity = ControllerIdentity.getIdentity(DriverStation.getJoystickName(port));
+        state.Right = false;
+        state.RightBumper = false;
+        state.RightRumbleStrength = 0.0;
+        state.RightStick = false;
+        state.RightTrigger = 0.0;
+        state.RightX = 0.0;
+        state.RightY = 0.0;
+        state.Square = false;
+        state.Touchpad = false;
+        state.Triangle = false;
+        state.Up = false;
+        return state;
     }
 
     @Override
     public ControllerIO getProperIO() {
-        return switch (m_state.ProperIdentity) {
-            case NONE -> new ControllerIONone(m_port);
-            case KEYBOARD_0 -> new ControllerIONone(m_port);
-            case KEYBOARD_1 -> new ControllerIONone(m_port);
-            case KEYBOARD_2 -> new ControllerIONone(m_port);
-            case PS4 -> new ControllerIOPS4(m_port);
-            case PS5 -> new ControllerIOPS5(m_port);
-            case XBOX -> new ControllerIOXbox(m_port);
+        return switch (state.ProperIdentity) {
+            case NONE -> new ControllerIONone(port);
+            case KEYBOARD_0 -> new ControllerIONone(port);
+            case KEYBOARD_1 -> new ControllerIONone(port);
+            case KEYBOARD_2 -> new ControllerIONone(port);
+            case PS4 -> new ControllerIOPS4(port);
+            case PS5 -> new ControllerIOPS5(port);
+            case XBOX -> new ControllerIOXbox(port);
         };
     }
 }

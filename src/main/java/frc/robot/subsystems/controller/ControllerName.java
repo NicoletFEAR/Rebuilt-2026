@@ -7,21 +7,21 @@ public enum ControllerName {
     OPERATOR("Operator"),
     ;
 
-    private final String m_name;
+    private final String name;
 
     ControllerName(String name) {
-        m_name = name;
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return m_name;
+        return name;
     }
 
     public int getPort() {
         return switch (this) {
-            case DRIVER -> DeviceIds.kDriverController;
-            case OPERATOR -> DeviceIds.kOperatorController;
+            case DRIVER -> DeviceIds.DRIVER_CONTROLLER;
+            case OPERATOR -> DeviceIds.OPERATOR_CONTROLLER;
         };
     }
 }

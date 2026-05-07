@@ -17,45 +17,45 @@ public abstract class MotorIO extends IO<MotorState, MotorIO, MotorIdentity> {
 
     public MotorIO(MotorConfiguration configuration) {
         this.configuration = configuration;
-        m_state = new MotorState();
+        state = new MotorState();
     }
 
     public void applyVoltage(Voltage voltage) {}
 
     @Override
     public MotorState updateState() {
-        m_state.CurrentIdentity = MotorIdentity.NONE;
+        state.CurrentIdentity = MotorIdentity.NONE;
 
         if (Robot.isSimulation()) {
-            m_state.ProperIdentity = MotorIdentity.TALON_FX_SIMULATED;
+            state.ProperIdentity = MotorIdentity.TALON_FX_SIMULATED;
         } else {
-            TalonFX talon = new TalonFX(configuration.id().getDevice(), configuration.id().getBus());
+            TalonFX talon = new TalonFX(configuration.id().device(), configuration.id().bus());
 
             if (talon.isAlive()) {
                 talon.close();
-                m_state.ProperIdentity = MotorIdentity.TALON_FX;
+                state.ProperIdentity = MotorIdentity.TALON_FX;
             } else {
                 talon.close();
-                SparkMax sparkMax = new SparkMax(configuration.id().getDevice(), MotorType.kBrushless);
+                SparkMax sparkMax = new SparkMax(configuration.id().device(), MotorType.kBrushless);
 
                 if (sparkMax.hasActiveFault()) {
                     sparkMax.close();
-                    m_state.ProperIdentity = MotorIdentity.NONE;
+                    state.ProperIdentity = MotorIdentity.NONE;
                 } else {
                     sparkMax.close();
-                    m_state.ProperIdentity = MotorIdentity.SPARK_MAX;
+                    state.ProperIdentity = MotorIdentity.SPARK_MAX;
                 }
             }
         }
 
-        m_state.Velocity = RadiansPerSecond.of(0.0);
-        m_state.Voltage = Volts.of(0.0);
-        return m_state;
+        state.Velocity = RadiansPerSecond.of(0.0);
+        state.Voltage = Volts.of(0.0);
+        return state;
     }
 
     @Override
     public MotorIO getProperIO() {
-        return switch (m_state.ProperIdentity) {
+        return switch (state.ProperIdentity) {
             case NONE -> new MotorIONone(configuration);
             case SPARK_MAX -> new MotorIOSparkMax(configuration);
             case SPARK_MAX_SIMULATED -> new MotorIOSparkMaxSimulated(configuration);

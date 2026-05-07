@@ -22,10 +22,10 @@ public class MotorIOSparkMax extends MotorIO {
 
     public MotorIOSparkMax(MotorConfiguration configuration) {
         super(configuration);
-        motor = new SparkMax(configuration.id().getDevice(), MotorType.kBrushless);
+        motor = new SparkMax(configuration.id().device(), MotorType.kBrushless);
         SparkMaxConfig directConfiguration = new SparkMaxConfig();
 
-        IdleMode idleMode = switch(configuration.idleMode()) {
+        IdleMode idleMode = switch(configuration.neutralMode()) {
             case BRAKE -> IdleMode.kBrake;
             case COAST -> IdleMode.kCoast;
         };
@@ -49,11 +49,11 @@ public class MotorIOSparkMax extends MotorIO {
 
     @Override
     public MotorState updateState() {
-        m_state.CurrentIdentity = MotorIdentity.SPARK_MAX;
-        m_state.Position = Rotations.of(encoder.getPosition());
-        m_state.ProperIdentity = motor.hasActiveFault() ? MotorIdentity.NONE : MotorIdentity.SPARK_MAX;
-        m_state.Velocity = RotationsPerSecond.of(encoder.getVelocity());
-        m_state.Voltage = Volts.of(motor.getBusVoltage());
-        return m_state;
+        state.CurrentIdentity = MotorIdentity.SPARK_MAX;
+        state.Position = Rotations.of(encoder.getPosition());
+        state.ProperIdentity = motor.hasActiveFault() ? MotorIdentity.NONE : MotorIdentity.SPARK_MAX;
+        state.Velocity = RotationsPerSecond.of(encoder.getVelocity());
+        state.Voltage = Volts.of(motor.getBusVoltage());
+        return state;
     }
 }

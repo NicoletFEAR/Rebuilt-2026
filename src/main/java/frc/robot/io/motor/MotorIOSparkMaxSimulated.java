@@ -36,10 +36,10 @@ public class MotorIOSparkMaxSimulated extends MotorIO {
             ),
             DCMotor.getNEO(1)
         );
-        motor = new SparkMax(configuration.id().getDevice(), MotorType.kBrushless);
+        motor = new SparkMax(configuration.id().device(), MotorType.kBrushless);
         SparkMaxConfig directConfiguration = new SparkMaxConfig();
 
-        IdleMode idleMode = switch(configuration.idleMode()) {
+        IdleMode idleMode = switch(configuration.neutralMode()) {
             case BRAKE -> IdleMode.kBrake;
             case COAST -> IdleMode.kCoast;
         };
@@ -64,19 +64,19 @@ public class MotorIOSparkMaxSimulated extends MotorIO {
     @Override
     public MotorState updateState() {
         motorModel.setInputVoltage(motorSimulation.getAppliedOutput() * RobotController.getBatteryVoltage());
-        motorModel.update(Constants.kLoopPeriod);
+        motorModel.update(Constants.LOOP_PERIOD);
 
         motorSimulation.iterate(
             motorModel.getAngularVelocity().in(RotationsPerSecond) * 60.0,
             RobotController.getBatteryVoltage(),
-            Constants.kLoopPeriod
+            Constants.LOOP_PERIOD
         );
 
-        m_state.CurrentIdentity = MotorIdentity.SPARK_MAX_SIMULATED;
-        m_state.Position = Rotations.of(motor.getEncoder().getPosition());
-        m_state.ProperIdentity = motor.hasActiveFault() ? MotorIdentity.NONE : MotorIdentity.SPARK_MAX_SIMULATED;
-        m_state.Velocity = RotationsPerSecond.of(motor.getEncoder().getVelocity());
-        m_state.Voltage = Volts.of(motor.getBusVoltage());
-        return m_state;
+        state.CurrentIdentity = MotorIdentity.SPARK_MAX_SIMULATED;
+        state.Position = Rotations.of(motor.getEncoder().getPosition());
+        state.ProperIdentity = motor.hasActiveFault() ? MotorIdentity.NONE : MotorIdentity.SPARK_MAX_SIMULATED;
+        state.Velocity = RotationsPerSecond.of(motor.getEncoder().getVelocity());
+        state.Voltage = Volts.of(motor.getBusVoltage());
+        return state;
     }
 }

@@ -6,13 +6,13 @@ import frc.robot.robots.tusk.TuskState;
 import frc.robot.util.Container;
 
 public abstract class Choreographer<T extends State<T, X>, U extends Request<T, U, X>, V extends IO<T, V, X>, W extends Enum<W>, X extends Enum<X>> {
-    protected final W m_name;
+    protected final W name;
 
-    protected final Container<V> m_io;
+    protected final Container<V> io;
 
     public Choreographer(W name, Container<V> io) {
-        m_name = name;
-        m_io = io;
+        this.name = name;
+        this.io = io;
     }
 
     public void choreographTusk(TuskState fullState, U requestedState) {}

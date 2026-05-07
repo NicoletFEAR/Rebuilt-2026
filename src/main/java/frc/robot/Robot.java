@@ -36,23 +36,23 @@ import com.ctre.phoenix6.SignalLogger;
  * build.gradle file in the project.
  */
 public class Robot extends LoggedRobot {
-    private RobotIdentity m_identity;
-    private final Alert m_unrecognizedRobot = new Alert("", AlertType.kError);
-    private RobotContainer m_robotContainer;
+    private RobotIdentity identity;
+    private final Alert unrecognizedRobot = new Alert("", AlertType.kError);
+    private RobotContainer robotContainer;
 
     @Override
     public void robotInit() {
         RoboRioSim.setTeamNumber(4786);
-        m_identity = RobotIdentity.getIdentity();
+        identity = RobotIdentity.getIdentity();
 
-        if (m_identity == RobotIdentity.UNRECOGNIZED) {
-            m_unrecognizedRobot.setText(String.format(
+        if (identity == RobotIdentity.UNRECOGNIZED) {
+            unrecognizedRobot.setText(String.format(
                 "Unrecognized robot (team number %d)",
                 RobotController.getTeamNumber()
             ));
-            m_unrecognizedRobot.set(true);
+            unrecognizedRobot.set(true);
         } else {
-            m_unrecognizedRobot.set(false);
+            unrecognizedRobot.set(false);
         }
 
         Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
@@ -60,7 +60,7 @@ public class Robot extends LoggedRobot {
         Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
         Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
         Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
-        Logger.recordMetadata("RobotName", m_identity.toString());
+        Logger.recordMetadata("RobotName", identity.toString());
 
         Logger.recordMetadata("GitDirty", switch(BuildConstants.DIRTY) {
             case 0 -> "All changes committed";
@@ -72,7 +72,7 @@ public class Robot extends LoggedRobot {
         if (isReal()) {
             Logger.addDataReceiver(new WPILOGWriter());
             Logger.addDataReceiver(new NT4Publisher());
-        } else if (Constants.kIsReplay) {
+        } else if (Constants.IS_REPLAY) {
             setUseTiming(false);
             String logPath = LogFileUtil.findReplayLog();
             Logger.setReplaySource(new WPILOGReader(logPath));
@@ -88,13 +88,13 @@ public class Robot extends LoggedRobot {
 
         DriverStation.silenceJoystickConnectionWarning(true);
 
-        m_robotContainer = m_identity.getRobot();
+        robotContainer = identity.getRobot();
     }
 
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        m_robotContainer.periodic();
+        robotContainer.periodic();
     }
 
     @Override

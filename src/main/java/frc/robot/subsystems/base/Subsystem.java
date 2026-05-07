@@ -11,29 +11,29 @@ import frc.robot.robots.tusk.TuskState;
 import frc.robot.util.Container;
 
 public abstract class Subsystem<T extends State<T, X>, U extends Request<T, U, X>, V extends IO<T, V, X>, W extends Enum<W>, X extends Enum<X>> {
-    protected final W m_name;
+    protected final W name;
 
-    protected Container<V> m_io;
-    protected Alert m_missingIO = new Alert("", AlertType.kError);
-    protected Requestor<T, U, W, X> m_requestor;
-    protected Choreographer<T, U, V, W, X> m_choreographer;
-    protected T m_state;
-    protected U m_request;
+    protected Container<V> io;
+    protected Alert missingIO = new Alert("", AlertType.kError);
+    protected Requestor<T, U, W, X> requestor;
+    protected Choreographer<T, U, V, W, X> choreographer;
+    protected T state;
+    protected U request;
 
     public Subsystem(W name) {
-        m_name = name;
+        this.name = name;
     }
 
     public void createIOChangeTriggers() {
         new Trigger(DriverStation::isDSAttached).onTrue(
             Commands
-                .runOnce(() -> m_io.set(m_io.get().getProperIO()))
+                .runOnce(() -> io.set(io.get().getProperIO()))
                 .ignoringDisable(true)
         );
 
-        new Trigger(() -> m_state.CurrentIdentity != m_state.ProperIdentity).onTrue(
+        new Trigger(() -> state.CurrentIdentity != state.ProperIdentity).onTrue(
             Commands
-                .runOnce(() -> m_io.set(m_io.get().getProperIO()))
+                .runOnce(() -> io.set(io.get().getProperIO()))
                 .ignoringDisable(true)
         );
     }
@@ -41,18 +41,18 @@ public abstract class Subsystem<T extends State<T, X>, U extends Request<T, U, X
     public void updateMissingIO() {}
 
     public T getState() {
-        return m_state;
+        return state;
     }
 
     public T update() {
-        return m_state.update(m_io.get().updateState());
+        return state.update(io.get().updateState());
     }
 
     public U requestTusk(TuskState fullState) {
-        return m_request.update(m_requestor.requestTusk(fullState));
+        return request.update(requestor.requestTusk(fullState));
     }
 
     public void runTusk(TuskState fullState) {
-        m_choreographer.choreographTusk(fullState, m_request);
+        choreographer.choreographTusk(fullState, request);
     }
 }

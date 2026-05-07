@@ -10,15 +10,15 @@ public enum RobotIdentity {
     UNRECOGNIZED("Unrecognized"),
     ;
 
-    private final String m_name;
+    private final String name;
 
     RobotIdentity(String name) {
-        m_name = name;
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return m_name;
+        return name;
     }
 
     public RobotContainer getRobot() {

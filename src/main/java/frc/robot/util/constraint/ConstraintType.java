@@ -5,14 +5,14 @@ public enum ConstraintType {
     MATCH("Match"),
     ;
 
-    private final String m_name;
+    private final String name;
 
     ConstraintType(String name) {
-        m_name = name;
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return m_name;
+        return name;
     }
 }

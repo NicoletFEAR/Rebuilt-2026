@@ -1,17 +1,17 @@
 package frc.robot.util;
 
 public class Container<T> {
-    private T m_item;
+    private T item;
 
     public Container(T item) {
-        m_item = item;
+        this.item = item;
     }
 
     public T get() {
-        return m_item;
+        return item;
     }
 
     public void set(T newItem) {
-        m_item = newItem;
+        item = newItem;
     }
 }

@@ -10,15 +10,15 @@ public enum ControllerIdentity {
     XBOX("Xbox"),
     ;
 
-    private final String m_name;
+    private final String name;
 
     ControllerIdentity(String name) {
-        m_name = name;
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return m_name;
+        return name;
     }
 
     public static ControllerIdentity getIdentity(String name) {

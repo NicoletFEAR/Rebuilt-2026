@@ -11,19 +11,19 @@ public class Controller extends Subsystem<ControllerState, ControllerRequest, Co
     public Controller(ControllerName name) {
         super(name);
 
-        m_state = new ControllerState();
-        m_request = new ControllerRequest();
+        state = new ControllerState();
+        request = new ControllerRequest();
 
-        m_missingIO.setText(String.format("%s Controller disconnected! (port %d)", m_name.toString(), m_name.getPort()));
-        m_io = new Container<ControllerIO>(new ControllerIONone(m_name.getPort()));
-        m_requestor = new ControllerRequestor(m_name);
-        m_choreographer = new ControllerChoreographer(m_name, m_io);
+        missingIO.setText(String.format("%s Controller disconnected! (port %d)", name.toString(), name.getPort()));
+        io = new Container<ControllerIO>(new ControllerIONone(name.getPort()));
+        requestor = new ControllerRequestor(name);
+        choreographer = new ControllerChoreographer(name, io);
 
         createIOChangeTriggers();
     }
 
     @Override
     public void updateMissingIO() {
-        m_missingIO.set(m_state.CurrentIdentity == ControllerIdentity.NONE);
+        missingIO.set(state.CurrentIdentity == ControllerIdentity.NONE);
     }
 }

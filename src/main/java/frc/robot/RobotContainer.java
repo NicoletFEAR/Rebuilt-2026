@@ -194,7 +194,7 @@ public class RobotContainer {
 
             // Extakes the balls inside the hopper -- cross button of driver controller
             m_driverController
-                .R2()
+                .R1()
                 .onTrue(m_intakePivot
                     .out()
                     .andThen(m_intakeDriver.extake()

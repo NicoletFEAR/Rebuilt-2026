@@ -205,7 +205,7 @@ public class RobotContainer {
                     .alongWith(m_indexer.off()));
 
             // Launches fuel by spinning up the launcher and then indexing the fuel -- right trigger of operator controller
-            m_operatorController
+            m_driverController
                 .R2()
                 .whileTrue(m_led
                     .startLaunchAnimation()

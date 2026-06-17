@@ -192,7 +192,7 @@ public class RobotContainer {
                         .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition)))
                         .alongWith(m_intakeDriver.off()));
 
-            // Extakes the balls inside the hopper -- cross button of driver controller
+            // Extakes the balls inside the hopper -- right trigger of driver controller
             m_driverController
                 .R1()
                 .onTrue(m_intakePivot
@@ -214,7 +214,9 @@ public class RobotContainer {
                     .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                     .andThen(m_driveBase.xWheels()
                         .alongWith(m_indexer.index())
-                        .alongWith(m_intakePivot.in()).repeatedly()
+                        .alongWith(m_intakePivot.in()
+                            .andThen(m_intakePivot.out()))
+                        .repeatedly()
                     )
                 ).onFalse(m_led.startSwerveAnimation()
                     .alongWith(new ConditionalCommand(
@@ -235,13 +237,13 @@ public class RobotContainer {
                     ));
 
             // Increases launcher speed by 10% unless it's already at 100% -- circle button on operator controller
-            m_operatorController
-                .circle()
+            m_driverController
+                .povRight()
                 .onTrue(m_launcher.raiseTrueSpeed());
 
             // Decreases launcher speed by 10% unless it's at 0% -- square button of operator controller
-            m_operatorController
-                .square()
+            m_driverController
+                .povLeft()
                 .onTrue(m_launcher.lowerTrueSpeed());
 
             // Good speed for shooting from the middle of the alliance zone generally -- cross button of operator controller
@@ -271,9 +273,9 @@ public class RobotContainer {
 
             // Control the hood manually -- up and down arrows of operator controller
             m_hood.setDefaultCommand(new RunCommand(() -> m_hood.manualControl(() -> {
-                if (m_operatorController.povUp().getAsBoolean() == m_operatorController.povDown().getAsBoolean()) {
+                if (m_driverController.povUp().getAsBoolean() == m_driverController.povDown().getAsBoolean()) {
                     return 0.0;
-                } else if (m_operatorController.povUp().getAsBoolean()) {
+                } else if (m_driverController.povUp().getAsBoolean()) {
                     return 1.0;
                 } else {
                     return -1.0;

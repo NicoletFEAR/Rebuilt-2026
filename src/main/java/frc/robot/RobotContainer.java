@@ -247,14 +247,14 @@ public class RobotContainer {
                 .onTrue(m_launcher.lowerTrueSpeed());
 
             // Good speed for shooting from the middle of the alliance zone generally -- cross button of operator controller
-            m_operatorController
+            m_driverController
                 .cross()
                 .onTrue(m_launcher.setSpeedModifier(LauncherConstants.kAutoAimSpeeds.get(2.7))
                 .alongWith(m_hood.runProfileToPosition(LauncherConstants.kAutoAimHoodPositions.get(2.7))))
                 .onFalse(m_hood.runProfileToPosition(LauncherConstants.getHoodMinPosition()));
 
             // Good speed for shooting from the trench -- triangle button of operator controller
-            m_operatorController
+            m_driverController
                 .triangle()
                 .onTrue(m_launcher.setSpeedModifier(LauncherConstants.kAutoAimSpeeds.get(3.65))
                 .alongWith(m_hood.runProfileToPosition(LauncherConstants.kAutoAimHoodPositions.get(3.65))))

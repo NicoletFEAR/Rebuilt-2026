@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.0,
-        "y": 7.457
+        "x": 5.999544444444444,
+        "y": 7.445555555555555
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.0,
-        "y": 7.457
+        "x": 4.999544444444444,
+        "y": 7.445555555555555
       },
       "isLocked": false,
       "linkedName": "Pre Launch 1 Far"
     },
     {
       "anchor": {
-        "x": 5.609766666666667,
+        "x": 3.6316444444444445,
         "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 6.609766666666667,
+        "x": 4.6316444444444445,
         "y": 7.4572753209700435
       },
       "nextControl": null,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -73.11440567194623
   },
   "reversed": false,
   "folder": "Comp",

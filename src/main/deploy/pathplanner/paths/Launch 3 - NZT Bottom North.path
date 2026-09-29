@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.804655555555557,
-        "y": 0.6147000000000002
+        "x": 3.4757333333333333,
+        "y": 0.6536777777777774
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.022711111111112,
-        "y": 0.5599111111109846
+        "x": 4.693788888888888,
+        "y": 0.5988888888887617
       },
       "isLocked": false,
       "linkedName": "Launch 3"
     },
     {
       "anchor": {
-        "x": 7.7,
-        "y": 1.2
+        "x": 7.617122222222221,
+        "y": 0.916777777777777
       },
       "prevControl": {
-        "x": 4.7709777777777775,
-        "y": 0.6659999999999987
+        "x": 4.688099999999999,
+        "y": 0.3827777777777758
       },
       "nextControl": null,
       "isLocked": false,
@@ -53,7 +53,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 71.5159545485523
   },
   "useDefaultConstraints": true
 }

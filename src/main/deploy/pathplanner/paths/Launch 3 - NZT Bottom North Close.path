@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.804655555555557,
-        "y": 0.6147000000000002
+        "x": 3.4757333333333333,
+        "y": 0.6536777777777774
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.8046555555555575,
-        "y": 0.6147000000000005
+        "x": 4.4989,
+        "y": 0.5367444444444436
       },
       "isLocked": false,
       "linkedName": "Launch 3"
     },
     {
       "anchor": {
-        "x": 7.0,
-        "y": 1.2
+        "x": 6.613444444444444,
+        "y": 1.1311555555555548
       },
       "prevControl": {
-        "x": 6.711958370397375,
-        "y": 0.5220244636563978
+        "x": 6.0092888888888885,
+        "y": 0.5952111111111105
       },
       "nextControl": {
-        "x": 7.157275320970041,
-        "y": 1.5701854493580605
+        "x": 6.99060494272698,
+        "y": 1.4657334169352236
       },
       "isLocked": false,
       "linkedName": "NZT Bottom North Close"
     },
     {
       "anchor": {
-        "x": 7.0,
-        "y": 4.0
+        "x": 7.285811111111112,
+        "y": 2.9143888888888885
       },
       "prevControl": {
-        "x": 7.0796433666191145,
-        "y": 3.148701854493581
+        "x": 7.461211111111112,
+        "y": 1.9886666666666666
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.9975103734439577,
       "rotationDegrees": -65.0
     }
   ],
@@ -66,7 +66,7 @@
     },
     {
       "name": "StartIntake",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 1.0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -92,7 +92,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 71.5159545485523
   },
   "useDefaultConstraints": true
 }

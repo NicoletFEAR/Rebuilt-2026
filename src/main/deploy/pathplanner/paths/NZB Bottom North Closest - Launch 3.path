@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.0057346647646215,
-        "y": 3.9897146932952925
+        "x": 7.646355555555555,
+        "y": 3.3139111111111106
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.022711111111111,
-        "y": 0.8972888888888875
+        "x": 8.663332001902045,
+        "y": 0.22148530670470556
       },
       "isLocked": false,
       "linkedName": "NZB Bottom North Closest"
     },
     {
       "anchor": {
-        "x": 5.804655555555557,
-        "y": 0.6147000000000002
+        "x": 3.4757333333333333,
+        "y": 0.6536777777777774
       },
       "prevControl": {
-        "x": 7.823284577587575,
-        "y": 0.37732222222222045
+        "x": 5.494362355365352,
+        "y": 0.41629999999999756
       },
       "nextControl": null,
       "isLocked": false,
@@ -53,13 +53,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 71.5159545485523
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -65.0
+    "rotation": -123.14699583225597
   },
   "useDefaultConstraints": true
 }

@@ -192,7 +192,7 @@ public class RobotContainer {
                         .andThen(new InstantCommand(m_intakePivot::resetDesiredPosition)))
                         .alongWith(m_intakeDriver.off()));
 
-            // Extakes the balls inside the hopper -- right trigger of driver controller
+            // Extakes the balls inside the hopper -- right bumper of driver controller
             m_driverController
                 .R1()
                 .onTrue(m_intakePivot

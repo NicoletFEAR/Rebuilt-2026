@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.73,
-        "y": 3.45
+        "x": 7.909455555555555,
+        "y": 2.6415444444444436
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.804655555555557,
-        "y": 2.826688888888888
+        "x": 5.984111111111111,
+        "y": 2.0182333333333315
       },
       "isLocked": false,
       "linkedName": "NZB Bottom-North"

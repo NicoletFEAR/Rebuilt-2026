@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.0,
-        "y": 4.0
+        "x": 7.626866666664741,
+        "y": 4.7366000000021105
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.207747747747748,
-        "y": 6.762128378378378
+        "x": 8.834614414412489,
+        "y": 7.498728378380489
       },
       "isLocked": false,
       "linkedName": "NZB Top South Closest"
     },
     {
       "anchor": {
-        "x": 5.609766666666667,
+        "x": 3.6316444444444445,
         "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 8.047144849057332,
+        "x": 6.0690226268351095,
         "y": 7.64052927927928
       },
       "nextControl": null,
@@ -53,13 +53,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -73.11440567194623
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 65.0
+    "rotation": 124.18612248562421
   },
   "useDefaultConstraints": true
 }

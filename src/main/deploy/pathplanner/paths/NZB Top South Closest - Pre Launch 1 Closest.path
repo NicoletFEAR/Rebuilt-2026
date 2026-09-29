@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.0,
-        "y": 4.0
+        "x": 7.626866666664741,
+        "y": 4.7366000000021105
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.662166666666667,
-        "y": 5.126377777777777
+        "x": 8.289033333331407,
+        "y": 5.8629777777798875
       },
       "isLocked": false,
       "linkedName": "NZB Top South Closest"
@@ -59,7 +59,7 @@
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 65.0
+    "rotation": 124.18612248562421
   },
   "useDefaultConstraints": true
 }

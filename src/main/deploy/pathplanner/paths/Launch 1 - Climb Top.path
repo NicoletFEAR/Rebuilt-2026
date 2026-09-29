@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.609766666666667,
+        "x": 3.6316444444444445,
         "y": 7.4572753209700435
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.815505112932204,
+        "x": 2.837382890709981,
         "y": 5.773687112136913
       },
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Start D and Depot Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -73.11440567194623
   },
   "useDefaultConstraints": true
 }

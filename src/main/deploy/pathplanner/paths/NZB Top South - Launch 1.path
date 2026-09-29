@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.734,
-        "y": 4.65
+        "x": 8.075111111111111,
+        "y": 5.428455555555555
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.11408888888889,
-        "y": 6.909611111111111
+        "x": 8.455200000000001,
+        "y": 7.688066666666665
       },
       "isLocked": false,
       "linkedName": "NZB Top-South"
     },
     {
       "anchor": {
-        "x": 5.609766666666667,
+        "x": 3.6316444444444445,
         "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 8.398044999207482,
+        "x": 6.419922776985259,
         "y": 8.020477777777778
       },
       "nextControl": null,
@@ -53,7 +53,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -73.11440567194623
   },
   "reversed": false,
   "folder": "Comp",

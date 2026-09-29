@@ -55,7 +55,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "StartExtake"
+                  "name": "StartLaunch"
                 }
               }
             ]
@@ -69,6 +69,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Launch 1 - NZB Top South Far"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
                 }
               }
             ]
@@ -119,7 +125,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "StartExtake"
+                  "name": "StartLaunch"
                 }
               }
             ]
@@ -133,6 +139,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Launch 1 - NZB Top South Closest"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "EndLaunch"
                 }
               }
             ]

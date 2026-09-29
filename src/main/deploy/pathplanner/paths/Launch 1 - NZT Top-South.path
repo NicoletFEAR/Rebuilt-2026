@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.609766666666667,
+        "x": 3.6316444444444445,
         "y": 7.4572753209700435
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.507418806103299,
+        "x": 5.529296583881076,
         "y": 7.487582821616933
       },
       "isLocked": false,
@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 7.734055555555555,
-        "y": 6.938844444444444
+        "x": 7.714566666666666,
+        "y": 7.075266666666667
       },
       "prevControl": {
-        "x": 5.92158888888889,
-        "y": 7.455299999999999
+        "x": 5.902100000000002,
+        "y": 7.591722222222222
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -73.11440567194623
   },
   "useDefaultConstraints": true
 }

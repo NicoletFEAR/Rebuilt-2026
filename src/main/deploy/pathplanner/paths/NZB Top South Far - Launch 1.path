@@ -4,23 +4,23 @@
     {
       "anchor": {
         "x": 7.0,
-        "y": 4.033
+        "y": 5.253055555555555
       },
       "prevControl": null,
       "nextControl": {
         "x": 7.534594594594594,
-        "y": 6.139076576576576
+        "y": 7.359132132132131
       },
       "isLocked": false,
       "linkedName": "NZT Top South Far"
     },
     {
       "anchor": {
-        "x": 5.609766666666667,
+        "x": 3.6316444444444445,
         "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 9.146855555555558,
+        "x": 7.168733333333335,
         "y": 8.088964209858933
       },
       "nextControl": null,
@@ -53,7 +53,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -73.11440567194623
   },
   "reversed": false,
   "folder": "Comp",

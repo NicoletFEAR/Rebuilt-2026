@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.804655555555557,
-        "y": 0.6147000000000002
+        "x": 3.4757333333333333,
+        "y": 0.6536777777777774
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.826809621176099,
-        "y": 0.6774246790299583
+        "x": 5.48308888888889,
+        "y": 0.33211111111111113
       },
       "isLocked": false,
       "linkedName": "Launch 3"
     },
     {
       "anchor": {
-        "x": 6.0057346647646215,
-        "y": 3.9897146932952925
+        "x": 7.646355555555555,
+        "y": 3.3139111111111106
       },
       "prevControl": {
-        "x": 6.160998573466475,
-        "y": 3.1228245363766054
+        "x": 6.779100000000001,
+        "y": 1.170133333333332
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,8 +30,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.3,
-      "rotationDegrees": -67.0
+      "waypointRelativePos": 0.483817427385889,
+      "rotationDegrees": -123.15
     }
   ],
   "constraintZones": [],
@@ -50,7 +50,7 @@
     },
     {
       "name": "StartIntake",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.48,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -70,13 +70,13 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -65.0
+    "rotation": -123.14699583225597
   },
   "reversed": false,
   "folder": "Comp",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 71.5159545485523
   },
   "useDefaultConstraints": true
 }

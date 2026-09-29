@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.804655555555557,
-        "y": 0.6147000000000002
+        "x": 3.4757333333333333,
+        "y": 0.6536777777777774
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.607377777777779,
-        "y": 0.5891444444437252
+        "x": 5.2784555555555555,
+        "y": 0.6281222222215023
       },
       "isLocked": false,
       "linkedName": "Launch 3"
     },
     {
       "anchor": {
-        "x": 7.7,
-        "y": 1.2
+        "x": 7.617122222222221,
+        "y": 0.916777777777777
       },
       "prevControl": {
-        "x": 7.933581081081081,
-        "y": 0.3171171171171181
+        "x": 7.850703303303302,
+        "y": 0.03389489489489517
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Neutral Zone Trench Paths",
   "idealStartingState": {
     "velocity": 0.0,
-    "rotation": 0.0
+    "rotation": 71.5159545485523
   },
   "useDefaultConstraints": true
 }

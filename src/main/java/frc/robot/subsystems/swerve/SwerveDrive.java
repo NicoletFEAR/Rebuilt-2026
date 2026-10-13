@@ -73,21 +73,22 @@ public class SwerveDrive extends SubsystemBase {
     private double m_simYaw;
 
     private LimelightCamera m_launcherCamera = new LimelightCamera("limelight-launch");
+    private LimelightCamera m_leftCamera = new LimelightCamera("limelight-left");
 
     public SwerveDrive() {
         if (DriveConstants.usesDriveKrakens()) {
             m_modules = new SwerveModule[] {
-                new TalonSwerveModule(DriveConstants.kFrontLeft),
-                new TalonSwerveModule(DriveConstants.kFrontRight),
-                new TalonSwerveModule(DriveConstants.kBackLeft),
-                new TalonSwerveModule(DriveConstants.kBackRight)
+                    new TalonSwerveModule(DriveConstants.kFrontLeft),
+                    new TalonSwerveModule(DriveConstants.kFrontRight),
+                    new TalonSwerveModule(DriveConstants.kBackLeft),
+                    new TalonSwerveModule(DriveConstants.kBackRight)
             };
         } else {
             m_modules = new SwerveModule[] {
-                new SparkMaxSwerveModule(DriveConstants.kFrontLeft),
-                new SparkMaxSwerveModule(DriveConstants.kFrontRight),
-                new SparkMaxSwerveModule(DriveConstants.kBackLeft),
-                new SparkMaxSwerveModule(DriveConstants.kBackRight)
+                    new SparkMaxSwerveModule(DriveConstants.kFrontLeft),
+                    new SparkMaxSwerveModule(DriveConstants.kFrontRight),
+                    new SparkMaxSwerveModule(DriveConstants.kBackLeft),
+                    new SparkMaxSwerveModule(DriveConstants.kBackRight)
             };
         }
 
@@ -117,22 +118,20 @@ public class SwerveDrive extends SubsystemBase {
         resetModulesToAbsolute();
 
         m_poseEstimator = new SwerveDrivePoseEstimator(
-            m_kinematics,
-            RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
-            getModulePositions(),
-            new Pose2d(),
-            VecBuilder.fill(0.1, 0.1, 0.0),
-            VecBuilder.fill(0.9, 0.9, 9999999)
-        );
+                m_kinematics,
+                RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
+                getModulePositions(),
+                new Pose2d(),
+                VecBuilder.fill(0.1, 0.1, 0.0),
+                VecBuilder.fill(0.9, 0.9, 9999999));
 
         m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(
-            m_kinematics,
-            RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
-            getModulePositions(),
-            new Pose2d(),
-            VecBuilder.fill(0.1, 0.1, 0.0001),
-            VecBuilder.fill(0.9, 0.9, .5)
-        );
+                m_kinematics,
+                RobotContainer.getAlliance() == Alliance.Blue ? Rotation2d.fromDegrees(0) : Rotation2d.fromDegrees(180),
+                getModulePositions(),
+                new Pose2d(),
+                VecBuilder.fill(0.1, 0.1, 0.0001),
+                VecBuilder.fill(0.9, 0.9, .5));
 
         m_pigeon.setYaw(0);
 
@@ -140,27 +139,27 @@ public class SwerveDrive extends SubsystemBase {
         RobotContainer.m_mainTab.add(m_field).withPosition(6, 2).withSize(6, 3);
 
         AutoBuilder.configure(
-            this::getPose,
-            this::resetPose,
-            this::getRobotRelativeSpeeds,
-            (speeds, feedforwards) -> driveRobotRelative(speeds),
+                this::getPose,
+                this::resetPose,
+                this::getRobotRelativeSpeeds,
+                (speeds, feedforwards) -> driveRobotRelative(speeds),
 
-            new PPHolonomicDriveController(
-                new PIDConstants(DriveConstants.getDriveKP(), DriveConstants.getDriveKI(), DriveConstants.getDriveKD()),
-                new PIDConstants(5.0, 0.0, 0.0)),
+                new PPHolonomicDriveController(
+                        new PIDConstants(DriveConstants.getDriveKP(), DriveConstants.getDriveKI(),
+                                DriveConstants.getDriveKD()),
+                        new PIDConstants(5.0, 0.0, 0.0)),
 
-            DriveConstants.kRobotConfig,
+                DriveConstants.kRobotConfig,
 
-            () -> {
-                var alliancenew = DriverStation.getAlliance();
-                if (alliancenew.isPresent()) {
-                    return alliancenew.get() == DriverStation.Alliance.Red;
-                }
-                return false;
-            },
+                () -> {
+                    var alliancenew = DriverStation.getAlliance();
+                    if (alliancenew.isPresent()) {
+                        return alliancenew.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
 
-            this
-        );
+                this);
 
         SmartDashboard.putData("MechSettings/Swerve/Run 12 Volts", new InstantCommand(() -> runVolts(Volts.of(12))));
     }
@@ -187,19 +186,20 @@ public class SwerveDrive extends SubsystemBase {
 
     public void resetPose(Pose2d pose) {
         m_poseEstimator.resetPosition(getPigeonYaw(), getModulePositions(), pose);
-        m_megaTag1PoseEstimator.resetPosition(m_megaTag1PoseEstimator.getEstimatedPosition().getRotation(), getModulePositions(), pose);
+        m_megaTag1PoseEstimator.resetPosition(m_megaTag1PoseEstimator.getEstimatedPosition().getRotation(),
+                getModulePositions(), pose);
     }
 
     public void reinitializePoseEstimators() {
         Rotation2d initialYaw = RobotContainer.getAlliance() == Alliance.Blue
-            ? Rotation2d.fromDegrees(0)
-            : Rotation2d.fromDegrees(180);
+                ? Rotation2d.fromDegrees(0)
+                : Rotation2d.fromDegrees(180);
 
         m_poseEstimator.resetPosition(initialYaw, getModulePositions(),
-            new Pose2d(m_poseEstimator.getEstimatedPosition().getTranslation(), initialYaw));
+                new Pose2d(m_poseEstimator.getEstimatedPosition().getTranslation(), initialYaw));
 
         m_megaTag1PoseEstimator.resetPosition(initialYaw, getModulePositions(),
-            new Pose2d(m_megaTag1PoseEstimator.getEstimatedPosition().getTranslation(), initialYaw));
+                new Pose2d(m_megaTag1PoseEstimator.getEstimatedPosition().getTranslation(), initialYaw));
     }
 
     public ChassisSpeeds getRobotRelativeSpeeds() {
@@ -263,8 +263,8 @@ public class SwerveDrive extends SubsystemBase {
     public Rotation2d getPigeonYaw() {
         if (RobotBase.isReal()) {
             Rotation2d rotation = RobotContainer.getAlliance() == Alliance.Blue
-                ? m_pigeon.getRotation2d()
-                : m_pigeon.getRotation2d().plus(Rotation2d.fromDegrees(180));
+                    ? m_pigeon.getRotation2d()
+                    : m_pigeon.getRotation2d().plus(Rotation2d.fromDegrees(180));
 
             return rotation;
         } else {
@@ -306,8 +306,8 @@ public class SwerveDrive extends SubsystemBase {
                 steer *= RotationsPerSecond.of(DriveConstants.getMaxRotationsPerSecond()).in(RadiansPerSecond);
 
                 m_chassisSpeeds = isFieldRelative
-                    ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())
-                    : new ChassisSpeeds(throttle, strafe, steer);
+                        ? ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, steer, getYaw())
+                        : new ChassisSpeeds(throttle, strafe, steer);
 
                 if (RobotContainer.getAlliance() == Alliance.Red) {
                     m_chassisSpeeds.vxMetersPerSecond *= -1.0;
@@ -345,56 +345,55 @@ public class SwerveDrive extends SubsystemBase {
 
     public Command characterizeDrivebase(BooleanSupplier finishRoutine) {
         var sysIdRoutine = new SysIdRoutine(
-            new SysIdRoutine.Config(
-                null,
-                null,
-                null,
-                (state) -> Logger.recordOutput("SysIdTestState", state.toString())
-            ),
-            new SysIdRoutine.Mechanism((voltage) -> runVolts(voltage), null, this)
-        );
+                new SysIdRoutine.Config(
+                        null,
+                        null,
+                        null,
+                        (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
+                new SysIdRoutine.Mechanism((voltage) -> runVolts(voltage), null, this));
 
         return new SequentialCommandGroup(
-            new PrintCommand("Starting"),
-            sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward).raceWith(new WaitCommand(6)),
-            new WaitCommand(1.0),
-            new PrintCommand("Starting"),
-            sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).raceWith(new WaitCommand(6)),
-            new PrintCommand("Starting"),
-            new WaitCommand(1.0),
-            sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward).raceWith(new WaitCommand(3)),
-            new PrintCommand("Starting"),
-            new WaitCommand(1.0),
-            sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).raceWith(new WaitCommand(3))
-        );
+                new PrintCommand("Starting"),
+                sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward).raceWith(new WaitCommand(6)),
+                new WaitCommand(1.0),
+                new PrintCommand("Starting"),
+                sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).raceWith(new WaitCommand(6)),
+                new PrintCommand("Starting"),
+                new WaitCommand(1.0),
+                sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward).raceWith(new WaitCommand(3)),
+                new PrintCommand("Starting"),
+                new WaitCommand(1.0),
+                sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).raceWith(new WaitCommand(3)));
     }
 
     public void zeroGyro() {
         m_pigeon.setYaw(0);
 
         if (RobotContainer.getAlliance() == Alliance.Blue) {
-            m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(0), m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)));
+            m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(0),
+                    m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)));
         } else {
-            m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(180), m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
+            m_megaTag1PoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(180),
+                    m_modulePositions, new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
         }
     }
 
     public double distanceToHub() {
         return switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
             case Blue -> Math.hypot(
-                DriveConstants.kBlueHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
-                DriveConstants.kBlueHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
-            );
+                    DriveConstants.kBlueHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
+                    DriveConstants.kBlueHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY());
             case Red -> Math.hypot(
-                DriveConstants.kRedHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
-                DriveConstants.kRedHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY()
-            );
+                    DriveConstants.kRedHubPosition.getX() - m_poseEstimator.getEstimatedPosition().getX(),
+                    DriveConstants.kRedHubPosition.getY() - m_poseEstimator.getEstimatedPosition().getY());
         };
     }
 
     @Override
     public void periodic() {
         m_launcherCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
+        m_leftCamera.SetRobotOrientation(getYaw().getDegrees(), 0, 0, 0, 0, 0);
+
         m_poseEstimator.updateWithTime(Timer.getTimestamp(), getPigeonYaw(), getModulePositions());
         m_megaTag1PoseEstimator.updateWithTime(Timer.getTimestamp(), getPigeonYaw(), getModulePositions());
 
@@ -408,6 +407,18 @@ public class SwerveDrive extends SubsystemBase {
             m_launcherCamera.addPoseEstimateMegatag1(m_megaTag1PoseEstimator, m_chassisSpeeds);
             Logger.recordOutput("Vision/limelight-launch/MT1 Pose Estimate Blue",
                     m_launcherCamera.getBotPoseEstimate_wpiBlue().pose);
+        }
+
+        if (m_leftCamera.getBotPoseEstimate_wpiBlue_MegaTag2() != null) {
+            m_leftCamera.addPoseEstimateMegatag2(m_poseEstimator, m_chassisSpeeds, getYaw());
+            Logger.recordOutput("Vision/limelight-left/MT2 Pose Estimate Blue",
+                    m_leftCamera.getBotPoseEstimate_wpiBlue_MegaTag2().pose);
+        }
+
+        if (m_leftCamera.getBotPoseEstimate_wpiBlue() != null) {
+            m_leftCamera.addPoseEstimateMegatag1(m_megaTag1PoseEstimator, m_chassisSpeeds);
+            Logger.recordOutput("Vision/limelight-left/MT1 Pose Estimate Blue",
+                    m_leftCamera.getBotPoseEstimate_wpiBlue().pose);
         }
 
         m_field.getRobotObject().setPose(getPose());

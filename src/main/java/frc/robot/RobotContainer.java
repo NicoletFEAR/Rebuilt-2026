@@ -221,6 +221,7 @@ public class RobotContainer {
                                                         .andThen(new WaitUntilCommand(m_launcher::isAtVelocity))
                                                         .andThen(m_driveBase.xWheels()
                                                                         .alongWith(m_indexer.index())
+                                                                        .alongWith(m_intakeDriver.intake())
                                                                         .alongWith(m_intakePivot.in()
                                                                                         .andThen(m_intakePivot.out()))
                                                                         .repeatedly()))
